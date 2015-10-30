@@ -1,9 +1,14 @@
-<html>
+﻿<html>
 <head>
 	<title>eGuitar</title>
 	<link rel="stylesheet" type="text/css" href="css/styles.css">
 	<style>
+#menu {
+	float: right;
+	margin: 1em;
+	}
 #manche {
+	clear: left;
 	float: left;
 	height: 210px;
 	}
@@ -32,37 +37,44 @@
 	box-sizing: border-box;
 	top: 29px; margin-left: -1px;
 	height: 22px; margin-top: -11px;
+	overflow: hidden;
 	display: block;
-	width: 30px;
+	width: 40px;
+	text-align: center;
 	position: absolute;
-	left: 10px;
+	left: 5px;
 	}
-.case .corde6 { top:   0px; }
-.case .corde5 { top:  30px; }
-.case .corde4 { top:  60px; }
-.case .corde3 { top:  90px; }
-.case .corde2 { top: 120px; }
-.case .corde1 { top: 150px; }
+.case .corde6 { top:   0px; border-width: 6px; }
+.case .corde5 { top:  30px; border-width: 5px; }
+.case .corde4 { top:  60px; border-width: 4px; }
+.case .corde3 { top:  90px; border-width: 3px; }
+.case .corde2 { top: 120px; border-width: 2px; }
+.case .corde1 { top: 150px; border-width: 1px; }
+
+.case0 { background: #000; }
+.case0 DIV SPAN { background: #ddd; }
 
 .case12 {
-	background: #ddd;
+	background: #aaa;
 	}
 .case3, .case5, .case7, .case9,
 .case15, .case17, .case19, .case21 {
-	background: #eee;
+	background: #ccc;
 	}
 	</style>
 </head>
 <body>
 
+<h1>eGuitar</h1>
+
 <div id="manche">
 	<div class="case case0">
-		<div class="corde corde6"><span></span></div>
-		<div class="corde corde5"><span></span></div>
-		<div class="corde corde4"><span></span></div>
-		<div class="corde corde3"><span></span></div>
-		<div class="corde corde2"><span></span></div>
-		<div class="corde corde1"><span></span></div>
+		<div class="corde corde6"><span>Mi</span></div>
+		<div class="corde corde5"><span>La</span></div>
+		<div class="corde corde4"><span>Ré</span></div>
+		<div class="corde corde3"><span>Sol</span></div>
+		<div class="corde corde2"><span>Si</span></div>
+		<div class="corde corde1"><span>Mi</span></div>
 	</div>
 	<div class="case case1">
 		<div class="corde corde6"><span></span></div>
@@ -244,7 +256,52 @@
 	-->
 </div>
 
+<div id="menu">
+	<dl>
+		<dt><label for="eAccordage">Accordage</label></dt>
+		<dd><select id="eAccordage">
+				<option value="Mi,La,Ré,Sol,Si,Mi">E</option>
+				<option value="Ré,La,Ré,Sol,Si,Mi">Drop D</option>
+			</select></dd>
+		<dt><label for="">Gamme</label></dt>
+		<dd><select id=""></select></dd>
+	</dl>
+</div>
+
 <script>
+var eManche = document.getElementById( 'manche' )
+var eAccordage = document.getElementById( 'eAccordage' )
+var aCordes = [
+	eManche.getElementsByClassName('corde1'),
+	eManche.getElementsByClassName('corde2'),
+	eManche.getElementsByClassName('corde3'),
+	eManche.getElementsByClassName('corde4'),
+	eManche.getElementsByClassName('corde5'),
+	eManche.getElementsByClassName('corde6')
+ 	]
+	
+var sNotesFR = 'Mi|Fa|Fa♯Sol♭|Sol|Sol♯La♭|La|La♯Si♭|Si|Do|Do♯Ré♭|Ré|Ré♯Mi♭|Mi|Fa|Fa♯Sol♭|Sol|Sol♯La♭|La|La♯Si♭|Si|Do|Do♯Ré♭|Ré|Ré♯Mi♭'.replace( /♯/gim, '♯\n' )
+var sNotesEN = 'E|F|F♯G♭|G|G♯A♭|A|A♯B♭|B|C|C♯D♭|D|D♯E♭|E|F|F♯G♭|G|G♯A♭|A|A♯B♭|B|C|C♯D♭|D|D♯E♭'
+
+function setAccordage ( sAccordage ){
+	var aAccordage = sAccordage.split(',')
+	for(var i=0; i<6; i++ ){
+		var sNote = aAccordage[i]
+		var a = sNotesFR.split( sNote +'|' )[1].slice(0,-1).split('|')
+		a.unshift( sNote )
+		a.push( sNote )
+		for(var j=0; j<13; j++ ){
+			aCordes[i][j].firstChild.innerHTML =
+				!~a[j].indexOf('♯')
+					? a[j]
+					: ''
+			}
+		}
+	}
+	
+setAccordage( eAccordage.value )
+
+eAccordage.onchange = function(){ setAccordage( eAccordage.value )}
 </script>
 
 </body>
