@@ -13,9 +13,12 @@
 #manche {
 	clear: left;
 	float: left;
+	overflow: hidden;
 	}
 .case {
+	background: #FFF;
 	border: 1px solid #000;
+	box-shadow: 0 0 1em rgba(0,0,0,0.2);
 	box-sizing: border-box;
 	float: left;
 	height: 178px;
@@ -24,6 +27,7 @@
 	}
 .case DIV {
 	border-bottom: 2px solid #000;
+	box-shadow: inset 0 -.1em .2em rgba(0,0,0,0.2);
 	box-sizing: border-box;
 	float: left;
 	position: absolute;
@@ -34,35 +38,32 @@
 	}
 .case DIV SPAN {
 	background: #eee;
-	border: 1px solid #000;
+	border: 2px solid #000;
 	border-radius: 10px;
 	box-sizing: border-box;
-	font: bold .8em/22px Arial;
+	box-shadow: 0 0 .5em rgba(0,0,0,0.5);
+	font: bold .8em/20px Arial;
 	top: 29px; margin-left: -1px;
 	height: 22px; margin-top: -11px;
 	overflow: hidden;
 	display: block;
 	width: 60px;
 	text-align: center;
-	opacity:.25;
+	opacity:0;
 	position: absolute;
 	left: 5px;
+	z-index: 2;
 	}
 .hideNotes .case DIV SPAN {
-	background: #000 !important;
-	border: 1px solid #000;
+	border: 7px solid #000;
 	border-radius: 10px;
 	box-sizing: border-box;
-	font: bold .8em/22px Arial;
-	top: 29px; margin-left: 18px;
-	height: 22px; margin-top: -11px;
+	margin-left: 18px;
 	overflow: hidden;
 	display: block;
 	width: 22px;
-	text-align: center;
-	opacity:.25;
-	position: absolute;
-	left: 5px;
+	text-align: left;
+	text-indent:-100em;
 	}
 .case .corde6 { top:   0px; border-width: 1px; } 
 .case .corde5 { top:  30px; border-width: 2px; } 
@@ -71,8 +72,8 @@
 .case .corde2 { top: 120px; border-width: 5px; } .case .corde2 SPAN { top: 27px; }
 .case .corde1 { top: 150px; border-width: 6px; } .case .corde1 SPAN { top: 27px; }
 
-.case0 { border-right: 6px solid #000; }
-.case0 DIV SPAN { background: #ddd; margin-left:-3px; }
+.case0 { border-right: 6px solid #000; background: #aaa; }
+.case0 DIV SPAN { margin-left:-3px; }
 
 .case12 {
 	background: #aaa;
@@ -448,6 +449,7 @@ eShowNotes.onchange()
 <table class="intervalles">
 	<tr>
 		<th>Nombre de notes</th>
+		<td>1</td>
 		<td>2</td>
 		<td>3</td>
 		<td>4</td>
@@ -458,6 +460,7 @@ eShowNotes.onchange()
 	</tr>
 	<tr>
 		<th>Type d'intervalle</th>
+		<td>fondamentale</td>
 		<td>seconde</td>
 		<td>tierce</td>
 		<td>quarte</td>
@@ -468,6 +471,7 @@ eShowNotes.onchange()
 	</tr>
 	<tr>
 		<th>Valeur en tons</th>
+		<td class="ton0">1</td>
 		<td><table>
 				<tr>
 					<td class="ton0_5">1/2</td>
@@ -508,6 +512,7 @@ eShowNotes.onchange()
 	</tr>
 	<tr>
 		<th>Qualificatif</th>
+		<td></td>
 		<td><table>
 				<tr>
 					<td style="">m</td>
@@ -547,6 +552,7 @@ eShowNotes.onchange()
 		<td>J</td>
 	</tr>
 		<th></th>
+		<td></td>
 		<td><table>
 				<tr>
 					<td style="">b2</td>
