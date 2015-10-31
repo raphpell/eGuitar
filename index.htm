@@ -4,13 +4,15 @@
 	<link rel="stylesheet" type="text/css" href="css/styles.css">
 	<style>
 #menu {
-	float: right;
+	clear: left;
+	float: left;
 	margin: 1em;
+	width: 100%;
+	text-align: center;
 	}
 #manche {
 	clear: left;
 	float: left;
-	height: 210px;
 	}
 .case {
 	border: 1px solid #000;
@@ -46,12 +48,28 @@
 	position: absolute;
 	left: 5px;
 	}
-.case .corde6 { top:   0px; border-width: 6px; } .case .corde6 SPAN { top: 27px; }
-.case .corde5 { top:  30px; border-width: 5px; } .case .corde5 SPAN { top: 27px; }
-.case .corde4 { top:  60px; border-width: 4px; } .case .corde4 SPAN { top: 28px; }
-.case .corde3 { top:  90px; border-width: 3px; } .case .corde3 SPAN { top: 28px; }
-.case .corde2 { top: 120px; border-width: 2px; }
-.case .corde1 { top: 150px; border-width: 1px; }
+.hideNotes .case DIV SPAN {
+	background: #000 !important;
+	border: 1px solid #000;
+	border-radius: 10px;
+	box-sizing: border-box;
+	font: bold .8em/22px Arial;
+	top: 29px; margin-left: 18px;
+	height: 22px; margin-top: -11px;
+	overflow: hidden;
+	display: block;
+	width: 22px;
+	text-align: center;
+	opacity:.25;
+	position: absolute;
+	left: 5px;
+	}
+.case .corde6 { top:   0px; border-width: 1px; } 
+.case .corde5 { top:  30px; border-width: 2px; } 
+.case .corde4 { top:  60px; border-width: 3px; } .case .corde4 SPAN { top: 28px; }
+.case .corde3 { top:  90px; border-width: 4px; } .case .corde3 SPAN { top: 28px; }
+.case .corde2 { top: 120px; border-width: 5px; } .case .corde2 SPAN { top: 27px; }
+.case .corde1 { top: 150px; border-width: 6px; } .case .corde1 SPAN { top: 27px; }
 
 .case0 { border-right: 6px solid #000; }
 .case0 DIV SPAN { background: #ddd; margin-left:-3px; }
@@ -275,15 +293,15 @@
 	-->
 </div>
 
-<div id="menu">
-	<dl>
-		<dt><label for="eAccordage">Accordage</label></dt>
-		<dd><select id="eAccordage">
+<table id="menu">
+	<tr>
+		<td><label for="eAccordage">Accordage: </label>
+			<select id="eAccordage">
 				<option value="Mi,La,Ré,Sol,Si,Mi">E</option>
 				<option value="Ré,La,Ré,Sol,Si,Mi">Drop D</option>
-			</select></dd>
-		<dt><label for="eFondamentale">Fondamentale</label></dt>
-		<dd><select id="eFondamentale">
+			</select></td>
+		<td><label for="eFondamentale">Fondamentale: </label>
+			<select id="eFondamentale">
 				<option value="Mi">Mi</option>
 				<option value="Fa">Fa</option>
 				<option value="Fa♯Sol♭">Fa♯Sol♭</option>
@@ -296,15 +314,15 @@
 				<option value="Do♯Ré♭">Do♯Ré♭</option>
 				<option value="Ré">Ré</option>
 				<option value="Ré♯Mi♭">Ré♯Mi♭</option>
-			</select></dd>
-		<dt><label for="eGamme">Gamme</label></dt>
-		<dd><select id="eGamme">
+			</select></td>
+		<td><label for="eGamme">Gamme: </label>
+			<select id="eGamme">
 				<option value="1 b2 2 b3 3 4 b5 5 b6 6 b7 7">Chromatique</option>
 				<optgroup label="Pentatonique">
 					<option value="1 2 3 5 6">Majeure</option>
 					<option value="1 b3 4 5 b7">Mineure</option>
 					<option value="1 b3 4 b5 5 b7">Blues</option>
-				<optgroup>
+				</optgroup>
 				<optgroup label="à 7 notes">
 					<option value="1 b2 b3 4 b5 b6 b7">Locrien</option>
 					<option value="1 b2 b3 4 5 b6 b7">Phrygien</option>
@@ -316,7 +334,7 @@
 					<option value="1 2 3 #4 5 6 7">Lydien</option>
 					<option value="1 2 3 4 #5 6 7">Majeur Harmonique</option>
 					<option value="1 2 b3 4 5 b6 7">Mineure Harmonique</option>
-				<optgroup>
+				</optgroup>
 				<optgroup label="Divers">
 					<option value="1 b2 b3 5 b6">Balinaise</option>
 					<option value="1 b2 b3 5 b7">Pelog(Balinaise)</option>
@@ -326,10 +344,13 @@
 					<option value="1 3 b5 5 7">Chinoise</option>
 					<option value="1 b2 b3 3 5 b6 b7">Indien</option>
 					<option value="1 2 3 4 5 b6 b7">Hindou</option>
-				<optgroup>
-			</select></dd>
-	</dl>
-</div>
+				</optgroup>
+			</select></td>
+		<td><input type="checkbox" id="eShowNotes">
+			<label for="eShowNotes">Nom des notes.</label>
+		</td>
+	</tr>
+</table>
 
 <script>
 var sNotation = 'fr'
@@ -338,6 +359,7 @@ var eManche = document.getElementById('manche')
 var eAccordage = document.getElementById('eAccordage')
 var eFondamentale = document.getElementById('eFondamentale')
 var eGamme = document.getElementById('eGamme')
+var eShowNotes = document.getElementById('eShowNotes')
 var aCordes = [
 	eManche.getElementsByClassName('corde1'),
 	eManche.getElementsByClassName('corde2'),
@@ -399,9 +421,11 @@ eGamme.onkeyup =
 eGamme.onchange = function(){ setScale( eFondamentale.value, eGamme.value )}
 eFondamentale.onkeyup =
 eFondamentale.onchange = function(){ setScale( eFondamentale.value, eGamme.value )}
+eShowNotes.onchange = function(){ eManche.className = eShowNotes.checked ? '' : 'hideNotes' }
 
 setAccordage( eAccordage.value )
-setScale( eFondamentale.value, eGamme.value ) 
+setScale( eFondamentale.value, eGamme.value )
+eShowNotes.onchange()
 </script>
 
 <div style="clear:both;"></div>
