@@ -299,10 +299,29 @@
 			</select></dd>
 		<dt><label for="eGamme">Gamme</label></dt>
 		<dd><select id="eGamme">
-				<option value="1|2|3.5|4.5">Pentatonique Majeure</option>
-				<option value="1.5|2.5|3.5|5">Pentatonique Mineure</option>
-				<option value="1.5|2.5|3|3.5|5">Blues</option>
-				<option value="1|2|2.5|3.5|4.5|5.5">Majeure</option>
+				<optgroup label="Pentatonique">
+					<option value="1 2 3 5 6">Majeure</option>
+					<option value="1 b3 4 5 b7">Mineure</option>
+					<option value="1 b3 4 b5 5 b7">Blues</option>
+					<option value="1 b2 b3 5 b6">Balinaise</option>
+					<option value="1 b2 b3 5 b7">Pelog(Balinaise)</option>
+					<option value="1 b2 4 5 b6">Japonaise</option>
+					<option value="1 b2 4 b5 b7">Iwato(Japonaise)</option>
+					<option value="1 2 4 5 b7">Egyptienne</option>
+					<option value="1 3 b5 5 7">Chinoise</option>
+				<optgroup>
+				<optgroup label="à 7 notes">
+					<option value="1 b2 b3 4 b5 b6 b7">Locrien</option>
+					<option value="1 b2 b3 4 5 b6 b7">Phrygien</option>
+					<option value="1 b2 b3 3 5 b6 b7">Indien</option>
+					<option value="1 2 b3 4 5 b6 b7">Eolien(Mineure naturelle)</option>
+					<option value="1 2 3 4 5 6 7">Ionien(Majeure)</option>
+					<option value="1 2 3 4 5 6 b7">Mixolydien</option>
+					<option value="1 2 3 #4 5 6 7">Lydien</option>
+				<optgroup>
+				<optgroup label="Divers">
+					<option value="1 b2 2 b3 3 4 b5 5 b6 6 b7 7">Chromatique</option>
+				<optgroup>
 			</select></dd>
 	</dl>
 </div>
@@ -327,13 +346,11 @@ var sNotesFR = 'Mi|Fa|Fa♯Sol♭|Sol|Sol♯La♭|La|La♯Si♭|Si|Do|Do♯Ré�
 var sNotesEN = 'E|F|F♯G♭|G|G♯A♭|A|A♯B♭|B|C|C♯D♭|D|D♯E♭|E|F|F♯G♭|G|G♯A♭|A|A♯B♭|B|C|C♯D♭|D|D♯E♭'
 
 function getScaleFrom ( sNote ){
-	console.info( sNote, sNotesFR )
 	var a = sNotesFR.split( sNote +'|' )[1].slice(0,-1).split('|')
 	a.unshift( sNote )
 	a.push( sNote )
 	return a 
 	}
-
 function setAccordage ( sAccordage ){
 	var aAccordage = sAccordage.split(',')
 	for(var i=0; i<6; i++ ){
@@ -344,7 +361,6 @@ function setAccordage ( sAccordage ){
 		}
 	setScale( eFondamentale.value, eGamme.value )
 	}
-	
 function hightlightNote ( sNote, sClassName ){
 	var a = eManche.getElementsByClassName('corde')
 	for(var i=0, ni=a.length; i<ni; i++ ){
@@ -352,29 +368,31 @@ function hightlightNote ( sNote, sClassName ){
 		if( e.innerHTML == sNote ) e.className = sClassName
 		}
 	}
-
 function reset (){
 	var a = eManche.getElementsByClassName('corde')
 	for(var i=0, ni=a.length; i<ni; i++ ){
 		a[i].firstChild.className = ''
 		}
 	}
-	
+
+var oIndex = { 1:0, b2:1, 2:2, b3:3, 3:4, 4:5, '#4':6, b5:6, 5:7, b6:8, 6:9, b7:10, 7:11 }	
 function setScale ( sNote, sScale ){
 	reset()
 	var a = getScaleFrom( sNote )
-	var aScale = sScale.split('|')
+	var aScale = sScale.split(' ')
 	hightlightNote( sNote, 'ton0' )
 	for(var i=0, ni=aScale.length; i<ni; i++ ){
-		var nIndex = aScale[i]*1 < 3
-			? aScale[i]*2
-			: aScale[i]*2
-		hightlightNote( a[ nIndex ], 'ton'+ aScale[i].replace('.','_'))
+		var nIndex = oIndex[ aScale[i]]
+		var nTon = nIndex/2
+		hightlightNote( a[ nIndex ], 'ton'+ (nTon+'').replace( '.','_'))
 		}
 	}
 
+eAccordage.onkeyup =
 eAccordage.onchange = function(){ setAccordage( eAccordage.value )}
+eGamme.onkeyup =
 eGamme.onchange = function(){ setScale( eFondamentale.value, eGamme.value )}
+eFondamentale.onkeyup =
 eFondamentale.onchange = function(){ setScale( eFondamentale.value, eGamme.value )}
 
 setAccordage( eAccordage.value )
@@ -498,6 +516,45 @@ setScale( eFondamentale.value, eGamme.value )
 				</tr>
 			</table></td>
 		<td>J</td>
+	</tr>
+		<th></th>
+		<td><table>
+				<tr>
+					<td style="">b2</td>
+					<td>2</td>
+				</tr>
+			</table></td>
+		<td><table>
+				<tr>
+					<td style="">b3</td>
+					<td>3</td>
+				</tr>
+			</table></td>
+		<td><table>
+				<tr>
+					<td style="">4</td>
+					<td>#4</td>
+				</tr>
+			</table></td>
+		<td><table>
+				<tr>
+					<td style="">b5</td>
+					<td>5</td>
+				</tr>
+			</table></td>
+		<td><table>
+				<tr>
+					<td style="">b6</td>
+					<td>6</td>
+				</tr>
+			</table></td>
+		<td><table>
+				<tr>
+					<td style="">b7</td>
+					<td>7</td>
+				</tr>
+			</table></td>
+		<td>1</td>
 	</tr>
 </table>
 
