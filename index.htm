@@ -31,7 +31,7 @@
 	top: 0;
 	}
 .case DIV SPAN {
-	background: #fc0;
+	background: #eee;
 	border: 1px solid #000;
 	border-radius: 10px;
 	box-sizing: border-box;
@@ -41,6 +41,7 @@
 	display: block;
 	width: 40px;
 	text-align: center;
+	opacity:.25;
 	position: absolute;
 	left: 5px;
 	}
@@ -61,11 +62,28 @@
 .case15, .case17, .case19, .case21 {
 	background: #ccc;
 	}
+	
+/* Intervalles */
+.ton0	{ background: rgb(255,  0,  0) !important; opacity:1 !important; }
+.ton0_5	{ background: rgb(255,125,  0) !important; opacity:1 !important; }
+.ton1	{ background: rgb(255,255,  0) !important; opacity:1 !important; }
+.ton1_5	{ background: rgb(125,255,  0) !important; opacity:1 !important; }
+.ton2	{ background: rgb(  0,255,  0) !important; opacity:1 !important; }
+.ton2_5	{ background: rgb(  0,255,125) !important; opacity:1 !important; }
+.ton3	{ background: rgb(  0,255,255) !important; opacity:1 !important; }
+.ton3_5	{ background: rgb(  0,125,255) !important; opacity:1 !important; }
+.ton4	{ background: rgb(  0,  0,255) !important; opacity:1 !important; }
+.ton4_5	{ background: rgb(125,  0,255) !important; opacity:1 !important; }
+.ton5	{ background: rgb(255,  0,255) !important; opacity:1 !important; }
+.ton5_5	{ background: rgb(255,  0,125) !important; opacity:1 !important; }
+.ton6	{ background: rgb(255,  0,  0) !important; opacity:1 !important; }
 	</style>
 </head>
 <body>
 
 <h1>eGuitar</h1>
+
+<!-- <input type="color"> -->
 
 <div id="manche">
 	<div class="case case0">
@@ -301,7 +319,20 @@ function setAccordage ( sAccordage ){
 		}
 	}
 	
+function hightlightNote ( sNote, sClassName ){
+	var a = eManche.getElementsByClassName('corde')
+	for(var i=0, ni=a.length; i<ni; i++ ){
+		var e = a[i].firstChild
+		if( e.innerHTML == sNote ) e.className = sClassName
+		}
+	}
+	
 setAccordage( eAccordage.value )
+hightlightNote( 'Mi', 'ton0' )
+hightlightNote( 'Sol', 'ton1_5' )
+hightlightNote( 'La', 'ton3' )
+hightlightNote( 'Si', 'ton3_5' )
+hightlightNote( 'Ré', 'ton5' )
 
 eAccordage.onchange = function(){ setAccordage( eAccordage.value )}
 </script>
@@ -318,6 +349,9 @@ eAccordage.onchange = function(){ setAccordage( eAccordage.value )}
 .intervalles table {
 	width:100%;
 	text-align: center;
+	}
+.intervalles table TD {
+	width:50%;
 	}
 </style>
 <table class="intervalles">
@@ -345,77 +379,77 @@ eAccordage.onchange = function(){ setAccordage( eAccordage.value )}
 		<th>Valeur en tons</th>
 		<td><table>
 				<tr>
-					<td style="width:50%;">1/2</td>
-					<td>1</td>
+					<td class="ton0_5">1/2</td>
+					<td class="ton1">1</td>
 				</tr>
 			</table></td>
 		<td><table>
 				<tr>
-					<td style="width:50%;">1+1/2</td>
-					<td>2</td>
+					<td class="ton1_5">1+1/2</td>
+					<td class="ton2">2</td>
 				</tr>
 			</table></td>
 		<td><table>
 				<tr>
-					<td style="width:50%;">2+1/2</td>
-					<td>3</td>
+					<td class="ton2_5">2+1/2</td>
+					<td class="ton3">3</td>
 				</tr>
 			</table></td>
 		<td><table>
 				<tr>
-					<td style="width:50%;">3</td>
-					<td>3+1/2</td>
+					<td class="ton3">3</td>
+					<td class="ton3_5">3+1/2</td>
 				</tr>
 			</table></td>
 		<td><table>
 				<tr>
-					<td style="width:50%;">4</td>
-					<td>4+1/2</td>
+					<td class="ton4">4</td>
+					<td class="ton4_5">4+1/2</td>
 				</tr>
 			</table></td>
 		<td><table>
 				<tr>
-					<td style="width:50%;">5</td>
-					<td>5+1/2</td>
+					<td class="ton5">5</td>
+					<td class="ton5_5">5+1/2</td>
 				</tr>
 			</table></td>
-		<td>6</td>
+		<td class="ton6">6</td>
 	</tr>
 	<tr>
 		<th>Qualificatif</th>
 		<td><table>
 				<tr>
-					<td style="width:50%;">m</td>
+					<td style="">m</td>
 					<td>M</td>
 				</tr>
 			</table></td>
 		<td><table>
 				<tr>
-					<td style="width:50%;">m</td>
+					<td style="">m</td>
 					<td>M</td>
 				</tr>
 			</table></td>
 		<td><table>
 				<tr>
-					<td style="width:50%;">J</td>
+					<td style="">J</td>
 					<td>+</td>
 				</tr>
 			</table></td>
 		<td><table>
 				<tr>
-					<td style="width:50%;">-</td>
+					<td style="">-</td>
 					<td>J</td>
 				</tr>
 			</table></td>
 		<td><table>
 				<tr>
-					<td style="width:50%;">m</td>
+					<td style="">m</td>
 					<td>M</td>
 				</tr>
 			</table></td>
 		<td><table>
 				<tr>
-					<td style="width:50%;">m</td>
+					<td style="">m</td>
 					<td>M</td>
 				</tr>
 			</table></td>
