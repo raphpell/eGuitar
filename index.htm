@@ -18,7 +18,7 @@
 	float: left;
 	height: 178px;
 	position: relative;
-	width: 50px;
+	width: 70px;
 	}
 .case DIV {
 	border-bottom: 2px solid #000;
@@ -27,7 +27,7 @@
 	position: absolute;
 	margin-top: -15px;
 	height: 30px;
-	width: 50px;
+	width: 70px;
 	top: 0;
 	}
 .case DIV SPAN {
@@ -35,11 +35,12 @@
 	border: 1px solid #000;
 	border-radius: 10px;
 	box-sizing: border-box;
+	font: bold .8em/22px Arial;
 	top: 29px; margin-left: -1px;
 	height: 22px; margin-top: -11px;
 	overflow: hidden;
 	display: block;
-	width: 40px;
+	width: 60px;
 	text-align: center;
 	opacity:.25;
 	position: absolute;
@@ -281,8 +282,28 @@
 				<option value="Mi,La,Ré,Sol,Si,Mi">E</option>
 				<option value="Ré,La,Ré,Sol,Si,Mi">Drop D</option>
 			</select></dd>
-		<dt><label for="">Gamme</label></dt>
-		<dd><select id=""></select></dd>
+		<dt><label for="eFondamentale">Fondamentale</label></dt>
+		<dd><select id="eFondamentale">
+				<option value="Mi">Mi</option>
+				<option value="Fa">Fa</option>
+				<option value="Fa♯Sol♭">Fa♯Sol♭</option>
+				<option value="Sol">Sol</option>
+				<option value="Sol♯La♭">Sol♯La♭</option>
+				<option value="La">La</option>
+				<option value="La♯Si♭">La♯Si♭</option>
+				<option value="Si">Si</option>
+				<option value="Do">Do</option>
+				<option value="Do♯Ré♭">Do♯Ré♭</option>
+				<option value="Ré">Ré</option>
+				<option value="Ré♯Mi♭">Ré♯Mi♭</option>
+			</select></dd>
+		<dt><label for="eGamme">Gamme</label></dt>
+		<dd><select id="eGamme">
+				<option value="1|2|3.5|4.5">Pentatonique Majeure</option>
+				<option value="1.5|2.5|3.5|5">Pentatonique Mineure</option>
+				<option value="1.5|2.5|3|3.5|5">Blues</option>
+				<option value="1|2|2.5|3.5|4.5|5.5">Majeure</option>
+			</select></dd>
 	</dl>
 </div>
 
@@ -291,6 +312,8 @@ var sNotation = 'fr'
 
 var eManche = document.getElementById('manche')
 var eAccordage = document.getElementById('eAccordage')
+var eFondamentale = document.getElementById('eFondamentale')
+var eGamme = document.getElementById('eGamme')
 var aCordes = [
 	eManche.getElementsByClassName('corde1'),
 	eManche.getElementsByClassName('corde2'),
@@ -300,23 +323,26 @@ var aCordes = [
 	eManche.getElementsByClassName('corde6')
  	]
 	
-var sNotesFR = 'Mi|Fa|Fa♯Sol♭|Sol|Sol♯La♭|La|La♯Si♭|Si|Do|Do♯Ré♭|Ré|Ré♯Mi♭|Mi|Fa|Fa♯Sol♭|Sol|Sol♯La♭|La|La♯Si♭|Si|Do|Do♯Ré♭|Ré|Ré♯Mi♭'.replace( /♯/gim, '♯\n' )
+var sNotesFR = 'Mi|Fa|Fa♯Sol♭|Sol|Sol♯La♭|La|La♯Si♭|Si|Do|Do♯Ré♭|Ré|Ré♯Mi♭|Mi|Fa|Fa♯Sol♭|Sol|Sol♯La♭|La|La♯Si♭|Si|Do|Do♯Ré♭|Ré|Ré♯Mi♭'
 var sNotesEN = 'E|F|F♯G♭|G|G♯A♭|A|A♯B♭|B|C|C♯D♭|D|D♯E♭|E|F|F♯G♭|G|G♯A♭|A|A♯B♭|B|C|C♯D♭|D|D♯E♭'
+
+function getScaleFrom ( sNote ){
+	console.info( sNote, sNotesFR )
+	var a = sNotesFR.split( sNote +'|' )[1].slice(0,-1).split('|')
+	a.unshift( sNote )
+	a.push( sNote )
+	return a 
+	}
 
 function setAccordage ( sAccordage ){
 	var aAccordage = sAccordage.split(',')
 	for(var i=0; i<6; i++ ){
-		var sNote = aAccordage[i]
-		var a = sNotesFR.split( sNote +'|' )[1].slice(0,-1).split('|')
-		a.unshift( sNote )
-		a.push( sNote )
+		var a = getScaleFrom( aAccordage[i])
 		for(var j=0; j<13; j++ ){
-			aCordes[i][j].firstChild.innerHTML =
-				!~a[j].indexOf('♯')
-					? a[j]
-					: ''
+			aCordes[i][j].firstChild.innerHTML = a[j]
 			}
 		}
+	setScale( eFondamentale.value, eGamme.value )
 	}
 	
 function hightlightNote ( sNote, sClassName ){
@@ -326,15 +352,33 @@ function hightlightNote ( sNote, sClassName ){
 		if( e.innerHTML == sNote ) e.className = sClassName
 		}
 	}
+
+function reset (){
+	var a = eManche.getElementsByClassName('corde')
+	for(var i=0, ni=a.length; i<ni; i++ ){
+		a[i].firstChild.className = ''
+		}
+	}
 	
-setAccordage( eAccordage.value )
-hightlightNote( 'Mi', 'ton0' )
-hightlightNote( 'Sol', 'ton1_5' )
-hightlightNote( 'La', 'ton3' )
-hightlightNote( 'Si', 'ton3_5' )
-hightlightNote( 'Ré', 'ton5' )
+function setScale ( sNote, sScale ){
+	reset()
+	var a = getScaleFrom( sNote )
+	var aScale = sScale.split('|')
+	hightlightNote( sNote, 'ton0' )
+	for(var i=0, ni=aScale.length; i<ni; i++ ){
+		var nIndex = aScale[i]*1 < 3
+			? aScale[i]*2
+			: aScale[i]*2
+		hightlightNote( a[ nIndex ], 'ton'+ aScale[i].replace('.','_'))
+		}
+	}
 
 eAccordage.onchange = function(){ setAccordage( eAccordage.value )}
+eGamme.onchange = function(){ setScale( eFondamentale.value, eGamme.value )}
+eFondamentale.onchange = function(){ setScale( eFondamentale.value, eGamme.value )}
+
+setAccordage( eAccordage.value )
+setScale( eFondamentale.value, eGamme.value ) 
 </script>
 
 <div style="clear:both;"></div>
