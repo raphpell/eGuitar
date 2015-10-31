@@ -14,6 +14,8 @@
 	clear: left;
 	float: left;
 	overflow: hidden;
+	height: 178px;
+	/*background: red;*/
 	}
 .case {
 	background: #FFF;
@@ -33,8 +35,14 @@
 	position: absolute;
 	margin-top: -15px;
 	height: 30px;
+	text-align: center;
 	width: 70px;
 	top: 0;
+	}
+.case .nomDeCase {
+	box-shadow: none;
+	color: #aaa;
+	top: 188px;
 	}
 .case DIV SPAN {
 	background: #eee;
@@ -48,7 +56,6 @@
 	overflow: hidden;
 	display: block;
 	width: 60px;
-	text-align: center;
 	opacity:0;
 	position: absolute;
 	left: 5px;
@@ -72,7 +79,7 @@
 .case .corde2 { top: 120px; border-width: 5px; } .case .corde2 SPAN { top: 27px; }
 .case .corde1 { top: 150px; border-width: 6px; } .case .corde1 SPAN { top: 27px; }
 
-.case0 { border-right: 6px solid #000; background: #aaa; }
+.case0 { border-right: 6px solid #000; background: #aaa; box-shadow: inset 0 0 1em #000; }
 .case0 DIV SPAN { margin-left:-3px; }
 
 .case12 {
@@ -137,6 +144,7 @@
 		<div class="corde corde3"><span></span></div>
 		<div class="corde corde2"><span></span></div>
 		<div class="corde corde1"><span></span></div>
+		<div class="nomDeCase">3</div>
 	</div>
 	<div class="case case4">
 		<div class="corde corde6"><span></span></div>
@@ -153,6 +161,7 @@
 		<div class="corde corde3"><span></span></div>
 		<div class="corde corde2"><span></span></div>
 		<div class="corde corde1"><span></span></div>
+		<div class="nomDeCase">5</div>
 	</div>
 	<div class="case case6">
 		<div class="corde corde6"><span></span></div>
@@ -169,6 +178,7 @@
 		<div class="corde corde3"><span></span></div>
 		<div class="corde corde2"><span></span></div>
 		<div class="corde corde1"><span></span></div>
+		<div class="nomDeCase">7</div>
 	</div>
 	<div class="case case8">
 		<div class="corde corde6"><span></span></div>
@@ -209,6 +219,7 @@
 		<div class="corde corde3"><span></span></div>
 		<div class="corde corde2"><span></span></div>
 		<div class="corde corde1"><span></span></div>
+		<div class="nomDeCase">12</div>
 	</div>
 	<!--
 	<div class="case case13">
@@ -322,7 +333,7 @@
 				<optgroup label="Pentatonique">
 					<option value="1 2 3 5 6">Majeure</option>
 					<option value="1 b3 4 5 b7">Mineure</option>
-					<option value="1 b3 4 b5 5 b7">Blues</option>
+					<option value="1 b3 4 b5 5 b7" selected>Blues</option>
 				</optgroup>
 				<optgroup label="à 7 notes">
 					<option value="1 b2 b3 4 b5 b6 b7">Locrien</option>
@@ -593,22 +604,6 @@ eShowNotes.onchange()
 	</tr>
 </table>
 
-<h2>Gammes</h2>
-<style>
-.gammes DT {
-	font-weight: bold;
-	}
-</style>
-<dl class="gammes">
-	<dt>Gamme Pentatonique Majeure</dt>
-		<dd>fondamentale, seconde, tierce majeure, quinte, sixte</dd>
-	<dt>Gamme Pentatonique Mineure</dt>
-		<dd>fondamentale, tierce mineure, quarte, quinte, septième bémol</dd>
-	<dt>Gamme Blues</dt>
-		<dd>fondamentale, tierce mineure, quarte, quinte bémol (blue note), quinte, septième bémol</dd>
-	<dt>Gamme Majeure</dt>
-		<dd>fondamentale, seconde, tierce majeure, quarte, quinte, sixte, septième</dd>
-</dl>
 
 </body>
 </html>
