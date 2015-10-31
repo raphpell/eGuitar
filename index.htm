@@ -271,8 +271,8 @@
 <script>
 var sNotation = 'fr'
 
-var eManche = document.getElementById( 'manche' )
-var eAccordage = document.getElementById( 'eAccordage' )
+var eManche = document.getElementById('manche')
+var eAccordage = document.getElementById('eAccordage')
 var aCordes = [
 	eManche.getElementsByClassName('corde1'),
 	eManche.getElementsByClassName('corde2'),
@@ -305,6 +305,140 @@ setAccordage( eAccordage.value )
 
 eAccordage.onchange = function(){ setAccordage( eAccordage.value )}
 </script>
+
+<div style="clear:both;"></div>
+
+<h2>Intervalles</h2>
+<style>
+.intervalles {
+	width:100%;
+	text-align: center;
+	border: 1px solid #000;
+	}
+.intervalles table {
+	width:100%;
+	text-align: center;
+	}
+</style>
+<table class="intervalles">
+	<tr>
+		<th>Nombre de notes</th>
+		<td>2</td>
+		<td>3</td>
+		<td>4</td>
+		<td>5</td>
+		<td>6</td>
+		<td>7</td>
+		<td>8</td>
+	</tr>
+	<tr>
+		<th>Type d'intervalle</th>
+		<td>seconde</td>
+		<td>tierce</td>
+		<td>quarte</td>
+		<td>quinte</td>
+		<td>sixte</td>
+		<td>septième</td>
+		<td>octave</td>
+	</tr>
+	<tr>
+		<th>Valeur en tons</th>
+		<td><table>
+				<tr>
+					<td style="width:50%;">1/2</td>
+					<td>1</td>
+				</tr>
+			</table></td>
+		<td><table>
+				<tr>
+					<td style="width:50%;">1+1/2</td>
+					<td>2</td>
+				</tr>
+			</table></td>
+		<td><table>
+				<tr>
+					<td style="width:50%;">2+1/2</td>
+					<td>3</td>
+				</tr>
+			</table></td>
+		<td><table>
+				<tr>
+					<td style="width:50%;">3</td>
+					<td>3+1/2</td>
+				</tr>
+			</table></td>
+		<td><table>
+				<tr>
+					<td style="width:50%;">4</td>
+					<td>4+1/2</td>
+				</tr>
+			</table></td>
+		<td><table>
+				<tr>
+					<td style="width:50%;">5</td>
+					<td>5+1/2</td>
+				</tr>
+			</table></td>
+		<td>6</td>
+	</tr>
+	<tr>
+		<th>Qualificatif</th>
+		<td><table>
+				<tr>
+					<td style="width:50%;">m</td>
+					<td>M</td>
+				</tr>
+			</table></td>
+		<td><table>
+				<tr>
+					<td style="width:50%;">m</td>
+					<td>M</td>
+				</tr>
+			</table></td>
+		<td><table>
+				<tr>
+					<td style="width:50%;">J</td>
+					<td>+</td>
+				</tr>
+			</table></td>
+		<td><table>
+				<tr>
+					<td style="width:50%;">-</td>
+					<td>J</td>
+				</tr>
+			</table></td>
+		<td><table>
+				<tr>
+					<td style="width:50%;">m</td>
+					<td>M</td>
+				</tr>
+			</table></td>
+		<td><table>
+				<tr>
+					<td style="width:50%;">m</td>
+					<td>M</td>
+				</tr>
+			</table></td>
+		<td>J</td>
+	</tr>
+</table>
+
+<h2>Gammes</h2>
+<style>
+.gammes DT {
+	font-weight: bold;
+	}
+</style>
+<dl class="gammes">
+	<dt>Gamme Pentatonique Majeure</dt>
+		<dd>fondamentale, seconde, tierce majeure, quinte, sixte</dd>
+	<dt>Gamme Pentatonique Mineure</dt>
+		<dd>fondamentale, tierce mineure, quarte, quinte, septième bémol</dd>
+	<dt>Gamme Blues</dt>
+		<dd>fondamentale, tierce mineure, quarte, quinte bémol (blue note), quinte, septième bémol</dd>
+	<dt>Gamme Majeure</dt>
+		<dd>fondamentale, seconde, tierce majeure, quarte, quinte, sixte, septième</dd>
+</dl>
 
 </body>
 </html>
