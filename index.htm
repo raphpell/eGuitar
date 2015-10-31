@@ -16,7 +16,7 @@
 	border: 1px solid #000;
 	box-sizing: border-box;
 	float: left;
-	height: 180px;
+	height: 178px;
 	position: relative;
 	width: 50px;
 	}
@@ -44,15 +44,15 @@
 	position: absolute;
 	left: 5px;
 	}
-.case .corde6 { top:   0px; border-width: 6px; }
-.case .corde5 { top:  30px; border-width: 5px; }
-.case .corde4 { top:  60px; border-width: 4px; }
-.case .corde3 { top:  90px; border-width: 3px; }
+.case .corde6 { top:   0px; border-width: 6px; } .case .corde6 SPAN { top: 27px; }
+.case .corde5 { top:  30px; border-width: 5px; } .case .corde5 SPAN { top: 27px; }
+.case .corde4 { top:  60px; border-width: 4px; } .case .corde4 SPAN { top: 28px; }
+.case .corde3 { top:  90px; border-width: 3px; } .case .corde3 SPAN { top: 28px; }
 .case .corde2 { top: 120px; border-width: 2px; }
 .case .corde1 { top: 150px; border-width: 1px; }
 
-.case0 { background: #000; }
-.case0 DIV SPAN { background: #ddd; }
+.case0 { border-right: 6px solid #000; }
+.case0 DIV SPAN { background: #ddd; margin-left:-3px; }
 
 .case12 {
 	background: #aaa;
@@ -269,6 +269,8 @@
 </div>
 
 <script>
+var sNotation = 'fr'
+
 var eManche = document.getElementById( 'manche' )
 var eAccordage = document.getElementById( 'eAccordage' )
 var aCordes = [
