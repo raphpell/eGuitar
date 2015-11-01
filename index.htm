@@ -365,7 +365,7 @@
 		<td><input type="checkbox" id="eShowNotes">
 			<label for="eShowNotes">Nom des notes.</label>
 		</td>
-		<td><input type="checkbox" id="eABCDEFG">
+		<td><input type="checkbox" id="eABCDEFG" checked>
 			<label for="eABCDEFG">A B C D E F G.</label>
 		</td>
 	</tr>
@@ -403,16 +403,17 @@ var oRename = (function (){
 	return o
 	})();
 
-function setNotation ( slang ){
-	sNotation = slang
-	for(var i=0; i<6; i++ ){
-		for(var j=0; j<13; j++ ){
-			aCordes[i][j].firstChild.innerHTML = oRename[ aCordes[i][j].firstChild.innerHTML ]
-			}
-		}
+function setNotation ( sLang ){
+	sNotation = sLang
 	var a = eFondamentale.getElementsByTagName('OPTION')
-	for(var i=0, ni=a.length; i<ni; i++ )
+	if( a[0].innerHTML == 'E' && sNotation == "EN" ) return;
+	if( a[0].innerHTML == 'Mi' && sNotation == "FR" ) return;
+	for(var i=0, ni=a.length; i<ni; i++ ){
 		a[i].innerHTML = oRename[ a[i].innerHTML ]
+		}
+	for(var i=0; i<6; i++ )
+		for(var j=0; j<13; j++ )
+			aCordes[i][j].firstChild.innerHTML = oRename[ aCordes[i][j].firstChild.innerHTML ]
 	}
 
 
