@@ -62,7 +62,7 @@
 	position: absolute;
 	left: 5px;
 	z-index: 2;
-	transition:width 200ms, left 200ms, margin 200ms, border 200ms;
+	transition:width 333ms, left 333ms, margin 333ms, border 333ms;
 	}
 .hideNotes .case DIV SPAN {
 	border: 7px solid #000;
@@ -94,19 +94,46 @@
 	}
 	
 /* Intervalles */
-.ton0	{ background: rgb(255,  0,  0) !important; opacity:1 !important; }
-.ton0_5	{ background: rgb(255,125,  0) !important; opacity:1 !important; }
-.ton1	{ background: rgb(255,255,  0) !important; opacity:1 !important; }
-.ton1_5	{ background: rgb(125,255,  0) !important; opacity:1 !important; }
-.ton2	{ background: rgb(  0,255,  0) !important; opacity:1 !important; }
-.ton2_5	{ background: rgb(  0,255,125) !important; opacity:1 !important; }
-.ton3	{ background: rgb(  0,255,255) !important; opacity:1 !important; }
-.ton3_5	{ background: rgb(  0,125,255) !important; opacity:1 !important; }
-.ton4	{ background: rgb(  0,  0,255) !important; opacity:1 !important; }
-.ton4_5	{ background: rgb(125,  0,255) !important; opacity:1 !important; }
-.ton5	{ background: rgb(255,  0,255) !important; opacity:1 !important; }
-.ton5_5	{ background: rgb(255,  0,125) !important; opacity:1 !important; }
-.ton6	{ background: rgb(255,  0,  0) !important; opacity:1 !important; }
+.ton {
+	border: 3px solid #fff;
+	box-shadow: inset 0 0 .2em rgba(125,125,125,.5);
+	position: relative;
+	padding: 5px 10px;
+	transition: 333ms ease;
+	}
+.ton_highlighted {
+	border-radius: 1em;
+	font-weight: bold;
+	box-shadow: 0 0 .2em rgba(0,0,0,1);
+	z-index: 2;
+	}
+.ton6,
+.ton0	{ background: #F00 !important; opacity:1 !important; color:#FFF; }
+.ton0_5	{ background: #F90 !important; opacity:1 !important; color:#009; }
+.ton1	{ background: #FF0 !important; opacity:1 !important; }
+.ton1_5	{ background: #9F0 !important; opacity:1 !important; color:#009; }
+.ton2	{ background: #0F0 !important; opacity:1 !important; }
+.ton2_5	{ background: #0F9 !important; opacity:1 !important; }
+.ton3	{ background: #0FF !important; opacity:1 !important; color:#330; }
+.ton3_5	{ background: #09F !important; opacity:1 !important; color:#FF6; }
+.ton4	{ background: #00F !important; opacity:1 !important; color:#FFF; }
+.ton4_5	{ background: #90F !important; opacity:1 !important; color:#FF6; }
+.ton5	{ background: #F0F  !important; opacity:1 !important; color:#FFF; }
+.ton5_5	{ background: #F09 !important; opacity:1 !important; color:#FF0; }
+
+
+.intervalles {
+	width:100%;
+	text-align: center;
+	border: 1px solid #000;
+	}
+.intervalles table {
+	width:100%;
+	text-align: center;
+	}
+.intervalles table TD {
+	width:50%;
+	}
 	</style>
 </head>
 <body>
@@ -372,14 +399,165 @@
 	</tr>
 </table>
 
-<script>
+<div style="clear:both;"></div>
 
+<h2>Intervalles</h2>
+<table class="intervalles">
+	<tr>
+		<th>Nombre de notes</th>
+		<td>1</td>
+		<td>2</td>
+		<td>3</td>
+		<td>4</td>
+		<td>5</td>
+		<td>6</td>
+		<td>7</td>
+		<td>8</td>
+	</tr>
+	<tr>
+		<th>Type</th>
+		<td>fondamentale</td>
+		<td>seconde</td>
+		<td>tierce</td>
+		<td>quarte</td>
+		<td>quinte</td>
+		<td>sixte</td>
+		<td>septième</td>
+		<td>octave</td>
+	</tr>
+	<tr id="eTons">
+		<th>Valeur en tons</th>
+		<td class="ton ton0">0</td>
+		<td><table>
+				<tr>
+					<td class="ton ton0_5">1/2</td>
+					<td class="ton ton1">1</td>
+				</tr>
+			</table></td>
+		<td><table>
+				<tr>
+					<td class="ton ton1_5">1+1/2</td>
+					<td class="ton ton2">2</td>
+				</tr>
+			</table></td>
+		<td><table>
+				<tr>
+					<td class="ton ton2_5">2+1/2</td>
+					<td class="ton ton3">3</td>
+				</tr>
+			</table></td>
+		<td><table>
+				<tr>
+					<td class="ton ton3">3</td>
+					<td class="ton ton3_5">3+1/2</td>
+				</tr>
+			</table></td>
+		<td><table>
+				<tr>
+					<td class="ton ton4">4</td>
+					<td class="ton ton4_5">4+1/2</td>
+				</tr>
+			</table></td>
+		<td><table>
+				<tr>
+					<td class="ton ton5">5</td>
+					<td class="ton ton5_5">5+1/2</td>
+				</tr>
+			</table></td>
+		<td class="ton ton6">6</td>
+	</tr>
+	<tr>
+		<th rowspan="2">Qualificatif</th>
+		<td></td>
+		<td><table>
+				<tr>
+					<td style="">m</td>
+					<td>M</td>
+				</tr>
+			</table></td>
+		<td><table>
+				<tr>
+					<td style="">m</td>
+					<td>M</td>
+				</tr>
+			</table></td>
+		<td><table>
+				<tr>
+					<td style="">J</td>
+					<td>+</td>
+				</tr>
+			</table></td>
+		<td><table>
+				<tr>
+					<td style="">-</td>
+					<td>J</td>
+				</tr>
+			</table></td>
+		<td><table>
+				<tr>
+					<td style="">m</td>
+					<td>M</td>
+				</tr>
+			</table></td>
+		<td><table>
+				<tr>
+					<td style="">m</td>
+					<td>M</td>
+				</tr>
+			</table></td>
+		<td>J</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td><table>
+				<tr>
+					<td style="">b2</td>
+					<td>2</td>
+				</tr>
+			</table></td>
+		<td><table>
+				<tr>
+					<td style="">b3</td>
+					<td>3</td>
+				</tr>
+			</table></td>
+		<td><table>
+				<tr>
+					<td style="">4</td>
+					<td>#4</td>
+				</tr>
+			</table></td>
+		<td><table>
+				<tr>
+					<td style="">b5</td>
+					<td>5</td>
+				</tr>
+			</table></td>
+		<td><table>
+				<tr>
+					<td style="">b6</td>
+					<td>6</td>
+				</tr>
+			</table></td>
+		<td><table>
+				<tr>
+					<td style="">b7</td>
+					<td>7</td>
+				</tr>
+			</table></td>
+		<td>1</td>
+	</tr>
+</table>
+
+<script>
 var eManche = document.getElementById('manche')
 var eAccordage = document.getElementById('eAccordage')
 var eFondamentale = document.getElementById('eFondamentale')
 var eGamme = document.getElementById('eGamme')
 var eShowNotes = document.getElementById('eShowNotes')
 var eABCDEFG = document.getElementById('eABCDEFG')
+var eTons = document.getElementById('eTons')
+var aTons = eTons.getElementsByClassName('ton')
 var aCordes = [
 	eManche.getElementsByClassName('corde1'),
 	eManche.getElementsByClassName('corde2'),
@@ -453,11 +631,18 @@ function setScale ( sNote, sScale ){
 	reset()
 	var a = getScaleFrom( sNote )
 	var aScale = sScale.split(' ')
-	hightlightNote( sNote, 'ton0' )
+	for(var i=0, ni=aTons.length; i<ni; i++ ){
+		aTons[i].classList.remove( 'ton_highlighted' )
+		console.log( aTons[i].innerHTML )
+		}
 	for(var i=0, ni=aScale.length; i<ni; i++ ){
 		var nIndex = oIndex[ aScale[i]]
 		var nTon = nIndex/2
-		hightlightNote( a[ nIndex ], 'ton'+ (nTon+'').replace( '.','_'))
+		var sClassName = 'ton'+ (nTon+'').replace( '.','_')
+		hightlightNote( a[ nIndex ], sClassName )
+		var aTon = eTons.getElementsByClassName( sClassName )
+		for(var j=0, nj=aTon.length; j<nj; j++ )
+			aTon[j].classList.add( 'ton_highlighted' )
 		}
 	}
 function init (){
@@ -478,171 +663,6 @@ eABCDEFG.onchange = function(){ setNotation( eABCDEFG.checked?'EN':'FR' )}
 
 init()
 </script>
-
-<div style="clear:both;"></div>
-
-<h2>Intervalles</h2>
-<style>
-.intervalles {
-	width:100%;
-	text-align: center;
-	border: 1px solid #000;
-	}
-.intervalles table {
-	width:100%;
-	text-align: center;
-	}
-.intervalles table TD {
-	width:50%;
-	}
-</style>
-<table class="intervalles">
-	<tr>
-		<th>Nombre de notes</th>
-		<td>1</td>
-		<td>2</td>
-		<td>3</td>
-		<td>4</td>
-		<td>5</td>
-		<td>6</td>
-		<td>7</td>
-		<td>8</td>
-	</tr>
-	<tr>
-		<th>Type d'intervalle</th>
-		<td>fondamentale</td>
-		<td>seconde</td>
-		<td>tierce</td>
-		<td>quarte</td>
-		<td>quinte</td>
-		<td>sixte</td>
-		<td>septième</td>
-		<td>octave</td>
-	</tr>
-	<tr>
-		<th>Valeur en tons</th>
-		<td class="ton0">1</td>
-		<td><table>
-				<tr>
-					<td class="ton0_5">1/2</td>
-					<td class="ton1">1</td>
-				</tr>
-			</table></td>
-		<td><table>
-				<tr>
-					<td class="ton1_5">1+1/2</td>
-					<td class="ton2">2</td>
-				</tr>
-			</table></td>
-		<td><table>
-				<tr>
-					<td class="ton2_5">2+1/2</td>
-					<td class="ton3">3</td>
-				</tr>
-			</table></td>
-		<td><table>
-				<tr>
-					<td class="ton3">3</td>
-					<td class="ton3_5">3+1/2</td>
-				</tr>
-			</table></td>
-		<td><table>
-				<tr>
-					<td class="ton4">4</td>
-					<td class="ton4_5">4+1/2</td>
-				</tr>
-			</table></td>
-		<td><table>
-				<tr>
-					<td class="ton5">5</td>
-					<td class="ton5_5">5+1/2</td>
-				</tr>
-			</table></td>
-		<td class="ton6">6</td>
-	</tr>
-	<tr>
-		<th>Qualificatif</th>
-		<td></td>
-		<td><table>
-				<tr>
-					<td style="">m</td>
-					<td>M</td>
-				</tr>
-			</table></td>
-		<td><table>
-				<tr>
-					<td style="">m</td>
-					<td>M</td>
-				</tr>
-			</table></td>
-		<td><table>
-				<tr>
-					<td style="">J</td>
-					<td>+</td>
-				</tr>
-			</table></td>
-		<td><table>
-				<tr>
-					<td style="">-</td>
-					<td>J</td>
-				</tr>
-			</table></td>
-		<td><table>
-				<tr>
-					<td style="">m</td>
-					<td>M</td>
-				</tr>
-			</table></td>
-		<td><table>
-				<tr>
-					<td style="">m</td>
-					<td>M</td>
-				</tr>
-			</table></td>
-		<td>J</td>
-	</tr>
-		<th></th>
-		<td></td>
-		<td><table>
-				<tr>
-					<td style="">b2</td>
-					<td>2</td>
-				</tr>
-			</table></td>
-		<td><table>
-				<tr>
-					<td style="">b3</td>
-					<td>3</td>
-				</tr>
-			</table></td>
-		<td><table>
-				<tr>
-					<td style="">4</td>
-					<td>#4</td>
-				</tr>
-			</table></td>
-		<td><table>
-				<tr>
-					<td style="">b5</td>
-					<td>5</td>
-				</tr>
-			</table></td>
-		<td><table>
-				<tr>
-					<td style="">b6</td>
-					<td>6</td>
-				</tr>
-			</table></td>
-		<td><table>
-				<tr>
-					<td style="">b7</td>
-					<td>7</td>
-				</tr>
-			</table></td>
-		<td>1</td>
-	</tr>
-</table>
-
 
 </body>
 </html>
