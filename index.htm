@@ -231,9 +231,9 @@
 			<select id="eGamme">
 				<option value="1 b2 2 b3 3 4 b5 5 b6 6 b7 7">Chromatique</option>
 				<optgroup label="Pentatonique">
+					<option value="1 b3 4 5 b7" selected>Mineure</option>
+					<option value="1 b3 4 b5 5 b7" >Blues</option>
 					<option value="1 2 3 5 6">Majeure</option>
-					<option value="1 b3 4 5 b7">Mineure</option>
-					<option value="1 b3 4 b5 5 b7" selected>Blues</option>
 				</optgroup>
 				<optgroup label="à 7 notes">
 					<option value="1 b2 b3 4 b5 b6 b7">Locrien</option>
@@ -462,8 +462,6 @@ function setNotation ( sLang ){
 		for(var j=0; j<13; j++ )
 			aCordes[i][j].firstChild.innerHTML = oRename[ aCordes[i][j].firstChild.innerHTML ]
 	}
-
-
 function getScaleFrom ( sNote ){
 	var a = window['sNotes'+ sNotation].split( sNote +'|' )[1].slice(0,-1).split('|')
 	a.unshift( sNote )
@@ -473,7 +471,9 @@ function getScaleFrom ( sNote ){
 function setAccordage ( sAccordage ){
 	var aAccordage = sAccordage.split(',')
 	for(var i=0; i<6; i++ ){
-		var a = getScaleFrom( aAccordage[i])
+		var sNote = aAccordage[i]
+		if( sNotation=="EN" ) sNote = oRename[sNote]
+		var a = getScaleFrom( sNote )
 		for(var j=0; j<13; j++ ){
 			aCordes[i][j].firstChild.innerHTML = a[j]
 			}
@@ -501,7 +501,6 @@ function setScale ( sNote, sScale ){
 	var aScale = sScale.split(' ')
 	for(var i=0, ni=aTons.length; i<ni; i++ ){
 		aTons[i].classList.remove( 'ton_highlighted' )
-		console.log( aTons[i].innerHTML )
 		}
 	for(var i=0, ni=aScale.length; i<ni; i++ ){
 		var nIndex = oIndex[ aScale[i]]
