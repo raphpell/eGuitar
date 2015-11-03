@@ -104,7 +104,7 @@
 	z-index: 2;
 	}
 .ton6,
-.ton0	{ background: #F00 !important; opacity:1 !important; color:#FFF; }
+.ton0	{ background: #F00 !important; opacity:1 !important; color:#FFF; border-radius: 5px !important; }
 .ton0_5	{ background: #F90 !important; opacity:1 !important; color:#009; }
 .ton1	{ background: #FF0 !important; opacity:1 !important; }
 .ton1_5	{ background: #9F0 !important; opacity:1 !important; color:#009; }
@@ -130,3 +130,9 @@
 .intervalles table TD {
 	width:50%;
 	}
+	
+/* Octaves */
+.octave1 { filter:brightness(1); }
+.octave2 { filter:brightness(1.25); }
+.octave3 { filter:brightness(1.5); }
+.octave4 { filter:brightness(1.75); }

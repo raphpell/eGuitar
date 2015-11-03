@@ -13,10 +13,10 @@
 <div id="manche">
 	<div class="case case0">
 		<div class="corde corde6"><span>Mi</span></div>
-		<div class="corde corde5"><span>La</span></div>
-		<div class="corde corde4"><span>Ré</span></div>
-		<div class="corde corde3"><span>Sol</span></div>
-		<div class="corde corde2"><span>Si</span></div>
+		<div class="corde corde5"><span>Si</span></div>
+		<div class="corde corde4"><span>Sol</span></div>
+		<div class="corde corde3"><span>Ré</span></div>
+		<div class="corde corde2"><span>La</span></div>
 		<div class="corde corde1"><span>Mi</span></div>
 	</div>
 	<div class="case case1">
@@ -470,6 +470,8 @@ function getScaleFrom ( sNote ){
 	}
 function setAccordage ( sAccordage ){
 	var aAccordage = sAccordage.split(',')
+	var sBaseNote = aAccordage[0]
+	var nOctave = 1
 	for(var i=0; i<6; i++ ){
 		var sNote = aAccordage[i]
 		if( sNotation=="EN" ) sNote = oRename[sNote]
