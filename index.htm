@@ -567,10 +567,9 @@ function init (){
 	eShowNotes.onchange()
 	eABCDEFG.onchange()
 	eShowOctaves.onchange()
-	setConfig()
 	if( eManche.style.transform == undefined ){
-		eGaucher.style.display = eFlip.style.display = 'none'
-		}
+		eGaucher.parentNode.style.visibility = 'hidden'
+		} else setConfig()
 	}
 
 eAccordage.onkeyup =
