@@ -1,3 +1,7 @@
+BODY {
+	margin: 0 auto;
+	width: 910px;
+	}
 
 #menu {
 	clear: left;
@@ -124,11 +128,15 @@
 .ton5	{ background: #F0F  !important; opacity:1 !important; color:#FFF; }
 .ton5_5	{ background: #F09 !important; opacity:1 !important; color:#FF0; }
 
-
 .intervalles {
-	width:100%;
-	text-align: center;
 	border: 1px solid #000;
+	box-shadow: inset 0 0 .5em #000;
+	text-align: center;
+	width: 100%;
+	padding: .5em;
+	}
+.intervalles H2 {
+	margin: 0;
 	}
 .intervalles table {
 	width:100%;
