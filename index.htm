@@ -568,6 +568,9 @@ function init (){
 	eABCDEFG.onchange()
 	eShowOctaves.onchange()
 	setConfig()
+	if( eManche.style.transform == undefined ){
+		eGaucher.style.display = eFlip.style.display = 'none'
+		}
 	}
 
 eAccordage.onkeyup =
