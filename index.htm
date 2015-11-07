@@ -10,7 +10,7 @@
 
 <!-- <input type="color"> -->
 
-<div id="manche">
+<div><div id="eManche">
 	<div class="case case0">
 		<div class="corde corde6"><span>Mi</span></div>
 		<div class="corde corde5"><span>Si</span></div>
@@ -26,6 +26,7 @@
 		<div class="corde corde3"><span></span></div>
 		<div class="corde corde2"><span></span></div>
 		<div class="corde corde1"><span></span></div>
+		<div class="nomDeCase">1</div>
 	</div>
 	<div class="case case2">
 		<div class="corde corde6"><span></span></div>
@@ -34,6 +35,7 @@
 		<div class="corde corde3"><span></span></div>
 		<div class="corde corde2"><span></span></div>
 		<div class="corde corde1"><span></span></div>
+		<div class="nomDeCase">2</div>
 	</div>
 	<div class="case case3">
 		<div class="corde corde6"><span></span></div>
@@ -51,6 +53,7 @@
 		<div class="corde corde3"><span></span></div>
 		<div class="corde corde2"><span></span></div>
 		<div class="corde corde1"><span></span></div>
+		<div class="nomDeCase">4</div>
 	</div>
 	<div class="case case5">
 		<div class="corde corde6"><span></span></div>
@@ -68,6 +71,7 @@
 		<div class="corde corde3"><span></span></div>
 		<div class="corde corde2"><span></span></div>
 		<div class="corde corde1"><span></span></div>
+		<div class="nomDeCase">6</div>
 	</div>
 	<div class="case case7">
 		<div class="corde corde6"><span></span></div>
@@ -85,6 +89,7 @@
 		<div class="corde corde3"><span></span></div>
 		<div class="corde corde2"><span></span></div>
 		<div class="corde corde1"><span></span></div>
+		<div class="nomDeCase">8</div>
 	</div>
 	<div class="case case9">
 		<div class="corde corde6"><span></span></div>
@@ -93,6 +98,7 @@
 		<div class="corde corde3"><span></span></div>
 		<div class="corde corde2"><span></span></div>
 		<div class="corde corde1"><span></span></div>
+		<div class="nomDeCase">9</div>
 	</div>
 	<div class="case case10">
 		<div class="corde corde6"><span></span></div>
@@ -101,6 +107,7 @@
 		<div class="corde corde3"><span></span></div>
 		<div class="corde corde2"><span></span></div>
 		<div class="corde corde1"><span></span></div>
+		<div class="nomDeCase">10</div>
 	</div>
 	<div class="case case11">
 		<div class="corde corde6"><span></span></div>
@@ -109,6 +116,7 @@
 		<div class="corde corde3"><span></span></div>
 		<div class="corde corde2"><span></span></div>
 		<div class="corde corde1"><span></span></div>
+		<div class="nomDeCase">11</div>
 	</div>
 	<div class="case case12">
 		<div class="corde corde6"><span></span></div>
@@ -201,69 +209,90 @@
 		<div class="corde corde1"><span></span></div>
 	</div>
 	-->
-</div>
+</div></div>
 
 <table id="menu">
 	<tr>
-		<td><label for="eAccordage">Accordage: </label>
+		<td><table>
+			<tr><td><label for="eAccordage">Accordage: </label>
 			<select id="eAccordage">
-				<option value="Mi,La,Ré,Sol,Si,Mi">E</option>
-				<option value="Ré,La,Ré,Sol,Si,Mi">Drop D</option>
-				<option value="Ré,Sol,Ré,Sol,Si,Ré">Open G-Tuning</option>
-				<option value="Ré,La,Ré,Fa♯Sol♭,La,Ré">Open D-Tuning</option>
-			</select></td>
-		<td><label for="eFondamentale">Fondamentale: </label>
-			<select id="eFondamentale">
-				<option value="Mi">Mi</option>
-				<option value="Fa">Fa</option>
-				<option value="Fa♯Sol♭">Fa♯Sol♭</option>
-				<option value="Sol">Sol</option>
-				<option value="Sol♯La♭">Sol♯La♭</option>
-				<option value="La">La</option>
-				<option value="La♯Si♭">La♯Si♭</option>
-				<option value="Si">Si</option>
-				<option value="Do">Do</option>
-				<option value="Do♯Ré♭">Do♯Ré♭</option>
-				<option value="Ré">Ré</option>
-				<option value="Ré♯Mi♭">Ré♯Mi♭</option>
-			</select></td>
-		<td><label for="eGamme">Gamme: </label>
-			<select id="eGamme">
-				<option value="1 b2 2 b3 3 4 b5 5 b6 6 b7 7">Chromatique</option>
-				<optgroup label="Pentatonique">
-					<option value="1 b3 4 5 b7" selected>Mineure</option>
-					<option value="1 b3 4 b5 5 b7" >Blues</option>
-					<option value="1 2 3 5 6">Majeure</option>
-				</optgroup>
-				<optgroup label="à 7 notes">
-					<option value="1 b2 b3 4 b5 b6 b7">Locrien</option>
-					<option value="1 b2 b3 4 5 b6 b7">Phrygien</option>
-					<option value="1 2 b3 4 5 b6 b7">Eolien(Mineure naturelle)</option>
-					<option value="1 2 b3 4 5 6 b7">Dorien</option>
-					<option value="1 2 b3 4 5 6 7">Mineure Mélodique</option>
-					<option value="1 2 3 4 5 6 7">Ionien(Majeure)</option>
-					<option value="1 2 3 4 5 6 b7">Mixolydien</option>
-					<option value="1 2 3 #4 5 6 7">Lydien</option>
-					<option value="1 2 3 4 #5 6 7">Majeur Harmonique</option>
-					<option value="1 2 b3 4 5 b6 7">Mineure Harmonique</option>
-				</optgroup>
-				<optgroup label="Divers">
-					<option value="1 b2 b3 5 b6">Balinaise</option>
-					<option value="1 b2 b3 5 b7">Pelog(Balinaise)</option>
-					<option value="1 b2 4 5 b6">Japonaise</option>
-					<option value="1 b2 4 b5 b7">Iwato(Japonaise)</option>
-					<option value="1 2 4 5 b7">Egyptienne</option>
-					<option value="1 3 b5 5 7">Chinoise</option>
-					<option value="1 b2 b3 3 5 b6 b7">Indien</option>
-					<option value="1 2 3 4 5 b6 b7">Hindou</option>
-				</optgroup>
-			</select></td>
-		<td><input type="checkbox" id="eShowNotes">
-			<label for="eShowNotes">Nom des notes.</label>
-		</td>
-		<td><input type="checkbox" id="eABCDEFG" checked>
-			<label for="eABCDEFG">A B C D E F G.</label>
-		</td>
+				<option value="Mi,La,Ré,Sol,Si,Mi|0,0,0,0,0,0">E</option>
+				<option value="Ré,La,Ré,Sol,Si,Mi|-1,0,0,0,0,0">Drop D</option>
+				<option value="Ré,Sol,Ré,Sol,Si,Ré|-1,-1,0,0,0,-1">Open de Sol</option>
+				<option value="Ré,La,Ré,Fa♯Sol♭,La,Ré|-1,0,0,-.5,-1,-1">Open de Ré</option>
+				<option value="Ré,La,Ré,Sol,La,Ré|-1,0,0,0,-1,-1">Open de Ré alternatif</option>
+			</select></td></tr>
+			<tr><td>
+				<input type="checkbox" id="eGaucher">
+				<label for="eGaucher">Gaucher.</label>
+				<input type="checkbox" id="eFlip">
+				<label for="eFlip">Inverser.</label>
+			</td></tr>
+		</table></td>
+		<td><table>
+			<tr><td><label for="eFondamentale">Fondamentale: </label></td>
+				<td><select id="eFondamentale">
+					<option value="Mi">Mi</option>
+					<option value="Fa">Fa</option>
+					<option value="Fa♯Sol♭">Fa♯Sol♭</option>
+					<option value="Sol">Sol</option>
+					<option value="Sol♯La♭">Sol♯La♭</option>
+					<option value="La">La</option>
+					<option value="La♯Si♭">La♯Si♭</option>
+					<option value="Si">Si</option>
+					<option value="Do">Do</option>
+					<option value="Do♯Ré♭">Do♯Ré♭</option>
+					<option value="Ré">Ré</option>
+					<option value="Ré♯Mi♭">Ré♯Mi♭</option>
+				</select></td></tr>
+			<tr><td align="right"><label for="eGamme">Gamme: </label></td>
+				<td><select id="eGamme">
+					<option value="1 b2 2 b3 3 4 b5 5 b6 6 b7 7">Chromatique</option>
+					<optgroup label="Pentatonique">
+						<option value="1 b3 4 5 b7" selected>Mineure</option>
+						<option value="1 b3 4 b5 5 b7" >Blues</option>
+						<option value="1 2 3 5 6">Majeure</option>
+					</optgroup>
+					<optgroup label="à 7 notes">
+						<option value="1 b2 b3 4 b5 b6 b7">Locrien</option>
+						<option value="1 b2 b3 4 5 b6 b7">Phrygien</option>
+						<option value="1 2 b3 4 5 b6 b7">Eolien(Mineure naturelle)</option>
+						<option value="1 2 b3 4 5 6 b7">Dorien</option>
+						<option value="1 2 b3 4 5 6 7">Mineure Mélodique</option>
+						<option value="1 2 3 4 5 6 7">Ionien(Majeure)</option>
+						<option value="1 2 3 4 5 6 b7">Mixolydien</option>
+						<option value="1 2 3 #4 5 6 7">Lydien</option>
+						<option value="1 2 3 4 #5 6 7">Majeur Harmonique</option>
+						<option value="1 2 b3 4 5 b6 7">Mineure Harmonique</option>
+					</optgroup>
+					<optgroup label="Divers">
+						<option value="1 b2 b3 5 b6">Balinaise</option>
+						<option value="1 b2 b3 5 b7">Pelog(Balinaise)</option>
+						<option value="1 b2 4 5 b6">Japonaise</option>
+						<option value="1 b2 4 b5 b7">Iwato(Japonaise)</option>
+						<option value="1 2 4 5 b7">Egyptienne</option>
+						<option value="1 3 b5 5 7">Chinoise</option>
+						<option value="1 b2 b3 3 5 b6 b7">Indien</option>
+						<option value="1 2 3 4 5 b6 b7">Hindou</option>
+					</optgroup>
+				</select></td></tr>
+		</table></td>
+		<td><table>
+			<tr><td>
+				<input type="checkbox" id="eShowNotes">
+				<label for="eShowNotes">Nom des notes.</label>
+			</td></tr>
+			<tr><td>
+				<input type="checkbox" id="eABCDEFG" checked>
+				<label for="eABCDEFG">A B C D E F G.</label>
+			</td></tr>
+		</table></td>
+		<td><table>
+			<tr><td>
+				<input type="checkbox" id="eShowOctaves">
+				<label for="eShowOctaves">Octaves.</label>
+			</td></tr>
+		</table></td>
 	</tr>
 </table>
 
@@ -418,12 +447,15 @@
 </table>
 
 <script>
-var eManche = document.getElementById('manche')
+var eManche = document.getElementById('eManche')
 var eAccordage = document.getElementById('eAccordage')
 var eFondamentale = document.getElementById('eFondamentale')
 var eGamme = document.getElementById('eGamme')
 var eShowNotes = document.getElementById('eShowNotes')
 var eABCDEFG = document.getElementById('eABCDEFG')
+var eShowOctaves = document.getElementById('eShowOctaves')
+var eGaucher = document.getElementById('eGaucher')
+var eFlip = document.getElementById('eFlip')
 var eTons = document.getElementById('eTons')
 var aTons = eTons.getElementsByClassName('ton')
 var aCordes = [
@@ -450,6 +482,17 @@ var oRename = (function (){
 	return o
 	})();
 
+function setConfig (){
+	eManche.parentNode.className = eGaucher.checked
+		?( eFlip.checked
+			? 'gaucher_flipped'
+			: 'gaucher'
+			)
+		:( eFlip.checked
+			? 'flipped'
+			: ''
+			)
+	}
 function setNotation ( sLang ){
 	sNotation = sLang
 	var a = eFondamentale.getElementsByTagName('OPTION')
@@ -469,15 +512,27 @@ function getScaleFrom ( sNote ){
 	return a 
 	}
 function setAccordage ( sAccordage ){
-	var aAccordage = sAccordage.split(',')
-	var sBaseNote = aAccordage[0]
-	var nOctave = 1
+	var aAccordage = sAccordage.split('|')
+	var aNotes = aAccordage[0].split(',')
+	var aFrequences = aAccordage[1].split(',')
+	var sBaseNote = sNotation=="EN" ? oRename[ aNotes[0]] : aNotes[0]
+	var aBase = [12,17,22,27,31,36]
+	for(var i=0; i<6; i++ )
+		aBase[i] += 2*aFrequences[i]
+
 	for(var i=0; i<6; i++ ){
-		var sNote = aAccordage[i]
+		var nBase = aBase[i]
+		var sNote = aNotes[i]
 		if( sNotation=="EN" ) sNote = oRename[sNote]
 		var a = getScaleFrom( sNote )
 		for(var j=0; j<13; j++ ){
-			aCordes[i][j].firstChild.innerHTML = a[j]
+			var e = aCordes[i][j].firstChild
+			e.innerHTML = a[j]
+			/* Test octave */
+			if( -1 == e.className.indexOf('octave')) e.className += ' octave' + parseInt( nBase/12 )
+				else e.className = e.className.replace( /octave\d/, ' octave' + parseInt( nBase/12 ))
+			e.title = e.className
+			nBase++
 			}
 		}
 	setScale( eFondamentale.value, eGamme.value )
@@ -486,13 +541,17 @@ function hightlightNote ( sNote, sClassName ){
 	var a = eManche.getElementsByClassName('corde')
 	for(var i=0, ni=a.length; i<ni; i++ ){
 		var e = a[i].firstChild
-		if( e.innerHTML == sNote ) e.className = sClassName
+		if( e.innerHTML == sNote ){
+			if( -1 == e.className.indexOf('ton')) e.className += ' ' + sClassName
+				else e.className = e.className.replace( /ton[\d_]+/, sClassName )
+			//	e.className = sClassName
+			}
 		}
 	}
 function reset (){
 	var a = eManche.getElementsByClassName('corde')
 	for(var i=0, ni=a.length; i<ni; i++ ){
-		a[i].firstChild.className = ''
+		a[i].firstChild.className =  a[i].firstChild.className.replace( /ton[\d_]+/, '' )
 		}
 	}
 function setScale ( sNote, sScale ){
@@ -519,6 +578,8 @@ function init (){
 	setScale( eFondamentale.value, eGamme.value )
 	eShowNotes.onchange()
 	eABCDEFG.onchange()
+	eShowOctaves.onchange()
+	setConfig()
 	}
 
 eAccordage.onkeyup =
@@ -527,8 +588,10 @@ eGamme.onkeyup =
 eGamme.onchange = function(){ setScale( eFondamentale.value, eGamme.value )}
 eFondamentale.onkeyup =
 eFondamentale.onchange = function(){ setScale( eFondamentale.value, eGamme.value )}
-eShowNotes.onchange = function(){ eManche.className = eShowNotes.checked ? '' : 'hideNotes' }
+eShowNotes.onchange = function(){ eManche.classList[ eShowNotes.checked ? 'remove' : 'add' ]( 'hideNotes' )}
 eABCDEFG.onchange = function(){ setNotation( eABCDEFG.checked?'EN':'FR' )}
+eShowOctaves.onchange = function(){ eManche.classList[ eShowOctaves.checked ? 'add' : 'remove' ]( 'octaves' )}
+eGaucher.onchange = eFlip.onchange = setConfig
 
 init()
 </script>

@@ -6,9 +6,9 @@
 	width: 100%;
 	text-align: center;
 	}
-#manche {
+#eManche {
 	clear: left;
-	height: 178px;
+	height: 194px;
 	margin: 0 auto;
 	overflow: hidden;
 	width: 910px;
@@ -17,12 +17,14 @@
 	}
 .case {
 	background: #FFF;
-	border: 1px solid #000;
-	box-shadow: 0 0 1em rgba(0,0,0,0.2);
+	border: 2px solid DarkGoldenrod;
+	border-width: 0 2px;
+	box-shadow: inset 0 0 .1em rgba(0,0,0,0.4);
 	box-sizing: border-box;
 	float: left;
 	height: 178px;
 	position: relative;
+	z-index: 0;
 	width: 70px;
 	}
 .case DIV {
@@ -35,20 +37,24 @@
 	height: 30px;
 	text-align: center;
 	width: 70px;
+	left: -2px;
 	top: 0;
 	}
 .case .nomDeCase {
 	box-shadow: none;
-	color: #aaa;
-	top: 188px;
+	font: normal 1em Arial;
+	text-shadow: 0 0 2px #999;
+	color: #999;
+	top: 190px;
 	}
+
 .case DIV SPAN {
 	background: #eee;
 	border: 2px solid #000;
 	border-radius: 10px;
 	box-sizing: border-box;
 	box-shadow: 0 0 .5em rgba(0,0,0,0.5);
-	font: bold .8em/20px Arial;
+	font: bold .75em/20px Arial;
 	top: 29px; margin-left: -1px;
 	height: 22px; margin-top: -11px;
 	overflow: hidden;
@@ -58,7 +64,7 @@
 	position: absolute;
 	left: 5px;
 	z-index: 2;
-	transition:width 333ms, left 333ms, margin 333ms, border 333ms;
+	transition:width 333ms, left 333ms, margin 333ms, border 333ms, line-height 333ms;
 	}
 .hideNotes .case DIV SPAN {
 	border: 7px solid #000;
@@ -78,7 +84,7 @@
 .case .corde2 { top: 120px; border-width: 5px; } .case .corde2 SPAN { top: 27px; }
 .case .corde1 { top: 150px; border-width: 6px; } .case .corde1 SPAN { top: 27px; }
 
-.case0 { border-right: 6px solid #000; background: #aaa; box-shadow: inset 0 0 1em #000; }
+.case0 { border-right: 6px solid #000; background: #aaa; box-shadow: inset 0 0 2em #000; }
 .case0 DIV SPAN { margin-left:-3px; }
 
 .case12 {
@@ -92,15 +98,16 @@
 /* Intervalles */
 .ton {
 	border: 3px solid #fff;
-	box-shadow: inset 0 0 .2em rgba(125,125,125,.5);
+	box-shadow: inset 0 0 .2em rgba(0,0,0,.5);
 	position: relative;
 	padding: 5px 10px;
 	transition: 333ms ease;
 	}
 .ton_highlighted {
+	border-color: #000;
 	border-radius: 1em;
 	font-weight: bold;
-	box-shadow: 0 0 .2em rgba(0,0,0,1);
+	box-shadow: 0 0 .2em rgba(0,0,0,5);
 	z-index: 2;
 	}
 .ton6,
@@ -132,7 +139,43 @@
 	}
 	
 /* Octaves */
-.octave1 { filter:brightness(1); }
-.octave2 { filter:brightness(1.25); }
-.octave3 { filter:brightness(1.5); }
-.octave4 { filter:brightness(1.75); }
+.octaves .octave0 { border:5px solid #000 !important; border-width:5px 10px !important; line-height: 12px !important; }
+.octaves .octave1 { border:4px solid #000 !important; border-width:4px 8px !important; line-height: 14px !important; }
+.octaves .octave2 { border:3px solid #000 !important; border-width:3px 6px !important; line-height: 16px !important; }
+.octaves .octave3 { border:2px solid #000 !important; border-width:2px 4px !important; line-height: 18px !important; }
+.octaves .octave4 { border:1px solid #000 !important; border-width:1px 2px !important; line-height: 20px !important; }
+
+/* Configuration */
+.gaucher  {
+	transform: scaleX(-1);
+	}
+.gaucher .nomDeCase {
+	transform: scaleX(-1);
+	}
+.gaucher .case DIV SPAN {
+	transform: scaleX(-1);
+	}
+.flipped  {
+	transform: scaleY(-1);
+	}
+.flipped .nomDeCase {
+	transform: scaleY(-1);
+	}
+.flipped .case DIV SPAN {
+	transform: scaleY(-1);
+	}
+.flipped .nomDeCase {
+	top: 180px;
+	}
+.gaucher_flipped  {
+	transform: scaleX(-1) scaleY(-1);
+	}
+.gaucher_flipped .nomDeCase {
+	transform: scaleX(-1) scaleY(-1);
+	}
+.gaucher_flipped .case DIV SPAN {
+	transform: scaleX(-1) scaleY(-1);
+	}
+.gaucher_flipped .nomDeCase {
+	top: 180px;
+	}
