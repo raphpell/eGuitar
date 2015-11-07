@@ -134,9 +134,10 @@ BODY {
 	text-align: center;
 	width: 100%;
 	padding: .5em;
+	margin: 0 0 1em 0;
 	}
 .intervalles H2 {
-	margin: 0;
+	margin: 0 1em 0 0;
 	}
 .intervalles table {
 	width:100%;
