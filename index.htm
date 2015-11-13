@@ -226,6 +226,8 @@
 			<tr><td>
 				<input type="checkbox" id="eGaucher">
 				<label for="eGaucher">Gaucher.</label>
+			</td></tr>
+			<tr><td>
 				<input type="checkbox" id="eFlip">
 				<label for="eFlip">Inverser.</label>
 			</td></tr>
@@ -246,7 +248,11 @@
 					<option value="Ré">Ré</option>
 					<option value="Ré♯Mi♭">Ré♯Mi♭</option>
 				</select></td></tr>
-			<tr><td align="right"><label for="eGamme">Gamme: </label></td>
+		</table></td>
+		<td><table>
+			<tr><td>
+				<input type="radio" name="choice" checked>
+				<label for="eGamme">Gamme: </label></td>
 				<td><select id="eGamme">
 					<option value="1 b2 2 b3 3 4 b5 5 b6 6 b7 7">Chromatique</option>
 					<optgroup label="Pentatonique">
@@ -277,6 +283,43 @@
 						<option value="1 2 3 4 5 b6 b7">Hindou</option>
 					</optgroup>
 				</select></td></tr>
+			<tr><td>
+				<input type="radio" name="choice">
+				<label for="eAccords">Accord: </label></td>
+				<td><select id="eAccords">
+					<optgroup label="Accords à 3 sons (triades)">
+						<option value="1 3 5" selected>Majeure</option>
+						<option value="1 b3 5">Mineure</option>
+						<option value="1 b3 b5">Diminué</option>
+						<option value="1 3 b6">Augmenté</option>
+					</optgroup>
+					<optgroup label="Accords à 4 sons (tétrades)">
+						<option value="">Majeur 7</option>
+						<option value="">Mineur 7</option>
+						<option value="">Mineur septième majeure</option>
+						<option value="">7</option>
+						<option value="">Mineur 7 b5	</option>
+						<option value="">Augmenté 7</option>
+						<option value="">Majeur 7 augmenté</option>
+					</optgroup>
+					<optgroup label="Accords à 5 sons">
+						<option value="">9</option>
+						<option value="">Majeur 9</option>
+						<option value="">7b9</option>
+						<option value="">7#9</option>
+						<option value="">m9</option>
+					</optgroup>
+					<optgroup label="Divers">
+						<option value="">sus2</option>
+						<option value="">sus4</option>
+						<option value="">add9</option>
+						<option value="">m add9</option>
+					</optgroup>
+				</select></td></tr>
+			<tr><td colspan="2">
+				<input type="radio" id="eR_FreeMode" name="choice">
+				<label for="eFreeMode">Mode libre. </label>
+				</td></tr>
 		</table></td>
 		<td><table>
 			<tr><td>
@@ -287,8 +330,6 @@
 				<input type="checkbox" id="eABCDEFG" checked>
 				<label for="eABCDEFG">A B C D E F G.</label>
 			</td></tr>
-		</table></td>
-		<td><table>
 			<tr><td>
 				<input type="checkbox" id="eShowOctaves">
 				<label for="eShowOctaves">Octaves.</label>
@@ -570,6 +611,7 @@ function init (){
 	eShowOctaves.onchange()
 	if( eManche.style.transform == undefined ){
 		eGaucher.parentNode.style.visibility = 'hidden'
+		eFlip.parentNode.style.visibility = 'hidden'
 		} else setConfig()
 	}
 
