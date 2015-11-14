@@ -318,21 +318,31 @@ var _ ={
 		return a
 		}
 	}
-_.getEltsById( 'eManche,eManche,eFondamentale,eGamme,eShowNotes,eABCDEFG,eShowOctaves,eGaucher,eFlip,eTons' )
+_.getEltsById( 'eManche,eManche,eFondamentale,eGamme,eAccord,eShowNotes,eABCDEFG,eShowOctaves,eGaucher,eFlip,eTons' )
 var aTons = _.getEltsById( 'e2m,e2M,e3m,e3M,e4j,eb5,e5j,e6m,e6M,e7m,e7M' )
 var aRadios = _.getEltsById( 'eR_Gamme,eR_Accord,eR_Free' )
 
 var onRadioChange =function(){
 	var bFree = eR_Free.checked
 	for(var i=0, ni=aTons.length; i<ni; i++ ){
-		aTons[i].disabled = ! bFree
+	//	aTons[i].disabled = ! bFree
+		if( bFree ) onIntervallesChange.call( aTons[i])
 		}
+	if( eR_Gamme.checked ) setScale( eFondamentale.value, eGamme.value )
+	if( eR_Accord.checked ) setScale( eFondamentale.value, eAccord.value )
 	}
-for(var i=0, ni=aRadios.length; i<ni; i++ ){
-	aRadios[i].onchange = onRadioChange
+var onIntervallesChange =function(){
+	var eLabel = this.nextSibling
+	eLabel.classList[ this.checked ? 'add' : 'remove' ]( 'ton_highlighted' )
+	Manche.highlightNote( this.value, this.checked
+		? eLabel.className.replace( /[\s\w]*(ton\d[^\s]*[\s\w]*)/, '$1' )
+		: ''
+		)
 	}
+for(var i=0, ni=aRadios.length; i<ni; i++ )	aRadios[i].onchange = onRadioChange
+for(var i=0, ni=aTons.length; i<ni; i++ ) aTons[i].onchange = onIntervallesChange
 
-var aCordes = [
+var aCordes =[
 	eManche.getElementsByClassName('corde1'),
 	eManche.getElementsByClassName('corde2'),
 	eManche.getElementsByClassName('corde3'),
@@ -372,15 +382,38 @@ function getNoteName ( sNote ){
 	}
 function setNotation ( sLang ){
 	sNotation = sLang
+	// Renomme la fondamentale
 	var a = eFondamentale.getElementsByTagName('OPTION')
 	if( a[0].innerHTML == 'E' && sNotation == "EN" ) return;
 	if( a[0].innerHTML == 'Mi' && sNotation == "FR" ) return;
-	for(var i=0, ni=a.length; i<ni; i++ ){
+	for(var i=0, ni=a.length; i<ni; i++ )
 		a[i].innerHTML = oRename[ a[i].innerHTML ]
-		}
+	// Renomme les cordes
 	for(var i=0; i<6; i++ )
 		for(var j=0; j<13; j++ )
 			aCordes[i][j].firstChild.innerHTML = oRename[ aCordes[i][j].firstChild.innerHTML ]
+	// Renomme le tableau des intervalles
+	// ...
+	onRadioChange()
+	}
+	
+Manche={
+	getNotes :function( sNote ){
+		var aElts = []
+		var a = eManche.getElementsByClassName('corde')
+		for(var i=0, ni=a.length; i<ni; i++ ){
+			var e = a[i].firstChild
+			if( e.innerHTML == sNote ) aElts.push( e )
+			}
+		return aElts
+		},
+	highlightNote :function( sNote, sClassName ){
+		var a = Manche.getNotes( sNote )
+		for(var i=0, ni=a.length; i<ni; i++ ){
+			if( -1 == a[i].className.indexOf('ton')) a[i].className += ' '+ sClassName
+				else a[i].className = a[i].className.replace( /ton[\d_]+/, sClassName )
+			}
+		}
 	}
 function getScaleFrom ( sNote ){
 	var a = window['sNotes'+ sNotation].split( sNote +'|' )[1].slice(0,-1).split('|')
@@ -394,9 +427,7 @@ function setAccordage ( sAccordage ){
 	var aFrequences = aAccordage[1].split(',')
 	var sBaseNote = sNotation=="EN" ? oRename[ aNotes[0]] : aNotes[0]
 	var aBase = [12,17,22,27,31,36]
-	for(var i=0; i<6; i++ )
-		aBase[i] += 2*aFrequences[i]
-
+	for(var i=0; i<6; i++ ) aBase[i] += 2*aFrequences[i]
 	for(var i=0; i<6; i++ ){
 		var nBase = aBase[i]
 		var sNote = aNotes[i]
@@ -412,18 +443,7 @@ function setAccordage ( sAccordage ){
 			nBase++
 			}
 		}
-	setScale( eFondamentale.value, eGamme.value )
-	}
-function hightlightNote ( sNote, sClassName ){
-	var a = eManche.getElementsByClassName('corde')
-	for(var i=0, ni=a.length; i<ni; i++ ){
-		var e = a[i].firstChild
-		if( e.innerHTML == sNote ){
-			if( -1 == e.className.indexOf('ton')) e.className += ' ' + sClassName
-				else e.className = e.className.replace( /ton[\d_]+/, sClassName )
-			//	e.className = sClassName
-			}
-		}
+	onRadioChange()
 	}
 function reset (){
 	var a = eManche.getElementsByClassName('corde')
@@ -450,23 +470,25 @@ function setScale ( sNote, sScale ){
 	reset()
 	var a = getScaleFrom( sNote )
 	var aScale = sScale.split(' ')
+	console.info( aScale )
 	for(var i=0, ni=aTons.length; i<ni; i++ ){
 		var e = aTons[i]
 		e.nextSibling.classList.remove( 'ton_highlighted' )
-		e.nextSibling.title = sNotation +' '+ a[i+1] +' '+ getNoteName( a[i+1])
+		e.value = e.nextSibling.title = a[i+1]
 		e.checked = false
 		}
 	for(var i=0, ni=aScale.length; i<ni; i++ ){
 		var nIndex = oIndex[ aScale[i]]
 		var nTon = nIndex/2
 		var sClassName = 'ton'+ (nTon+'').replace( '.','_')
-		hightlightNote( a[ nIndex ], sClassName )
+		Manche.highlightNote( a[ nIndex ], sClassName )
 		var aTon = eTons.getElementsByClassName( sClassName )
 		for(var j=0, nj=aTon.length; j<nj; j++ ){
 			aTon[j].classList.add( 'ton_highlighted' )
 			var e = aTon[j].previousSibling
 			if( e ){
 				e.checked = true
+				e.onchange()
 				}
 			}
 		}
@@ -476,11 +498,9 @@ function setScale ( sNote, sScale ){
 	}
 function init (){
 	setAccordage( eAccordage.value )
-	setScale( eFondamentale.value, eGamme.value )
 	eShowNotes.onchange()
-	eABCDEFG.onchange()
 	eShowOctaves.onchange()
-	onRadioChange()
+	eABCDEFG.onchange()
 	if( eManche.style.transform == undefined ){
 		eGaucher.parentNode.style.visibility = 'hidden'
 		eFlip.parentNode.style.visibility = 'hidden'
@@ -489,10 +509,9 @@ function init (){
 
 eAccordage.onkeyup =
 eAccordage.onchange = function(){ setAccordage( eAccordage.value )}
-eGamme.onkeyup =
-eGamme.onchange = function(){ setScale( eFondamentale.value, eGamme.value )}
-eFondamentale.onkeyup =
-eFondamentale.onchange = function(){ setScale( eFondamentale.value, eGamme.value )}
+eGamme.onkeyup = eGamme.onchange =
+eAccord.onkeyup = eAccord.onchange =
+eFondamentale.onkeyup = eFondamentale.onchange = onRadioChange
 eShowNotes.onchange = function(){ eManche.classList[ eShowNotes.checked ? 'remove' : 'add' ]( 'hideNotes' )}
 eABCDEFG.onchange = function(){ setNotation( eABCDEFG.checked?'EN':'FR' )}
 eShowOctaves.onchange = function(){ eManche.classList[ eShowOctaves.checked ? 'add' : 'remove' ]( 'octaves' )}
