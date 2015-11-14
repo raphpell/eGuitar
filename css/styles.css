@@ -3,15 +3,67 @@ BODY {
 	width: 910px;
 	}
 
+#eCartouche  {
+	font: normal .8em Verdana;
+	float: left;
+	width: 100%;
+	}
+#eCartouche  * {
+	height: 55px;
+	line-height: 55px;
+	}
+#eCartouche H1 {
+	float: left;
+	margin: 0;
+	padding: 0;
+	}
+#eCartouche UL {
+	float: right;
+	list-style-type: none;
+	margin: 0; padding: 0;
+	}
+#eCartouche UL LI {
+	float: left;
+	margin: 0; padding: 0;
+	}
+#eCartouche UL LI A {
+	background: #eee;
+	color: #000;
+	text-decoration: none;
+	border-radius: .2em;
+	height: 30px;
+	line-height: 30px;
+	display: block;
+	margin: 0 .25em;
+	padding: 0 1em;
+	}
+#eCartouche UL LI A:hover {
+	background: #000;
+	color: #fff;
+	}
+
 #menu {
 	clear: left;
 	float: left;
 	margin: .5em 0;
-	width: 100%;
+	position: relative;
 	text-align: center;
+	width: 100%;
+	z-index: 1000;
+	}
+
+#eTitle {
+	font: bold 1.5em/1em Verdana;
+	text-align: left;
+	text-shadow: 0 0 2px #666;
+	height: 1em;
+	}
+#eTitle SPAN {
+	font-weight: normal;
+	text-shadow: 0 0 3px #777, 0 0 1px #fff;
 	}
 #eManche {
-	clear: left;
+	clear: both;
 	height: 194px;
 	margin: 0 auto;
 	overflow: hidden;
@@ -154,6 +206,7 @@ BODY {
 	position: absolute;
 	margin: -5px 0 0 15px;
 	z-index: 10;
+	left: -1000em; /* */
 	}
 .intervalles TABLE  {
 	width: 100%;
@@ -187,6 +240,8 @@ BODY {
 	}
 .flipped  {
 	transform: scaleY(-1);
+	top: 55px;
+	position: relative;
 	}
 .flipped .nomDeCase {
 	transform: scaleY(-1);
@@ -199,6 +254,8 @@ BODY {
 	}
 .gaucher_flipped  {
 	transform: scaleX(-1) scaleY(-1);
+	top: 55px;
+	position: relative;
 	}
 .gaucher_flipped .nomDeCase {
 	transform: scaleX(-1) scaleY(-1);

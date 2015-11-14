@@ -6,7 +6,12 @@
 </head>
 <body>
 
-<h1>eGuitar</h1>
+<div id="eCartouche">
+	<h1>eGuitar </h1>
+	<ul>
+		<li><a href="https://github.com/raphpell/eGuitar/">eGuitar sur Github</a></li>
+	</ul>
+</div>
 
 <!-- <input type="color"> -->
 
@@ -166,6 +171,7 @@
 					<option value="Ré">Ré</option>
 					<option value="Ré♯Mi♭">Ré♯Mi♭</option>
 				</select></td></tr>
+			<tr><td colspan="2" id="eTitle"></td></tr>
 		</table></td>
 		<td><table>
 			<tr><td>
@@ -206,32 +212,34 @@
 				<label for="eR_Accord">Accord: </label></td>
 				<td><select id="eAccord">
 					<optgroup label="Accords à 3 sons (triades)">
-						<option value="1 3 5" selected>Majeure</option>
-						<option value="1 b3 5">Mineure</option>
-						<option value="1 b3 b5">Diminué</option>
-						<option value="1 3 b6">Augmenté</option>
+						<option value="1 3 5|" selected>Majeure</option>
+						<option value="1 b3 5|m">Mineure</option>
+						<option value="1 b3 b5|°">Diminué</option>
+						<option value="1 3 b6|+">Augmenté</option>
 					</optgroup>
 					<optgroup label="Accords à 4 sons (tétrades)">
-						<option value="">Majeur 7</option>
-						<option value="">Mineur 7</option>
-						<option value="">Mineur septième majeure</option>
-						<option value="">7</option>
-						<option value="">Mineur 7 b5	</option>
-						<option value="">Augmenté 7</option>
-						<option value="">Majeur 7 augmenté</option>
+						<option value="1 3 5 7|Δ">Majeur 7</option>
+						<option value="1 3m 5 7m|m7">Mineur 7</option>
+						<option value="1 3m 5 7|mΔ">Mineur septième majeure</option>
+						<option value="1 3 5 7m|7">7</option>
+						<option value="1 3m b5 7m|m7♭5">Mineur 7 ♭5</option>
+						<option value="1 3 #5 7m|+7">Augmenté 7</option>
+						<option value="1 3 #5 7|+Δ">Majeur 7 augmenté</option>
 					</optgroup>
 					<optgroup label="Accords à 5 sons">
-						<option value="">9</option>
-						<option value="">Majeur 9</option>
-						<option value="">7b9</option>
-						<option value="">7#9</option>
-						<option value="">m9</option>
+						<option value="1 3 5 7m 9M|9">9</option>
+						<option value="1 3 5 7 9M|Δ9">Majeur 9</option>
+						<option value="1 3 5 7m 9m|7♭9">7♭9</option>
+						<option value="1 3 5 7m #9|7♯9">7♯9</option>
+						<option value="1 3m 5 7m 9M|m9">m9</option>
 					</optgroup>
 					<optgroup label="Divers">
-						<option value="">sus2</option>
-						<option value="">sus4</option>
-						<option value="">add9</option>
-						<option value="">m add9</option>
+						<option value="1 4j 5j|sus4">sus4</option>
+						<option value="1 4j 5j 7m|7sus4">7sus4</option>
+						<option value="1 3m 5j 9M|m add9">m add9</option>
+						<option value="1 3m 5j 6M|m6">m6</option>
+						<option value="1 3M 5j 7m 13M|13">13</option>
+						<option value="1 3m 5j 7m 11|m11">m11</option>
 					</optgroup>
 				</select></td></tr>
 			<tr><td colspan="2">
@@ -291,24 +299,26 @@
 		<th rowspan="2">Qualificatif</th>
 		<td></td>
 		<td>2m</td><td>2M</td>
-		<td>3m</td><td>3M</td>
+		<td>3m/♭3</td><td>3M</td>
 		<td>4j</td>
-		<td>b5/5dim</td><td>5j</td>
-		<td>6m</td><td>6M</td>
+		<td>♭5</td><td>5j</td>
+		<td>6m/♯5</td><td>6M</td>
 		<td>7m</td><td>7M</td>
 		<td></td>
 	</tr>
 	<tr>
 		<td></td>
-		<td>b2</td><td>2</td>
-		<td>b3</td><td>3</td>
-		<td>4</td>
-		<td>#4/4aug</td><td>5</td>
-		<td>b6</td><td>6</td>
-		<td>b7</td><td>7</td>
+		<td>9m/♭9</td><td>9M</td>
+		<td>♯9</td><td>3</td>
+		<td>4/11</td>
+		<td>♯4</td><td>5</td>
+		<td>♭13</td><td>6/13M</td>
+		<td>♭7</td><td>7</td>
 		<td></td>
 	</tr>
 </table>
+
+
 
 <script>
 var _ ={
@@ -325,9 +335,10 @@ var aRadios = _.getEltsById( 'eR_Gamme,eR_Accord,eR_Free' )
 var onRadioChange =function(){
 	var bFree = eR_Free.checked
 	for(var i=0, ni=aTons.length; i<ni; i++ ){
-	//	aTons[i].disabled = ! bFree
+		aTons[i].disabled = ! bFree
 		if( bFree ) onIntervallesChange.call( aTons[i])
 		}
+	if( bFree ) setScale( eFondamentale.value, '1' )
 	if( eR_Gamme.checked ) setScale( eFondamentale.value, eGamme.value )
 	if( eR_Accord.checked ) setScale( eFondamentale.value, eAccord.value )
 	}
@@ -455,22 +466,25 @@ function setScale ( sNote, sScale ){
 	sNote =  sNotation!='FR' ? oRename[ sNote ] : sNote
 	var oIndex ={
 		'1':0,
-		'b2':1, '2m':1,
-		'2':2, '2M':2,
-		'b3':3, '3m':3,
+		'b2':1, '2m':1, 'b9':1, '9m':1,
+		'2':2, '2M':2, '9M':2,
+		'b3':3, '3m':3, '#9':3,
 		'3':4, '3M':4,
-		'4':5, '4j':5,
-		'#4':6, '4aug':6, 'b5':6, '5dim':6,
+		'4':5, '4j':5, '11':5,
+		'#4':6, '4aug':6, 'b5':6, '5dim':6, '#11':6,
 		'5':7, '5j':7,
-		'#5':8, 'b6':8, '6m':8,
-		'6':9, '6M':9,
+		'5aug':8, '#5':8, 'b6':8, '6m':8, 'b13':8,
+		'6':9, '6M':9, '13M':9,
 		'b7':10, '7m':10,
 		'7':11, '7M':11
 		}	
 	reset()
 	var a = getScaleFrom( sNote )
-	var aScale = sScale.split(' ')
-	console.info( aScale )
+	var aValue = sScale.split('|')
+	eTitle.innerHTML = aValue[1] == undefined
+		? ''
+		: sNote +'<span>'+ aValue[1] +'</span>'
+	var aScale = aValue[0].split(' ')
 	for(var i=0, ni=aTons.length; i<ni; i++ ){
 		var e = aTons[i]
 		e.nextSibling.classList.remove( 'ton_highlighted' )
