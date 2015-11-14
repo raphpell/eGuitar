@@ -128,88 +128,6 @@
 		<div class="corde corde1"><span></span></div>
 		<div class="nomDeCase">12</div>
 	</div>
-	<!--
-	<div class="case case13">
-		<div class="corde corde6"><span></span></div>
-		<div class="corde corde5"><span></span></div>
-		<div class="corde corde4"><span></span></div>
-		<div class="corde corde3"><span></span></div>
-		<div class="corde corde2"><span></span></div>
-		<div class="corde corde1"><span></span></div>
-	</div>
-	<div class="case case14">
-		<div class="corde corde6"><span></span></div>
-		<div class="corde corde5"><span></span></div>
-		<div class="corde corde4"><span></span></div>
-		<div class="corde corde3"><span></span></div>
-		<div class="corde corde2"><span></span></div>
-		<div class="corde corde1"><span></span></div>
-	</div>
-	<div class="case case15">
-		<div class="corde corde6"><span></span></div>
-		<div class="corde corde5"><span></span></div>
-		<div class="corde corde4"><span></span></div>
-		<div class="corde corde3"><span></span></div>
-		<div class="corde corde2"><span></span></div>
-		<div class="corde corde1"><span></span></div>
-	</div>
-	<div class="case case16">
-		<div class="corde corde6"><span></span></div>
-		<div class="corde corde5"><span></span></div>
-		<div class="corde corde4"><span></span></div>
-		<div class="corde corde3"><span></span></div>
-		<div class="corde corde2"><span></span></div>
-		<div class="corde corde1"><span></span></div>
-	</div>
-	<div class="case case17">
-		<div class="corde corde6"><span></span></div>
-		<div class="corde corde5"><span></span></div>
-		<div class="corde corde4"><span></span></div>
-		<div class="corde corde3"><span></span></div>
-		<div class="corde corde2"><span></span></div>
-		<div class="corde corde1"><span></span></div>
-	</div>
-	<div class="case case18">
-		<div class="corde corde6"><span></span></div>
-		<div class="corde corde5"><span></span></div>
-		<div class="corde corde4"><span></span></div>
-		<div class="corde corde3"><span></span></div>
-		<div class="corde corde2"><span></span></div>
-		<div class="corde corde1"><span></span></div>
-	</div>
-	<div class="case case19">
-		<div class="corde corde6"><span></span></div>
-		<div class="corde corde5"><span></span></div>
-		<div class="corde corde4"><span></span></div>
-		<div class="corde corde3"><span></span></div>
-		<div class="corde corde2"><span></span></div>
-		<div class="corde corde1"><span></span></div>
-	</div>
-	<div class="case case20">
-		<div class="corde corde6"><span></span></div>
-		<div class="corde corde5"><span></span></div>
-		<div class="corde corde4"><span></span></div>
-		<div class="corde corde3"><span></span></div>
-		<div class="corde corde2"><span></span></div>
-		<div class="corde corde1"><span></span></div>
-	</div>
-	<div class="case case21">
-		<div class="corde corde6"><span></span></div>
-		<div class="corde corde5"><span></span></div>
-		<div class="corde corde4"><span></span></div>
-		<div class="corde corde3"><span></span></div>
-		<div class="corde corde2"><span></span></div>
-		<div class="corde corde1"><span></span></div>
-	</div>
-	<div class="case case22">
-		<div class="corde corde6"><span></span></div>
-		<div class="corde corde5"><span></span></div>
-		<div class="corde corde4"><span></span></div>
-		<div class="corde corde3"><span></span></div>
-		<div class="corde corde2"><span></span></div>
-		<div class="corde corde1"><span></span></div>
-	</div>
-	-->
 </div></div>
 
 <table id="menu">
@@ -232,7 +150,7 @@
 				<label for="eFlip">Inverser.</label>
 			</td></tr>
 		</table></td>
-		<td><table>
+		<td valign="top"><table>
 			<tr><td><label for="eFondamentale">Fondamentale: </label></td>
 				<td><select id="eFondamentale">
 					<option value="Mi">Mi</option>
@@ -251,8 +169,8 @@
 		</table></td>
 		<td><table>
 			<tr><td>
-				<input type="radio" name="choice" checked>
-				<label for="eGamme">Gamme: </label></td>
+				<input type="radio" id="eR_Gamme" name="choice" checked>
+				<label for="eR_Gamme">Gamme: </label></td>
 				<td><select id="eGamme">
 					<option value="1 b2 2 b3 3 4 b5 5 b6 6 b7 7">Chromatique</option>
 					<optgroup label="Pentatonique">
@@ -284,9 +202,9 @@
 					</optgroup>
 				</select></td></tr>
 			<tr><td>
-				<input type="radio" name="choice">
-				<label for="eAccords">Accord: </label></td>
-				<td><select id="eAccords">
+				<input type="radio" id="eR_Accord" name="choice">
+				<label for="eR_Accord">Accord: </label></td>
+				<td><select id="eAccord">
 					<optgroup label="Accords à 3 sons (triades)">
 						<option value="1 3 5" selected>Majeure</option>
 						<option value="1 b3 5">Mineure</option>
@@ -317,8 +235,8 @@
 					</optgroup>
 				</select></td></tr>
 			<tr><td colspan="2">
-				<input type="radio" id="eR_FreeMode" name="choice">
-				<label for="eFreeMode">Mode libre. </label>
+				<input type="radio" id="eR_Free" name="choice">
+				<label for="eR_Free">Mode libre. </label>
 				</td></tr>
 		</table></td>
 		<td><table>
@@ -344,150 +262,76 @@
 	<tr>
 		<th><h2>Intervalles</h2></th>
 		<th>fondamentale</th>
-		<th>seconde</th>
-		<th>tierce</th>
+		<th colspan="2">seconde</th>
+		<th colspan="2">tierce</th>
 		<th>quarte</th>
+		<th></th>
 		<th>quinte</th>
-		<th>sixte</th>
-		<th>septième</th>
+		<th colspan="2">sixte</th>
+		<th colspan="2">septième</th>
 		<th>octave</th>
 	</tr>
 	<tr id="eTons">
-		<th>Valeur en tons</th>
-		<td class="ton ton0">0</td>
-		<td><table>
-				<tr>
-					<td class="ton ton0_5">&half;</td>
-					<td class="ton ton1">1</td>
-				</tr>
-			</table></td>
-		<td><table>
-				<tr>
-					<td class="ton ton1_5">1+&half;</td>
-					<td class="ton ton2">2</td>
-				</tr>
-			</table></td>
-		<td><table>
-				<tr>
-					<td class="ton ton2_5">2+&half;</td>
-					<td class="ton ton3">3</td>
-				</tr>
-			</table></td>
-		<td><table>
-				<tr>
-					<td class="ton ton3">3</td>
-					<td class="ton ton3_5">3+&half;</td>
-				</tr>
-			</table></td>
-		<td><table>
-				<tr>
-					<td class="ton ton4">4</td>
-					<td class="ton ton4_5">4+&half;</td>
-				</tr>
-			</table></td>
-		<td><table>
-				<tr>
-					<td class="ton ton5">5</td>
-					<td class="ton ton5_5">5+&half;</td>
-				</tr>
-			</table></td>
-		<td class="ton ton6">6</td>
+		<th>Ecart en tons</th>
+		<td><label class="ton ton0">0</label></td>
+		<td><input type="checkbox" id="e2m"><label for="e2m" class="ton ton0_5">&half;</label></td>
+		<td><input type="checkbox" id="e2M"><label for="e2M" class="ton ton1">1</label></td>
+		<td><input type="checkbox" id="e3m"><label for="e3m" class="ton ton1_5">1+&half;</label></td>
+		<td><input type="checkbox" id="e3M"><label for="e3M" class="ton ton2">2</label></td>
+		<td><input type="checkbox" id="e4j"><label for="e4j" class="ton ton2_5">2+&half;</label></td>
+		<td><input type="checkbox" id="eb5"><label for="eb5" class="ton ton3">3</label></td>
+		<td><input type="checkbox" id="e5j"><label for="e5j" class="ton ton3_5">3+&half;</label></td>
+		<td><input type="checkbox" id="e6m"><label for="e6m" class="ton ton4">4</label></td>
+		<td><input type="checkbox" id="e6M"><label for="e6M" class="ton ton4_5">4+&half;</label></td>
+		<td><input type="checkbox" id="e7m"><label for="e7m" class="ton ton5">5</label></td>
+		<td><input type="checkbox" id="e7M"><label for="e7M" class="ton ton5_5">5+&half;</label></td>
+		<td><label class="ton ton6">6</label></td>
 	</tr>
 	<tr>
 		<th rowspan="2">Qualificatif</th>
 		<td></td>
-		<td><table>
-				<tr>
-					<td style="">m</td>
-					<td>M</td>
-				</tr>
-			</table></td>
-		<td><table>
-				<tr>
-					<td style="">m</td>
-					<td>M</td>
-				</tr>
-			</table></td>
-		<td><table>
-				<tr>
-					<td style="">J</td>
-					<td>+</td>
-				</tr>
-			</table></td>
-		<td><table>
-				<tr>
-					<td style="">-</td>
-					<td>J</td>
-				</tr>
-			</table></td>
-		<td><table>
-				<tr>
-					<td style="">m</td>
-					<td>M</td>
-				</tr>
-			</table></td>
-		<td><table>
-				<tr>
-					<td style="">m</td>
-					<td>M</td>
-				</tr>
-			</table></td>
-		<td>J</td>
+		<td>2m</td><td>2M</td>
+		<td>3m</td><td>3M</td>
+		<td>4j</td>
+		<td>b5/5dim</td><td>5j</td>
+		<td>6m</td><td>6M</td>
+		<td>7m</td><td>7M</td>
+		<td></td>
 	</tr>
 	<tr>
 		<td></td>
-		<td><table>
-				<tr>
-					<td style="">b2</td>
-					<td>2</td>
-				</tr>
-			</table></td>
-		<td><table>
-				<tr>
-					<td style="">b3</td>
-					<td>3</td>
-				</tr>
-			</table></td>
-		<td><table>
-				<tr>
-					<td style="">4</td>
-					<td>#4</td>
-				</tr>
-			</table></td>
-		<td><table>
-				<tr>
-					<td style="">b5</td>
-					<td>5</td>
-				</tr>
-			</table></td>
-		<td><table>
-				<tr>
-					<td style="">b6</td>
-					<td>6</td>
-				</tr>
-			</table></td>
-		<td><table>
-				<tr>
-					<td style="">b7</td>
-					<td>7</td>
-				</tr>
-			</table></td>
-		<td>1</td>
+		<td>b2</td><td>2</td>
+		<td>b3</td><td>3</td>
+		<td>4</td>
+		<td>#4/4aug</td><td>5</td>
+		<td>b6</td><td>6</td>
+		<td>b7</td><td>7</td>
+		<td></td>
 	</tr>
 </table>
 
 <script>
-var eManche = document.getElementById('eManche')
-var eAccordage = document.getElementById('eAccordage')
-var eFondamentale = document.getElementById('eFondamentale')
-var eGamme = document.getElementById('eGamme')
-var eShowNotes = document.getElementById('eShowNotes')
-var eABCDEFG = document.getElementById('eABCDEFG')
-var eShowOctaves = document.getElementById('eShowOctaves')
-var eGaucher = document.getElementById('eGaucher')
-var eFlip = document.getElementById('eFlip')
-var eTons = document.getElementById('eTons')
-var aTons = eTons.getElementsByClassName('ton')
+var _ ={
+	getEltsById :function( s ){
+		var a = s.split(',')
+		for(var i=0, ni=a.length; i<ni; i++ ) a[i] = window[ a[i]] = document.getElementById( a[i])
+		return a
+		}
+	}
+_.getEltsById( 'eManche,eManche,eFondamentale,eGamme,eShowNotes,eABCDEFG,eShowOctaves,eGaucher,eFlip,eTons' )
+var aTons = _.getEltsById( 'e2m,e2M,e3m,e3M,e4j,eb5,e5j,e6m,e6M,e7m,e7M' )
+var aRadios = _.getEltsById( 'eR_Gamme,eR_Accord,eR_Free' )
+
+var onRadioChange =function(){
+	var bFree = eR_Free.checked
+	for(var i=0, ni=aTons.length; i<ni; i++ ){
+		aTons[i].disabled = ! bFree
+		}
+	}
+for(var i=0, ni=aRadios.length; i<ni; i++ ){
+	aRadios[i].onchange = onRadioChange
+	}
+
 var aCordes = [
 	eManche.getElementsByClassName('corde1'),
 	eManche.getElementsByClassName('corde2'),
@@ -522,6 +366,9 @@ function setConfig (){
 			? 'flipped'
 			: ''
 			)
+	}
+function getNoteName ( sNote ){
+	return sNotation!='FR' ? oRename[ sNote ] : sNote
 	}
 function setNotation ( sLang ){
 	sNotation = sLang
@@ -586,12 +433,28 @@ function reset (){
 	}
 function setScale ( sNote, sScale ){
 	sNote =  sNotation!='FR' ? oRename[ sNote ] : sNote
-	var oIndex = { 1:0, b2:1, 2:2, b3:3, 3:4, 4:5, '#4':6, b5:6, 5:7, '#5':8, b6:8, 6:9, b7:10, 7:11 }	
+	var oIndex ={
+		'1':0,
+		'b2':1, '2m':1,
+		'2':2, '2M':2,
+		'b3':3, '3m':3,
+		'3':4, '3M':4,
+		'4':5, '4j':5,
+		'#4':6, '4aug':6, 'b5':6, '5dim':6,
+		'5':7, '5j':7,
+		'#5':8, 'b6':8, '6m':8,
+		'6':9, '6M':9,
+		'b7':10, '7m':10,
+		'7':11, '7M':11
+		}	
 	reset()
 	var a = getScaleFrom( sNote )
 	var aScale = sScale.split(' ')
 	for(var i=0, ni=aTons.length; i<ni; i++ ){
-		aTons[i].classList.remove( 'ton_highlighted' )
+		var e = aTons[i]
+		e.nextSibling.classList.remove( 'ton_highlighted' )
+		e.nextSibling.title = sNotation +' '+ a[i+1] +' '+ getNoteName( a[i+1])
+		e.checked = false
 		}
 	for(var i=0, ni=aScale.length; i<ni; i++ ){
 		var nIndex = oIndex[ aScale[i]]
@@ -599,9 +462,17 @@ function setScale ( sNote, sScale ){
 		var sClassName = 'ton'+ (nTon+'').replace( '.','_')
 		hightlightNote( a[ nIndex ], sClassName )
 		var aTon = eTons.getElementsByClassName( sClassName )
-		for(var j=0, nj=aTon.length; j<nj; j++ )
+		for(var j=0, nj=aTon.length; j<nj; j++ ){
 			aTon[j].classList.add( 'ton_highlighted' )
+			var e = aTon[j].previousSibling
+			if( e ){
+				e.checked = true
+				}
+			}
 		}
+	var aTon = eTons.getElementsByClassName( 'ton6' )
+	for(var j=0, nj=aTon.length; j<nj; j++ )
+		aTon[j].classList.add( 'ton_highlighted' )
 	}
 function init (){
 	setAccordage( eAccordage.value )
@@ -609,6 +480,7 @@ function init (){
 	eShowNotes.onchange()
 	eABCDEFG.onchange()
 	eShowOctaves.onchange()
+	onRadioChange()
 	if( eManche.style.transform == undefined ){
 		eGaucher.parentNode.style.visibility = 'hidden'
 		eFlip.parentNode.style.visibility = 'hidden'
