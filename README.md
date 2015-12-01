@@ -6,7 +6,9 @@ eGuitar vous affiche sur un manche de guitare virtuel :
 - des notes choisies au pif !
 
 Cette application vous permet aussi de visualiser :
-- Le nom des notes en notation 'française' ou internationale.
+- Le nom des notes en notation :
+  - 'française'
+  - internationale
 - Les octaves.
 
 Le tout est de choisir sa fondamentale ! 
