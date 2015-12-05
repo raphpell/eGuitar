@@ -12,8 +12,14 @@ BODY {
 	height: 55px;
 	line-height: 55px;
 	}
+#eCartouche IMG {
+	float: left;
+	margin: 7px 0;
+	height: 41px;
+	}
 #eCartouche H1 {
 	float: left;
+	display: none;
 	margin: 0;
 	padding: 0;
 	}
