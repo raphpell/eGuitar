@@ -42,15 +42,6 @@ BODY {
 	color: #fff;
 	}
 
-#menu {
-	clear: left;
-	float: left;
-	margin: .5em 0;
-	position: relative;
-	text-align: center;
-	width: 100%;
-	z-index: 1000;
-	}
 
 #eTitle {
 	font: bold 1.5em/1em Verdana;
@@ -140,7 +131,7 @@ BODY {
 .case .corde2 { top: 120px; border-width: 5px; } .case .corde2 SPAN { top: 27px; }
 .case .corde1 { top: 150px; border-width: 6px; } .case .corde1 SPAN { top: 27px; }
 
-.case0 { border-right: 6px solid #000; background: #aaa; box-shadow: inset 0 0 2em #000; }
+.case0 { border-right: 6px solid #000; background: SlateGray; box-shadow: inset 0 0 2em #000; }
 .case0 DIV SPAN { margin-left:-3px; }
 
 .case12 {
@@ -265,4 +256,27 @@ BODY {
 	}
 .gaucher_flipped .nomDeCase {
 	top: 180px;
+	}
+	
+/* Menu */
+#menu {
+	clear: left;
+	float: left;
+	margin: .5em 0;
+	position: relative;
+	text-align: center;
+	width: 100%;
+	z-index: 1000;
+	}
+#menu TABLE{
+	width: 100%;
+	}
+SELECT {
+	width: 90%;
+	}
+#eFondamentale {
+	width: 50%;
+	}
+#menu TD {
+	white-space: nowrap;
 	}
