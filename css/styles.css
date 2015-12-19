@@ -13,9 +13,8 @@ HTML, BODY {
 	border-radius: .5em;
 	box-shadow: 0 0 10em #FFF;
 	display: inline-block;
+	margin-top: 2em;
 	height: 500px;
-	top: 50%;
-	margin-top: -250px;
 	width: 910px;
 	position: relative;
 	}
