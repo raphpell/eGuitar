@@ -1,6 +1,26 @@
-BODY {
+
+HTML, BODY {
+	background: #000;
 	margin: 0 auto;
 	width: 910px;
+	height: 100%;
+	vertical-align: middle;
+	}
+	
+#eGuitar {
+	background: #FFF;
+	border: 1px solid #333;
+	border-radius: .5em;
+	box-shadow: 0 0 10em #FFF;
+	display: inline-block;
+	height: 500px;
+	top: 50%;
+	margin-top: -250px;
+	width: 910px;
+	position: relative;
+	}
+#eGuitar LABEL{
+	color: #000;
 	}
 
 #eCartouche  {
@@ -14,7 +34,7 @@ BODY {
 	}
 #eCartouche IMG {
 	float: left;
-	margin: 7px 0;
+	margin: 7px 0 7px 1em;
 	height: 41px;
 	}
 #eCartouche H1 {
@@ -26,7 +46,7 @@ BODY {
 #eCartouche UL {
 	float: right;
 	list-style-type: none;
-	margin: 0; padding: 0;
+	margin: 0 1em 0 0; padding: 0;
 	}
 #eCartouche UL LI {
 	float: left;
@@ -36,7 +56,7 @@ BODY {
 	background: #eee;
 	color: #000;
 	text-decoration: none;
-	border-radius: .2em;
+	border-radius: .5em;
 	height: 30px;
 	line-height: 30px;
 	display: block;
@@ -45,6 +65,7 @@ BODY {
 	}
 #eCartouche UL LI A:hover {
 	background: #000;
+	box-shadow: 0 0 2em #fff;
 	color: #fff;
 	}
 
@@ -95,10 +116,10 @@ BODY {
 	}
 .case .nomDeCase {
 	box-shadow: none;
-	font: normal 1em Arial;
+	font: normal 14px Arial;
 	text-shadow: 0 0 2px #999;
 	color: #999;
-	top: 190px;
+	top: 192px;
 	}
 
 .case DIV SPAN {
@@ -169,27 +190,31 @@ BODY {
 	filter: sepia(0);
 	}
 .ton6,
-.ton0	{ background: #F00 !important; opacity:1 !important; color:#FFF; border-radius: 5px !important; }
-.ton0_5	{ background: #F90 !important; opacity:1 !important; color:#009; }
-.ton1	{ background: #FF0 !important; opacity:1 !important; }
-.ton1_5	{ background: #9F0 !important; opacity:1 !important; color:#009; }
-.ton2	{ background: #0F0 !important; opacity:1 !important; }
-.ton2_5	{ background: #0F9 !important; opacity:1 !important; }
-.ton3	{ background: #0FF !important; opacity:1 !important; color:#330; }
-.ton3_5	{ background: #09F !important; opacity:1 !important; color:#FF6; }
-.ton4	{ background: #00F !important; opacity:1 !important; color:#FFF; }
-.ton4_5	{ background: #90F !important; opacity:1 !important; color:#FF6; }
-.ton5	{ background: #F0F  !important; opacity:1 !important; color:#FFF; }
-.ton5_5	{ background: #F09 !important; opacity:1 !important; color:#FF0; }
+.ton0	{ background: #F00 !important; opacity:1 !important; color:#FFF !important; border-radius: 5px !important; }
+.ton0_5	{ background: #F90 !important; opacity:1 !important; color:#009 !important; }
+.ton1	{ background: #FF0 !important; opacity:1 !important; color:#000 !important; }
+.ton1_5	{ background: #9F0 !important; opacity:1 !important; color:#009 !important; }
+.ton2	{ background: #0F0 !important; opacity:1 !important; color:#000 !important; }
+.ton2_5	{ background: #0F9 !important; opacity:1 !important; color:#000 !important; }
+.ton3	{ background: #0FF !important; opacity:1 !important; color:#330 !important; }
+.ton3_5	{ background: #09F !important; opacity:1 !important; color:#FF6 !important; }
+.ton4	{ background: #00F !important; opacity:1 !important; color:#FFF !important; }
+.ton4_5	{ background: #90F !important; opacity:1 !important; color:#FF6 !important; }
+.ton5	{ background: #F0F !important; opacity:1 !important; color:#FFF !important; }
+.ton5_5	{ background: #F09 !important; opacity:1 !important; color:#FF0 !important; }
 
 .intervalles {
-	border: 1px solid #000;
+	background: #fff;
+	border: 2px solid #FFF;
 	border-radius: .5em;
-	box-shadow: 0 0 1em #000;
+	bottom: 0;
+	box-shadow: inset 0 0 .5em #000;
+	color: #000;
 	text-align: center;
 	width: 100%;
+	position: absolute;
 	padding: 0 .5em;
-	margin: 0 0 1em 0;
+	margin: 0;
 	white-space: nowrap;
 	}
 .intervalles H2 {
@@ -285,4 +310,6 @@ SELECT {
 	}
 #menu TD {
 	white-space: nowrap;
+	height: 1.4em;
+	line-height: 1.4em;
 	}
