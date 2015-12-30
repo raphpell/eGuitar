@@ -17,8 +17,4 @@ Le tout est de choisir sa fondamentale... ou tonique.
 
 [![Preview](https://github.com/raphpell/eGuitar/raw/gh-pages/preview.png "allez y !")](http://raphpell.github.io/eGuitar/)
 
-Aidez moi à améliorer cette application !
-
-Merci,
-
-Raphaël.
+Aidez moi à améliorer cette application ! Merci.
