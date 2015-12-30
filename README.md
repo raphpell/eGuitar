@@ -7,9 +7,10 @@ eGuitar vous affiche sur un manche de guitare virtuel des notes :
 
 Et tout cela selon l'accordage.
 
-Cette application vous permet aussi de visualiser :
-- Le nom des notes en notation 'française' ou internationale
-- Les octaves.
+Vous pouvez aussi  :
+- visualiser les noms des notes en notation 'française' ou internationale
+- mettre en avant les octaves.
+- Inverser l'ordre des cordes et/ou le manche pour les gauchers (cette option n'est pas disponible pour tous les navigateurs)
 
 Le tout est de choisir sa fondamentale... ou tonique.
 
