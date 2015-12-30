@@ -5,14 +5,12 @@ eGuitar vous affiche sur un manche de guitare virtuel des notes :
 - à utiliser pour un accord
 - aux choix !
 
-Et tout cela selon l'accordage.
+Et tout cela selon l'accordage et la fondamentale... ou tonique choisie.
 
 Vous pouvez aussi  :
 - visualiser les noms des notes en notation 'française' ou internationale
 - mettre en avant les octaves.
 - Inverser l'ordre des cordes et/ou le manche pour les gauchers (cette option n'est pas disponible pour tous les navigateurs)
-
-Le tout est de choisir sa fondamentale... ou tonique.
 
 [Cette application est une page web alors allez y !](http://raphpell.github.io/eGuitar/)
 
