@@ -15,3 +15,5 @@ Le tout est de choisir sa fondamentale !
 La fondamentale étant une note avec une tonalité précise...
 
 [Cette application est une page web alors allez y !](http://raphpell.github.io/eGuitar/)
+
+![Preview](https://github.com/raphpell/eGuitar/raw/gh-pages/preview.png "")
