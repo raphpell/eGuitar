@@ -16,4 +16,4 @@ La fondamentale étant une note avec une tonalité précise...
 
 [Cette application est une page web alors allez y !](http://raphpell.github.io/eGuitar/)
 
-![Preview](https://github.com/raphpell/eGuitar/raw/gh-pages/preview.png "")
+[![Preview](https://github.com/raphpell/eGuitar/raw/gh-pages/preview.png "allez y !")](http://raphpell.github.io/eGuitar/)
