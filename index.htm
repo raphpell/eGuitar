@@ -1,0 +1,69 @@
+﻿<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="css/styles.css">
+	<style>
+		body{
+			background: #000;
+			color: #FFF;
+			}
+	</style>
+</head>
+<body>
+
+<div style="margin:.25em;">
+	<input type="checkbox" id="eCB_Form" onclick="o.setForm( this.checked )" checked>
+	<label for="eCB_Form" checked>Réglage manche.</label>
+</div>
+
+<div id="eTarget"></div>
+
+<!-- <ul class="interval">
+	<li class="ton0 selected"><div>Do </div><dl><dt>1 </dt><dd>0</dd></dl></li>
+	<li class="ton1 ">		  <div>Ré♭ </div><dl><dt>b2</dt><dd>&half;</dd></dl></li>
+	<li class="ton2 selected"><div>Ré </div><dl><dt>2 </dt><dd>1</dd></dl></li>
+	<li class="ton3 "><div>Mi♭ </div><dl><dt>b3</dt><dd>1½</dd></dl></li>
+	<li class="ton4 selected"><div>Mi </div><dl><dt>3 </dt><dd>2</dd></dl></li>
+	<li class="ton5 selected"><div>Fa </div><dl><dt>4 </dt><dd>2½</dd></dl></li>
+	<li class="ton6 "><div>Sol♭ </div><dl><dt>b5</dt><dd>3</dd></dl></li>
+	<li class="ton7 selected"><div>Sol</div><dl><dt>5 </dt><dd>3½</dd></dl></li>
+	<li class="ton8 "><div>La♭  </div><dl><dt>b6</dt><dd>4</dd></dl></li>
+	<li class="ton9 selected"><div>La </div><dl><dt>6 </dt><dd>4½</dd></dl></li>
+	<li class="ton10"><div>Si♭ </div><dl><dt>b7</dt><dd>5</dd></dl></li>
+	<li class="ton11 selected"><div>Si </div><dl><dt>7 </dt><dd>5½</dd></dl></li>
+	<li class="ton12 selected"><div>Do </div><dl><dt>8 </dt><dd>6</dd></dl></li>
+</ul> -->
+
+<div id="eTarget2"></div>
+
+<script src="js/scripts.js"></script>
+<script src="js/config.js"></script>
+<script>
+
+var o = Manche.guitare( "eTarget" )
+o.setForm( eCB_Form.checked = false )
+//o.highlightNotes('Mi', 'ton0' )
+//o.reset()
+//o.setTuning( 'Ré,La,Ré,Sol,Si,Mi|-1,0,0,0,0,0')
+//o.highlightNotes('Do', 'ton0' )
+//o.highlightNotes('Ré', 'ton1' )
+// o.highlightNotes('Mib', 'ton2' )
+o.highlightNotes('Mi', 'ton2' )
+//o.highlightNotes('Fa', 'ton2_5' )
+//o.highlightNotes('Sol', 'ton3_5' )
+//o.highlightNotes('A#', 'ton4_5' )
+//o.highlightNotes('La', 'ton4_5' )
+//o.highlightNotes('Si', 'ton5_5' )
+// o.setOctave( true )
+o.setNotation( 'FR', false )
+// o.setNotation( 'EN' )
+// o.setNotesName( false )
+//  o.setConfig( true, false )
+// o.setAccord( 'x32010' )
+
+// o.setScale( 'Do', '101011010101' )
+var oH = new Harmonie( eTarget2, o )
+oH.showInterval( 'Mi', '101101010110' )
+</script>
+
+</body>
+</html>

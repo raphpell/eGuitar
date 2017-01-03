@@ -1,0 +1,342 @@
+.eGuitar {
+	border: 1px solid rgba(0,0,0,.5);
+	border-radius: 3px;
+	box-shadow: 0 0 .5em rgba(0,0,0,.5);
+	display: inline-block;
+	overflow: hidden;
+	padding: 30px 1px 30px 1px;
+	position: relative;
+	transition:padding 200ms;
+	height: 180px; /* Changé dynamiquement */
+	}
+
+.manche {
+	border: 0 solid #333;
+	box-shadow: 0 0 .5em rgba(0,0,0,.5);
+	position: absolute;
+	top: 30px;
+	white-space: nowrap;
+	width: 910px;
+	height: inherit;
+	transition:top 200ms;
+	z-index: 2;
+	/* height: 210px;  */
+	}
+.manche SPAN {
+	}
+
+.hideFretsNumber  {
+	padding-bottom: 1px;
+	}
+.hideForm  {
+	padding-top: 1px;
+	}
+.hideForm .manche  {
+	top: 1px;
+	}
+	
+.mancheForm {
+	box-sizing: border-box;
+	font: normal 0.8em Arial;
+	margin: 0;
+	position: absolute;
+	padding: 4px 8px;
+	top: 0px;
+	left: 0;
+	width: 100%;
+ 	height: 30px;
+	z-index: 1;
+	/* line-height: 30px; */
+	}
+.mancheForm LI {
+	display: inline-block;
+	margin: 0 12px 0 0;
+	padding: 0;
+	}
+	
+	
+/* cases du manche */	
+.case {
+	background: url(../sprites/default.png) no-repeat -270px -10px;
+	display: inline-block;
+	height: inherit;
+	position: relative;
+	width: 70px;
+	}
+.case0 {
+	background: url(../sprites/default.png) no-repeat -190px -10px;
+	display: inline-block;
+	height: inherit;
+	position: relative;
+	width: 70px;
+	}
+	
+	
+/* notes du manche */	
+.case .corde SPAN {
+	background: #eee;
+	border-color: #000;
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 10px;
+	box-sizing: border-box;
+	box-shadow: 0 0 4px rgba(255,255,255,0.5), 0 0 2px #FFF;
+	font: bold 12px Arial;
+	line-height: 20px; 
+	height: 20px; 
+	overflow: hidden;
+	display: block;
+	width: 55px;
+	opacity:0;
+	position: absolute;
+	left: 7px;
+	top: 5px;
+	z-index: 2;
+	transition:width 200ms, left 200ms, margin 200ms, border 200ms, line-height 200ms;
+	}
+.hideNotes .corde SPAN {
+	border: 4px solid #000;
+	border-radius: 10px;
+	box-sizing: border-box;
+	margin-left: 18px;
+	overflow: hidden;
+	display: block;
+	width: 22px;
+	text-align: left;
+	text-indent:-100em;
+	}
+	
+	
+/* cordes */	
+.corde {
+	background-image: url(../sprites/default.png);
+	background-repeat: no-repeat;
+	height: 30px;
+	width: 70px;
+	float: left;
+	z-index: 3;
+	position: relative;
+	}
+.corde SPAN {
+	cursor: hand; cursor: pointer;
+	display: inline-block;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	width: 70px;
+	}
+.corde1 { background-position: -350px -10px; }
+.corde2 { background-position: -350px -40px; }
+.corde3 { background-position: -350px -70px; }
+.corde4 { background-position: -350px -100px; }
+.corde5 { background-position: -350px -130px; }
+.corde6 { background-position: -350px -160px; }
+
+
+/* frettes + numéros des cases */	
+.frette {
+	background: url(../sprites/default.png) no-repeat -10px -10px;
+	height: inherit;
+	left: 65px;
+	position: absolute;
+	top:0px;
+	width: 10px;
+	z-index: 2;
+	}
+.frette SPAN {
+	border-radius: 1em;
+	box-shadow: 0 0 3px #888;
+	font: bold 14px Arial;
+	height: 26px;
+	line-height: 26px;
+	left: -65px;
+	margin: 2px;
+	overflow: hidden;
+	opacity: .5;
+	position: absolute;
+	text-align: center;
+	transition:opacity 500ms;
+	bottom: -30px;
+	width: 66px;
+	z-index: 0;
+	}
+.hideFretsNumber .frette SPAN {
+	opacity: 0;
+	}
+
+
+/* incrustations */	
+.case3 .incrustation,
+.case5 .incrustation,
+.case7 .incrustation,
+.case9 .incrustation,
+.case15 .incrustation,
+.case17 .incrustation,
+.case19 .incrustation,
+.case21 .incrustation {
+	background: url(../sprites/default.png) no-repeat -30px -10px;
+	height: inherit;
+	width: 70px;
+	}
+.case12 .incrustation ,
+.case24 .incrustation {
+	background: url(../sprites/default.png) no-repeat -110px -10px;
+	height: inherit;
+	width: 70px;
+	}
+
+	
+/* Octaves */
+.octaves .octave0 { border-width:1px 9px !important; }
+.octaves .octave1 { border-width:1px 7px !important; }
+.octaves .octave2 { border-width:1px 5px !important; }
+.octaves .octave3 { border-width:1px 3px !important; }
+.octaves .octave4 { border-width:1px 1px !important; }
+.octaves .octave5 { border-width:0px !important; }
+
+
+
+
+/* Configuration */
+.default  {
+	transform: scaleX(1) scaleY(1);
+	}
+.gaucher .manche,
+.gaucher .case DIV SPAN {
+	transform: scaleX(-1);
+	}
+.flipped  .manche,
+.flipped .case DIV SPAN{
+	transform: scaleY(-1);
+	}
+.flipped .frette SPAN {
+	top: -30px;
+	}
+.gaucher_flipped  .manche,
+.gaucher_flipped .case DIV SPAN {
+	transform: scaleX(-1) scaleY(-1);
+	}
+.gaucher_flipped .frette SPAN {
+	top: -30px;
+	}
+	
+
+/* Position accords */
+.position1 {
+	box-shadow: inset 0 0 1em lime;
+	}
+.position2 {
+	box-shadow: inset 0 0 1em red;
+	}
+
+/* Harmonie Form */
+.harmonieForm {
+	border: 1px solid rgba(0,0,0,.5);
+	border-radius: 3px;
+	box-shadow: 0 0 .5em rgba(0,0,0,.5);
+	float: left;
+	margin: .5em .5em 0 0;
+	padding: .25em;
+	}
+	
+/* Suggestions */
+.suggestion {
+	border: 1px solid rgba(0,0,0,.5);
+	border-radius: 3px;
+	box-shadow: 0 0 .5em rgba(0,0,0,.5);
+	clear: left;
+	float: left;
+	margin: .5em .5em 0 0;
+	padding: .25em;
+	position: relative;
+	}
+.suggestion H2 {
+	cursor: hand; cursor: pointer;
+	float: left;
+	padding: 0 .25em;
+	margin: 0;
+	line-height: 1.2em;
+	width: 100%;
+	}
+.suggestion DIV {
+	background: yellow;
+	border: 2px solid #000;
+	border-radius: .5em;
+	font: normal .8em Verdana;
+	cursor: hand; cursor: pointer;
+	float: left;
+	line-height: 1.2em;
+	margin: .25em;
+	padding: .5em;
+	transition: box-shadow 200ms ease;
+	z-index: 1;
+	position: relative;
+	}
+.suggestion DIV:hover {
+	box-shadow: 0 0 2em rgba(0,0,0,.5);
+	border: 2px solid #FFF;
+	z-index: 2;
+	}
+
+/* Intervalles */
+UL.interval {
+	border: 1px solid rgba(0,0,0,.5);
+	border-radius: 3px;
+	box-shadow: 0 0 .5em rgba(0,0,0,.5);
+	list-style-type: none;
+	margin: .5em .5em 0 0;
+	padding: .5em .25em .5em .5em;
+	float: left;
+	}
+.interval * {
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	}
+.interval LI {
+	border: 2px solid #FFF;
+	border-radius: .5em !important;
+	box-shadow: inset 0 0 .25em rgba(0,0,0,.5);
+	cursor: hand; cursor: pointer;
+	color: #CCC;
+	float: left;
+	margin: 0 0.25em 0 0;
+	padding: 0 0 0.25em 0;
+	font-family: Verdana;
+	line-height: 1em;
+	filter: sepia(1) opacity(.25);
+	transition: filter,border-color 200ms ease;
+/* 	text-shadow: 0 0 0.2em #FFF, 0 0 .25em #FFF; */
+	}
+.interval .selected {
+	border: 2px solid #000;
+	filter: none;
+	opacity: 1;
+	}
+.interval DIV {
+	height: 2em;
+	line-height: 2em;
+	width: 2.25em;
+	}
+.interval DT {
+	font-size: 0.75em;
+	font-style: italic;
+	}
+.interval DD {
+	color: inherit;
+	font-size: 0.5em;
+	}
+
+.ton12,
+.ton0	{ background: #F00 !important; opacity:1 !important; color:#FFF !important; }
+.ton1	{ background: #F90 !important; opacity:1 !important; color:#009 !important; }
+.ton2	{ background: #FF0 !important; opacity:1 !important; color:#000 !important; }
+.ton3	{ background: #9F0 !important; opacity:1 !important; color:#009 !important; }
+.ton4	{ background: #0F0 !important; opacity:1 !important; color:#000 !important; }
+.ton5	{ background: #0F9 !important; opacity:1 !important; color:#000 !important; }
+.ton6	{ background: #0FF !important; opacity:1 !important; color:#330 !important; }
+.ton7	{ background: #09F !important; opacity:1 !important; color:#FF6 !important; }
+.ton8	{ background: #00F !important; opacity:1 !important; color:#FFF !important; }
+.ton9	{ background: #90F !important; opacity:1 !important; color:#FF6 !important; }
+.ton10	{ background: #F0F !important; opacity:1 !important; color:#FFF !important; }
+.ton11	{ background: #F09 !important; opacity:1 !important; color:#FF0 !important; }
