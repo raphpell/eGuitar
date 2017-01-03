@@ -306,8 +306,9 @@ MancheForm =function( oManche ){
  	e4.onclick = function(){ oManche.setNotesName( e4.checked ) }
  	e5.onclick = function(){ oManche.setNotation( e5.checked?'EN':'FR', e6.checked ) }
  	e6.onclick = function(){ oManche.setNotation( e5.checked?'EN':'FR', e6.checked ) }
-	e7.checked = true
+	e7.checked = false
  	e7.onclick = function(){ oManche.setFretsNumber( e7.checked ) }
+	e7.onclick()
 	eAccordage.onkeyup =
 	eAccordage.onchange = function(){ oManche.setTuning( eAccordage.value )}
 	
