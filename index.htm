@@ -1,4 +1,5 @@
-﻿<html>
+﻿<!DOCTYPE HTML>
+<html>
 <head>
 	<link rel="stylesheet" type="text/css" href="css/styles.css">
 	<style>
@@ -6,7 +7,9 @@
 			width: 914px;
 			margin: 0 auto;
 			}
-		HTML {
+		TD {
+			font-family: Verdana;
+			text-align: right;
 			}
 	</style>
 </head>
@@ -36,14 +39,15 @@
 </ul> -->
 
 <div id="eTarget2"></div>
+<table id="eStats"></table>
 
-<script src="js/scripts.js"></script>
-<script src="js/config.js"></script>
+<script type="text/javascript" src="js/scripts.js"></script>
+<script type="text/javascript" src="js/config.js"></script>
+<script type="text/javascript" src="js/tSorter.js"></script>
 <script>
 
 var o = Manche.guitare( "eTarget" )
 o.setForm( eCB_Form.checked = false )
-o.highlightNotes('Mi', 'ton2' )
 o.setNotation( 'FR', false )
 /*
 //o.highlightNotes('Mi', 'ton0' )
@@ -66,7 +70,9 @@ o.setNotation( 'FR', false )
 */
 // o.setScale( 'Do', '101011010101' )
 var oH = new Harmonie( eTarget2, o )
-oH.showInterval( 'Mi', '101101010110' )
+//oH.showInterval( 'Mi', '101101010110' )
+oH.showInterval( oH.eTonique.value, oH.eScale.value )
+oH.displayChords()
 </script>
 
 </body>

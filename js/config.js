@@ -70,6 +70,7 @@ Harmonie.aChords =[
 	]
 Harmonie.aScales =[
 	['Chromatique',				'111111111111'],
+	
 	['',						'000000000000'],
 	['Blues',					'100101110010'],
 	['Pentatonique Mineure',	'100101010010'],
@@ -78,6 +79,7 @@ Harmonie.aScales =[
 	['Mineure Harmonique',		'101101011001'],
 	['Mineure Mélodique',		'101101010101'],
 	
+	['',						'000000000000'],
 	['I - Ionien (Majeure)',	'101011010101'],
 	['II - Dorien',				'101101010110'],
 	['III - Phrygien',			'110101011010'],
@@ -86,11 +88,37 @@ Harmonie.aScales =[
 	['VI  - Eolien (Mineure)',	'101101011010'],
 	['VII - Locrien',			'110101101010'],
 	
+	['',						'000000000000'],
 	['Bebop Majeur',			'101011011101'],
 	['Bebop Minor',				'101111010110'],
 	['Bebop Dominant',			'101011010111'],
-	['Bebop Dorian',			'101111010110'],
 	
+	['',						'000000000000'],
+	["Mixolydien+Ionien",		'101011010111' ],
+	["Lydien+Ionien",			'101011110101' ],
+	["Eolien+Dorien",			'101101011110' ],
+	["Mixolydien+Dorien",		'101111010110' ],
+	["Locrien+Phrygien",		'110101111010' ],
+	["Eolien+Phrygien",			'111101011010' ],
+	
+	["Mixolydien+Lydien",		'101011110111' ],
+	["Dorien+Ionien",			'101111010111' ],
+	["Eolien+Mixolydien",		'101111011110' ],
+	["Phrygien+Dorien",			'111101011110' ],
+	["Locrien+Eolien",			'111101111010' ],
+	
+	["Eolien+Ionien",			'101111011111' ],
+	["Lydien+Dorien",			'101111110111' ],
+	["Locrien+Dorien",			'111101111110' ],
+	["Mixolydien+Phrygien",		'111111011110' ],
+	
+	["Eolien+Lydien",			'101111111111' ],
+	["Phrygien+Ionien",			'111111011111' ],
+	["Locrien+Mixolydien",		'111111111110' ],
+	
+	["Locrien+Lydien", '111111111111' ],
+	
+	['',						'000000000000'],
 	['Balinaise',				'110100011000'],
 	['Pelog(Balinaise)',		'110100010010'],
 	['Japonaise',				'110001011000'],

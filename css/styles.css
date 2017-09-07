@@ -342,3 +342,36 @@ UL.interval {
 .ton9	{ background: #90F !important; opacity:1 !important; color:#FF6 !important; }
 .ton10	{ background: #F0F !important; opacity:1 !important; color:#FFF !important; }
 .ton11	{ background: #F09 !important; opacity:1 !important; color:#FF0 !important; }
+
+/* Tableau */
+#eStats {
+	border: 1px solid rgba(0,0,0,.5);
+	border-radius: 3px;
+	box-shadow: 0 0 .5em rgba(0,0,0,.5);
+	box-sizing: border-box;
+	clear: left;
+	float: left;
+	margin: .5em 0 .5em  0;
+	padding: .25em;
+	position: relative;
+	}
+#eStats TD {
+	text-align: center;
+	}
+#eStats DIV {
+	background: yellow;
+	border: 2px solid #000;
+	border-radius: .5em;
+	font: normal .8em Verdana;
+	cursor: hand; cursor: pointer;
+	line-height: 1.2em;
+	padding: 0 .5em;
+	transition: box-shadow 200ms ease;
+	z-index: 1;
+	position: relative;
+	}
+#eStats DIV:hover {
+	box-shadow: 0 0 2em rgba(0,0,0,.5);
+	border: 2px solid #FFF;
+	z-index: 2;
+	}

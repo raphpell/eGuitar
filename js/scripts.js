@@ -429,6 +429,7 @@ Harmonie =function( eParent, oManche ){
 		var e = Events.element( evt )
 		if( e.nodeName != 'DIV' && e.nodeName != 'H2' ) e = e.parentNode
 		if( e.arpege ){
+		//	console.info( e.tonique, e.arpege )
 			_oTonique.setValue( e.tonique )
 			that.eChords.value = e.arpege 
 			that.showInterval( e.tonique, e.arpege )
@@ -452,11 +453,90 @@ Harmonie.aScales =[['Pentatonique Mineure', '100101010010']]
 Harmonie.prototype =(function(){
 	return {
 		displayChords :function(){
+			var that = this
+
+			var setChords =function( a ){
+				var o = {}
+				for(var i=0, ni=Harmonie.aChords.length; i<ni; i++ ){
+					var sChordName =  Harmonie.aChords[i][0]
+					o[ sChordName ] = []
+					o[ sChordName ][12] = 0
+								
+					// Compte le nombre de "1"
+					var sMask = Harmonie.aChords[i][1]
+					var count = 0
+					var pos = sMask.indexOf('1');
+					while (pos !== -1) {
+						count++;
+						pos = sMask.indexOf('1', pos + 1 );
+						}
+				
+					o[ sChordName ][13] = count
+					}
+				
+
+				for(var i=0, ni=a.length; i<ni; i++ ){
+					var sNote = a[i][0] // Note
+					var aj = a[i][1] // Liste des accords
+					var ton = a[i][2] // index !!
+					for(var j=0, nj=aj.length; j<nj; j++ ){
+						var sChordName =  aj[j][0]
+						/*
+						var e = _.Tag( 'DIV' )
+						e.innerHTML = '<b>'+ sNote +'</b><i>'+ aj[j][0] +'</i>'
+						e.tonique = sNote
+						e.arpege = aj[j][1]
+						*/
+						// o[ sChordName ][ ton ] = '<b mask="'+ aj[j][1] +'">'+ 'X' +'</b>'// '<b>'+ sNote +'</b><i>'+ aj[j][0] +'</i>'
+						o[ sChordName ][ ton ] =
+							'<div class="ton'+ ton +'" tonique="'+ sNote +'" arpege="'+ aj[j][1] +'">'
+							+'<b>'+ sNote +'</b><i>'+ sChordName +'</i></div>'
+						o[ sChordName ][12]++
+						}
+					}
+					
+				var aTR = []
+				for(var i=0, ni=Harmonie.aChords.length; i<ni; i++ ){
+					var sChordName = Harmonie.aChords[i][0]
+					if( o[ sChordName ][12] > 0 )
+						aTR[i] = '<tr><td>'+ o[ sChordName ].join('</td><td>' ) +'</td></tr>'
+					}
+	
+				var sTHEAD = '<thead><tr>'
+							
+				var aNotesTmp = Notation.getSequence( sTonique )
+				
+				var aRoman = 'I?II?III?IV?V?VI?VII?VIII?IX?X'.split('?')
+				for(var i=0, j=0, ni=aNotesTmp.length; i<ni; i++ ){
+					sTHEAD += sScaleMask.charAt(i) == '1'
+						? '<th abbr="arpege">'+aRoman[j++]+'</th>'
+						: '<th abbr=""></th>'
+					}
+				sTHEAD += '<th abbr="number">Accords</th><th abbr="number">Notes</th></tr></thead>'
+				
+				eStats.innerHTML = sTHEAD +'<tbody>'+ aTR.join("\n") +'</tbody>'
+				if( ! eStats.onclick ) eStats.onclick =function( evt ){
+					var e = Events.element( evt )
+					if( e.nodeName != 'DIV' ) e = e.parentNode
+					var sMask = e.attributes && e.attributes.arpege && e.attributes.arpege.value
+					if( sMask ){
+						var sTonique = e.attributes.tonique && e.attributes.tonique.value
+						that.oTonique.setValue( sTonique )
+						that.eChords.value = sMask
+						that.showInterval( sTonique, sMask )
+						}
+					}
+					
+				TableSorter = new TSorter;
+				TableSorter.init('eStats');
+
+				}
+
 			var sTonique = this.eTonique.value
 			var sScaleMask = this.eScale.value
 			this.oManche.setScale( sTonique, sScaleMask )
 			var a = this.getChordsSuggestion( sTonique, sScaleMask )
-		
+			setChords( a )
 			this.eSUGG.innerHTML = ''
 
 			var e = _.Tag( 'H2' )
@@ -503,6 +583,29 @@ Harmonie.prototype =(function(){
 				sScaleMask = sScaleMask.substr( nIndex ) + sScaleMask.substr( 0, nIndex )
 				aResult.push([ aNotes[k+1], this.searchChords( sScaleMask ), ton ])
 				}
+				
+				
+/* 			var a = [
+				['Ionien',		'101011010101'],
+				['Dorien',		'101101010110'],
+				['Phrygien',	'110101011010'],
+				['Lydien',		'101010110101'],
+				['Mixolydien',	'101011010110'],
+				['Eolien',		'101101011010'],
+				['Locrien',		'110101101010']
+				]
+			var o = {}
+			for( var i=0, ni=a.length; i<ni; i++ ){
+				var s1 = a[i][0]
+				for( var j=0, nj=a.length; j<nj; j++ ){
+					var s2 = a[j][0]
+					if( s1 != s2 ){
+						var s = ( parseInt(a[i][1],2) | parseInt(a[j][1],2) ).toString(2)
+						o[s] = s1 +'+'+ s2
+						}
+					}
+				}
+			console.info( o ) */
 			return aResult
 			},
 		searchChords :function( sScaleMask ){
