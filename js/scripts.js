@@ -1,8 +1,9 @@
 ﻿/* -------------*/
 var _ ={
-	Tag :function( sName, sClasses ){
+	Tag :function( sName, sClasses, sId ){
 		var e = document.createElement( sName )
 		if( sClasses ) e.className = sClasses
+		if( sId ) e.id = sId
 		return e
 		}
 	}
@@ -356,23 +357,25 @@ Harmonie =function( eParent, oManche ){
 		})
 	
 	var eTable = _.Tag( 'TABLE', 'harmonieForm' )
-	var eSUGG = _.Tag( 'DIV', 'suggestion' )
+	var eSUGG = _.Tag( 'TABLE', 'suggestion', 'eSuggestion'+ Manche.ID )
+	eSUGG.cellSpacing = 0
 
+	/* Constructeur html */
 	var selectbox =function( sId, sLabel, a, sRadio ){
-		var eTD, eTR = _.Tag( 'TR' )
+		var eTH, eTD, eTR = _.Tag( 'TR' )
 		
-		eTD = _.Tag( 'TD' )
-		eTD.align="right"
-		eTD
+		eTH = _.Tag( 'TH' )
+		eTH.align="right"
+		eTH
 /* 		if( sRadio ){
-			var eRadio = eTD.appendChild( _.Tag( 'INPUT' ))
+			var eRadio = eTH.appendChild( _.Tag( 'INPUT' ))
 			eRadio.type = 'radio'
 			eRadio.id = 'eR_'+ sId
 			eRadio.name = sRadio
 			} */
-		var eLabel = eTD.appendChild( _.Tag( 'LABEL' ))
+		var eLabel = eTH.appendChild( _.Tag( 'LABEL' ))
 		eLabel.innerHTML = sLabel +':'
-		eTR.appendChild( eTD )
+		eTR.appendChild( eTH )
 		
 		eTD = _.Tag( 'TD' )
 		var eSelect = eTD.appendChild( _.Tag( 'SELECT' )), eOption
@@ -399,6 +402,7 @@ Harmonie =function( eParent, oManche ){
 		eSelect.parentNode.appendChild( eBTN )
 		}
 	
+	/* Construction html */
 	var eTonique = selectbox( 'eTonique', 'Tonique', Notation.getSequence())
 	eTonique.onkeyup = eTonique.onchange =function(){}
 	Notation.addObserver( function(){
@@ -418,28 +422,31 @@ Harmonie =function( eParent, oManche ){
 		that.displayChords()
 		})
 
-	var eChords = selectbox( 'eChords', 'Arpège', Harmonie.aChords, 'choice' )
+	var eChords = selectbox( 'eChords', 'Arpège', Harmonie.aArpeges, 'choice' )
 	btn( "OK", eChords, eChords.onkeyup = eChords.onchange = function(){
 		that.showInterval( eTonique.value, eChords.value )
 		})
 	
 	eParent.appendChild( eTable )
-	
+
 	eSUGG.onclick =function( evt ){
 		var e = Events.element( evt )
-		if( e.nodeName != 'DIV' && e.nodeName != 'H2' ) e = e.parentNode
-		if( e.arpege ){
-		//	console.info( e.tonique, e.arpege )
-			_oTonique.setValue( e.tonique )
-			that.eChords.value = e.arpege 
-			that.showInterval( e.tonique, e.arpege )
+		if( e.nodeName != 'DIV' && e.nodeName != 'CAPTION' ) e = e.parentNode
+		var sTonique = e.attributes.tonique && e.attributes.tonique.value
+		var sMask = e.attributes && e.attributes.arpege && e.attributes.arpege.value
+		if( sMask ){
+			that.oTonique.setValue( sTonique )
+			that.eChords.value = sMask
+			that.showInterval( sTonique, sMask )
 			}
-		if( e.scale ){
-			_oTonique.setValue( e.tonique  )
-			that.eScale.value = e.scale 
-			that.showInterval( e.tonique, e.scale )
+		var sScale = e.scale
+		if( sScale ){
+			that.oTonique.setValue( e.tonique )
+			that.eScale.value = sScale
+			that.showInterval( e.tonique, sScale )
 			}
 		}
+					
 	eParent.appendChild( eSUGG )
 	
 	this.eSUGG = eSUGG
@@ -448,22 +455,28 @@ Harmonie =function( eParent, oManche ){
 	this.eChords = eChords
 	}
 Harmonie.ID = 0
-Harmonie.aChords =[['M', '100010010000'], ['m', '100100010000']]
+Harmonie.aArpeges =[['M', '100010010000'], ['m', '100100010000']]
 Harmonie.aScales =[['Pentatonique Mineure', '100101010010']]
+Harmonie.aChords =[['m', {0:['022000']}], ['M', {0:['022100']}]]
 Harmonie.prototype =(function(){
 	return {
 		displayChords :function(){
 			var that = this
+			var sTonique = this.eTonique.value
+			var sScaleMask = this.eScale.value
+			var sScaleName = sTonique +' '+ this.eScale.selectedOptions[0].innerHTML
+			
+			// ATTENTION eStats = var globale
 
 			var setChords =function( a ){
 				var o = {}
-				for(var i=0, ni=Harmonie.aChords.length; i<ni; i++ ){
-					var sChordName =  Harmonie.aChords[i][0]
+				for(var i=0, ni=Harmonie.aArpeges.length; i<ni; i++ ){
+					var sChordName =  Harmonie.aArpeges[i][0]
 					o[ sChordName ] = []
 					o[ sChordName ][12] = 0
 								
 					// Compte le nombre de "1"
-					var sMask = Harmonie.aChords[i][1]
+					var sMask = Harmonie.aArpeges[i][1]
 					var count = 0
 					var pos = sMask.indexOf('1');
 					while (pos !== -1) {
@@ -481,13 +494,6 @@ Harmonie.prototype =(function(){
 					var ton = a[i][2] // index !!
 					for(var j=0, nj=aj.length; j<nj; j++ ){
 						var sChordName =  aj[j][0]
-						/*
-						var e = _.Tag( 'DIV' )
-						e.innerHTML = '<b>'+ sNote +'</b><i>'+ aj[j][0] +'</i>'
-						e.tonique = sNote
-						e.arpege = aj[j][1]
-						*/
-						// o[ sChordName ][ ton ] = '<b mask="'+ aj[j][1] +'">'+ 'X' +'</b>'// '<b>'+ sNote +'</b><i>'+ aj[j][0] +'</i>'
 						o[ sChordName ][ ton ] =
 							'<div class="ton'+ ton +'" tonique="'+ sNote +'" arpege="'+ aj[j][1] +'">'
 							+'<b>'+ sNote +'</b><i>'+ sChordName +'</i></div>'
@@ -496,8 +502,8 @@ Harmonie.prototype =(function(){
 					}
 					
 				var aTR = []
-				for(var i=0, ni=Harmonie.aChords.length; i<ni; i++ ){
-					var sChordName = Harmonie.aChords[i][0]
+				for(var i=0, ni=Harmonie.aArpeges.length; i<ni; i++ ){
+					var sChordName = Harmonie.aArpeges[i][0]
 					if( o[ sChordName ][12] > 0 )
 						aTR[i] = '<tr><td>'+ o[ sChordName ].join('</td><td>' ) +'</td></tr>'
 					}
@@ -506,58 +512,29 @@ Harmonie.prototype =(function(){
 							
 				var aNotesTmp = Notation.getSequence( sTonique )
 				
-				var aRoman = 'I?II?III?IV?V?VI?VII?VIII?IX?X'.split('?')
+				var aRoman = 'I?II?III?IV?V?VI?VII?VIII?IX?X?XI?XII'.split('?')
 				for(var i=0, j=0, ni=aNotesTmp.length; i<ni; i++ ){
 					sTHEAD += sScaleMask.charAt(i) == '1'
 						? '<th abbr="arpege">'+aRoman[j++]+'</th>'
 						: '<th abbr=""></th>'
 					}
-				sTHEAD += '<th abbr="number">Accords</th><th abbr="number">Notes</th></tr></thead>'
+				sTHEAD += '<th abbr="number"><label>Accords</label></th><th abbr="number"><label>Notes</label></th></tr></thead>'
 				
-				eStats.innerHTML = sTHEAD +'<tbody>'+ aTR.join("\n") +'</tbody>'
-				if( ! eStats.onclick ) eStats.onclick =function( evt ){
-					var e = Events.element( evt )
-					if( e.nodeName != 'DIV' ) e = e.parentNode
-					var sMask = e.attributes && e.attributes.arpege && e.attributes.arpege.value
-					if( sMask ){
-						var sTonique = e.attributes.tonique && e.attributes.tonique.value
-						that.oTonique.setValue( sTonique )
-						that.eChords.value = sMask
-						that.showInterval( sTonique, sMask )
-						}
-					}
+				that.eSUGG.innerHTML = sTHEAD +'<tbody>'+ aTR.join("\n") +'</tbody>'
 					
 				TableSorter = new TSorter;
-				TableSorter.init('eStats');
-
+				TableSorter.init( that.eSUGG.id )
 				}
 
-			var sTonique = this.eTonique.value
-			var sScaleMask = this.eScale.value
 			this.oManche.setScale( sTonique, sScaleMask )
 			var a = this.getChordsSuggestion( sTonique, sScaleMask )
 			setChords( a )
-			this.eSUGG.innerHTML = ''
 
-			var e = _.Tag( 'H2' )
-			e.innerHTML = sTonique +' '+ this.eScale.selectedOptions[0].innerHTML
+			var e = _.Tag( 'CAPTION' )
+			e.innerHTML = '<h2>'+ sScaleName +'</h2>'
 			e.tonique = sTonique
 			e.scale = sScaleMask
-			this.eSUGG.appendChild( e )
-
-			for(var i=0, ni=a.length; i<ni; i++ ){
-				var sNote = a[i][0]
-				var aj = a[i][1]
-				var ton = a[i][2]
-				for(var j=0, nj=aj.length; j<nj; j++ ){
-					var e = _.Tag( 'DIV' )
-					e.innerHTML = '<b>'+ sNote +'</b><i>'+ aj[j][0] +'</i>'
-					e.tonique = sNote
-					e.arpege = aj[j][1]
-					e.className = 'ton'+ ton
-					this.eSUGG.appendChild( e )
-					}
-				}
+			this.eSUGG.insertBefore( e ,  this.eSUGG.firstChild )
 			},
 		getChordsSuggestion :function( sTonique, sScaleMask ){
 			var aNotesTmp = Notation.getSequence( sTonique )
@@ -610,8 +587,8 @@ Harmonie.prototype =(function(){
 			},
 		searchChords :function( sScaleMask ){
 			var aResult = []
-			for(var j=0,nj=Harmonie.aChords.length; j<nj; j++ ){
-				var a = Harmonie.aChords[j]
+			for(var j=0,nj=Harmonie.aArpeges.length; j<nj; j++ ){
+				var a = Harmonie.aArpeges[j]
 				if( ( parseInt(sScaleMask,2) & parseInt(a[1],2) ).toString(2) == a[1])
 					aResult.push( a )
 				}

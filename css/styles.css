@@ -1,3 +1,46 @@
+/* LOGO et checkbox réglage manche */
+#eHead * {
+	line-height: 55px;
+	}
+#eHead IMG {
+	float: left;
+	margin: 7px 1em 7px 1em;
+	height: 41px;
+	}
+#eHead H1 {
+	float: left;
+	display: none;
+	margin: 0;
+	padding: 0;
+	}
+
+#eHead UL {
+	float: right;
+	list-style-type: none;
+	margin: 0 1em 0 0; padding: 0;
+	}
+#eHead UL LI {
+	float: left;
+	margin: 0; padding: 0;
+	}
+#eHead UL LI A {
+	background: #eee;
+	color: #000;
+	text-decoration: none;
+	border-radius: .5em;
+	height: 30px;
+	line-height: 30px;
+	display: block;
+	margin: 0 .25em;
+	padding: 0 1em;
+	}
+#eHead UL LI A:hover {
+	background: #000;
+	box-shadow: 0 0 1em #ccc;
+	color: #fff;
+	}
+	
+/* Manche */
 .eGuitar {
 	border: 1px solid rgba(0,0,0,.5);
 	border-radius: 3px;
@@ -53,7 +96,7 @@
 	margin: 0 12px 0 0;
 	padding: 0;
 	}
-	
+
 	
 /* cases du manche */	
 .case {
@@ -70,8 +113,7 @@
 	position: relative;
 	width: 70px;
 	}
-	
-	
+
 /* notes du manche */	
 .case .corde SPAN {
 	background: #eee;
@@ -105,8 +147,7 @@
 	text-align: left;
 	text-indent:-100em;
 	}
-	
-	
+
 /* cordes */	
 .corde {
 	background-image: url(../sprites/default.png);
@@ -118,7 +159,7 @@
 	position: relative;
 	}
 .corde SPAN {
-	cursor: hand; cursor: pointer;
+	cursor: default;
 	display: inline-block;
 	height: 30px;
 	line-height: 30px;
@@ -131,7 +172,6 @@
 .corde4 { background-position: -350px -100px; }
 .corde5 { background-position: -350px -130px; }
 .corde6 { background-position: -350px -160px; }
-
 
 /* frettes + numéros des cases */	
 .frette {
@@ -164,7 +204,6 @@
 	opacity: 0;
 	}
 
-
 /* incrustations */	
 .case3 .incrustation,
 .case5 .incrustation,
@@ -185,7 +224,6 @@
 	width: 70px;
 	}
 
-	
 /* Octaves */
 .octaves .octave0 { border-width:1px 9px !important; }
 .octaves .octave1 { border-width:1px 7px !important; }
@@ -193,9 +231,6 @@
 .octaves .octave3 { border-width:1px 3px !important; }
 .octaves .octave4 { border-width:1px 1px !important; }
 .octaves .octave5 { border-width:0px !important; }
-
-
-
 
 /* Configuration */
 .default  {
@@ -238,27 +273,49 @@
 	margin: .5em .5em 0 0;
 	padding: .25em;
 	}
+.harmonieForm TD {
+	text-align: left;
+	}
 	
-/* Suggestions */
+/* Tableau d'accords */
 .suggestion {
 	border: 1px solid rgba(0,0,0,.5);
 	border-radius: 3px;
 	box-shadow: 0 0 .5em rgba(0,0,0,.5);
 	box-sizing: border-box;
 	clear: left;
+	cursor: default;
 	float: left;
-	margin: .5em 0 0 0;
+	margin: .5em 0;
 	padding: .25em;
 	position: relative;
 	width: 914px;
 	}
 .suggestion H2 {
+	background: #EDE7DD;
+	border-radius: .5em .5em 0 0;
 	cursor: hand; cursor: pointer;
-	float: left;
-	padding: 0 .25em;
+	text-align: left;
+	padding: 0 1em;
 	margin: 0;
 	line-height: 1.2em;
-	width: 100%;
+	}
+.suggestion H2:hover {
+	background: #3A1912;
+	box-shadow: 0 0 2px #ddd, inset 0 0 2px #fff;
+	color: #fff;
+	}
+.suggestion TH {
+	cursor: pointer; cursor: hand;
+	background: #3A1912;
+	color: #fff;
+	}
+.suggestion TH LABEL {
+    padding: 0 .5em;
+	cursor: hand; cursor: pointer;
+	}
+.suggestion TD {
+	text-align: center;
 	}
 .suggestion DIV {
 	background: yellow;
@@ -266,10 +323,8 @@
 	border-radius: .5em;
 	font: normal .8em Verdana;
 	cursor: hand; cursor: pointer;
-	float: left;
 	line-height: 1.2em;
-	margin: .25em;
-	padding: .5em;
+	padding: 0 .5em;
 	transition: box-shadow 200ms ease;
 	z-index: 1;
 	position: relative;
@@ -329,6 +384,7 @@ UL.interval {
 	font-size: 0.5em;
 	}
 
+/*  */
 .ton12,
 .ton0	{ background: #F00 !important; opacity:1 !important; color:#FFF !important; }
 .ton1	{ background: #F90 !important; opacity:1 !important; color:#009 !important; }
@@ -342,36 +398,3 @@ UL.interval {
 .ton9	{ background: #90F !important; opacity:1 !important; color:#FF6 !important; }
 .ton10	{ background: #F0F !important; opacity:1 !important; color:#FFF !important; }
 .ton11	{ background: #F09 !important; opacity:1 !important; color:#FF0 !important; }
-
-/* Tableau */
-#eStats {
-	border: 1px solid rgba(0,0,0,.5);
-	border-radius: 3px;
-	box-shadow: 0 0 .5em rgba(0,0,0,.5);
-	box-sizing: border-box;
-	clear: left;
-	float: left;
-	margin: .5em 0 .5em  0;
-	padding: .25em;
-	position: relative;
-	}
-#eStats TD {
-	text-align: center;
-	}
-#eStats DIV {
-	background: yellow;
-	border: 2px solid #000;
-	border-radius: .5em;
-	font: normal .8em Verdana;
-	cursor: hand; cursor: pointer;
-	line-height: 1.2em;
-	padding: 0 .5em;
-	transition: box-shadow 200ms ease;
-	z-index: 1;
-	position: relative;
-	}
-#eStats DIV:hover {
-	box-shadow: 0 0 2em rgba(0,0,0,.5);
-	border: 2px solid #FFF;
-	z-index: 2;
-	}
