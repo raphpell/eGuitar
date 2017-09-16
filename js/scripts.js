@@ -34,9 +34,8 @@ SpecialVar.prototype =(function(){
 			for(var i=0,ni=this._aOnSet.length; i<ni; i++ ){ this._aOnSet[i]( mValue ) }
 			return mValue
 			},
-		getValue :function(){
-			return this.value
-			},
+		getValue :function(){ return this.value },
+		refresh :function(){ return this.setValue( this.getValue())},
 		addObserver :function( fObserver ){
 			this._aOnSet.push( fObserver )
 			}
@@ -105,6 +104,13 @@ Manche =function( sNodeID, nCordes, nCases ){
 	var that = this
 	Notation.addObserver( function(){ that.renameNotes() })
 	MancheForm( this )
+	
+	this.e.onclick= function( evt ){
+		var e = Events.element( evt )
+		if( e.nodeName != 'SPAN' ) return ;
+		if( ! that.oIntervalBox ) return ;
+		that.oIntervalBox.toggleNote( e.innerHTML )
+		}
 	}
 Manche.prototype =(function(){
 	return {
@@ -180,6 +186,12 @@ Manche.prototype =(function(){
 				a[i].classList.add( sClassName )
 				}
 			},
+		removeNote :function( sNote ){
+			this.history.add( 'removeNote', [ sNote ])
+			var a = this.getNotes( sNote )
+			for(var i=0, ni=a.length; i<ni; i++ )
+				a[i].className = a[i].className.replace( /ton\d[^\s]*/gim, '' )
+			},
 		reset :function(){
 			var a = this.e.getElementsByClassName('corde')
 			for(var i=0, ni=a.length; i<ni; i++ ){
@@ -187,6 +199,26 @@ Manche.prototype =(function(){
 				e.firstChild.className = e.firstChild.className.replace( /ton\d[^\s]*/gim, '' )
 				e.className = e.className.replace( /position\d[^\s]*/gim, '' )
 				}
+			},
+		searchMask :function( sMask ){
+			var o = this.oHarmonie
+			if( ! o ) return;
+			var sName = o.oTonique.getValue(), sFound
+			for(var i=0, a=Harmonie.aArpeges, ni=a.length; i<ni ; i++ ){
+				if( a[i][1] == sMask ){
+					o.eChords.value = sMask
+					sFound = a[i][0]
+					break;
+					}
+				}
+			for(var i=0, a=Harmonie.aScales, ni=a.length; i<ni ; i++ ){
+				if( a[i][1] == sMask ){
+					o.eScale.value = sMask
+					sFound = a[i][0]
+					break;
+					}
+				}
+			o.displayChords( sMask, sFound ? sName +' '+ sFound : sName + '...' )
 			},
 		setScale :function( sNote, sScaleMask ){
 			this.reset()
@@ -311,7 +343,10 @@ MancheForm =function( oManche ){
  	e7.onclick = function(){ oManche.setFretsNumber( e7.checked ) }
 	e7.onclick()
 	eAccordage.onkeyup =
-	eAccordage.onchange = function(){ oManche.setTuning( eAccordage.value )}
+	eAccordage.onchange = function(){
+		oManche.setTuning( eAccordage.value )
+		oManche.setNotesName( e4.checked )
+		}
 	
 	oManche.e.appendChild( eUL )
 	oManche.setNotation('EN')
@@ -346,8 +381,12 @@ Harmonie =function( eParent, oManche ){
 	var that = this
 		
 	this.oManche = oManche
-	this.oIntervalBox = oIntervalBox = new IntervalBox
+	oManche.oHarmonie = this
+	this.oIntervalBox = oIntervalBox = new IntervalBox ( oManche )
 	eParent.appendChild( oIntervalBox.eHTML )
+	
+	// this.oChordsBox = oChordsBox = new ChordsBox
+	// eParent.appendChild( oChordsBox.eHTML )
 	
 	var _sTonique = 'Mi'
 	var _oTonique = this.oTonique = new SpecialVar ( 'Mi' )
@@ -406,6 +445,7 @@ Harmonie =function( eParent, oManche ){
 	var eTonique = selectbox( 'eTonique', 'Tonique', Notation.getSequence())
 	eTonique.onkeyup = eTonique.onchange =function(){}
 	Notation.addObserver( function(){
+		_oTonique.refresh()
 		var a = Notation.getSequence()
 		var e = eTonique.firstChild
 		var i = 0
@@ -417,6 +457,7 @@ Harmonie =function( eParent, oManche ){
 	
 	var eScale = selectbox( 'eScales', 'Gamme', Harmonie.aScales, 'choice' )
 	eScale.value = '100101110010'
+	eScale.className = 'scale'
 	btn( "OK", eScale, eScale.onkeyup = eScale.onchange =function(){
 		that.showInterval( eTonique.value, eScale.value )
 		that.displayChords()
@@ -460,11 +501,11 @@ Harmonie.aScales =[['Pentatonique Mineure', '100101010010']]
 Harmonie.aChords =[['m', {0:['022000']}], ['M', {0:['022100']}]]
 Harmonie.prototype =(function(){
 	return {
-		displayChords :function(){
+		displayChords :function( sMask, sName ){
 			var that = this
 			var sTonique = this.eTonique.value
-			var sScaleMask = this.eScale.value
-			var sScaleName = sTonique +' '+ this.eScale.selectedOptions[0].innerHTML
+			var sScaleMask = sMask || this.eScale.value
+			var sScaleName = sName || sTonique +' '+ this.eScale.selectedOptions[0].innerHTML
 			
 			// ATTENTION eStats = var globale
 
@@ -602,16 +643,17 @@ Harmonie.prototype =(function(){
 		}
 	})()
 	
-IntervalBox =function(){
+IntervalBox =function( oManche ){
+	oManche.oIntervalBox = this
+	this.oManche = oManche
+	that = this
 	// Construction HTML
 	var eUL = this.eHTML = _.Tag('UL','interval')
 	, eLI, eDIV, eDL, eDT, eDD
 	for(var i=0; i<12; i++ ){
 		eLI = _.Tag('LI','ton'+i)
-		
 		eDIV = _.Tag('DIV')
 		eLI.appendChild( eDIV )
-		
 		eDL = _.Tag('DL')
 		eDT = _.Tag('DT')
 		eDT.innerHTML = IntervalBox.DT[i]
@@ -620,28 +662,57 @@ IntervalBox =function(){
 		eDL.appendChild( eDT )
 		eDL.appendChild( eDD )
 		eLI.appendChild( eDL )
-		
 		eUL.appendChild( eLI )
 		}
-
-	var that = this
-	// Notation.addObserver( function(){ that.setNotes( Notation.getSequence( sNote ) ) })
+	this.eHTML.onclick= function( evt ){
+		var e = Events.element( evt )
+		if( e.nodeName == 'UL' ) return null
+		while( e.nodeName != 'LI' ) e = e.parentNode
+		return that.toggleNote( e.firstChild.innerHTML )
+		}
 	}
 IntervalBox.DT = ['1','b2','2','b3','3','4','b5','5','b6','6','b7','7','8']
 IntervalBox.DD = ['0','&half;','1','1&half;','2','2&half;','3','3&half;','4','4&half;','5','5&half;','6']
 IntervalBox.prototype =(function(){
 	return {
+		sMask: null,
 		setNotes :function( aNotes ){
 			var aDIVs = this.eHTML.getElementsByTagName('DIV')
 			for(var i=0; i<12; i++ ){
-				aDIVs[i].innerHTML = aNotes[i]
+				aDIVs[i].innerHTML = aDIVs[i].parentNode.sNoteName = aNotes[i]
 				}
 			},
 		setValue :function( sMask ){
+			this.sMask = sMask
 			var aLIs = this.eHTML.getElementsByTagName('LI')
 			for(var i=0; i<12; i++ ){
 				aLIs[i].classList[ sMask.charAt(i) == "1" ? 'add' : 'remove' ]( 'selected' )
 				}
+			},
+		toggleNote :function( sNote ){
+			var aLIs = this.eHTML.getElementsByTagName('LI')
+			for(var i=0; i<12; i++ ){
+				if( aLIs[i].firstChild.innerHTML == sNote ){
+					if( i == 0 ) return ; // La tonique doit rester sélectionnée
+					var e = aLIs[i]
+					var bAdded = e.classList.toggle( 'selected' )
+					var sTon = e.className.replace( /\s*selected\s*/, '' )
+					this.oManche[ bAdded ? 'highlightNotes' : 'removeNote' ]( e.sNoteName , sTon )
+					var sMask = ''
+					for(var i=0; i<12; i++ ){
+						sMask += aLIs[i].classList.contains( 'selected' ) ? 1 : 0
+						}
+					this.sMask = sMask
+					this.oManche.searchMask( sMask )
+					return bAdded
+					}
+				}
+			return null
 			}
 		}
 	})()
+	
+ChordsBox =function(){
+	var eDIV = this.eHTML = _.Tag('DIV','chords')
+	
+	}

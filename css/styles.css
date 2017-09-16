@@ -97,6 +97,9 @@
 	padding: 0;
 	}
 
+.scale {
+	width: 245px;
+	}
 	
 /* cases du manche */	
 .case {
@@ -123,15 +126,18 @@
 	border-radius: 10px;
 	box-sizing: border-box;
 	box-shadow: 0 0 4px rgba(255,255,255,0.5), 0 0 2px #FFF;
+	cursor: pointer;
+	display: block;
 	font: bold 12px Arial;
 	line-height: 20px; 
 	height: 20px; 
 	overflow: hidden;
-	display: block;
 	width: 55px;
-	opacity:0;
+	opacity:0.3;
 	position: absolute;
 	left: 7px;
+	text-align: center;
+	text-shadow: 0 0 2px #000;
 	top: 5px;
 	z-index: 2;
 	transition:width 200ms, left 200ms, margin 200ms, border 200ms, line-height 200ms;
@@ -146,7 +152,7 @@
 	width: 22px;
 	text-align: left;
 	text-indent:-100em;
-	}
+}
 
 /* cordes */	
 .corde {
@@ -157,14 +163,6 @@
 	float: left;
 	z-index: 3;
 	position: relative;
-	}
-.corde SPAN {
-	cursor: default;
-	display: inline-block;
-	height: 30px;
-	line-height: 30px;
-	text-align: center;
-	width: 70px;
 	}
 .corde1 { background-position: -350px -10px; }
 .corde2 { background-position: -350px -40px; }
@@ -270,7 +268,7 @@
 	border-radius: 3px;
 	box-shadow: 0 0 .5em rgba(0,0,0,.5);
 	float: left;
-	margin: .5em .5em 0 0;
+	margin: .5em 0 0 0;
 	padding: .25em;
 	}
 .harmonieForm TD {
@@ -371,7 +369,7 @@ UL.interval {
 	opacity: 1;
 	}
 .interval DIV {
-	height: 2em;
+	height: 2.2em;
 	line-height: 2em;
 	width: 2.25em;
 	}
@@ -386,15 +384,87 @@ UL.interval {
 
 /*  */
 .ton12,
-.ton0	{ background: #F00 !important; opacity:1 !important; color:#FFF !important; }
-.ton1	{ background: #F90 !important; opacity:1 !important; color:#009 !important; }
-.ton2	{ background: #FF0 !important; opacity:1 !important; color:#000 !important; }
-.ton3	{ background: #9F0 !important; opacity:1 !important; color:#009 !important; }
-.ton4	{ background: #0F0 !important; opacity:1 !important; color:#000 !important; }
-.ton5	{ background: #0F9 !important; opacity:1 !important; color:#000 !important; }
-.ton6	{ background: #0FF !important; opacity:1 !important; color:#330 !important; }
-.ton7	{ background: #09F !important; opacity:1 !important; color:#FF6 !important; }
-.ton8	{ background: #00F !important; opacity:1 !important; color:#FFF !important; }
-.ton9	{ background: #90F !important; opacity:1 !important; color:#FF6 !important; }
-.ton10	{ background: #F0F !important; opacity:1 !important; color:#FFF !important; }
-.ton11	{ background: #F09 !important; opacity:1 !important; color:#FF0 !important; }
+.ton0	{ background: #F00 !important; opacity:1 !important; color:#FFF !important; text-shadow: none !important; }
+.ton1	{ background: #F90 !important; opacity:1 !important; color:#009 !important; text-shadow: none !important; }
+.ton2	{ background: #FF0 !important; opacity:1 !important; color:#000 !important; text-shadow: none !important; }
+.ton3	{ background: #9F0 !important; opacity:1 !important; color:#009 !important; text-shadow: none !important; }
+.ton4	{ background: #0F0 !important; opacity:1 !important; color:#000 !important; text-shadow: none !important; }
+.ton5	{ background: #0F9 !important; opacity:1 !important; color:#000 !important; text-shadow: none !important; }
+.ton6	{ background: #0FF !important; opacity:1 !important; color:#330 !important; text-shadow: none !important; }
+.ton7	{ background: #09F !important; opacity:1 !important; color:#FF6 !important; text-shadow: none !important; }
+.ton8	{ background: #00F !important; opacity:1 !important; color:#FFF !important; text-shadow: none !important; }
+.ton9	{ background: #90F !important; opacity:1 !important; color:#FF6 !important; text-shadow: none !important; }
+.ton10	{ background: #F0F !important; opacity:1 !important; color:#FFF !important; text-shadow: none !important; }
+.ton11	{ background: #F09 !important; opacity:1 !important; color:#FF0 !important; text-shadow: none !important; }
+
+/* Accords */
+.chords {
+	border: 1px solid rgba(0,0,0,.5);
+	border-radius: 3px;
+	box-shadow: 0 0 .5em rgba(0,0,0,.5);
+	float: right;
+	margin: .5em 0 0;
+	padding: .25em;
+	position: relative;
+	height: 180px;
+	width: 354px;
+	}
+.chords UL {
+	left: 120px;
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	width: 200px;
+	top: 10px;
+	}
+.chords UL LI {
+	display: inline-block;
+	}
+.chords UL LI.prev {
+	float: left;
+	}
+.chords UL LI.chordName {
+	left: 0;
+	position: absolute;
+	text-align: center;
+	width: 200px;
+	}
+.chords UL LI.next {
+	float: right;
+	}
+.chords TABLE {
+	border: 1px solid #000;
+	position: absolute;
+	left: 120px;
+	top: 40px;
+	z-index: 1;
+	}
+.chords TD {
+	border: 1px solid #000;
+	height: 20px;
+	width: 40px;
+	}
+.chords .caseNumber {
+	text-align: center;
+	position: absolute;
+	left: 120px;
+	top: 160px;
+	width: 40px;
+	}
+.chords .dot {
+	background: #000;
+	border-radius: 10px;
+	height: 20px;
+	left: 131px;
+	top: 31px;
+	position: absolute;
+	width: 20px;
+	z-index: 2;
+	}
+.chords .barre {
+	background: #000;
+	border-radius: 10px;
+	height: 120px;
+	position: absolute;
+	width: 20px;
+	}
