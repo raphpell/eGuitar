@@ -98,7 +98,7 @@
 	}
 
 .scale {
-	width: 245px;
+	width: 200px;
 	}
 	
 /* cases du manche */	
@@ -270,6 +270,7 @@
 	float: left;
 	margin: .5em 0 0 0;
 	padding: .25em;
+	width: 364px;
 	}
 .harmonieForm TD {
 	text-align: left;
