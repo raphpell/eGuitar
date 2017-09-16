@@ -14,6 +14,6 @@ Vous pouvez aussi  :
 
 [Cette application est une page web alors consulter là !](http://raphpell.github.io/eGuitar/)
 
-[![Preview](https://github.com/raphpell/eGuitar/raw/gh-pages/preview.png "allez y !")](http://raphpell.github.io/eGuitar/)
+[![Preview](https://github.com/raphpell/eGuitar/raw/gh-pages/preview1.png "allez y !")](http://raphpell.github.io/eGuitar/)
 
 Soutenez moi, merci !
