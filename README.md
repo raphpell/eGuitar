@@ -16,4 +16,4 @@ Vous pouvez aussi  :
 
 [![Preview](https://github.com/raphpell/eGuitar/raw/gh-pages/preview1.png "allez y !")](http://raphpell.github.io/eGuitar/)
 
-Soutenez moi, faites des suggestions et apportez moi vos connaissances !
+Faites moi des suggestions !
