@@ -504,16 +504,23 @@ Harmonie.ID = 0
 Harmonie.aArpeges =[['M', '100010010000'], ['m', '100100010000']]
 Harmonie.aScales =[['Pentatonique Mineure', '100101010010']]
 Harmonie.aChords =[['m', {0:['022000']}], ['M', {0:['022100']}]]
-Harmonie.getSimilarity = function( sChordMask1 , sChordMask2 ){
+Harmonie.getSimilarity = function( sChordOrScaleMask1 , sChordMask2 , sType ){
 	var countTons = function ( sMask ){ return sMask.split("1").length - 1 }
-	var nTons1 = countTons( sChordMask1 )
+	var nTons1 = countTons( sChordOrScaleMask1 )
 	var nTons2 = countTons( sChordMask2 )
-	var nCommonTons = countTons( ( parseInt( sChordMask1, 2 ) & parseInt( sChordMask2, 2 ) ).toString(2) )
+	var nCommonTons = countTons( ( parseInt( sChordOrScaleMask1, 2 ) & parseInt( sChordMask2, 2 ) ).toString(2) )
 	var nOpacity = nCommonTons / nTons1
+	var getLabel = function(){
+		switch( sType ){
+			case 'scale': return parseInt( nOpacity * 100 ) + "%";
+			case 'chord': return "Accord à "+ nTons1 + " tons, "+ nCommonTons + "/" + nTons2 + " ton(s) en commun - " + parseInt( nOpacity * 100 ) + "%";
+			default: return ''
+			}
+		}
 	return [
 		( Number( nOpacity ) + .1 ).toFixed(2),
 		// .1 ajouter pour rendre tous les éléments visibles
-		"Accord à "+ nTons1 + " tons, "+ nCommonTons + "/" + nTons2 + " ton(s) en commun - " + parseInt( nOpacity * 100 ) +"%"
+		getLabel()
 		]
 	
 	}
@@ -533,7 +540,6 @@ Harmonie.prototype =(function(){
 			var aResult = []
 			
 			// Cherche la position des degrés et la tonique, créé un masque et cherche les accords possibles
-			var sScaleMask = this.eScale.value 
 			var nPos = sScaleMask.indexOf('1');
 			var sDegreMask = ''
 			while( nPos !== -1 ){
@@ -554,7 +560,7 @@ Harmonie.prototype =(function(){
 			for(var j=0,nj=Harmonie.aArpeges.length; j<nj; j++ ){
 				var a = Harmonie.aArpeges[j]
 				if( ( parseInt(sScaleMask,2) & parseInt(a[1],2) ).toString(2) == a[1])
-					aResult.push( a )
+					aResult.push( a.concat( Harmonie.getSimilarity( sScaleMask, a[1], 'scale' )))
 				}
 			return aResult
 			},			
@@ -628,9 +634,6 @@ Harmonie.prototype =(function(){
 		displayChordsSimilarities :function( sTonique, sChordMask ){
 
 			var ai = this.aResult
-			// Compte le nombre de ton de l'accord
-			var countTons = function ( sMask ){ return sMask.split("1").length - 1 }
-			var nTons = countTons( sChordMask )
 			
 			// Cherche le degré de l'accord pour créé un masque correspondant à celui de la gamme
 			for( var i=0, ni=ai.length; i<ni; i++ ){
@@ -651,7 +654,7 @@ Harmonie.prototype =(function(){
 				for( var j=0, nj=aChords.length; j<nj; j++ ){
 					// Stock la similitude : valeur de 0 à 1
 					if( aChords[j].length > 2 )  aChords[j] = aChords[j].slice( 0, 2 )
-					aChords[j] = aChords[j].concat( Harmonie.getSimilarity( aChords[j][1], sDegreMask ))
+					aChords[j] = aChords[j].concat( Harmonie.getSimilarity( aChords[j][1], sDegreMask, 'chord' ))
 					}
 				}
 
@@ -732,6 +735,7 @@ IntervalBox.prototype =(function(){
 						}
 					this.sMask = sMask
 					this.oManche.searchMask( sMask )
+					this.oManche.oHarmonie( )
 					return bAdded
 					}
 				}

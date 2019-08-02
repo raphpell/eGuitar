@@ -134,6 +134,15 @@ Harmonie.aScales =[
 	["Locrien+Lydien", '111111111111' ],
 	
 	['',						'100000000000'],
+	
+	['Minor Hexatonic',			'101101010010'],
+	['Pelog',					'101010111001'],
+	['Enigmatic (Verdi)',			'110011101011'],
+	['Enigmatic Minor (Verdi)',			'110100101011'],
+	['Enigmatic Descending (Verdi)',	'110011001011'],
+	['Enigmatic Ascending (Verdi)',	'110010101011'],
+	['Raga Indupriya (India)',	'110010110010'],
+	
 	['Balinaise',				'110100011000'],
 	['Pelog(Balinaise)',		'110100010010'],
 	['Japonaise',				'110001011000'],
