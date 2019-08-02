@@ -481,7 +481,7 @@ Harmonie =function( eParent, oManche ){
 			that.oTonique.setValue( sTonique )
 			that.eChords.value = sMask
 			that.showInterval( sTonique, sMask )
-			that.displayChordsSimilarities( sTonique, sMask )
+		//	that.displayChordsSimilarities( sTonique, sMask )
 			}
 
 		var sScale = e.scale
@@ -489,7 +489,7 @@ Harmonie =function( eParent, oManche ){
 			that.oTonique.setValue( e.tonique )
 			that.eScale.value = sScale
 			that.showInterval( e.tonique, sScale )
-			that.displayChordsSimilarities( e.tonique, sScale )
+		//	that.displayChordsSimilarities( e.tonique, sScale )
 			}
 		}
 					
