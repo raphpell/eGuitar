@@ -9,14 +9,15 @@ function TSorter(){
 	var table = Object;
 	var trs = Array;
 	var ths = Array;
-	var curSortCol = Object;
-	var prevSortCol = -1;
+	var nCurSortCol = Object;
+	var nPrevSortCol = -1;
 	var sortType = Object;
+	var sortDirection = Object;
 
 	function get(){}
 
 	function getCell(index){
-		return trs[index].cells[curSortCol] 
+		return trs[index].cells[nCurSortCol] 
 		}
 
 	/*----------------------INIT------------------------------------*/
@@ -34,6 +35,10 @@ function TSorter(){
 		
 	this.sort =function( nCol, sOrder ){
 		sort( this.cols[nCol], sOrder )
+		}	
+		
+	this.getSort =function(){
+		return [nPrevSortCol, sortDirection ]
 		}
 	
 	/*----------------------SORT------------------------------------*/
@@ -43,27 +48,31 @@ function TSorter(){
 	// @param oTH - the table header cell (<th>) object that is clicked
 	/*--------------------------------------------------------------*/
 	function sort( oTH, sOrder ){
-		curSortCol = oTH.cellIndex;
+		if( oTH == undefined ) return;
+		nCurSortCol = oTH.cellIndex;
 		sortType = oTH.abbr;
+		
 		trs = table.tBodies[0].getElementsByTagName("tr");
 
 		//set the get function
 		setGet(sortType)
 
 		// if already sorted just reverse
-		if(prevSortCol == curSortCol){
+		if( nPrevSortCol == nCurSortCol ){
 			if( sOrder && sOrder==oTH.className ) return ;
-			oTH.className = (oTH.className != 'ASC' ? 'ASC' : 'DESC' );
+			if( ! oTH.className ) oTH.className = ( sOrder != 'ASC' ? 'ASC' : 'DESC' )
+			sortDirection = oTH.className = ( oTH.className != 'ASC' ? 'ASC' : 'DESC' );
 			reverseTable();
 			}
 		// not sorted - call quicksort
 		else{
-			oTH.className = 'DESC';
+			sortDirection = oTH.className = sOrder || 'ASC';
 			quicksort(0, trs.length);
+			if( sOrder && sOrder == "DESC" ) reverseTable();
 			}
 		if( sOrder && sOrder!=oTH.className ) reverseTable();
 		
-		prevSortCol = curSortCol;
+		nPrevSortCol = nCurSortCol;
 		}
 	
 	/*--------------------------------------------------------------*/

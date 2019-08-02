@@ -50,6 +50,7 @@ Notation.choices ={
 	'♭':{	FR:['Mi',	'Fa',	'Sol♭',	'Sol',	'La♭',	'La',	'Si♭',	'Si',	'Do',	'Ré♭',	'Ré',	'Mi♭'],
 			EN:['E',	'F',	'G♭',	'G',	'A♭',	'A',	'B♭',	'B',	'C',	'D♭',	'D',	'E♭']	}
 	}
+// Notation.getSequence = Retourne la sequence de 12 notes depuis la note de départ sNote
 Notation.getSequence =function( sNote ){
 	var a = this.value
 	if( ! sNote ) return this.choices[ a[0]?'♭':'♯' ][ a[1]]
@@ -379,6 +380,7 @@ Manche.History =(function(){
 
 Harmonie =function( eParent, oManche ){
 	var that = this
+	this.aResult = null
 		
 	this.oManche = oManche
 	oManche.oHarmonie = this
@@ -479,12 +481,15 @@ Harmonie =function( eParent, oManche ){
 			that.oTonique.setValue( sTonique )
 			that.eChords.value = sMask
 			that.showInterval( sTonique, sMask )
+			that.displayChordsSimilarities( sTonique, sMask )
 			}
+
 		var sScale = e.scale
 		if( sScale ){
 			that.oTonique.setValue( e.tonique )
 			that.eScale.value = sScale
 			that.showInterval( e.tonique, sScale )
+			that.displayChordsSimilarities( e.tonique, sScale )
 			}
 		}
 					
@@ -499,132 +504,50 @@ Harmonie.ID = 0
 Harmonie.aArpeges =[['M', '100010010000'], ['m', '100100010000']]
 Harmonie.aScales =[['Pentatonique Mineure', '100101010010']]
 Harmonie.aChords =[['m', {0:['022000']}], ['M', {0:['022100']}]]
+Harmonie.getSimilarity = function( sChordMask1 , sChordMask2 ){
+	var countTons = function ( sMask ){ return sMask.split("1").length - 1 }
+	var nTons1 = countTons( sChordMask1 )
+	var nTons2 = countTons( sChordMask2 )
+	var nCommonTons = countTons( ( parseInt( sChordMask1, 2 ) & parseInt( sChordMask2, 2 ) ).toString(2) )
+	var nOpacity = nCommonTons / nTons1
+	return [
+		( Number( nOpacity ) + .1 ).toFixed(2),
+		// .1 ajouter pour rendre tous les éléments visibles
+		"Accord à "+ nTons1 + " tons, "+ nCommonTons + "/" + nTons2 + " ton(s) en commun - " + parseInt( nOpacity * 100 ) +"%"
+		]
+	
+	}
 Harmonie.prototype =(function(){
 	return {
 		displayChords :function( sMask, sName ){
 			var that = this
 			var sTonique = this.eTonique.value
 			var sScaleMask = sMask || this.eScale.value
-			var sScaleName = sName || sTonique +' '+ this.eScale.selectedOptions[0].innerHTML
-			
-			// ATTENTION eStats = var globale
-
-			var setChords =function( a ){
-				var o = {}
-				for(var i=0, ni=Harmonie.aArpeges.length; i<ni; i++ ){
-					var sChordName =  Harmonie.aArpeges[i][0]
-					o[ sChordName ] = []
-					o[ sChordName ][12] = 0
-								
-					// Compte le nombre de "1"
-					var sMask = Harmonie.aArpeges[i][1]
-					var count = 0
-					var pos = sMask.indexOf('1');
-					while (pos !== -1) {
-						count++;
-						pos = sMask.indexOf('1', pos + 1 );
-						}
-				
-					o[ sChordName ][13] = count
-					}
-				
-
-				for(var i=0, ni=a.length; i<ni; i++ ){
-					var sNote = a[i][0] // Note
-					var aj = a[i][1] // Liste des accords
-					var ton = a[i][2] // index !!
-					for(var j=0, nj=aj.length; j<nj; j++ ){
-						var sChordName =  aj[j][0]
-						o[ sChordName ][ ton ] =
-							'<div class="ton'+ ton +'" tonique="'+ sNote +'" arpege="'+ aj[j][1] +'">'
-							+'<b>'+ sNote +'</b><i>'+ sChordName +'</i></div>'
-						o[ sChordName ][12]++
-						}
-					}
-					
-				var aTR = []
-				for(var i=0, ni=Harmonie.aArpeges.length; i<ni; i++ ){
-					var sChordName = Harmonie.aArpeges[i][0]
-					if( o[ sChordName ][12] > 0 )
-						aTR[i] = '<tr><td>'+ o[ sChordName ].join('</td><td>' ) +'</td></tr>'
-					}
-	
-				var sTHEAD = '<thead><tr>'
-							
-				var aNotesTmp = Notation.getSequence( sTonique )
-				
-				var aRoman = 'I?II?III?IV?V?VI?VII?VIII?IX?X?XI?XII'.split('?')
-				for(var i=0, j=0, ni=aNotesTmp.length; i<ni; i++ ){
-					sTHEAD += sScaleMask.charAt(i) == '1'
-						? '<th abbr="arpege">'+aRoman[j++]+'</th>'
-						: '<th abbr=""></th>'
-					}
-				sTHEAD += '<th abbr="number"><label>Accords</label></th><th abbr="number"><label>Notes</label></th></tr></thead>'
-				
-				that.eSUGG.innerHTML = sTHEAD +'<tbody>'+ aTR.join("\n") +'</tbody>'
-					
-				TableSorter = new TSorter;
-				TableSorter.init( that.eSUGG.id )
-				}
+			this.sScaleName = sName || sTonique +' '+ this.eScale.selectedOptions[0].innerHTML
 
 			this.oManche.setScale( sTonique, sScaleMask )
-			var a = this.getChordsSuggestion( sTonique, sScaleMask )
-			setChords( a )
-
-			var e = _.Tag( 'CAPTION' )
-			e.innerHTML = '<h2>'+ sScaleName +'</h2>'
-			e.tonique = sTonique
-			e.scale = sScaleMask
-			this.eSUGG.insertBefore( e ,  this.eSUGG.firstChild )
+			this.setChords( sTonique, sScaleMask, this.getChordsSuggestion( sTonique, sScaleMask ) )
 			},
 		getChordsSuggestion :function( sTonique, sScaleMask ){
-			var aNotesTmp = Notation.getSequence( sTonique )
-			var aNotes = []
+			var aNotesTmp = Notation.getSequence( this.sFondamental = sTonique )
 			var aResult = []
 			
-			// Compte le nombre de "1"
-			var count = 0
-			var pos = sScaleMask.indexOf('1');
-			while (pos !== -1) {
-				aNotes.push( aNotesTmp[ pos ])
-				count++;
-				pos = sScaleMask.indexOf('1', pos + 1 );
+			// Cherche la position des degrés et la tonique, créé un masque et cherche les accords possibles
+			var sScaleMask = this.eScale.value 
+			var nPos = sScaleMask.indexOf('1');
+			var sDegreMask = ''
+			while( nPos !== -1 ){
+				sDegreMask = sScaleMask.substr( nPos ) + sScaleMask.substr( 0, nPos )
+				aResult.push([ 
+					aNotesTmp[ nPos ], 
+					this.searchChords( sDegreMask ),
+					nPos,
+					sDegreMask
+					])
+				nPos = sScaleMask.indexOf('1', nPos + 1 );
 				}
-				
-			var ton = 0
-			aResult.push([ aNotes[0], this.searchChords( sScaleMask ), ton ])
 
-			var nIndex
-			for(var k=0,nk=count-1; k<nk; k++ ){
-				nIndex = sScaleMask.indexOf( "1", 1 )
-				ton += nIndex
-				sScaleMask = sScaleMask.substr( nIndex ) + sScaleMask.substr( 0, nIndex )
-				aResult.push([ aNotes[k+1], this.searchChords( sScaleMask ), ton ])
-				}
-				
-				
-/* 			var a = [
-				['Ionien',		'101011010101'],
-				['Dorien',		'101101010110'],
-				['Phrygien',	'110101011010'],
-				['Lydien',		'101010110101'],
-				['Mixolydien',	'101011010110'],
-				['Eolien',		'101101011010'],
-				['Locrien',		'110101101010']
-				]
-			var o = {}
-			for( var i=0, ni=a.length; i<ni; i++ ){
-				var s1 = a[i][0]
-				for( var j=0, nj=a.length; j<nj; j++ ){
-					var s2 = a[j][0]
-					if( s1 != s2 ){
-						var s = ( parseInt(a[i][1],2) | parseInt(a[j][1],2) ).toString(2)
-						o[s] = s1 +'+'+ s2
-						}
-					}
-				}
-			console.info( o ) */
-			return aResult
+			return this.aResult = aResult
 			},
 		searchChords :function( sScaleMask ){
 			var aResult = []
@@ -634,6 +557,111 @@ Harmonie.prototype =(function(){
 					aResult.push( a )
 				}
 			return aResult
+			},			
+		setChords :function( sTonique, sScaleMask, aChords ){
+			var o = {}
+			for(var i=0, ni=Harmonie.aArpeges.length; i<ni; i++ ){
+				var sChordName =  Harmonie.aArpeges[i][0]
+				o[ sChordName ] = []
+				o[ sChordName ][12] = 0
+							
+				// Compte le nombre de "1"
+				var sMask = Harmonie.aArpeges[i][1]
+				var count = 0
+				var pos = sMask.indexOf('1');
+				while (pos !== -1) {
+					count++;
+					pos = sMask.indexOf('1', pos + 1 );
+					}
+			
+				o[ sChordName ][13] = count
+				}
+
+			for(var i=0, ni=aChords.length; i<ni; i++ ){
+				var sNote = aChords[i][0] // Note
+				var aj = aChords[i][1] // Liste des accords
+				var ton = aChords[i][2] // index !!
+				for(var j=0, nj=aj.length; j<nj; j++ ){
+					var sChordName =  aj[j][0]
+					var sOpacity = ( aj[j][2] != undefined ? 'opacity:'+ aj[j][2] +' !important;' : '' )
+					var sTitle = ( aj[j][3] != undefined ? aj[j][3] : '' )
+					o[ sChordName ][ ton ] =
+						'<div class="ton'+ ton +'" tonique="'+ sNote +'" arpege="'+ aj[j][1] +'" style="'+ sOpacity +'" title="'+ sTitle +'">'
+						+'<b>'+ sNote +'</b><i>'+ sChordName +'</i></div>'
+					o[ sChordName ][12]++
+					}
+				}
+				
+			var aTR = []
+			for(var i=0, ni=Harmonie.aArpeges.length; i<ni; i++ ){
+				var sChordName = Harmonie.aArpeges[i][0]
+				if( o[ sChordName ][12] > 0 )
+					aTR[i] = '<tr><td>'+ o[ sChordName ].join('</td><td>' ) +'</td></tr>'
+				}
+
+			var sTHEAD = '<thead><tr>'
+						
+			var aNotesTmp = Notation.getSequence( sTonique )
+			
+			var aRoman = 'I?II?III?IV?V?VI?VII?VIII?IX?X?XI?XII'.split('?')
+			for(var i=0, j=0, ni=aNotesTmp.length; i<ni; i++ ){
+				sTHEAD += sScaleMask.charAt(i) == '1'
+					? '<th abbr="arpege">'+aRoman[j++]+'</th>'
+					: '<th abbr=""></th>'
+				}
+			sTHEAD += '<th abbr="number"><label>Accords</label></th><th abbr="number"><label>Notes</label></th></tr></thead>'
+			
+			this.eSUGG.innerHTML = sTHEAD +'<tbody>'+ aTR.join("\n") +'</tbody>'
+				
+			var aSort = null
+			if( this.TableSorter ) aSort = this.TableSorter.getSort()
+			this.TableSorter = new TSorter;
+			this.TableSorter.init( this.eSUGG.id )
+			if( aSort ) this.TableSorter.sort( aSort[0], aSort[1] )
+
+			var e = _.Tag( 'CAPTION' )
+			e.innerHTML = '<h2>'+ this.sScaleName +'</h2>'
+			e.tonique = sTonique
+			e.scale = sScaleMask
+			this.eSUGG.insertBefore( e, this.eSUGG.firstChild )
+			},
+		displayChordsSimilarities :function( sTonique, sChordMask ){
+
+			var ai = this.aResult
+			// Compte le nombre de ton de l'accord
+			var countTons = function ( sMask ){ return sMask.split("1").length - 1 }
+			var nTons = countTons( sChordMask )
+			
+			// Cherche le degré de l'accord pour créé un masque correspondant à celui de la gamme
+			for( var i=0, ni=ai.length; i<ni; i++ ){
+				if( ai[i][0] == sTonique ){
+					var nPos = ai[i][2]
+					sChordMask = sChordMask.substr( 12-nPos ) + sChordMask.substr( 0, 12-nPos )
+					break;
+					}
+				}
+				
+			// Parcours les degrés
+			for( var i=0, ni=ai.length; i<ni; i++ ){
+				var aChords = ai[i][1]
+				var nPos = ai[i][2]
+				var sDegreMask = sChordMask.substr( nPos ) + sChordMask.substr( 0, nPos )
+
+				// Parcours les accords résultat
+				for( var j=0, nj=aChords.length; j<nj; j++ ){
+					// Stock la similitude : valeur de 0 à 1
+					if( aChords[j].length > 2 )  aChords[j] = aChords[j].slice( 0, 2 )
+					aChords[j] = aChords[j].concat( Harmonie.getSimilarity( aChords[j][1], sDegreMask ))
+					}
+				}
+
+			// Met à jour l'affichage
+			var sScaleMask = this.eScale.value 
+			var sTonique = ai[0][0]
+
+			this.setChords( sTonique, sScaleMask, this.aResult )
+			
+			return null
 			},
 		showInterval :function( sNote, sMask ){
 			this.oTonique.setValue( sNote )
