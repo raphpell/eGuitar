@@ -1,4 +1,4 @@
-/*-------------*/
+/* UTILITAIRES */
 var _ ={
 	Tag :function( sName, sClasses, sId ){
 		var e = document.createElement( sName )
@@ -22,6 +22,7 @@ Events ={
 		}
 	}
 
+// Objet wrapper : il sert à déclencher des événements quand la valeur de l'objet change
 class SpecialVar {
 	constructor ( mValue ){
 		this._aOnSet = []
@@ -29,7 +30,7 @@ class SpecialVar {
 		}
 	setValue ( mValue ){
 		this.value = mValue
-		for(var i=0,ni=this._aOnSet.length; i<ni; i++ ){ this._aOnSet[i]( mValue ) }
+		for(var i=0,ni=this._aOnSet.length; i<ni; i++ ){ this._aOnSet[i]( mValue )}
 		return mValue
 		}
 	getValue (){
@@ -43,9 +44,9 @@ class SpecialVar {
 		}
 	}
 
-
-/* -------------*/
-Notation = new SpecialVar ([false,'FR'])
+/*-------------*/
+// Notation courante utilisé dans l'application [false,'FR'] = bBemol sLang
+Notation = new SpecialVar ([false,'EN'])
 Notation.choices ={
 	'♯':{	FR:['Mi',	'Fa',	'Fa♯',	'Sol',	'Sol♯',	'La',	'La♯',	'Si',	'Do',	'Do♯',	'Ré',	'Ré♯'],
 			EN:['E',	'F',	'F♯',	'G',	'G♯',	'A',	'A♯',	'B',	'C',	'C♯',	'D',	'D♯']	},
@@ -63,7 +64,7 @@ Notation.getSequence =function( sNote ){
 		return a.slice( nIndex ).concat( a.slice( 0, nIndex))
 		}
 	}
-Notation.getNoteName =function( sNote ){	
+Notation.getNoteName =function( sNote ){
 	var sIndex1
 	if( ~sNote.indexOf('b')) sNote = sNote.replace( /b/, '♭' )
 	if( ~sNote.indexOf('♭')) sIndex1 = "♭"
@@ -75,11 +76,12 @@ Notation.getNoteName =function( sNote ){
 		? 'EN'
 		: 'FR'
 	if( ! sIndex1 ) sIndex1 = "♭"
-		
+
 	var a = Notation.choices[sIndex1][sIndex2]
-	for(var i=0; i<12; i++ ){
-		if( a[i]== sNote ) return Notation.getSequence()[i]
-		}
+	for(var i=0; i<12; i++ )
+		if( a[i]== sNote )
+			return Notation.getSequence()[i]
+
 	throw Error ( 'Invalid note name... '+ sNote )
 	}
 
@@ -122,6 +124,7 @@ class Manche{
 		}
 	setNotation	( sLang, bBemol ){
 		var a = Notation.getValue()
+		bBemol = bBemol || false
 		if( a[0]==bBemol && a[1]==sLang ) return ;
 		this.eNotationI.checked = sLang == 'EN'
 		this.eBemol.checked = bBemol
@@ -290,9 +293,8 @@ Manche.getHTML = function( nCordes, nCases ){
 	return eParent
 	}
 
-MancheForm =function( oManche ){	
+MancheForm =function( oManche ){
 	var eUL = _.Tag( 'UL', 'mancheForm' )
-	
 	var eLI = _.Tag( 'LI' )
 	var eLabel = eUL.appendChild( _.Tag( 'LABEL' ))
 	eLabel.innerHTML = 'Accordage : '
@@ -345,7 +347,6 @@ MancheForm =function( oManche ){
 		}
 	
 	oManche.e.appendChild( eUL )
-	oManche.setNotation('EN')
 	}
 
 class MancheHistory {
