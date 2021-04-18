@@ -82,185 +82,184 @@ Notation.getNoteName =function( sNote ){
 	throw Error ( 'Invalid note name... '+ sNote )
 	}
 
-Manche =function( sNodeID, nCordes, nCases ){
-	this.history = new Manche.History ( this )
-	this.aFrequences = [0,0,0,0,0,0]
-	var eParent = document.getElementById( sNodeID )
-	var nCases = nCases || 12
-	this.ID = Manche.ID++
-	this.e = eParent.appendChild( Manche.constructor( nCordes, nCases ))
-	this.e.style.width = (nCases+1)*70 +'px'
-	this.e.style.height = nCordes*30 +'px'
-	this.nCordes = nCordes
-	this.nCases = nCases
-	this.aCordes =[
-		this.e.getElementsByClassName('corde1'),
-		this.e.getElementsByClassName('corde2'),
-		this.e.getElementsByClassName('corde3'),
-		this.e.getElementsByClassName('corde4'),
-		this.e.getElementsByClassName('corde5'),
-		this.e.getElementsByClassName('corde6')
-		]
-	this.setTuning('Mi,La,Ré,Sol,Si,Mi|0,0,0,0,0,0')
-	
-	var that = this
-	Notation.addObserver( function(){ that.renameNotes() })
-	MancheForm( this )
-	
-	this.e.onclick= function( evt ){
-		var e = Events.element( evt )
-		if( e.nodeName != 'SPAN' ) return ;
-		if( ! that.oIntervalBox ) return ;
-		that.oIntervalBox.toggleNote( e.innerHTML )
-		}
-	}
-Manche.prototype =(function(){
-	return {
-		setOctave :function( b ){
-			this.eOctave.checked = b
-			this.e.classList[ b ? 'add' : 'remove' ]( 'octaves' )
-			},
-		setNotation	:function( sLang, bBemol ){
-			var a = Notation.getValue()
-			if( a[0]==bBemol && a[1]==sLang ) return ;
-			this.eNotationI.checked = sLang == 'EN'
-			this.eBemol.checked = bBemol
-			Notation.setValue([bBemol,sLang])
-			},
-		renameNotes	:function(){
-			var a = Notation.getSequence()
-			// Renomme les cordes
-			for(var i=0; i<this.nCordes; i++ ){
-				var nBase = this.aFrequences[i]
-				for(var j=0; j<=this.nCases; j++ )
-					this.aCordes[i][j].firstChild.innerHTML = a[ (nBase+j)%12 ]
-				}
-			},
-		setNotesName :function( b ){
-			this.eNotesName.checked = b
-			this.e.classList[ ! b ? 'add' : 'remove' ]( 'hideNotes' )
-			},
-		setFretsNumber :function( b ){
-			this.eFretsNumber.checked = b
-			this.e.classList[ ! b ? 'add' : 'remove' ]( 'hideFretsNumber' )
-			},
-		setForm :function( b ){
-			this.e.classList[ ! b ? 'add' : 'remove' ]( 'hideForm' )
-			},
-		setConfig :function( bFlipH, bFlipV ){
-			this.e.classList.remove( 'gaucher_flipped' )
-			this.e.classList.remove( 'gaucher' )
-			this.e.classList.remove( 'flipped' )
-			this.eFlipH.checked = bFlipH
-			this.eFlipV.checked = bFlipV
-			this.e.classList.add( bFlipH
-				?( bFlipV ? 'gaucher_flipped' : 'gaucher' )
-				:( bFlipV ? 'flipped' : null )
-				)
-			},
-		getNotes :function( sNote ){
-			sNote = Notation.getNoteName( sNote )
-			var aElts = []
-			var a = this.e.getElementsByClassName('corde')
-			for(var i=0, ni=a.length; i<ni; i++ ){
-				var e = a[i].firstChild
-				if( e.innerHTML == sNote ) aElts.push( e )
-				}
-			return aElts
-			},
-		highlightNote :function( nCorde, nCase, sClassName ){
-			var e = this.aCordes[ nCorde-1 ][ nCase ]
-			if( e ) e.classList.add( sClassName )
-			},
-		setAccord :function( sAccord ){
-		//	this.history.add( 'setAccord', [ sAccord ])
-			var sNote
-			for( var i=0;i<6;i++ ){
-				sNote = sAccord.charAt(i)
-				if( sNote !='x' ) this.highlightNote( i+1, sNote, 'position1' )
-				}
-			},
-		highlightNotes :function( sNote, sClassName ){
-			this.history.add( 'highlightNotes', [ sNote, sClassName ])
-			var a = this.getNotes( sNote )
-			for(var i=0, ni=a.length; i<ni; i++ ){
-				a[i].className = a[i].className.replace( /ton\d[^\s]*/gim, '' )
-				a[i].classList.add( sClassName )
-				}
-			},
-		removeNote :function( sNote ){
-			this.history.add( 'removeNote', [ sNote ])
-			var a = this.getNotes( sNote )
-			for(var i=0, ni=a.length; i<ni; i++ )
-				a[i].className = a[i].className.replace( /ton\d[^\s]*/gim, '' )
-			},
-		reset :function(){
-			var a = this.e.getElementsByClassName('corde')
-			for(var i=0, ni=a.length; i<ni; i++ ){
-				var e = a[i]
-				e.firstChild.className = e.firstChild.className.replace( /ton\d[^\s]*/gim, '' )
-				e.className = e.className.replace( /position\d[^\s]*/gim, '' )
-				}
-			},
-		searchMask :function( sMask ){
-			var o = this.oHarmonie
-			if( ! o ) return;
-			var sName = o.oTonique.getValue(), sFound
-			for(var i=0, a=Harmonie.aArpeges, ni=a.length; i<ni ; i++ ){
-				if( a[i][1] == sMask ){
-					o.eChords.value = sMask
-					sFound = a[i][0]
-					break;
-					}
-				}
-			for(var i=0, a=Harmonie.aScales, ni=a.length; i<ni ; i++ ){
-				if( a[i][1] == sMask ){
-					o.eScale.value = sMask
-					sFound = a[i][0]
-					break;
-					}
-				}
-			o.displayChords( sMask, sFound ? sName +' '+ sFound : sName + '...' )
-			},
-		setScale :function( sNote, sScaleMask ){
-			this.reset()
-			var a = Notation.getSequence( sNote )
-			var aNotes = []
-			
-			// Compte le nombre de "1"
-			var count = 0;
-			var pos = sScaleMask.indexOf('1')
-			while( pos !== -1 ){
-				this.highlightNotes(  a[ pos ], 'ton'+ pos )
-				aNotes.push( a[ pos ])
-				count++
-				pos = sScaleMask.indexOf('1', pos + 1 )
-				}
-			},
-		setTuning :function( sAccordage ){
-			var aAccordage = sAccordage.split('|')
-			var aNotes = aAccordage[0].split(',')
-			var aFrequences = aAccordage[1].split(',')
-			var aBase = [12,17,22,27,31,36]
-			var aNotation = Notation.getSequence()
-			for(var i=0; i<this.nCordes; i++ ) this.aFrequences[i] = aBase[i] += 2*aFrequences[i]
-			for(var i=0; i<this.nCordes; i++ ){
-				var nBase = aBase[i]
-				for(var j=0; j<=this.nCases; j++ ){
-					var e = this.aCordes[i][j].firstChild
-					e.innerHTML = aNotation[ nBase%12 ]
-					/* Test octave */
-					if( -1 == e.className.indexOf('octave')) e.className += ' octave' + parseInt( nBase/12 )
-						else e.className = e.className.replace( /octave\d/, ' octave' + parseInt( nBase/12 ))
-				//	e.title = e.className
-					nBase++
-					}
-				}
-			this.reset()
-			this.history.apply()
+class Manche{
+	constructor ( sNodeID, nCordes, nCases ){
+		this.history = new Manche.History ( this )
+		this.aFrequences = [0,0,0,0,0,0]
+		var eParent = document.getElementById( sNodeID )
+		var nCases = nCases || 12
+		this.ID = Manche.ID++
+		this.e = eParent.appendChild( Manche.getHTML( nCordes, nCases ))
+		this.e.style.width = (nCases+1)*70 +'px'
+		this.e.style.height = nCordes*30 +'px'
+		this.nCordes = nCordes
+		this.nCases = nCases
+		this.aCordes =[
+			this.e.getElementsByClassName('corde1'),
+			this.e.getElementsByClassName('corde2'),
+			this.e.getElementsByClassName('corde3'),
+			this.e.getElementsByClassName('corde4'),
+			this.e.getElementsByClassName('corde5'),
+			this.e.getElementsByClassName('corde6')
+			]
+		this.setTuning('Mi,La,Ré,Sol,Si,Mi|0,0,0,0,0,0')
+		
+		var that = this
+		Notation.addObserver( function(){ that.renameNotes() })
+		MancheForm( this )
+		
+		this.e.onclick= function( evt ){
+			var e = Events.element( evt )
+			if( e.nodeName != 'SPAN' ) return ;
+			if( ! that.oIntervalBox ) return ;
+			that.oIntervalBox.toggleNote( e.innerHTML )
 			}
 		}
-	})()
+	setOctave ( b ){
+		this.eOctave.checked = b
+		this.e.classList[ b ? 'add' : 'remove' ]( 'octaves' )
+		}
+	setNotation	( sLang, bBemol ){
+		var a = Notation.getValue()
+		if( a[0]==bBemol && a[1]==sLang ) return ;
+		this.eNotationI.checked = sLang == 'EN'
+		this.eBemol.checked = bBemol
+		Notation.setValue([bBemol,sLang])
+		}
+	renameNotes	(){
+		var a = Notation.getSequence()
+		// Renomme les cordes
+		for(var i=0; i<this.nCordes; i++ ){
+			var nBase = this.aFrequences[i]
+			for(var j=0; j<=this.nCases; j++ )
+				this.aCordes[i][j].firstChild.innerHTML = a[ (nBase+j)%12 ]
+			}
+		}
+	setNotesName ( b ){
+		this.eNotesName.checked = b
+		this.e.classList[ ! b ? 'add' : 'remove' ]( 'hideNotes' )
+		}
+	setFretsNumber ( b ){
+		this.eFretsNumber.checked = b
+		this.e.classList[ ! b ? 'add' : 'remove' ]( 'hideFretsNumber' )
+		}
+	setForm ( b ){
+		this.e.classList[ ! b ? 'add' : 'remove' ]( 'hideForm' )
+		}
+	setConfig ( bFlipH, bFlipV ){
+		this.e.classList.remove( 'gaucher_flipped' )
+		this.e.classList.remove( 'gaucher' )
+		this.e.classList.remove( 'flipped' )
+		this.eFlipH.checked = bFlipH
+		this.eFlipV.checked = bFlipV
+		this.e.classList.add( bFlipH
+			?( bFlipV ? 'gaucher_flipped' : 'gaucher' )
+			:( bFlipV ? 'flipped' : null )
+			)
+		}
+	getNotes ( sNote ){
+		sNote = Notation.getNoteName( sNote )
+		var aElts = []
+		var a = this.e.getElementsByClassName('corde')
+		for(var i=0, ni=a.length; i<ni; i++ ){
+			var e = a[i].firstChild
+			if( e.innerHTML == sNote ) aElts.push( e )
+			}
+		return aElts
+		}
+	highlightNote ( nCorde, nCase, sClassName ){
+		var e = this.aCordes[ nCorde-1 ][ nCase ]
+		if( e ) e.classList.add( sClassName )
+		}
+	setAccord ( sAccord ){
+	//	this.history.add( 'setAccord', [ sAccord ])
+		var sNote
+		for( var i=0;i<6;i++ ){
+			sNote = sAccord.charAt(i)
+			if( sNote !='x' ) this.highlightNote( i+1, sNote, 'position1' )
+			}
+		}
+	highlightNotes ( sNote, sClassName ){
+		this.history.add( 'highlightNotes', [ sNote, sClassName ])
+		var a = this.getNotes( sNote )
+		for(var i=0, ni=a.length; i<ni; i++ ){
+			a[i].className = a[i].className.replace( /ton\d[^\s]*/gim, '' )
+			a[i].classList.add( sClassName )
+			}
+		}
+	removeNote ( sNote ){
+		this.history.add( 'removeNote', [ sNote ])
+		var a = this.getNotes( sNote )
+		for(var i=0, ni=a.length; i<ni; i++ )
+			a[i].className = a[i].className.replace( /ton\d[^\s]*/gim, '' )
+		}
+	reset (){
+		var a = this.e.getElementsByClassName('corde')
+		for(var i=0, ni=a.length; i<ni; i++ ){
+			var e = a[i]
+			e.firstChild.className = e.firstChild.className.replace( /ton\d[^\s]*/gim, '' )
+			e.className = e.className.replace( /position\d[^\s]*/gim, '' )
+			}
+		}
+	searchMask ( sMask ){
+		var o = this.oHarmonie
+		if( ! o ) return;
+		var sName = o.oTonique.getValue(), sFound
+		for(var i=0, a=Harmonie.aArpeges, ni=a.length; i<ni ; i++ ){
+			if( a[i][1] == sMask ){
+				o.eChords.value = sMask
+				sFound = a[i][0]
+				break;
+				}
+			}
+		for(var i=0, a=Harmonie.aScales, ni=a.length; i<ni ; i++ ){
+			if( a[i][1] == sMask ){
+				o.eScale.value = sMask
+				sFound = a[i][0]
+				break;
+				}
+			}
+		o.displayChords( sMask, sFound ? sName +' '+ sFound : sName + '...' )
+		}
+	setScale ( sNote, sScaleMask ){
+		this.reset()
+		var a = Notation.getSequence( sNote )
+		var aNotes = []
+		
+		// Compte le nombre de "1"
+		var count = 0;
+		var pos = sScaleMask.indexOf('1')
+		while( pos !== -1 ){
+			this.highlightNotes(  a[ pos ], 'ton'+ pos )
+			aNotes.push( a[ pos ])
+			count++
+			pos = sScaleMask.indexOf('1', pos + 1 )
+			}
+		}
+	setTuning ( sAccordage ){
+		var aAccordage = sAccordage.split('|')
+		var aNotes = aAccordage[0].split(',')
+		var aFrequences = aAccordage[1].split(',')
+		var aBase = [12,17,22,27,31,36]
+		var aNotation = Notation.getSequence()
+		for(var i=0; i<this.nCordes; i++ ) this.aFrequences[i] = aBase[i] += 2*aFrequences[i]
+		for(var i=0; i<this.nCordes; i++ ){
+			var nBase = aBase[i]
+			for(var j=0; j<=this.nCases; j++ ){
+				var e = this.aCordes[i][j].firstChild
+				e.innerHTML = aNotation[ nBase%12 ]
+				/* Test octave */
+				if( -1 == e.className.indexOf('octave')) e.className += ' octave' + parseInt( nBase/12 )
+					else e.className = e.className.replace( /octave\d/, ' octave' + parseInt( nBase/12 ))
+			//	e.title = e.className
+				nBase++
+				}
+			}
+		this.reset()
+		this.history.apply()
+		}
+	}
+
 Manche.ID = 0
 Manche.aAccordage =[
 	["Mi,La,Ré,Sol,Si,Mi|0,0,0,0,0,0",'E'],
@@ -269,7 +268,7 @@ Manche.aAccordage =[
 
 Manche.guitare = function( sNodeID ){ return new Manche ( sNodeID, 6 )}
 Manche.basse = function( sNodeID ){ return new Manche ( sNodeID, 4 )}
-Manche.constructor = function( nCordes, nCases ){
+Manche.getHTML = function( nCordes, nCases ){
 	var eParent = _.Tag( 'DIV', 'eGuitar' )
 	var e = _.Tag( 'DIV', 'manche' ), eCase, eCorde, eFrette
 	
