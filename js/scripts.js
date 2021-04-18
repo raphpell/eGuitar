@@ -1,4 +1,4 @@
-﻿/* -------------*/
+/*-------------*/
 var _ ={
 	Tag :function( sName, sClasses, sId ){
 		var e = document.createElement( sName )
@@ -42,8 +42,9 @@ class SpecialVar {
 		this._aOnSet.push( fObserver )
 		}
 	}
+
+
 /* -------------*/
-	
 Notation = new SpecialVar ([false,'FR'])
 Notation.choices ={
 	'♯':{	FR:['Mi',	'Fa',	'Fa♯',	'Sol',	'Sol♯',	'La',	'La♯',	'Si',	'Do',	'Do♯',	'Ré',	'Ré♯'],
@@ -84,7 +85,7 @@ Notation.getNoteName =function( sNote ){
 
 class Manche{
 	constructor ( sNodeID, nCordes, nCases ){
-		this.history = new Manche.History ( this )
+		this.history = new MancheHistory ( this )
 		this.aFrequences = [0,0,0,0,0,0]
 		var eParent = document.getElementById( sNodeID )
 		var nCases = nCases || 12
@@ -259,13 +260,7 @@ class Manche{
 		this.history.apply()
 		}
 	}
-
 Manche.ID = 0
-Manche.aAccordage =[
-	["Mi,La,Ré,Sol,Si,Mi|0,0,0,0,0,0",'E'],
-	["Ré,La,Ré,Sol,Si,Mi|-1,0,0,0,0,0",'Dropped D']
-	]
-
 Manche.guitare = function( sNodeID ){ return new Manche ( sNodeID, 6 )}
 Manche.basse = function( sNodeID ){ return new Manche ( sNodeID, 4 )}
 Manche.getHTML = function( nCordes, nCases ){
@@ -294,7 +289,7 @@ Manche.getHTML = function( nCordes, nCases ){
 	eParent.appendChild( e )
 	return eParent
 	}
-	
+
 MancheForm =function( oManche ){	
 	var eUL = _.Tag( 'UL', 'mancheForm' )
 	
@@ -353,152 +348,295 @@ MancheForm =function( oManche ){
 	oManche.setNotation('EN')
 	}
 
-Manche.History =(function(){
-	var f =function( oManche ){
+class MancheHistory {
+	constructor ( oManche ){
 		this.oManche = oManche
 		this.a = []
 		}
-	f.prototype={
-		add :function( sName, aArguments ){
-			this.a.push([ sName, aArguments ])
-			},
-		reset :function(){
-			this.a = []
-			},
-		apply :function(){
-			for(var i=0, ni=this.a.length; i<ni; i++ )
-				this.oManche[ this.a[i][0] ].apply( this.oManche, this.a[i][1])
-			this.a.length = this.a.length/2
-			},
-		info :function(){
-			for(var i=0, ni=this.a.length; i<ni; i++ )
-				console.info( this.a[i][0] +"\t"+ JSON.stringify( this.a[i][1] ))
-			}
+	add ( sName, aArguments ){
+		this.a.push([ sName, aArguments ])
 		}
-	return f
-	})()
-
-Harmonie =function( eParent, oManche ){
-	var that = this
-	this.aResult = null
-		
-	this.oManche = oManche
-	oManche.oHarmonie = this
-	this.oIntervalBox = oIntervalBox = new IntervalBox ( oManche )
-	eParent.appendChild( oIntervalBox.eHTML )
-	
-	// this.oChordsBox = oChordsBox = new ChordsBox
-	// eParent.appendChild( oChordsBox.eHTML )
-	
-	var _sTonique = 'Mi'
-	var _oTonique = this.oTonique = new SpecialVar ( 'Mi' )
-	_oTonique.addObserver( function( sNote ){
-		that.eTonique.value = sNote
-		oIntervalBox.setNotes( Notation.getSequence( sNote ))
-		})
-	
-	var eTable = _.Tag( 'TABLE', 'harmonieForm' )
-	var eSUGG = _.Tag( 'TABLE', 'suggestion', 'eSuggestion'+ Manche.ID )
-	eSUGG.cellSpacing = 0
-
-	/* Constructeur html */
-	var selectbox =function( sId, sLabel, a, sRadio ){
-		var eTH, eTD, eTR = _.Tag( 'TR' )
-		
-		eTH = _.Tag( 'TH' )
-		eTH.align="right"
-		eTH
-/* 		if( sRadio ){
-			var eRadio = eTH.appendChild( _.Tag( 'INPUT' ))
-			eRadio.type = 'radio'
-			eRadio.id = 'eR_'+ sId
-			eRadio.name = sRadio
-			} */
-		var eLabel = eTH.appendChild( _.Tag( 'LABEL' ))
-		eLabel.innerHTML = sLabel +':'
-		eTR.appendChild( eTH )
-		
-		eTD = _.Tag( 'TD' )
-		var eSelect = eTD.appendChild( _.Tag( 'SELECT' )), eOption
-		for(var i=0, ni=a.length; i<ni; i++ ){
-			eOption = _.Tag( 'OPTION' )
-			if( a[i].constructor == String )
-					eOption.innerHTML = eOption.value = a[i]
-				else {
-					eOption.innerHTML = a[i][0]
-					eOption.value = a[i][1]
-					}
-			eSelect.appendChild( eOption ) 
-			}
-		eTR.appendChild( eTD )
-		
-		eLabel.htmlFor = eSelect.id =  sId + Harmonie.ID
-		eTable.appendChild( eTR )
-		return eSelect
+	reset (){
+		this.a = []
 		}
-	var btn =function( sText, eSelect, f ){
-		var eBTN = _.Tag( 'Button' )
-		eBTN.innerHTML = sText
-		eBTN.onclick = f
-		eSelect.parentNode.appendChild( eBTN )
+	apply (){
+		for(var i=0, ni=this.a.length; i<ni; i++ )
+			this.oManche[ this.a[i][0] ].apply( this.oManche, this.a[i][1])
+		this.a.length = this.a.length/2
 		}
-	
-	/* Construction html */
-	var eTonique = selectbox( 'eTonique', 'Tonique', Notation.getSequence())
-	eTonique.onkeyup = eTonique.onchange =function(){}
-	Notation.addObserver( function(){
-		_oTonique.refresh()
-		var a = Notation.getSequence()
-		var e = eTonique.firstChild
-		var i = 0
-		while( e ){
-			e.innerHTML = e.value = a[i++]
-			e = e.nextSibling
-			}
-		})
-	
-	var eScale = selectbox( 'eScales', 'Gamme', Harmonie.aScales, 'choice' )
-	eScale.value = '100101110010'
-	eScale.className = 'scale'
-	btn( "OK", eScale, eScale.onkeyup = eScale.onchange =function(){
-		that.showInterval( eTonique.value, eScale.value )
-		that.displayChords()
-		})
-
-	var eChords = selectbox( 'eChords', 'Arpège', Harmonie.aArpeges, 'choice' )
-	btn( "OK", eChords, eChords.onkeyup = eChords.onchange = function(){
-		that.showInterval( eTonique.value, eChords.value )
-		})
-	
-	eParent.appendChild( eTable )
-
-	eSUGG.onclick =function( evt ){
-		var e = Events.element( evt )
-		if( e.nodeName != 'DIV' && e.nodeName != 'CAPTION' ) e = e.parentNode
-		var sTonique = e.attributes.tonique && e.attributes.tonique.value
-		var sMask = e.attributes && e.attributes.arpege && e.attributes.arpege.value
-		if( sMask ){
-			that.oTonique.setValue( sTonique )
-			that.eChords.value = sMask
-			that.showInterval( sTonique, sMask )
-		//	that.displayChordsSimilarities( sTonique, sMask )
-			}
-
-		var sScale = e.scale
-		if( sScale ){
-			that.oTonique.setValue( e.tonique )
-			that.eScale.value = sScale
-			that.showInterval( e.tonique, sScale )
-		//	that.displayChordsSimilarities( e.tonique, sScale )
-			}
+	info (){
+		for(var i=0, ni=this.a.length; i<ni; i++ )
+			console.info( this.a[i][0] +"\t"+ JSON.stringify( this.a[i][1] ))
 		}
+	}
+
+class Harmonie {
+	constructor( eParent, oManche ){
+		var that = this
+		this.aResult = null
+			
+		this.oManche = oManche
+		oManche.oHarmonie = this
+		let oIntervalBox = this.oIntervalBox = new IntervalBox ( oManche )
+		eParent.appendChild( oIntervalBox.eHTML )
+
+		// this.oChordsBox = oChordsBox = new ChordsBox
+		// eParent.appendChild( oChordsBox.eHTML )
+
+		var _sTonique = 'Mi'
+		var _oTonique = this.oTonique = new SpecialVar ( 'Mi' )
+		_oTonique.addObserver( function( sNote ){
+			that.eTonique.value = sNote
+			oIntervalBox.setNotes( Notation.getSequence( sNote ))
+			})
+
+		var eTable = _.Tag( 'TABLE', 'harmonieForm' )
+		var eSUGG = _.Tag( 'TABLE', 'suggestion', 'eSuggestion'+ Manche.ID )
+		eSUGG.cellSpacing = 0
+
+		/* Constructeur html */
+		var selectbox =function( sId, sLabel, a, sRadio ){
+			var eTH, eTD, eTR = _.Tag( 'TR' )
+			
+			eTH = _.Tag( 'TH' )
+			eTH.align="right"
+			eTH
+		/* 		if( sRadio ){
+				var eRadio = eTH.appendChild( _.Tag( 'INPUT' ))
+				eRadio.type = 'radio'
+				eRadio.id = 'eR_'+ sId
+				eRadio.name = sRadio
+				} */
+			var eLabel = eTH.appendChild( _.Tag( 'LABEL' ))
+			eLabel.innerHTML = sLabel +':'
+			eTR.appendChild( eTH )
+			
+			eTD = _.Tag( 'TD' )
+			var eSelect = eTD.appendChild( _.Tag( 'SELECT' )), eOption
+			for(var i=0, ni=a.length; i<ni; i++ ){
+				eOption = _.Tag( 'OPTION' )
+				if( a[i].constructor == String )
+						eOption.innerHTML = eOption.value = a[i]
+					else {
+						eOption.innerHTML = a[i][0]
+						eOption.value = a[i][1]
+						}
+				eSelect.appendChild( eOption ) 
+				}
+			eTR.appendChild( eTD )
+			
+			eLabel.htmlFor = eSelect.id =  sId + Harmonie.ID
+			eTable.appendChild( eTR )
+			return eSelect
+			}
+		var btn =function( sText, eSelect, f ){
+			var eBTN = _.Tag( 'Button' )
+			eBTN.innerHTML = sText
+			eBTN.onclick = f
+			eSelect.parentNode.appendChild( eBTN )
+			}
+
+		/* Construction html */
+		var eTonique = selectbox( 'eTonique', 'Tonique', Notation.getSequence())
+		eTonique.onkeyup = eTonique.onchange =function(){}
+		Notation.addObserver( function(){
+			_oTonique.refresh()
+			var a = Notation.getSequence()
+			var e = eTonique.firstChild
+			var i = 0
+			while( e ){
+				e.innerHTML = e.value = a[i++]
+				e = e.nextSibling
+				}
+			})
+
+		var eScale = selectbox( 'eScales', 'Gamme', Harmonie.aScales, 'choice' )
+		eScale.value = '100101110010'
+		eScale.className = 'scale'
+		btn( "OK", eScale, eScale.onkeyup = eScale.onchange =function(){
+			that.showInterval( eTonique.value, eScale.value )
+			that.displayChords()
+			})
+
+		var eChords = selectbox( 'eChords', 'Arpège', Harmonie.aArpeges, 'choice' )
+		btn( "OK", eChords, eChords.onkeyup = eChords.onchange = function(){
+			that.showInterval( eTonique.value, eChords.value )
+			})
+
+		eParent.appendChild( eTable )
+
+		eSUGG.onclick =function( evt ){
+			var e = Events.element( evt )
+			if( e.nodeName != 'DIV' && e.nodeName != 'CAPTION' ) e = e.parentNode
+			var sTonique = e.attributes.tonique && e.attributes.tonique.value
+			var sMask = e.attributes && e.attributes.arpege && e.attributes.arpege.value
+			if( sMask ){
+				that.oTonique.setValue( sTonique )
+				that.eChords.value = sMask
+				that.showInterval( sTonique, sMask )
+			//	that.displayChordsSimilarities( sTonique, sMask )
+				}
+
+			var sScale = e.scale
+			if( sScale ){
+				that.oTonique.setValue( e.tonique )
+				that.eScale.value = sScale
+				that.showInterval( e.tonique, sScale )
+			//	that.displayChordsSimilarities( e.tonique, sScale )
+				}
+			}
+						
+		eParent.appendChild( eSUGG )
+
+		this.eSUGG = eSUGG
+		this.eTonique = eTonique
+		this.eScale = eScale
+		this.eChords = eChords
+		}
+	displayChords ( sMask, sName ){
+		var that = this
+		var sTonique = this.eTonique.value
+		var sScaleMask = sMask || this.eScale.value
+		this.sScaleName = sName || sTonique +' '+ this.eScale.selectedOptions[0].innerHTML
+
+		this.oManche.setScale( sTonique, sScaleMask )
+		this.setChords( sTonique, sScaleMask, this.getChordsSuggestion( sTonique, sScaleMask ))
+		}
+	getChordsSuggestion ( sTonique, sScaleMask ){
+		var aNotesTmp = Notation.getSequence( this.sFondamental = sTonique )
+		var aResult = []
+		
+		// Cherche la position des degrés et la tonique, créé un masque et cherche les accords possibles
+		var nPos = sScaleMask.indexOf('1');
+		var sDegreMask = ''
+		while( nPos !== -1 ){
+			sDegreMask = sScaleMask.substr( nPos ) + sScaleMask.substr( 0, nPos )
+			aResult.push([ 
+				aNotesTmp[ nPos ], 
+				this.searchChords( sDegreMask ),
+				nPos,
+				sDegreMask
+				])
+			nPos = sScaleMask.indexOf('1', nPos + 1 );
+			}
+
+		return this.aResult = aResult
+		}
+	searchChords ( sScaleMask ){
+		var aResult = []
+		for(var j=0,nj=Harmonie.aArpeges.length; j<nj; j++ ){
+			var a = Harmonie.aArpeges[j]
+			if( ( parseInt(sScaleMask,2) & parseInt(a[1],2) ).toString(2) == a[1])
+				aResult.push( a.concat( Harmonie.getSimilarity( sScaleMask, a[1], 'scale' )))
+			}
+		return aResult
+		}
+	setChords ( sTonique, sScaleMask, aChords ){
+		var o = {}
+		for(var i=0, ni=Harmonie.aArpeges.length; i<ni; i++ ){
+			var sChordName =  Harmonie.aArpeges[i][0]
+			o[ sChordName ] = []
+			o[ sChordName ][12] = 0
+						
+			// Compte le nombre de "1"
+			var sMask = Harmonie.aArpeges[i][1]
+			var count = 0
+			var pos = sMask.indexOf('1');
+			while (pos !== -1) {
+				count++;
+				pos = sMask.indexOf('1', pos + 1 );
+				}
+		
+			o[ sChordName ][13] = count
+			}
+
+		for(var i=0, ni=aChords.length; i<ni; i++ ){
+			var sNote = aChords[i][0] // Note
+			var aj = aChords[i][1] // Liste des accords
+			var ton = aChords[i][2] // index !!
+			for(var j=0, nj=aj.length; j<nj; j++ ){
+				var sChordName =  aj[j][0]
+				var sOpacity = ( aj[j][2] != undefined ? 'opacity:'+ aj[j][2] +' !important;' : '' )
+				var sTitle = ( aj[j][3] != undefined ? aj[j][3] : '' )
+				o[ sChordName ][ ton ] =
+					'<div class="ton'+ ton +'" tonique="'+ sNote +'" arpege="'+ aj[j][1] +'" style="'+ sOpacity +'" title="'+ sTitle +'">'
+					+'<b>'+ sNote +'</b><i>'+ sChordName +'</i></div>'
+				o[ sChordName ][12]++
+				}
+			}
+			
+		var aTR = []
+		for(var i=0, ni=Harmonie.aArpeges.length; i<ni; i++ ){
+			var sChordName = Harmonie.aArpeges[i][0]
+			if( o[ sChordName ][12] > 0 )
+				aTR[i] = '<tr><td>'+ o[ sChordName ].join('</td><td>' ) +'</td></tr>'
+			}
+
+		var sTHEAD = '<thead><tr>'
 					
-	eParent.appendChild( eSUGG )
-	
-	this.eSUGG = eSUGG
-	this.eTonique = eTonique
-	this.eScale = eScale
-	this.eChords = eChords
+		var aNotesTmp = Notation.getSequence( sTonique )
+		
+		var aRoman = 'I?II?III?IV?V?VI?VII?VIII?IX?X?XI?XII'.split('?')
+		for(var i=0, j=0, ni=aNotesTmp.length; i<ni; i++ ){
+			sTHEAD += sScaleMask.charAt(i) == '1'
+				? '<th abbr="arpege">'+aRoman[j++]+'</th>'
+				: '<th abbr=""></th>'
+			}
+		sTHEAD += '<th abbr="number"><label>Accords</label></th><th abbr="number"><label>Notes</label></th></tr></thead>'
+		
+		this.eSUGG.innerHTML = sTHEAD +'<tbody>'+ aTR.join("\n") +'</tbody>'
+		
+		var aSort = [13,'DESC']
+		if( this.TableSorter ) aSort = this.TableSorter.getSort()
+		this.TableSorter = new TSorter;
+		this.TableSorter.init( this.eSUGG.id )
+		if( aSort ) this.TableSorter.sort( aSort[0], aSort[1] )
+
+		var e = _.Tag( 'CAPTION' )
+		e.innerHTML = '<h2>'+ this.sScaleName +'</h2>'
+		e.tonique = sTonique
+		e.scale = sScaleMask
+		this.eSUGG.insertBefore( e, this.eSUGG.firstChild )
+		}
+	displayChordsSimilarities ( sTonique, sChordMask ){
+		var ai = this.aResult
+		
+		// Cherche le degré de l'accord pour créé un masque correspondant à celui de la gamme
+		for( var i=0, ni=ai.length; i<ni; i++ ){
+			if( ai[i][0] == sTonique ){
+				var nPos = ai[i][2]
+				sChordMask = sChordMask.substr( 12-nPos ) + sChordMask.substr( 0, 12-nPos )
+				break;
+				}
+			}
+			
+		// Parcours les degrés
+		for( var i=0, ni=ai.length; i<ni; i++ ){
+			var aChords = ai[i][1]
+			var nPos = ai[i][2]
+			var sDegreMask = sChordMask.substr( nPos ) + sChordMask.substr( 0, nPos )
+
+			// Parcours les accords résultat
+			for( var j=0, nj=aChords.length; j<nj; j++ ){
+				// Stock la similitude : valeur de 0 à 1
+				if( aChords[j].length > 2 )  aChords[j] = aChords[j].slice( 0, 2 )
+				aChords[j] = aChords[j].concat( Harmonie.getSimilarity( aChords[j][1], sDegreMask, 'chord' ))
+				}
+			}
+
+		// Met à jour l'affichage
+		var sScaleMask = this.eScale.value 
+		var sTonique = ai[0][0]
+
+		this.setChords( sTonique, sScaleMask, this.aResult )
+		
+		return null
+		}
+	showInterval ( sNote, sMask ){
+		this.oTonique.setValue( sNote )
+		this.oIntervalBox.setValue( sMask )
+		this.oManche.setScale( sNote, sMask )
+		}
 	}
 Harmonie.ID = 0
 Harmonie.aArpeges =[['M', '100010010000'], ['m', '100100010000']]
@@ -524,156 +662,7 @@ Harmonie.getSimilarity = function( sChordOrScaleMask1 , sChordMask2 , sType ){
 		]
 	
 	}
-Harmonie.prototype =(function(){
-	return {
-		displayChords :function( sMask, sName ){
-			var that = this
-			var sTonique = this.eTonique.value
-			var sScaleMask = sMask || this.eScale.value
-			this.sScaleName = sName || sTonique +' '+ this.eScale.selectedOptions[0].innerHTML
 
-			this.oManche.setScale( sTonique, sScaleMask )
-			this.setChords( sTonique, sScaleMask, this.getChordsSuggestion( sTonique, sScaleMask ))
-			},
-		getChordsSuggestion :function( sTonique, sScaleMask ){
-			var aNotesTmp = Notation.getSequence( this.sFondamental = sTonique )
-			var aResult = []
-			
-			// Cherche la position des degrés et la tonique, créé un masque et cherche les accords possibles
-			var nPos = sScaleMask.indexOf('1');
-			var sDegreMask = ''
-			while( nPos !== -1 ){
-				sDegreMask = sScaleMask.substr( nPos ) + sScaleMask.substr( 0, nPos )
-				aResult.push([ 
-					aNotesTmp[ nPos ], 
-					this.searchChords( sDegreMask ),
-					nPos,
-					sDegreMask
-					])
-				nPos = sScaleMask.indexOf('1', nPos + 1 );
-				}
-
-			return this.aResult = aResult
-			},
-		searchChords :function( sScaleMask ){
-			var aResult = []
-			for(var j=0,nj=Harmonie.aArpeges.length; j<nj; j++ ){
-				var a = Harmonie.aArpeges[j]
-				if( ( parseInt(sScaleMask,2) & parseInt(a[1],2) ).toString(2) == a[1])
-					aResult.push( a.concat( Harmonie.getSimilarity( sScaleMask, a[1], 'scale' )))
-				}
-			return aResult
-			},			
-		setChords :function( sTonique, sScaleMask, aChords ){
-			var o = {}
-			for(var i=0, ni=Harmonie.aArpeges.length; i<ni; i++ ){
-				var sChordName =  Harmonie.aArpeges[i][0]
-				o[ sChordName ] = []
-				o[ sChordName ][12] = 0
-							
-				// Compte le nombre de "1"
-				var sMask = Harmonie.aArpeges[i][1]
-				var count = 0
-				var pos = sMask.indexOf('1');
-				while (pos !== -1) {
-					count++;
-					pos = sMask.indexOf('1', pos + 1 );
-					}
-			
-				o[ sChordName ][13] = count
-				}
-
-			for(var i=0, ni=aChords.length; i<ni; i++ ){
-				var sNote = aChords[i][0] // Note
-				var aj = aChords[i][1] // Liste des accords
-				var ton = aChords[i][2] // index !!
-				for(var j=0, nj=aj.length; j<nj; j++ ){
-					var sChordName =  aj[j][0]
-					var sOpacity = ( aj[j][2] != undefined ? 'opacity:'+ aj[j][2] +' !important;' : '' )
-					var sTitle = ( aj[j][3] != undefined ? aj[j][3] : '' )
-					o[ sChordName ][ ton ] =
-						'<div class="ton'+ ton +'" tonique="'+ sNote +'" arpege="'+ aj[j][1] +'" style="'+ sOpacity +'" title="'+ sTitle +'">'
-						+'<b>'+ sNote +'</b><i>'+ sChordName +'</i></div>'
-					o[ sChordName ][12]++
-					}
-				}
-				
-			var aTR = []
-			for(var i=0, ni=Harmonie.aArpeges.length; i<ni; i++ ){
-				var sChordName = Harmonie.aArpeges[i][0]
-				if( o[ sChordName ][12] > 0 )
-					aTR[i] = '<tr><td>'+ o[ sChordName ].join('</td><td>' ) +'</td></tr>'
-				}
-
-			var sTHEAD = '<thead><tr>'
-						
-			var aNotesTmp = Notation.getSequence( sTonique )
-			
-			var aRoman = 'I?II?III?IV?V?VI?VII?VIII?IX?X?XI?XII'.split('?')
-			for(var i=0, j=0, ni=aNotesTmp.length; i<ni; i++ ){
-				sTHEAD += sScaleMask.charAt(i) == '1'
-					? '<th abbr="arpege">'+aRoman[j++]+'</th>'
-					: '<th abbr=""></th>'
-				}
-			sTHEAD += '<th abbr="number"><label>Accords</label></th><th abbr="number"><label>Notes</label></th></tr></thead>'
-			
-			this.eSUGG.innerHTML = sTHEAD +'<tbody>'+ aTR.join("\n") +'</tbody>'
-			
-			var aSort = [13,'DESC']
-			if( this.TableSorter ) aSort = this.TableSorter.getSort()
-			this.TableSorter = new TSorter;
-			this.TableSorter.init( this.eSUGG.id )
-			if( aSort ) this.TableSorter.sort( aSort[0], aSort[1] )
-
-			var e = _.Tag( 'CAPTION' )
-			e.innerHTML = '<h2>'+ this.sScaleName +'</h2>'
-			e.tonique = sTonique
-			e.scale = sScaleMask
-			this.eSUGG.insertBefore( e, this.eSUGG.firstChild )
-			},
-		displayChordsSimilarities :function( sTonique, sChordMask ){
-
-			var ai = this.aResult
-			
-			// Cherche le degré de l'accord pour créé un masque correspondant à celui de la gamme
-			for( var i=0, ni=ai.length; i<ni; i++ ){
-				if( ai[i][0] == sTonique ){
-					var nPos = ai[i][2]
-					sChordMask = sChordMask.substr( 12-nPos ) + sChordMask.substr( 0, 12-nPos )
-					break;
-					}
-				}
-				
-			// Parcours les degrés
-			for( var i=0, ni=ai.length; i<ni; i++ ){
-				var aChords = ai[i][1]
-				var nPos = ai[i][2]
-				var sDegreMask = sChordMask.substr( nPos ) + sChordMask.substr( 0, nPos )
-
-				// Parcours les accords résultat
-				for( var j=0, nj=aChords.length; j<nj; j++ ){
-					// Stock la similitude : valeur de 0 à 1
-					if( aChords[j].length > 2 )  aChords[j] = aChords[j].slice( 0, 2 )
-					aChords[j] = aChords[j].concat( Harmonie.getSimilarity( aChords[j][1], sDegreMask, 'chord' ))
-					}
-				}
-
-			// Met à jour l'affichage
-			var sScaleMask = this.eScale.value 
-			var sTonique = ai[0][0]
-
-			this.setChords( sTonique, sScaleMask, this.aResult )
-			
-			return null
-			},
-		showInterval :function( sNote, sMask ){
-			this.oTonique.setValue( sNote )
-			this.oIntervalBox.setValue( sMask )
-			this.oManche.setScale( sNote, sMask )
-			}
-		}
-	})()
-	
 class IntervalBox {
 	constructor ( oManche ){
 		this.sMask = null
@@ -741,8 +730,7 @@ class IntervalBox {
 IntervalBox.DT = ['1','b2','2','b3','3','4','b5','5','b6','6','b7','7','8']
 IntervalBox.DD = ['0','&half;','1','1&half;','2','2&half;','3','3&half;','4','4&half;','5','5&half;','6']
 
-	
+
 ChordsBox =function(){
 	var eDIV = this.eHTML = _.Tag('DIV','chords')
-	
 	}

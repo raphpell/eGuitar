@@ -16,7 +16,7 @@
 	["Mi,La,Mi,La,Do?Ré?,Mi|0,0,1,1,1,0",'Open de La ("Spanish Tuning")'],
 	["Ré,La,Ré,Fa?Sol?,La,Do?Ré?|-1,0,0,-.5,-1,-1.5",'Open de Ré 7M']
 	]
-	
+
 Harmonie.aArpeges =[
 	['m',				'100100010000'],
 	[' 1er inv m', 		'100010000100'],
