@@ -1,4 +1,8 @@
-BODY { font-size: 16px; }
+BODY {
+	font-size: 16px;
+	background: #222;
+	color: #FFF;
+	}
 
 /* LOGO et checkbox réglage manche */
 #eHead * {
@@ -295,6 +299,7 @@ BODY { font-size: 16px; }
 .suggestion H2 {
 	background: #EDE7DD;
 	border-radius: .5em .5em 0 0;
+	color: #000;
 	cursor: hand; cursor: pointer;
 	text-align: left;
 	padding: 0 1em;

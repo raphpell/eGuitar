@@ -21,26 +21,27 @@ Events ={
 		return false
 		}
 	}
-SpecialVar =function( mValue ){
-	this._aOnSet = []
-	this.setValue( mValue )
-	}
-SpecialVar.prototype =(function(){
-	return {
-		value: null,
-		_aOnSet: null,
-		setValue :function( mValue ){
-			this.value = mValue
-			for(var i=0,ni=this._aOnSet.length; i<ni; i++ ){ this._aOnSet[i]( mValue ) }
-			return mValue
-			},
-		getValue :function(){ return this.value },
-		refresh :function(){ return this.setValue( this.getValue())},
-		addObserver :function( fObserver ){
-			this._aOnSet.push( fObserver )
-			}
+
+class SpecialVar {
+	constructor ( mValue ){
+		this._aOnSet = []
+		this.setValue( mValue )
 		}
-	})()
+	setValue ( mValue ){
+		this.value = mValue
+		for(var i=0,ni=this._aOnSet.length; i<ni; i++ ){ this._aOnSet[i]( mValue ) }
+		return mValue
+		}
+	getValue (){
+		return this.value
+		}
+	refresh (){
+		return this.setValue( this.getValue())
+		}
+	addObserver ( fObserver ){
+		this._aOnSet.push( fObserver )
+		}
+	}
 /* -------------*/
 	
 Notation = new SpecialVar ([false,'FR'])
@@ -509,7 +510,7 @@ Harmonie.getSimilarity = function( sChordOrScaleMask1 , sChordMask2 , sType ){
 	var nTons1 = countTons( sChordOrScaleMask1 )
 	var nTons2 = countTons( sChordMask2 )
 	var nCommonTons = countTons( ( parseInt( sChordOrScaleMask1, 2 ) & parseInt( sChordMask2, 2 ) ).toString(2) )
-	var nOpacity = nCommonTons / nTons1
+	var nOpacity = 1 - nCommonTons / nTons1
 	var getLabel = function(){
 		switch( sType ){
 			case 'scale': return parseInt( nOpacity * 100 ) + "%";
@@ -533,7 +534,7 @@ Harmonie.prototype =(function(){
 			this.sScaleName = sName || sTonique +' '+ this.eScale.selectedOptions[0].innerHTML
 
 			this.oManche.setScale( sTonique, sScaleMask )
-			this.setChords( sTonique, sScaleMask, this.getChordsSuggestion( sTonique, sScaleMask ) )
+			this.setChords( sTonique, sScaleMask, this.getChordsSuggestion( sTonique, sScaleMask ))
 			},
 		getChordsSuggestion :function( sTonique, sScaleMask ){
 			var aNotesTmp = Notation.getSequence( this.sFondamental = sTonique )
@@ -618,8 +619,8 @@ Harmonie.prototype =(function(){
 			sTHEAD += '<th abbr="number"><label>Accords</label></th><th abbr="number"><label>Notes</label></th></tr></thead>'
 			
 			this.eSUGG.innerHTML = sTHEAD +'<tbody>'+ aTR.join("\n") +'</tbody>'
-				
-			var aSort = null
+			
+			var aSort = [13,'DESC']
 			if( this.TableSorter ) aSort = this.TableSorter.getSort()
 			this.TableSorter = new TSorter;
 			this.TableSorter.init( this.eSUGG.id )
@@ -674,75 +675,73 @@ Harmonie.prototype =(function(){
 		}
 	})()
 	
-IntervalBox =function( oManche ){
-	oManche.oIntervalBox = this
-	this.oManche = oManche
-	that = this
-	// Construction HTML
-	var eUL = this.eHTML = _.Tag('UL','interval')
-	, eLI, eDIV, eDL, eDT, eDD
-	for(var i=0; i<12; i++ ){
-		eLI = _.Tag('LI','ton'+i)
-		eDIV = _.Tag('DIV')
-		eLI.appendChild( eDIV )
-		eDL = _.Tag('DL')
-		eDT = _.Tag('DT')
-		eDT.innerHTML = IntervalBox.DT[i]
-		eDD = _.Tag('DD')
-		eDD.innerHTML = IntervalBox.DD[i]
-		eDL.appendChild( eDT )
-		eDL.appendChild( eDD )
-		eLI.appendChild( eDL )
-		eUL.appendChild( eLI )
+class IntervalBox {
+	constructor ( oManche ){
+		this.sMask = null
+		oManche.oIntervalBox = this
+		this.oManche = oManche
+		let that = this
+		// Construction HTML
+		let eUL = this.eHTML = _.Tag('UL','interval')
+		, eLI, eDIV, eDL, eDT, eDD
+		for(let i=0; i<12; i++ ){
+			eLI = _.Tag('LI','ton'+i)
+			eDIV = _.Tag('DIV')
+			eLI.appendChild( eDIV )
+			eDL = _.Tag('DL')
+			eDT = _.Tag('DT')
+			eDT.innerHTML = IntervalBox.DT[i]
+			eDD = _.Tag('DD')
+			eDD.innerHTML = IntervalBox.DD[i]
+			eDL.appendChild( eDT )
+			eDL.appendChild( eDD )
+			eLI.appendChild( eDL )
+			eUL.appendChild( eLI )
+			}
+		this.eHTML.onclick= function( evt ){
+			let e = Events.element( evt )
+			if( e.nodeName == 'UL' ) return null
+			while( e.nodeName != 'LI' ) e = e.parentNode
+			return that.toggleNote( e.firstChild.innerHTML )
+			}
 		}
-	this.eHTML.onclick= function( evt ){
-		var e = Events.element( evt )
-		if( e.nodeName == 'UL' ) return null
-		while( e.nodeName != 'LI' ) e = e.parentNode
-		return that.toggleNote( e.firstChild.innerHTML )
+	setNotes ( aNotes ){
+		let aDIVs = this.eHTML.getElementsByTagName('DIV')
+		for(let i=0; i<12; i++ ){
+			aDIVs[i].innerHTML = aDIVs[i].parentNode.sNoteName = aNotes[i]
+			}
+		}
+	setValue ( sMask ){
+		this.sMask = sMask
+		let aLIs = this.eHTML.getElementsByTagName('LI')
+		for(let i=0; i<12; i++ ){
+			aLIs[i].classList[ sMask.charAt(i) == "1" ? 'add' : 'remove' ]( 'selected' )
+			}
+		}
+	toggleNote ( sNote ){
+		let aLIs = this.eHTML.getElementsByTagName('LI')
+		for(let i=0; i<12; i++ ){
+			if( aLIs[i].firstChild.innerHTML == sNote ){
+				if( i == 0 ) return ; // La tonique doit rester sélectionnée
+				let e = aLIs[i]
+				, bAdded = e.classList.toggle( 'selected' )
+				, sTon = e.className.replace( /\s*selected\s*/, '' )
+				this.oManche[ bAdded ? 'highlightNotes' : 'removeNote' ]( e.sNoteName , sTon )
+				let sMask = ''
+				for(let i=0; i<12; i++ ){
+					sMask += aLIs[i].classList.contains( 'selected' ) ? 1 : 0
+					}
+				this.sMask = sMask
+				this.oManche.searchMask( sMask )
+				return bAdded
+				}
+			}
+		return null
 		}
 	}
 IntervalBox.DT = ['1','b2','2','b3','3','4','b5','5','b6','6','b7','7','8']
 IntervalBox.DD = ['0','&half;','1','1&half;','2','2&half;','3','3&half;','4','4&half;','5','5&half;','6']
-IntervalBox.prototype =(function(){
-	return {
-		sMask: null,
-		setNotes :function( aNotes ){
-			var aDIVs = this.eHTML.getElementsByTagName('DIV')
-			for(var i=0; i<12; i++ ){
-				aDIVs[i].innerHTML = aDIVs[i].parentNode.sNoteName = aNotes[i]
-				}
-			},
-		setValue :function( sMask ){
-			this.sMask = sMask
-			var aLIs = this.eHTML.getElementsByTagName('LI')
-			for(var i=0; i<12; i++ ){
-				aLIs[i].classList[ sMask.charAt(i) == "1" ? 'add' : 'remove' ]( 'selected' )
-				}
-			},
-		toggleNote :function( sNote ){
-			var aLIs = this.eHTML.getElementsByTagName('LI')
-			for(var i=0; i<12; i++ ){
-				if( aLIs[i].firstChild.innerHTML == sNote ){
-					if( i == 0 ) return ; // La tonique doit rester sélectionnée
-					var e = aLIs[i]
-					var bAdded = e.classList.toggle( 'selected' )
-					var sTon = e.className.replace( /\s*selected\s*/, '' )
-					this.oManche[ bAdded ? 'highlightNotes' : 'removeNote' ]( e.sNoteName , sTon )
-					var sMask = ''
-					for(var i=0; i<12; i++ ){
-						sMask += aLIs[i].classList.contains( 'selected' ) ? 1 : 0
-						}
-					this.sMask = sMask
-					this.oManche.searchMask( sMask )
-					this.oManche.oHarmonie( )
-					return bAdded
-					}
-				}
-			return null
-			}
-		}
-	})()
+
 	
 ChordsBox =function(){
 	var eDIV = this.eHTML = _.Tag('DIV','chords')
