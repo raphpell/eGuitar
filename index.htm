@@ -17,8 +17,7 @@
 
 <div id="eHead" style="margin:.25em;">
 	<img src="guitare.png"><h1>eGuitar </h1>
-	<input type="checkbox" id="eCB_Form" onclick="o.setForm( this.checked )">
-	<label for="eCB_Form">Réglage manche.</label>
+	<input type="checkbox" id="eCB_Form" onclick="o.setForm( this.checked )"><label for="eCB_Form"></label>
 <!--
 	<ul>
 		<li><a href="https://github.com/raphpell/eGuitar/">eGuitar sur Github</a></li>
@@ -30,6 +29,7 @@
 
 <div id="eTarget2"></div>
 
+<script type="text/javascript" src="js/L10n.js"></script>
 <script type="text/javascript" src="js/scripts.js"></script>
 <script type="text/javascript" src="js/config.js"></script>
 <script type="text/javascript" src="js/tSorter.js"></script>
@@ -77,8 +77,7 @@ var oH = new Harmonie( eTarget2, o )
 oH.showInterval( oH.eTonique.value, oH.eScale.value )
 oH.displayChords()
 
-
-
+eCB_Form.nextSibling.innerHTML = L10n('REGLAGE') +'.'
 </script>
 
 </body>

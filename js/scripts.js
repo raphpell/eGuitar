@@ -358,7 +358,7 @@ MancheForm =function( oManche ){
 	var eUL = _.Tag( 'UL', 'mancheForm' )
 	var eLI = _.Tag( 'LI' )
 	var eLabel = eUL.appendChild( _.Tag( 'LABEL' ))
-	eLabel.innerHTML = 'Accordage : '
+	eLabel.innerHTML = L10n('ACCORDAGE') +' : '
 	var eAccordage = eUL.appendChild( _.Tag( 'SELECT' )), eOption
 	for(var a=Manche.aAccordage, i=0, ni=a.length; i<ni; i++ ){
 		eOption = _.Tag( 'OPTION' )
@@ -382,13 +382,13 @@ MancheForm =function( oManche ){
 		return eCheckBox
 		}
 	
-	var e5 = oManche.eNotationI = checkbox( 'eNotationI', 'ABCDEFG.' )
-	var e6 = oManche.eBemol = checkbox( 'eBemol', 'Bémol.' )
-	var e1 = oManche.eFlipH = checkbox( 'eFlipH', 'Gaucher.' )
-	var e2 = oManche.eFlipV = checkbox( 'eFlipV', 'Miroir.' )
-	var e3 = oManche.eOctave = checkbox( 'eOctaves', 'Octaves.' )
-	var e4 = oManche.eNotesName = checkbox( 'eNotesName', 'Notes.' )
-	var e7 = oManche.eFretsNumber = checkbox( 'eFretsNumber', 'Numéros.' )
+	var e5 = oManche.eNotationI = checkbox( 'eNotationI', L10n('ABCDEFG') +'.' )
+	var e6 = oManche.eBemol = checkbox( 'eBemol', L10n('BEMOL') +'.' )
+	var e1 = oManche.eFlipH = checkbox( 'eFlipH', L10n('GAUCHER') +'.' )
+	var e2 = oManche.eFlipV = checkbox( 'eFlipV', L10n('MIROIR') +'.' )
+	var e3 = oManche.eOctave = checkbox( 'eOctaves', L10n('OCTAVES') +'.' )
+	var e4 = oManche.eNotesName = checkbox( 'eNotesName', L10n('NOTES') +'.' )
+	var e7 = oManche.eFretsNumber = checkbox( 'eFretsNumber', L10n('NUMEROS') +'.' )
 
 	e1.onclick = function(){ LeftHanded.setValue( e1.checked )}
 	e2.onclick = function(){ Mirror.setValue( e2.checked )}
@@ -502,7 +502,7 @@ class Harmonie {
 			}
 
 		/* Construction html */
-		var eTonique = selectbox( 'eTonique', 'Tonique', Notations.getSequence())
+		var eTonique = selectbox( 'eTonique', L10n('TONIQUE'), Notations.getSequence())
 		eTonique.onkeyup = eTonique.onchange =function(){}
 		Notation.addObserver( function(){
 			_oTonique.refresh()
@@ -516,7 +516,7 @@ class Harmonie {
 				}
 			})
 
-		var eScale = selectbox( 'eScales', 'Gamme', Harmonie.aScales, 'choice' )
+		var eScale = selectbox( 'eScales', L10n('GAMME'), Harmonie.aScales, 'choice' )
 		eScale.value = '100101110010'
 		eScale.className = 'scale'
 		btn( "OK", eScale, eScale.onkeyup = eScale.onchange =function(){
@@ -524,7 +524,7 @@ class Harmonie {
 			that.displayChords()
 			})
 
-		var eChords = selectbox( 'eChords', 'Arpège', Harmonie.aArpeges, 'choice' )
+		var eChords = selectbox( 'eChords', L10n('ARPEGE'), Harmonie.aArpeges, 'choice' )
 		btn( "OK", eChords, eChords.onkeyup = eChords.onchange = function(){
 			that.showInterval( eTonique.value, eChords.value )
 			})
@@ -648,7 +648,7 @@ class Harmonie {
 				? '<th abbr="arpege">'+aRoman[j++]+'</th>'
 				: '<th abbr=""></th>'
 			}
-		sTHEAD += '<th abbr="number"><label>Accords</label></th><th abbr="number"><label>Notes</label></th></tr></thead>'
+		sTHEAD += '<th abbr="number"><label>'+ L10n('ACCORDS') +'</label></th><th abbr="number"><label>'+ L10n('NOTES') +'</label></th></tr></thead>'
 
 		this.eSUGG.innerHTML = sTHEAD +'<tbody>'+ aTR.join("\n") +'</tbody>'
 

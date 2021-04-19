@@ -45,7 +45,21 @@ BODY {
 	box-shadow: 0 0 1em #ccc;
 	color: #fff;
 	}
-	
+
+/* L10n */
+code {
+	animation-duration: 2s;
+	animation-name: clignoter;
+	animation-iteration-count: infinite;
+	transition: none;
+	color:red; 
+	}
+@keyframes clignoter {
+	0%	{ color:red; }
+	50%	{ color:orange; }
+	100%	{ color:red; }
+	}
+
 /* Manche */
 .eGuitar {
 	border: 1px solid rgba(0,0,0,.5);
@@ -317,7 +331,8 @@ BODY {
 	line-height: 1.2em;
 	transition: filter,border-color 200ms ease;
 	}
-.suggestion H2:hover {
+.suggestion H2:hover,
+.suggestion TH:hover {
 	background: #000;
 	color: #FFF;
 	box-shadow: 0 0 2px #ddd, inset 0 0 1em #FFF;
@@ -325,7 +340,7 @@ BODY {
 .suggestion TH {
 	cursor: pointer; cursor: hand;
 	background: #3A1912;
-	color: #fff;
+	color: #FFF;
 	}
 .suggestion TH LABEL {
 	padding: 0 .5em;
@@ -368,7 +383,7 @@ UL.interval {
 	text-align: center;
 	}
 .interval LI {
-	border: 2px solid #FFF;
+	border: 2px solid #000;
 	border-radius: .5em !important;
 	box-shadow: inset 0 0 .25em rgba(0,0,0,.5);
 	cursor: hand; cursor: pointer;
@@ -378,7 +393,7 @@ UL.interval {
 	padding: 0 0 0.25em 0;
 	font-family: Verdana;
 	line-height: 1em;
-	filter: sepia(1) opacity(.25);
+	filter: sepia(1) opacity(.5);
 	transition: filter,border-color 200ms ease;
 /* 	text-shadow: 0 0 0.2em #FFF, 0 0 .25em #FFF; */
 	}
@@ -387,9 +402,12 @@ UL.interval {
 	box-shadow: 0 0 1em rgba(0,0,0,.5), inset 0 0 .5em #FFF, 0 0 2em #FFF;
 	}
 .interval .selected {
-	border: 2px solid #000;
+	border: 2px solid #FFF;
 	filter: none;
 	opacity: 1;
+	}
+.interval .selected:hover {
+	box-shadow: inset 0 0 .5em #FFF, 0 0 1em #FFF;
 	}
 .interval DIV {
 	height: 2.2em;
