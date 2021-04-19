@@ -622,7 +622,7 @@ class Harmonie {
 			var ton = aChords[i][2] // index !!
 			for(var j=0, nj=aj.length; j<nj; j++ ){
 				var sChordName =  aj[j][1]
-				var sOpacity = ( aj[j][2] != undefined ? 'opacity:'+ aj[j][2] +' !important;' : '' )
+				var sOpacity = ( aj[j][2] != undefined ? 'opacity:'+ (1-aj[j][2]+.3).toFixed(2) +' !important;' : '' )
 				var sTitle = ( aj[j][3] != undefined ? aj[j][3] : '' )
 				o[ sChordName ][ ton ] =
 					'<div class="ton'+ ton +'" tonique="'+ sNote +'" arpege="'+ aj[j][0] +'" style="'+ sOpacity +'" title="'+ sTitle +'">'
@@ -639,7 +639,7 @@ class Harmonie {
 			}
 
 		var sTHEAD = '<thead><tr>'
-					
+
 		var aNotesTmp = Notations.getSequence( sTonique )
 		
 		var aRoman = 'I?II?III?IV?V?VI?VII?VIII?IX?X?XI?XII'.split('?')
@@ -649,9 +649,9 @@ class Harmonie {
 				: '<th abbr=""></th>'
 			}
 		sTHEAD += '<th abbr="number"><label>Accords</label></th><th abbr="number"><label>Notes</label></th></tr></thead>'
-		
+
 		this.eSUGG.innerHTML = sTHEAD +'<tbody>'+ aTR.join("\n") +'</tbody>'
-		
+
 		var aSort = [13,'DESC']
 		if( this.TableSorter ) aSort = this.TableSorter.getSort()
 		this.TableSorter = new TSorter;
@@ -719,8 +719,7 @@ Harmonie.getSimilarity = function( sChordOrScaleMask1 , sChordMask2 , sType ){
 			}
 		}
 	return [
-		( Number( nOpacity ) + .1 ).toFixed(2),
-		// .1 ajouter pour rendre tous les éléments visibles
+		( Number( nOpacity )).toFixed(2),
 		getLabel()
 		]
 	
