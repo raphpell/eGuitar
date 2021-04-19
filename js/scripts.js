@@ -136,11 +136,14 @@ class Manche{
 			that.oIntervalBox.toggleNote( e.innerHTML )
 			}
 
+		// TROUVER UNE SOLUTION POUR QUE LES VARIABLES SPECIALES SOIT GLOBAL OU LOCAL
+
 		// Défini la valeur des options
 		LeftHanded.setValue( oConfig.lefthanded )
 		Mirror.setValue( oConfig.mirror )
 		this.notes.setValue( oConfig.notes )
 
+		// Pour éviter de mettre tous les composant à jour au chargement
 		if( Tuning.getValue() != oConfig.tuning )
 			Tuning.setValue( oConfig.tuning )
 		else
