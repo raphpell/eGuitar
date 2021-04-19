@@ -1,17 +1,9 @@
 {
-  "name":"eGuitar",
-  "version": "1.0.0",
-  "main":"index.htm",
-  "window":{
-    "min_width":400,
-    "min_height":400
-  },
-  "devDependencies": {
-    "nw": "^0.18.2",
-    "nw-builder": "^3.1.2"
-  },
-  "scripts": {
-    "dev": "nw src/",
-    "prod": "nwbuild --platforms win64 --buildDir dist/ src/"
-  }
+	"name":"eGuitar",
+	"version": "1.0.0",
+	"main":"index.htm",
+	"window":{
+		"min_width":400,
+		"min_height":400
+		}
 }
