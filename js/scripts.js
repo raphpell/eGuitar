@@ -425,6 +425,10 @@ MancheForm =function( oManche ){
 	oManche.e.appendChild( eUL )
 	}
 
+/*
+Sauvegarde les fonctions d'affichage des notes du manche
+Utiliser pour conserver l'affichage lors du changement d'accordage
+*/
 class MancheHistory {
 	constructor ( oManche ){
 		this.oManche = oManche
