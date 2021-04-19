@@ -379,12 +379,14 @@ code {
 	border-radius: .5em;
 	font: normal .8em Verdana;
 	cursor: hand; cursor: pointer;
-	line-height: 1.2em;
+	line-height: 1.4em;
 	padding: 0 .5em;
 	transition: box-shadow 200ms ease;
 	z-index: 1;
 	position: relative;
 	}
+.suggestion B {} /* note */
+.suggestion I {} /* accord */
 .suggestion DIV:hover {
 	border: 2px solid #FFF;
 	box-shadow: 0 0 1em rgba(0,0,0,.5), 0 0 1em #FFF;

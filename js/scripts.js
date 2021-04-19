@@ -455,8 +455,6 @@ class Harmonie {
 		let oIntervalBox = this.oIntervalBox = new IntervalBox ( oManche )
 		eParent.appendChild( oIntervalBox.eHTML )
 
-		// this.oChordsBox = oChordsBox = new ChordsBox
-		// eParent.appendChild( oChordsBox.eHTML )
 
 		var _sTonique = 'Mi'
 		var _oTonique = this.oTonique = new SpecialVar ( 'Mi' )
@@ -512,16 +510,16 @@ class Harmonie {
 			_oTonique.refresh()
 			var a = Notations.getSequence()
 			var e = eTonique.firstChild
-			var sSelected = Notation.getValue()
 			var i = 0
 			while( e ){
 				e.innerHTML = e.value = a[i++]
 				e = e.nextSibling
 				}
+			eTonique.value = Notations.getNoteName( _oTonique.getValue())
 			})
 
 		var eScale = selectbox( 'eScales', L10n('GAMME'), Harmonie.aScales, 'choice' )
-		eScale.value = '100101110010'
+		eScale.value = '101010010100'
 		eScale.className = 'scale'
 		btn( "OK", eScale, eScale.onkeyup = eScale.onchange =function(){
 			that.showInterval( eTonique.value, eScale.value )
