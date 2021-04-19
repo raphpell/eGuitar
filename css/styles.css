@@ -1,5 +1,5 @@
 BODY {
-	font-size: 16px;
+	font: normal 1em Verdana;
 	background: #222;
 	color: #FFF;
 	}
@@ -86,7 +86,7 @@ BODY {
 	
 .mancheForm {
 	box-sizing: border-box;
-	font: normal 0.8em Arial;
+	font: normal 0.8em Verdana;
 	margin: 0;
 	position: absolute;
 	padding: 4px 8px;
@@ -131,7 +131,7 @@ BODY {
 	border-width: 1px;
 	border-radius: 10px;
 	box-sizing: border-box;
-	box-shadow: 0 0 4px rgba(255,255,255,0.5), 0 0 2px #FFF;
+	box-shadow: 0 0 1em rgba(0,0,0,.5), 0 0 .25em #FFF;
 	cursor: pointer;
 	display: block;
 	font: bold 12px Arial;
@@ -147,6 +147,11 @@ BODY {
 	top: 5px;
 	z-index: 2;
 	transition:width 200ms, left 200ms, margin 200ms, border 200ms, line-height 200ms;
+	}
+	
+.case .corde SPAN:hover {
+	border-color: #FFF;
+	box-shadow: 0 0 1em #000, 0 0 1em #FFF, inset 0 0 .2em #FFF;
 	}
 .hideNotes .corde SPAN {
 	border: 4px solid #000;
@@ -190,7 +195,7 @@ BODY {
 .frette SPAN {
 	border-radius: 1em;
 	box-shadow: 0 0 3px #888;
-	font: bold 14px Arial;
+	font: normal 1.1em 'Times New Roman';
 	height: 26px;
 	line-height: 26px;
 	left: -65px;
@@ -281,6 +286,10 @@ BODY {
 .harmonieForm TD {
 	text-align: left;
 	}
+.harmonieForm TH LABEL {
+	font: normal .8em Verdana;
+	letter-spacing: 2px;
+	}
 	
 /* Tableau d'accords */
 .suggestion {
@@ -297,19 +306,21 @@ BODY {
 	width: 914px;
 	}
 .suggestion H2 {
-	background: #EDE7DD;
+	background: #3A1912;
+	color: #fff;
+	box-shadow: 0 0 2px #000, inset 0 0 2px #000;
 	border-radius: .5em .5em 0 0;
-	color: #000;
 	cursor: hand; cursor: pointer;
-	text-align: left;
+	text-align: center;
 	padding: 0 1em;
 	margin: 0;
 	line-height: 1.2em;
+	transition: filter,border-color 200ms ease;
 	}
 .suggestion H2:hover {
-	background: #3A1912;
-	box-shadow: 0 0 2px #ddd, inset 0 0 2px #fff;
-	color: #fff;
+	background: #000;
+	color: #FFF;
+	box-shadow: 0 0 2px #ddd, inset 0 0 1em #FFF;
 	}
 .suggestion TH {
 	cursor: pointer; cursor: hand;
@@ -317,7 +328,7 @@ BODY {
 	color: #fff;
 	}
 .suggestion TH LABEL {
-    padding: 0 .5em;
+	padding: 0 .5em;
 	cursor: hand; cursor: pointer;
 	}
 .suggestion TD {
@@ -336,8 +347,8 @@ BODY {
 	position: relative;
 	}
 .suggestion DIV:hover {
-	box-shadow: 0 0 2em rgba(0,0,0,.5);
 	border: 2px solid #FFF;
+	box-shadow: 0 0 1em rgba(0,0,0,.5), 0 0 1em #FFF;
 	z-index: 2;
 	}
 
@@ -370,6 +381,10 @@ UL.interval {
 	filter: sepia(1) opacity(.25);
 	transition: filter,border-color 200ms ease;
 /* 	text-shadow: 0 0 0.2em #FFF, 0 0 .25em #FFF; */
+	}
+.interval LI:hover {
+	border: 2px solid #FFF;
+	box-shadow: 0 0 1em rgba(0,0,0,.5), inset 0 0 .5em #FFF, 0 0 2em #FFF;
 	}
 .interval .selected {
 	border: 2px solid #000;

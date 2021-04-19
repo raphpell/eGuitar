@@ -483,8 +483,8 @@ class Harmonie {
 				if( a[i].constructor == String )
 						eOption.innerHTML = eOption.value = a[i]
 					else {
-						eOption.innerHTML = a[i][0]
-						eOption.value = a[i][1]
+						eOption.innerHTML = a[i][1]
+						eOption.value = a[i][0]
 						}
 				eSelect.appendChild( eOption ) 
 				}
