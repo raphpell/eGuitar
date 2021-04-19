@@ -598,6 +598,7 @@ class Harmonie {
 		return aResult
 		}
 	setChords ( sTonique, sScaleMask, aChords ){
+		console.info( aChords )
 		var o = {}
 		for(var i=0, ni=Harmonie.aArpeges.length; i<ni; i++ ){
 			var sChordName =  Harmonie.aArpeges[i][1]
@@ -612,7 +613,6 @@ class Harmonie {
 				count++;
 				pos = sMask.indexOf('1', pos + 1 );
 				}
-		
 			o[ sChordName ][13] = count
 			}
 
@@ -710,7 +710,7 @@ Harmonie.getSimilarity = function( sChordOrScaleMask1 , sChordMask2 , sType ){
 	var nTons1 = countTons( sChordOrScaleMask1 )
 	var nTons2 = countTons( sChordMask2 )
 	var nCommonTons = countTons( ( parseInt( sChordOrScaleMask1, 2 ) & parseInt( sChordMask2, 2 ) ).toString(2) )
-	var nOpacity = 1 - nCommonTons / nTons1
+	var nOpacity = nCommonTons / nTons1
 	var getLabel = function(){
 		switch( sType ){
 			case 'scale': return parseInt( nOpacity * 100 ) + "%";
