@@ -97,7 +97,7 @@ Mirror = new SpecialVar ( 0 )
 
 class Manche{
 	constructor ( sNodeID, oConfig ){
-		oConfig = Manche.getDefaultSettings( oConfig )
+		this.oConfig = oConfig = Manche.getDefaultSettings( oConfig )
 
 		this.history = new MancheHistory ( this )
 		this.aFrequences = [0,0,0,0,0,0] // Ecarts accordage standard E (+grave à +aigue)
@@ -152,6 +152,8 @@ class Manche{
 			Tuning.setValue( oConfig.tuning )
 		else
 			this.setTuning( oConfig.tuning )
+		
+		this.oConfig = null
 		}
 	setOctave ( b ){
 		this.eOctave.checked = b
@@ -392,8 +394,9 @@ MancheForm =function( oManche ){
 	, e3 = oManche.eOctave = cb( 'eOctaves', L10n('OCTAVES'))
 	, e4 = oManche.eNotesName = cb( 'eNotesName', L10n('NOTES'))
 	, e7 = oManche.eFretsNumber = cb( 'eFretsNumber', L10n('NUMEROS'))
-	, e8 = oManche.eConfig = checkbox( 'DIV', 'eConfig', '' , 'reglage' )
+	, e8 = checkbox( 'DIV', 'eConfig', '' , 'reglage' )
 	oManche.e.appendChild( e8 )
+	e8 = oManche.eConfig = e8.firstChild
 	
 	e1.onclick = function(){ LeftHanded.setValue( e1.checked )}
 	e2.onclick = function(){ Mirror.setValue( e2.checked )}
@@ -405,7 +408,8 @@ MancheForm =function( oManche ){
 	e6.checked = Notation.getValue()[0]
  	e7.onclick = function(){ oManche.setFretsNumber( e7.checked ) }
 	e7.onclick()
- 	e8.firstChild.onclick = function(){ oManche.setForm( this.checked ) }
+	e8.checked = oManche.oConfig.config
+ 	e8.onclick = function(){ oManche.setForm( this.checked ) }
 	eAccordage.onkeyup =
 	eAccordage.onchange = function(){ Tuning.setValue( eAccordage.value ) }
 
@@ -471,13 +475,7 @@ class Harmonie {
 			
 			eTH = _.Tag( 'TH' )
 			eTH.align="right"
-			eTH
-		/* 		if( sRadio ){
-				var eRadio = eTH.appendChild( _.Tag( 'INPUT' ))
-				eRadio.type = 'radio'
-				eRadio.id = 'eR_'+ sId
-				eRadio.name = sRadio
-				} */
+
 			var eLabel = eTH.appendChild( _.Tag( 'LABEL' ))
 			eLabel.innerHTML = sLabel +':'
 			eTR.appendChild( eTH )

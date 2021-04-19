@@ -116,17 +116,21 @@ code {
 	margin: 0 12px 0 0;
 	padding: 0;
 	}
-.droitier .reglage {
+.reglage {
 	position: absolute;
-	bottom: 0;
-	left: 0;
 	}
-.gaucher .reglage {
-	position: absolute;
+.gaucher .reglage,
+.gaucher_flipped .reglage {
 	bottom: 0;
 	right: 0 ;
 	}
+.droitier .reglage ,
+.droitier_flipped .reglage {
+	bottom: 0;
+	left: 0;
+	}
 .reglage LABEL {
+	cursor: hand;
 	display: block;
 	height: 30px;
 	width: 30px;
