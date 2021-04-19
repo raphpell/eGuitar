@@ -269,6 +269,7 @@ class Manche{
 		o.displayChords( sMask, sFound ? sName +' '+ sFound : sName + '...' )
 		}
 	setScale ( sNote, sScaleMask ){
+		this.history.reset()
 		this.reset()
 		var a = Notations.getSequence( sNote )
 		var aNotes = []
@@ -297,8 +298,10 @@ class Manche{
 				var e = this.aCordes[i][j].firstChild
 				e.innerHTML = aNotation[ nBase%12 ]
 				/* Test octave */
-				if( -1 == e.className.indexOf('octave')) e.className += ' octave' + parseInt( nBase/12 )
-					else e.className = e.className.replace( /octave\d/, ' octave' + parseInt( nBase/12 ))
+				if( -1 == e.className.indexOf('octave'))
+					e.className += ' octave' + parseInt( nBase/12 )
+				else
+					e.className = e.className.replace( /octave\d/, ' octave' + parseInt( nBase/12 ))
 				nBase++
 				}
 			}
@@ -327,7 +330,6 @@ Manche.getDefaultSettings = function( oConfig ){
 			: Manche.DefaultSettings[s]
 	return oConfig
 	}
-
 Manche.getHTML = function( nCordes, nCases ){
 	var eParent = _.Tag( 'DIV', 'eGuitar' )
 	var e = _.Tag( 'DIV', 'manche' ), eCase, eCorde, eFrette
@@ -455,7 +457,6 @@ class Harmonie {
 		let oIntervalBox = this.oIntervalBox = new IntervalBox ( oManche )
 		eParent.appendChild( oIntervalBox.eHTML )
 
-
 		var _sTonique = 'Mi'
 		var _oTonique = this.oTonique = new SpecialVar ( 'Mi' )
 		_oTonique.addObserver( function( sNote ){
@@ -519,7 +520,7 @@ class Harmonie {
 			})
 
 		var eScale = selectbox( 'eScales', L10n('GAMME'), Harmonie.aScales, 'choice' )
-		eScale.value = '101010010100'
+		eScale.value = '100101010010'
 		eScale.className = 'scale'
 		btn( "OK", eScale, eScale.onkeyup = eScale.onchange =function(){
 			that.showInterval( eTonique.value, eScale.value )
