@@ -143,7 +143,7 @@ class Manche{
 		Mirror.setValue( oConfig.mirror )
 		this.notes.setValue( oConfig.notes )
 
-		// Pour éviter de mettre tous les composant à jour au chargement
+		// Pour éviter de mettre tous les composants à jour au chargement
 		if( Tuning.getValue() != oConfig.tuning )
 			Tuning.setValue( oConfig.tuning )
 		else
