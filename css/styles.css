@@ -1,7 +1,9 @@
 BODY {
 	font: normal 1em Verdana;
 	background: #222;
+	background: #fff;
 	color: #FFF;
+	color: #000;
 	}
 
 /* LOGO et checkbox réglage manche */
