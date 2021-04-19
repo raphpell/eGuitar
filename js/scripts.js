@@ -250,16 +250,16 @@ class Manche{
 		if( ! o ) return;
 		var sName = o.oTonique.getValue(), sFound
 		for(var i=0, a=Harmonie.aArpeges, ni=a.length; i<ni ; i++ ){
-			if( a[i][1] == sMask ){
+			if( a[i][0] == sMask ){
 				o.eChords.value = sMask
-				sFound = a[i][0]
+				sFound = a[i][1]
 				break;
 				}
 			}
 		for(var i=0, a=Harmonie.aScales, ni=a.length; i<ni ; i++ ){
-			if( a[i][1] == sMask ){
+			if( a[i][0] == sMask ){
 				o.eScale.value = sMask
-				sFound = a[i][0]
+				sFound = a[i][1]
 				break;
 				}
 			}
@@ -592,20 +592,20 @@ class Harmonie {
 		var aResult = []
 		for(var j=0,nj=Harmonie.aArpeges.length; j<nj; j++ ){
 			var a = Harmonie.aArpeges[j]
-			if( ( parseInt(sScaleMask,2) & parseInt(a[1],2) ).toString(2) == a[1])
-				aResult.push( a.concat( Harmonie.getSimilarity( sScaleMask, a[1], 'scale' )))
+			if( ( parseInt(sScaleMask,2) & parseInt(a[0],2) ).toString(2) == a[0])
+				aResult.push( a.concat( Harmonie.getSimilarity( sScaleMask, a[0], 'scale' )))
 			}
 		return aResult
 		}
 	setChords ( sTonique, sScaleMask, aChords ){
 		var o = {}
 		for(var i=0, ni=Harmonie.aArpeges.length; i<ni; i++ ){
-			var sChordName =  Harmonie.aArpeges[i][0]
+			var sChordName =  Harmonie.aArpeges[i][1]
 			o[ sChordName ] = []
 			o[ sChordName ][12] = 0
 						
 			// Compte le nombre de "1"
-			var sMask = Harmonie.aArpeges[i][1]
+			var sMask = Harmonie.aArpeges[i][0]
 			var count = 0
 			var pos = sMask.indexOf('1');
 			while (pos !== -1) {
@@ -621,19 +621,19 @@ class Harmonie {
 			var aj = aChords[i][1] // Liste des accords
 			var ton = aChords[i][2] // index !!
 			for(var j=0, nj=aj.length; j<nj; j++ ){
-				var sChordName =  aj[j][0]
+				var sChordName =  aj[j][1]
 				var sOpacity = ( aj[j][2] != undefined ? 'opacity:'+ aj[j][2] +' !important;' : '' )
 				var sTitle = ( aj[j][3] != undefined ? aj[j][3] : '' )
 				o[ sChordName ][ ton ] =
-					'<div class="ton'+ ton +'" tonique="'+ sNote +'" arpege="'+ aj[j][1] +'" style="'+ sOpacity +'" title="'+ sTitle +'">'
+					'<div class="ton'+ ton +'" tonique="'+ sNote +'" arpege="'+ aj[j][0] +'" style="'+ sOpacity +'" title="'+ sTitle +'">'
 					+'<b>'+ sNote +'</b><i>'+ sChordName +'</i></div>'
 				o[ sChordName ][12]++
 				}
 			}
-			
+
 		var aTR = []
 		for(var i=0, ni=Harmonie.aArpeges.length; i<ni; i++ ){
-			var sChordName = Harmonie.aArpeges[i][0]
+			var sChordName = Harmonie.aArpeges[i][1]
 			if( o[ sChordName ][12] > 0 )
 				aTR[i] = '<tr><td>'+ o[ sChordName ].join('</td><td>' ) +'</td></tr>'
 			}
