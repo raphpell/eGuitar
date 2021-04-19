@@ -116,6 +116,26 @@ code {
 	margin: 0 12px 0 0;
 	padding: 0;
 	}
+.droitier .reglage {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	}
+.gaucher .reglage {
+	position: absolute;
+	bottom: 0;
+	right: 0 ;
+	}
+.reglage LABEL {
+	display: block;
+	height: 30px;
+	width: 30px;
+	overflow: hidden;
+	background: url(../sprites/gear.png);
+	}
+.reglage INPUT {
+	display: none;
+	}
 
 .scale {
 	width: 200px;
@@ -263,11 +283,11 @@ code {
 .gaucher .case DIV SPAN {
 	transform: scaleX(-1);
 	}
-.flipped  .manche,
-.flipped .case DIV SPAN{
+.droitier_flipped  .manche,
+.droitier_flipped .case DIV SPAN{
 	transform: scaleY(-1);
 	}
-.flipped .frette SPAN {
+.droitier_flipped .frette SPAN {
 	top: -30px;
 	}
 .gaucher_flipped  .manche,

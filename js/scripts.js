@@ -191,14 +191,15 @@ class Manche{
 		this.setFlip( LeftHanded.getValue(), b )
 		}
 	setFlip ( bFlipH, bFlipV ){
-		this.e.classList.remove( 'gaucher_flipped' )
 		this.e.classList.remove( 'gaucher' )
-		this.e.classList.remove( 'flipped' )
+		this.e.classList.remove( 'droitier' )
+		this.e.classList.remove( 'gaucher_flipped' )
+		this.e.classList.remove( 'droitier_flipped' )
 		this.eFlipH.checked = bFlipH
 		this.eFlipV.checked = bFlipV
 		this.e.classList.add( bFlipH
 			?( bFlipV ? 'gaucher_flipped' : 'gaucher' )
-			:( bFlipV ? 'flipped' : null )
+			:( bFlipV ? 'droitier_flipped' : 'droitier' )
 			)
 		}
 	getNotes ( sNote ){
@@ -369,27 +370,31 @@ MancheForm =function( oManche ){
 	eLabel.htmlFor = eAccordage.id =  'eAccordage'+ oManche.ID
 	eUL.appendChild( eLI )
 	
-	var checkbox =function( sId, sLabel ){
-		var eLI = _.Tag( 'LI' )
-		var eCheckBox = eLI.appendChild( _.Tag( 'INPUT' ))
-		var eLabel = eLI.appendChild( _.Tag( 'LABEL' ))
+	let checkbox =function( sTag, sId, sLabel, sClass ){
+		var eTAG = _.Tag( sTag )
+		if( sClass ) eTAG.className = sClass
+		var eCheckBox = eTAG.appendChild( _.Tag( 'INPUT' ))
+		var eLabel = eTAG.appendChild( _.Tag( 'LABEL' ))
 		eCheckBox.type = 'checkbox'
 		eLabel.htmlFor = eCheckBox.id = sId + oManche.ID
 		eLabel.innerHTML = sLabel
-		eLI.appendChild( eCheckBox )
-		eLI.appendChild( eLabel )
-		eUL.appendChild( eLI )
-		return eCheckBox
+		return eTAG
 		}
+	, cb =function( sId, sLabel, sClass ){
+		var eLI = checkbox( 'LI', sId, sLabel +'.', sClass )
+		eUL.appendChild( eLI )
+		return eLI.firstChild
+		}
+	, e5 = oManche.eNotationI = cb( 'eNotationI', L10n('ABCDEFG'))
+	, e6 = oManche.eBemol = cb( 'eBemol', L10n('BEMOL'))
+	, e1 = oManche.eFlipH = cb( 'eFlipH', L10n('GAUCHER'))
+	, e2 = oManche.eFlipV = cb( 'eFlipV', L10n('MIROIR'))
+	, e3 = oManche.eOctave = cb( 'eOctaves', L10n('OCTAVES'))
+	, e4 = oManche.eNotesName = cb( 'eNotesName', L10n('NOTES'))
+	, e7 = oManche.eFretsNumber = cb( 'eFretsNumber', L10n('NUMEROS'))
+	, e8 = oManche.eConfig = checkbox( 'DIV', 'eConfig', '' , 'reglage' )
+	oManche.e.appendChild( e8 )
 	
-	var e5 = oManche.eNotationI = checkbox( 'eNotationI', L10n('ABCDEFG') +'.' )
-	var e6 = oManche.eBemol = checkbox( 'eBemol', L10n('BEMOL') +'.' )
-	var e1 = oManche.eFlipH = checkbox( 'eFlipH', L10n('GAUCHER') +'.' )
-	var e2 = oManche.eFlipV = checkbox( 'eFlipV', L10n('MIROIR') +'.' )
-	var e3 = oManche.eOctave = checkbox( 'eOctaves', L10n('OCTAVES') +'.' )
-	var e4 = oManche.eNotesName = checkbox( 'eNotesName', L10n('NOTES') +'.' )
-	var e7 = oManche.eFretsNumber = checkbox( 'eFretsNumber', L10n('NUMEROS') +'.' )
-
 	e1.onclick = function(){ LeftHanded.setValue( e1.checked )}
 	e2.onclick = function(){ Mirror.setValue( e2.checked )}
  	e3.onclick = function(){ oManche.setOctave( e3.checked ) }
@@ -400,6 +405,7 @@ MancheForm =function( oManche ){
 	e6.checked = Notation.getValue()[0]
  	e7.onclick = function(){ oManche.setFretsNumber( e7.checked ) }
 	e7.onclick()
+ 	e8.firstChild.onclick = function(){ oManche.setForm( this.checked ) }
 	eAccordage.onkeyup =
 	eAccordage.onchange = function(){ Tuning.setValue( eAccordage.value ) }
 
@@ -598,7 +604,6 @@ class Harmonie {
 		return aResult
 		}
 	setChords ( sTonique, sScaleMask, aChords ){
-		console.info( aChords )
 		var o = {}
 		for(var i=0, ni=Harmonie.aArpeges.length; i<ni; i++ ){
 			var sChordName =  Harmonie.aArpeges[i][1]
