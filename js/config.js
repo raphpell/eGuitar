@@ -1,4 +1,4 @@
-﻿Manche.aAccordage =[
+Manche.aAccordage =[
 	["Mi,La,Ré,Sol,Si,Mi|0,0,0,0,0,0",'E'],
 	["Ré,La,Ré,Sol,Si,Mi|-1,0,0,0,0,0",'Dropped D'],
 	["Mi,La,Ré,Fa?Sol?,Si,Ré|0,0,0,-.5,0,-1",'Open de Luth'],

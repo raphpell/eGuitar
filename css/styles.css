@@ -229,12 +229,12 @@ BODY {
 	}
 
 /* Octaves */
-.octaves .octave0 { border-width:1px 9px !important; }
-.octaves .octave1 { border-width:1px 7px !important; }
-.octaves .octave2 { border-width:1px 5px !important; }
-.octaves .octave3 { border-width:1px 3px !important; }
-.octaves .octave4 { border-width:1px 1px !important; }
-.octaves .octave5 { border-width:0px !important; }
+.octaves .octave5 { border-width:1px 9px !important; }
+.octaves .octave4 { border-width:1px 7px !important; }
+.octaves .octave3 { border-width:1px 5px !important; }
+.octaves .octave2 { border-width:1px 3px !important; }
+.octaves .octave1 { border-width:1px 1px !important; }
+.octaves .octave0 { border-width:0px !important; }
 
 /* Configuration */
 .default  {
