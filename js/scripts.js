@@ -46,13 +46,13 @@ class SpecialVar {
 
 /*-------------*/
 // Notation courante utilisé dans l'application [false,'FR'] = bBemol sLang
-Notation = new SpecialVar ([false,'EN'])
+Notation = new SpecialVar ([0,'EN'])
 Notations= {
 	choices :{
-		'♯':{	FR:['Mi',	'Fa',	'Fa♯',	'Sol',	'Sol♯',	'La',	'La♯',	'Si',	'Do',	'Do♯',	'Ré',	'Ré♯'],
-				EN:['E',	'F',	'F♯',	'G',	'G♯',	'A',	'A♯',	'B',	'C',	'C♯',	'D',	'D♯']	},
-		'♭':{	FR:['Mi',	'Fa',	'Sol♭',	'Sol',	'La♭',	'La',	'Si♭',	'Si',	'Do',	'Ré♭',	'Ré',	'Mi♭'],
-				EN:['E',	'F',	'G♭',	'G',	'A♭',	'A',	'B♭',	'B',	'C',	'D♭',	'D',	'E♭']	}
+		'♯':{	FR:['La',	'La♯',	'Si',	'Do',	'Do♯',	'Ré',	'Ré♯',	'Mi',	'Fa',	'Fa♯',	'Sol',	'Sol♯'],
+				EN:['A',	'A♯',	'B',	'C',	'C♯',	'D',	'D♯',	'E',	'F',	'F♯',	'G',	'G♯']},
+		'♭':{	FR:['La',	'Si♭',	'Si',	'Do',	'Ré♭',	'Ré',	'Mi♭',	'Mi',	'Fa',	'Sol♭',	'Sol',	'La♭'],
+				EN:['A',	'B♭',	'B',	'C',	'D♭',	'D',	'E♭',	'E',	'F',	'G♭',	'G',	'A♭']}
 		},
 	// Notations.getSequence = Retourne la sequence de 12 notes depuis la note de départ sNote
 	getSequence :function( sNote ){
@@ -139,6 +139,10 @@ class Manche{
 		// TROUVER UNE SOLUTION POUR QUE LES VARIABLES SPECIALES SOIT GLOBAL OU LOCAL
 
 		// Défini la valeur des options
+		if( oConfig.numbers ) this.setFretsNumber( oConfig.numbers )
+		if( oConfig.octaves ) this.setOctave( oConfig.octaves )
+		this.setForm( oConfig.config )
+
 		LeftHanded.setValue( oConfig.lefthanded )
 		Mirror.setValue( oConfig.mirror )
 		this.notes.setValue( oConfig.notes )
@@ -162,7 +166,7 @@ class Manche{
 		Notation.setValue([bBemol,sLang])
 		}
 	renameNotes	(){
-		var a = Notations.getSequence()
+		var a = Notations.getSequence('E')
 		// Renomme les cordes
 		for(var i=0; i<this.nCordes; i++ ){
 			var nBase = this.aFrequences[i]
@@ -282,7 +286,7 @@ class Manche{
 		var aNotes = aAccordage[0].split(',')
 		var aFrequences = aAccordage[1].split(',')
 		var aBase = [12,17,22,27,31,36]
-		var aNotation = Notations.getSequence()
+		var aNotation = Notations.getSequence( 'E' ) // Notation.getValue()[1]=='EN'?'E': 'Mi' )
 		for(var i=0; i<this.nCordes; i++ ) this.aFrequences[i] = aBase[i] += 2*aFrequences[i]
 		for(var i=0; i<this.nCordes; i++ ){
 			var nBase = aBase[i]
@@ -301,21 +305,23 @@ class Manche{
 		}
 	}
 Manche.ID = 0
-DefaultSetting ={
+Manche.DefaultSettings ={
+	config: 0,
 	strings: 6,
 	cases: 12,
 	tuning: 0,
 	lefthanded:0,
 	mirror:0,
 	octaves:0,
-	notes:1,
-	ABCDEF:0,
-	bemol:0,
-	numbers:0
+	notes:0,
+	numbers:1
 	}
 Manche.getDefaultSettings = function( oConfig ){
 	oConfig = oConfig || {}
-	for( const s in DefaultSetting ) oConfig[s] = oConfig[s] !== undefined ? oConfig[s] : DefaultSetting[s]
+	for( const s in Manche.DefaultSettings )
+		oConfig[s] = oConfig[s] !== undefined
+			? oConfig[s]
+			: Manche.DefaultSettings[s]
 	return oConfig
 	}
 
@@ -376,28 +382,31 @@ MancheForm =function( oManche ){
 		return eCheckBox
 		}
 	
+	var e5 = oManche.eNotationI = checkbox( 'eNotationI', 'ABCDEFG.' )
+	var e6 = oManche.eBemol = checkbox( 'eBemol', 'Bémol.' )
 	var e1 = oManche.eFlipH = checkbox( 'eFlipH', 'Gaucher.' )
 	var e2 = oManche.eFlipV = checkbox( 'eFlipV', 'Miroir.' )
 	var e3 = oManche.eOctave = checkbox( 'eOctaves', 'Octaves.' )
 	var e4 = oManche.eNotesName = checkbox( 'eNotesName', 'Notes.' )
-	var e5 = oManche.eNotationI = checkbox( 'eNotationI', 'ABCDEFG.' )
-	var e6 = oManche.eBemol = checkbox( 'eBemol', 'Bémol.' )
 	var e7 = oManche.eFretsNumber = checkbox( 'eFretsNumber', 'Numéros.' )
 
 	e1.onclick = function(){ LeftHanded.setValue( e1.checked )}
 	e2.onclick = function(){ Mirror.setValue( e2.checked )}
  	e3.onclick = function(){ oManche.setOctave( e3.checked ) }
  	e4.onclick = function(){ oManche.notes.setValue( e4.checked ) }
- 	e5.onclick = function(){ oManche.setNotation( e5.checked?'EN':'FR', e6.checked ) }
- 	e6.onclick = function(){ oManche.setNotation( e5.checked?'EN':'FR', e6.checked ) }
-	e5.checked = true
+ 	e5.onclick =
+	e6.onclick = function(){ oManche.setNotation( e5.checked?'EN':'FR', e6.checked ) }
+	e5.checked = Notation.getValue()[1] == 'EN'
+	e6.checked = Notation.getValue()[0]
  	e7.onclick = function(){ oManche.setFretsNumber( e7.checked ) }
 	e7.onclick()
 	eAccordage.onkeyup =
-	eAccordage.onchange = function(){
-		Tuning.setValue( eAccordage.value )
-		}
+	eAccordage.onchange = function(){ Tuning.setValue( eAccordage.value ) }
 
+	Notation.addObserver( function( a ){
+		e5.checked = a[1] == 'EN'
+		e6.checked = a[0]
+		})
 	Tuning.addObserver( function( nId ){ eAccordage.value = nId })
 	oManche.notes.addObserver( function( b ){ e4.checked = b })
 
@@ -499,6 +508,7 @@ class Harmonie {
 			_oTonique.refresh()
 			var a = Notations.getSequence()
 			var e = eTonique.firstChild
+			var sSelected = Notation.getValue()
 			var i = 0
 			while( e ){
 				e.innerHTML = e.value = a[i++]
@@ -541,7 +551,7 @@ class Harmonie {
 			//	that.displayChordsSimilarities( e.tonique, sScale )
 				}
 			}
-						
+
 		eParent.appendChild( eSUGG )
 
 		this.eSUGG = eSUGG
@@ -695,9 +705,6 @@ class Harmonie {
 		}
 	}
 Harmonie.ID = 0
-Harmonie.aArpeges =[['M', '100010010000'], ['m', '100100010000']]
-Harmonie.aScales =[['Pentatonique Mineure', '100101010010']]
-Harmonie.aChords =[['m', {0:['022000']}], ['M', {0:['022100']}]]
 Harmonie.getSimilarity = function( sChordOrScaleMask1 , sChordMask2 , sType ){
 	var countTons = function ( sMask ){ return sMask.split("1").length - 1 }
 	var nTons1 = countTons( sChordOrScaleMask1 )

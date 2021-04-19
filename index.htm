@@ -17,8 +17,8 @@
 
 <div id="eHead" style="margin:.25em;">
 	<img src="guitare.png"><h1>eGuitar </h1>
-	<input type="checkbox" id="eCB_Form" onclick="o.setForm( this.checked )" checked>
-	<label for="eCB_Form" checked>Réglage manche.</label>
+	<input type="checkbox" id="eCB_Form" onclick="o.setForm( this.checked )">
+	<label for="eCB_Form">Réglage manche.</label>
 <!--
 	<ul>
 		<li><a href="https://github.com/raphpell/eGuitar/">eGuitar sur Github</a></li>
@@ -35,14 +35,14 @@
 <script type="text/javascript" src="js/tSorter.js"></script>
 <script>
 var oConfig ={
-	accordage:'Mi,La,Ré,Sol,Si,Mi|0,0,0,0,0,0',
+//	ABCDEF:1, // depreciated
+//	bemol:0, // depreciated
 //	lefthanded:0, // global
 //	mirror:0, // global
-	octaves:0,
+// 	config: 1, // local
+//	octaves:1, // local
 //	notes:0, // local
-	ABCDEF:0,
-	bemol:0,
-	numero:0
+//	numbers:0 // local
 	}
 
 var o = new Manche( "eTarget", oConfig )
