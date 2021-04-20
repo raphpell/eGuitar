@@ -1,6 +1,6 @@
 //Create Audio Context
 var AudioContext = window.AudioContext || window.webkitAudioContext
-var context = new AudioContext()
+var context = null
 var o = null
 var g = null
 
@@ -196,6 +196,7 @@ var chord = {
 
 //Primary function
 playTone = (frequency, type, duration) => {
+	if( ! context ) context = new AudioContext()
 	if( type === undefined ) type = "sine"
 	if( duration === undefined ) duration = 1.3
 	if( frequency === undefined ) frequency = 440
