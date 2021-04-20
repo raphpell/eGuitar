@@ -157,18 +157,7 @@ class Manche{
 		
 		this.oConfig = null
 		}
-	setOctave ( b ){
-		this.eOctave.checked = b
-		this.e.classList[ b ? 'add' : 'remove' ]( 'octaves' )
-		}
-	setNotation	( sLang, bBemol ){
-		var a = Notation.getValue()
-		bBemol = bBemol || false
-		if( a[0]==bBemol && a[1]==sLang ) return ;
-		this.eNotationI.checked = sLang == 'EN'
-		this.eBemol.checked = bBemol
-		Notation.setValue([bBemol,sLang])
-		}
+
 	renameNotes	(){
 		var a = Notations.getSequence('E')
 		// Renomme les cordes
@@ -178,34 +167,7 @@ class Manche{
 				this.aCordes[i][j].firstChild.innerHTML = a[ (nBase+j)%12 ]
 			}
 		}
-	setNotesName ( b ){
-		this.e.classList[ ! b ? 'add' : 'remove' ]( 'hideNotes' )
-		}
-	setFretsNumber ( b ){
-		this.eFretsNumber.checked = b
-		this.e.classList[ ! b ? 'add' : 'remove' ]( 'hideFretsNumber' )
-		}
-	setForm ( b ){
-		this.e.classList[ ! b ? 'add' : 'remove' ]( 'hideForm' )
-		}
-	setLeftHanded ( b ){
-		this.setFlip( b, Mirror.getValue())
-		}
-	setMirror ( b ){
-		this.setFlip( LeftHanded.getValue(), b )
-		}
-	setFlip ( bFlipH, bFlipV ){
-		this.e.classList.remove( 'gaucher' )
-		this.e.classList.remove( 'droitier' )
-		this.e.classList.remove( 'gaucher_flipped' )
-		this.e.classList.remove( 'droitier_flipped' )
-		this.eFlipH.checked = bFlipH
-		this.eFlipV.checked = bFlipV
-		this.e.classList.add( bFlipH
-			?( bFlipV ? 'gaucher_flipped' : 'gaucher' )
-			:( bFlipV ? 'droitier_flipped' : 'droitier' )
-			)
-		}
+
 	getNotes ( sNote ){
 		sNote = Notations.getNoteName( sNote )
 		var aElts = []
@@ -219,14 +181,6 @@ class Manche{
 	highlightNote ( nCorde, nCase, sClassName ){
 		var e = this.aCordes[ nCorde-1 ][ nCase ]
 		if( e ) e.classList.add( sClassName )
-		}
-	setAccord ( sAccord ){
-	//	this.history.add( 'setAccord', [ sAccord ])
-		var sNote
-		for( var i=0;i<6;i++ ){
-			sNote = sAccord.charAt(i)
-			if( sNote !='x' ) this.highlightNote( i+1, sNote, 'position1' )
-			}
 		}
 	highlightNotes ( sNote, sClassName ){
 		this.history.add( 'highlightNotes', [ sNote, sClassName ])
@@ -269,6 +223,54 @@ class Manche{
 				}
 			}
 		o.displayChords( sMask, sFound ? sName +' '+ sFound : sName + '...' )
+		}
+	setAccord ( sAccord ){
+	//	this.history.add( 'setAccord', [ sAccord ])
+		var sNote
+		for( var i=0;i<6;i++ ){
+			sNote = sAccord.charAt(i)
+			if( sNote !='x' ) this.highlightNote( i+1, sNote, 'position1' )
+			}
+		}
+	setFlip ( bFlipH, bFlipV ){
+		this.e.classList.remove( 'gaucher' )
+		this.e.classList.remove( 'droitier' )
+		this.e.classList.remove( 'gaucher_flipped' )
+		this.e.classList.remove( 'droitier_flipped' )
+		this.eFlipH.checked = bFlipH
+		this.eFlipV.checked = bFlipV
+		this.e.classList.add( bFlipH
+			?( bFlipV ? 'gaucher_flipped' : 'gaucher' )
+			:( bFlipV ? 'droitier_flipped' : 'droitier' )
+			)
+		}
+	setForm ( b ){
+		this.e.classList[ ! b ? 'add' : 'remove' ]( 'hideForm' )
+		}
+	setFretsNumber ( b ){
+		this.eFretsNumber.checked = b
+		this.e.classList[ ! b ? 'add' : 'remove' ]( 'hideFretsNumber' )
+		}
+	setLeftHanded ( b ){
+		this.setFlip( b, Mirror.getValue())
+		}
+	setMirror ( b ){
+		this.setFlip( LeftHanded.getValue(), b )
+		}
+	setNotation	( sLang, bBemol ){
+		var a = Notation.getValue()
+		bBemol = bBemol || false
+		if( a[0]==bBemol && a[1]==sLang ) return ;
+		this.eNotationI.checked = sLang == 'EN'
+		this.eBemol.checked = bBemol
+		Notation.setValue([bBemol,sLang])
+		}
+	setNotesName ( b ){
+		this.e.classList[ ! b ? 'add' : 'remove' ]( 'hideNotes' )
+		}
+	setOctave ( b ){
+		this.eOctave.checked = b
+		this.e.classList[ b ? 'add' : 'remove' ]( 'octaves' )
 		}
 	setScale ( sNote, sScaleMask ){
 		this.history.reset()
