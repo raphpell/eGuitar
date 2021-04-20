@@ -141,7 +141,7 @@ class Manche{
 		// Défini la valeur des options
 		if( oConfig.numbers ) this.setFretsNumber( oConfig.numbers )
 		if( oConfig.octaves ) this.setOctave( oConfig.octaves )
-		this.setForm( oConfig.config )
+		this.hideForm( oConfig.config )
 
 		LeftHanded.setValue( oConfig.lefthanded )
 		Mirror.setValue( oConfig.mirror )
@@ -165,6 +165,9 @@ class Manche{
 			if( e.innerHTML == sNote ) aElts.push( e )
 			}
 		return aElts
+		}
+	hideForm ( b ){
+		this.e.classList[ ! b ? 'add' : 'remove' ]( 'hideForm' )
 		}
 	highlightNote ( nCorde, nCase, sClassName ){
 		var e = this.aCordes[ nCorde-1 ][ nCase ]
@@ -247,9 +250,6 @@ class Manche{
 			?( bFlipV ? 'gaucher_flipped' : 'gaucher' )
 			:( bFlipV ? 'droitier_flipped' : 'droitier' )
 			)
-		}
-	setForm ( b ){
-		this.e.classList[ ! b ? 'add' : 'remove' ]( 'hideForm' )
 		}
 	setFretsNumber ( b ){
 		this.eFretsNumber.checked = b
@@ -368,7 +368,7 @@ Manche.getHTML = function( nCordes, nCases ){
 		e.appendChild( eCase )
 		}
 	eParent.appendChild( e )
-	eParent.style.width = (nCases+1)*70 +'px'
+	eParent.style.width = 30+ (nCases+1)*70 +'px'
 	eParent.style.height = nCordes*30 +'px'
 	return eParent
 	}
@@ -425,7 +425,7 @@ MancheForm =function( oManche ){
  	e7.onclick = function(){ oManche.setFretsNumber( e7.checked ) }
 	e7.onclick()
 	e8.checked = oManche.oConfig.config
- 	e8.onclick = function(){ oManche.setForm( this.checked ) }
+ 	e8.onclick = function(){ oManche.hideForm( this.checked ) }
 	eAccordage.onkeyup =
 	eAccordage.onchange = function(){ Tuning.setValue( eAccordage.value ) }
 
