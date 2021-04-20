@@ -85,7 +85,6 @@ Harmonie.aArpeges =[
 	]
 Harmonie.aScales =[
 	['100000000000',''],
-	['111111111111','Chromatique'],
 	['100101110010','Blues Mineur'],
 	['100101010010','Pentatonique Mineure'],
 	['101010010100','Pentatonique Majeure'],
@@ -113,6 +112,7 @@ Harmonie.aScales =[
 	['101011011101','Bebop Majeur'],
 	['101111010110','Bebop Mineur'],
 	['101011010111','Bebop Dominant'],
+	['111111111111','Chromatique'],
 /* 	
 	['100000000000',''],
 	['101011010111',"Mixolydien+Ionien"],

@@ -125,6 +125,7 @@ class Manche{
 		Tuning.addObserver( function( nId ){ that.setTuning( nId )})
 		Notation.addObserver( function(){ that.renameNotes() })
 		LeftHanded.addObserver( function(b){ that.setLeftHanded(b) })
+		Sound.addObserver( function(b){ that.setSound(b) })
 		Mirror.addObserver( function(b){ that.setMirror(b) })
 		this.notes.addObserver( function(b){ that.setNotesName(b) })
 		
@@ -294,6 +295,9 @@ class Manche{
 			pos = sScaleMask.indexOf('1', pos + 1 )
 			}
 		}
+	setSound ( b ){
+		this.eSound.checked = Sound.getValue()
+		}
 	setTuning ( nId ){
 		var sAccordage = Manche.aAccordage[ nId ][0]
 		var aAccordage = sAccordage.split('|')
@@ -441,11 +445,6 @@ MancheForm =function( oManche ){
 		function(){ oManche.hideForm( this.checked )},
 		'reglage'
 		)
-	cb( 'eSound', '' ,
-		Sound.getValue(),
-		function(){ Sound.setValue( this.checked )},
-		'sound'
-		)
 	e4 = cb( 'eNotesName', '', // L10n('NOTES'),
 		false,
 		function(){ oManche.notes.setValue( this.checked )},
@@ -456,6 +455,11 @@ MancheForm =function( oManche ){
 		false,
 		function(){ oManche.setFretsNumber( this.checked )},
 		'numbers'
+		)
+	oManche.eSound = cb( 'eSound', '' ,
+		Sound.getValue(),
+		function(){ Sound.setValue( this.checked )},
+		'sound'
 		)
 	oManche.eFlipH = cb( 'eFlipH', '', //L10n('GAUCHER'),
 		false,
