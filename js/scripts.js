@@ -183,7 +183,7 @@ class Manche{
 			a[i].classList.add( sClassName )
 			let sNote = a[i].innerHTML, sOctave = a[i].octave
 			a[i].onmouseover = function(){
-				if( Sound.getValue()) playTone( tone[sNote+sOctave])
+				if( Sound.getValue()) playTone( sNote+sOctave )
 				}
 			}
 		}
