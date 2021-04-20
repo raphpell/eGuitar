@@ -22,6 +22,8 @@ Events ={
 		}
 	}
 
+window.onselectstart =function(){ return false }
+
 // Objet wrapper : il sert à déclencher des événements quand la valeur de l'objet change
 class SpecialVar {
 	constructor ( mValue ){
