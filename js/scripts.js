@@ -176,13 +176,19 @@ class Manche{
 		for(var i=0, ni=a.length; i<ni; i++ ){
 			a[i].className = a[i].className.replace( /ton\d[^\s]*/gim, '' )
 			a[i].classList.add( sClassName )
+			let sNote = a[i].innerHTML, sOctave = a[i].octave+3
+			a[i].onmouseover = function(){
+			//	playTone( tone[sNote + sOctave])
+				}
 			}
 		}
 	removeNote ( sNote ){
 		this.history.add( 'removeNote', [ sNote ])
 		var a = this.getNotes( sNote )
-		for(var i=0, ni=a.length; i<ni; i++ )
+		for(var i=0, ni=a.length; i<ni; i++ ){
 			a[i].className = a[i].className.replace( /ton\d[^\s]*/gim, '' )
+			a[i].onmouseover = null
+			}
 		}
 	renameNotes	(){
 		var a = Notations.getSequence('E')
@@ -198,6 +204,7 @@ class Manche{
 		for(var i=0, ni=a.length; i<ni; i++ ){
 			var e = a[i]
 			e.firstChild.className = e.firstChild.className.replace( /ton\d[^\s]*/gim, '' )
+			e.firstChild.onmouseover = null
 			e.className = e.className.replace( /position\d[^\s]*/gim, '' )
 			}
 		}
@@ -291,18 +298,22 @@ class Manche{
 		var aNotes = aAccordage[0].split(',')
 		var aFrequences = aAccordage[1].split(',')
 		var aBase = [12,17,22,27,31,36]
-		var aNotation = Notations.getSequence( 'E' ) // Notation.getValue()[1]=='EN'?'E': 'Mi' )
-		for(var i=0; i<this.nCordes; i++ ) this.aFrequences[i] = aBase[i] += 2*aFrequences[i]
+		var aNotation = Notations.getSequence( 'E' )
+		for(var i=0; i<this.nCordes; i++ ){
+			this.aFrequences[i] = aBase[i] += 2*aFrequences[i]
+			}
 		for(var i=0; i<this.nCordes; i++ ){
 			var nBase = aBase[i]
 			for(var j=0; j<=this.nCases; j++ ){
 				var e = this.aCordes[i][j].firstChild
 				e.innerHTML = aNotation[ nBase%12 ]
 				/* Test octave */
+				let nOctave = parseInt( nBase/12 )
+				e.octave = nOctave
 				if( -1 == e.className.indexOf('octave'))
-					e.className += ' octave' + parseInt( nBase/12 )
+					e.className += ' octave' + nOctave
 				else
-					e.className = e.className.replace( /octave\d/, ' octave' + parseInt( nBase/12 ))
+					e.className = e.className.replace( /octave\d/, ' octave' + nOctave )
 				nBase++
 				}
 			}
