@@ -156,16 +156,6 @@ class Manche{
 		this.oConfig = null
 		}
 
-	renameNotes	(){
-		var a = Notations.getSequence('E')
-		// Renomme les cordes
-		for(var i=0; i<this.nCordes; i++ ){
-			var nBase = this.aFrequences[i]
-			for(var j=0; j<=this.nCases; j++ )
-				this.aCordes[i][j].firstChild.innerHTML = a[ (nBase+j)%12 ]
-			}
-		}
-
 	getNotes ( sNote ){
 		sNote = Notations.getNoteName( sNote )
 		var aElts = []
@@ -193,6 +183,15 @@ class Manche{
 		var a = this.getNotes( sNote )
 		for(var i=0, ni=a.length; i<ni; i++ )
 			a[i].className = a[i].className.replace( /ton\d[^\s]*/gim, '' )
+		}
+	renameNotes	(){
+		var a = Notations.getSequence('E')
+		// Renomme les cordes
+		for(var i=0; i<this.nCordes; i++ ){
+			var nBase = this.aFrequences[i]
+			for(var j=0; j<=this.nCases; j++ )
+				this.aCordes[i][j].firstChild.innerHTML = a[ (nBase+j)%12 ]
+			}
 		}
 	reset (){
 		var a = this.e.getElementsByClassName('corde')
