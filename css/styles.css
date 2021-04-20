@@ -3,7 +3,15 @@ BODY {
 	background: #222;
 	color: #FFF;
 	}
-
+HTML, BODY {
+	width: 944px;
+	margin: 0 auto;
+	}
+TD {
+	font-family: Verdana;
+	text-align: right;
+	}
+			
 /* LOGO et checkbox réglage manche */
 #eHead * {
 	line-height: 55px;
@@ -98,6 +106,7 @@ code {
 	top: 1px;
 	}
 
+/* Menu Haut */
 .mancheForm {
 	box-sizing: border-box;
 	font: normal 0.8em Verdana;
@@ -117,20 +126,38 @@ code {
 	padding: 0;
 	}
 
-.reglage {
-	bottom: 5px;
-	right: 5px;
-	cursor: hand;
+/* Menu droit */
+.mancheMenu {
+	transform: rotate(180deg);
+	bottom: 0;
+	right: 0;
+	margin: 0;
+	padding: 0;
+	height: 120px;
+	width: 30px;
 	position: absolute;
 	z-index: 10;
 	}
-
-.reglage INPUT:checked + LABEL,
-.reglage LABEL:hover {
+.mancheMenu LI {
+	transform: rotate(-180deg);
+	display: inline-block;
+	float:right;
+	height: 20px;
+	width: 20px;
+	margin: 5px;
+	padding: 0;
+	}
+.mancheMenu LABEL {
+	cursor: hand;
+	}
+.mancheMenu LI INPUT:checked + LABEL,
+.mancheMenu LI LABEL:hover {
 	box-shadow: inset 0 0 10px #FFF, inset 0 0 4px #FFF;
 	}
-.reglage LABEL {
-	background: url(../sprites/gear.png) -5px -5px;
+.mancheMenu LI INPUT {
+	display: none;
+	}
+.mancheMenu LI LABEL {
 	background-color:rgba(255,255,255,.5);
 	border-radius: 5px;
 	cursor: hand;
@@ -140,9 +167,13 @@ code {
 	overflow: hidden;
 	transition:all 200ms;
 	}
-.reglage INPUT {
-	display: none;
+.reglage LABEL {
+	background: url(../sprites/gear.png) -5px -5px;
 	}
+.sound LABEL {
+	background: url(../sprites/sound.png) -5px -5px;
+	}
+	
 
 .scale {
 	width: 200px;
@@ -322,7 +353,7 @@ code {
 	float: left;
 	margin: .5em 0 0 0;
 	padding: .25em;
-	width: 364px;
+	width: 394px;
 	}
 .harmonieForm TD {
 	text-align: left;
@@ -344,7 +375,7 @@ code {
 	margin: .5em 0;
 	padding: .25em;
 	position: relative;
-	width: 914px;
+	width: 100%;
 	}
 .suggestion H2 {
 	background: #3A1912;

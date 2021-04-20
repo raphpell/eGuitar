@@ -54,6 +54,7 @@ let Tuning = new SpecialVar ( 0 )	// Accordage - defaut Accordage standard E ( v
 , LeftHanded = new SpecialVar ( 0 )	// Option Gaucher - defaut false
 , Mirror = new SpecialVar ( 0 )	// Option Miroir - defaut false
 , Notation = new SpecialVar ([0,'EN'])	// Notation courante utilisé dans l'application [false,'FR'] = bBemol sLang
+, Sound = new SpecialVar ( 0 )	// Option son
 Notations= {
 	choices :{
 		'♯':{	FR:['La',	'La♯',	'Si',	'Do',	'Do♯',	'Ré',	'Ré♯',	'Mi',	'Fa',	'Fa♯',	'Sol',	'Sol♯'],
@@ -128,6 +129,7 @@ class Manche{
 		this.notes.addObserver( function(b){ that.setNotesName(b) })
 		
 		MancheForm( this )
+		this.setFretsNumber( oConfig.numbers )
 		
 		this.e.onclick= function( evt ){
 			var e = Events.element( evt )
@@ -175,13 +177,13 @@ class Manche{
 		}
 	highlightNotes ( sNote, sClassName ){
 		this.history.add( 'highlightNotes', [ sNote, sClassName ])
-		var a = this.getNotes( sNote )
-		for(var i=0, ni=a.length; i<ni; i++ ){
+		let a = this.getNotes( sNote )
+		for(let i=0, ni=a.length; i<ni; i++ ){
 			a[i].className = a[i].className.replace( /ton\d[^\s]*/gim, '' )
 			a[i].classList.add( sClassName )
 			let sNote = a[i].innerHTML, sOctave = a[i].octave
 			a[i].onmouseover = function(){
-				playTone( tone[sNote+sOctave])
+				if( Sound.getValue()) playTone( tone[sNote+sOctave])
 				}
 			}
 		}
@@ -374,6 +376,9 @@ Manche.getHTML = function( nCordes, nCases ){
 	}
 
 MancheForm =function( oManche ){
+	/*
+	MENU HAUT
+	*/
 	var eUL = _.Tag( 'UL', 'mancheForm' )
 	var eLI = _.Tag( 'LI' )
 	var eLabel = eUL.appendChild( _.Tag( 'LABEL' ))
@@ -388,46 +393,57 @@ MancheForm =function( oManche ){
 	eLabel.htmlFor = eAccordage.id =  'eAccordage'+ oManche.ID
 	eUL.appendChild( eLI )
 	
-	let checkbox =function( sTag, sId, sLabel, sClass ){
+	let checkbox =function( sTag, sId, sLabel, sClass, fFunction ){
 		var eTAG = _.Tag( sTag )
 		if( sClass ) eTAG.className = sClass
 		var eCheckBox = eTAG.appendChild( _.Tag( 'INPUT' ))
 		var eLabel = eTAG.appendChild( _.Tag( 'LABEL' ))
 		eCheckBox.type = 'checkbox'
+		if( fFunction ) eCheckBox.onclick = fFunction
 		eLabel.htmlFor = eCheckBox.id = sId + oManche.ID
 		eLabel.innerHTML = sLabel
 		return eTAG
 		}
-	, cb =function( sId, sLabel, sClass ){
-		var eLI = checkbox( 'LI', sId, sLabel +'.', sClass )
-		eUL.appendChild( eLI )
-		return eLI.firstChild
+	, cb =function( sId, sLabel, bChecked, fFunction, sClassName ){
+		let eLI = checkbox( 'LI', sId, sLabel, sClassName||'', fFunction )
+		let eCB = eLI.firstChild
+		eCB.checked = bChecked
+		cb.eUL.appendChild( eLI )
+		return eCB
 		}
-	, e5 = oManche.eNotationI = cb( 'eNotationI', L10n('ABCDEFG'))
-	, e6 = oManche.eBemol = cb( 'eBemol', L10n('BEMOL'))
-	, e4 = oManche.eNotesName = cb( 'eNotesName', L10n('NOTES'))
-	, e7 = oManche.eFretsNumber = cb( 'eFretsNumber', L10n('NUMEROS'))
-	, e3 = oManche.eOctave = cb( 'eOctaves', L10n('OCTAVES'))
-	, e2 = oManche.eFlipV = cb( 'eFlipV', L10n('MIROIR'))
-	, e1 = oManche.eFlipH = cb( 'eFlipH', L10n('GAUCHER'))
-	, e8 = checkbox( 'DIV', 'eConfig', '' , 'reglage' )
-	oManche.e.appendChild( e8 )
-	e8 = oManche.eConfig = e8.firstChild
-	
-	e1.onclick = function(){ LeftHanded.setValue( e1.checked )}
-	e2.onclick = function(){ Mirror.setValue( e2.checked )}
- 	e3.onclick = function(){ oManche.setOctave( e3.checked ) }
- 	e4.onclick = function(){ oManche.notes.setValue( e4.checked ) }
- 	e5.onclick =
-	e6.onclick = function(){ oManche.setNotation( e5.checked?'EN':'FR', e6.checked ) }
-	e5.checked = Notation.getValue()[1] == 'EN'
-	e6.checked = Notation.getValue()[0]
- 	e7.onclick = function(){ oManche.setFretsNumber( e7.checked ) }
-	e7.onclick()
-	e8.checked = oManche.oConfig.config
- 	e8.onclick = function(){ oManche.hideForm( this.checked ) }
+	cb.eUL = eUL
+	let e5 = oManche.eNotationI = cb( 'eNotationI',
+		L10n('ABCDEFG'),
+		Notation.getValue()[1] == 'EN',
+		function(){ oManche.setNotation( e5.checked?'EN':'FR', e6.checked )}
+		)
+	, e6 = oManche.eBemol = cb( 'eBemol', L10n('BEMOL'),
+		Notation.getValue()[0],
+		function(){ oManche.setNotation( e5.checked?'EN':'FR', e6.checked )}
+		)
+	, e4 = oManche.eNotesName = cb( 'eNotesName', L10n('NOTES'),
+		false,
+		function(){ oManche.notes.setValue( this.checked )}
+		)
+	, e7 = oManche.eFretsNumber = cb( 'eFretsNumber', L10n('NUMEROS'),
+		false,
+		function(){ oManche.setFretsNumber( this.checked )}
+		)
+	, e3 = oManche.eOctave = cb( 'eOctaves', L10n('OCTAVES'),
+		false,
+		function(){ oManche.setOctave( this.checked )}
+		)
+	, e2 = oManche.eFlipV = cb( 'eFlipV', L10n('MIROIR'),
+		false,
+		function(){ Mirror.setValue( this.checked )}
+		)
+	, e1 = oManche.eFlipH = cb( 'eFlipH', L10n('GAUCHER'),
+		false,
+		function(){ LeftHanded.setValue( this.checked )}
+		)
+
 	eAccordage.onkeyup =
-	eAccordage.onchange = function(){ Tuning.setValue( eAccordage.value ) }
+	eAccordage.onchange = function(){ Tuning.setValue( eAccordage.value )}
 
 	Notation.addObserver( function( a ){
 		e5.checked = a[1] == 'EN'
@@ -437,6 +453,24 @@ MancheForm =function( oManche ){
 	oManche.notes.addObserver( function( b ){ e4.checked = b })
 
 	oManche.e.appendChild( eUL )
+
+	/*
+	MENU DROIT
+	*/
+	let eUL2 = _.Tag( 'UL', 'mancheMenu' )
+	cb.eUL = eUL2
+	cb( 'eConfig', '' ,
+		oManche.oConfig.config,
+		function(){ oManche.hideForm( this.checked )},
+		'reglage'
+		)
+	cb( 'eSound', '' ,
+		Sound.getValue(),
+		function(){ Sound.setValue( this.checked )},
+		'sound'
+		)
+	
+	oManche.e.appendChild( eUL2 )
 	}
 
 /*
