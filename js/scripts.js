@@ -22,7 +22,7 @@ Events ={
 		}
 	}
 
-window.onselectstart =function(){ return false }
+window.onselectstart =function(){ return false } // prevent text selection
 
 // Objet wrapper : il sert à déclencher des événements quand la valeur de l'objet change
 class SpecialVar {
