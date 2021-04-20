@@ -100,7 +100,7 @@ class Manche{
 		this.oConfig = oConfig = Manche.getDefaultSettings( oConfig )
 
 		this.history = new MancheHistory ( this )
-		this.aFrequences = [0,0,0,0,0,0] // Ecarts accordage standard E (+grave à +aigue)
+		this.aFrequences = [0,0,0,0,0,0] // Ecarts accordage standard E en ton (+grave à +aigue)
 		var eParent = document.getElementById( sNodeID )
 		var nCases = oConfig.cases
 		this.ID = Manche.ID++
@@ -178,7 +178,7 @@ class Manche{
 			a[i].classList.add( sClassName )
 			let sNote = a[i].innerHTML, sOctave = a[i].octave+3
 			a[i].onmouseover = function(){
-			//	playTone( tone[sNote + sOctave])
+				playTone( tone[sNote + sOctave])
 				}
 			}
 		}
