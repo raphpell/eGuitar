@@ -205,8 +205,8 @@ code {
 	box-shadow: 0 0 1em rgba(0,0,0,.5), 0 0 .25em #FFF;
 	cursor: pointer;
 	display: block;
-	font: bold 12px Arial;
-	line-height: 25px; 
+	font: normal 14px Verdana;
+	line-height: 23px; 
 	height: 25px; 
 	overflow: hidden;
 	width: 55px;
