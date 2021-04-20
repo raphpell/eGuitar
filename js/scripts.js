@@ -321,7 +321,7 @@ Manche.DefaultSettings ={
 	mirror:0,
 	octaves:0,
 	notes:0,
-	numbers:1
+	numbers:0
 	}
 Manche.getDefaultSettings = function( oConfig ){
 	oConfig = oConfig || {}
@@ -392,11 +392,11 @@ MancheForm =function( oManche ){
 		}
 	, e5 = oManche.eNotationI = cb( 'eNotationI', L10n('ABCDEFG'))
 	, e6 = oManche.eBemol = cb( 'eBemol', L10n('BEMOL'))
-	, e1 = oManche.eFlipH = cb( 'eFlipH', L10n('GAUCHER'))
-	, e2 = oManche.eFlipV = cb( 'eFlipV', L10n('MIROIR'))
-	, e3 = oManche.eOctave = cb( 'eOctaves', L10n('OCTAVES'))
 	, e4 = oManche.eNotesName = cb( 'eNotesName', L10n('NOTES'))
 	, e7 = oManche.eFretsNumber = cb( 'eFretsNumber', L10n('NUMEROS'))
+	, e3 = oManche.eOctave = cb( 'eOctaves', L10n('OCTAVES'))
+	, e2 = oManche.eFlipV = cb( 'eFlipV', L10n('MIROIR'))
+	, e1 = oManche.eFlipH = cb( 'eFlipH', L10n('GAUCHER'))
 	, e8 = checkbox( 'DIV', 'eConfig', '' , 'reglage' )
 	oManche.e.appendChild( e8 )
 	e8 = oManche.eConfig = e8.firstChild
