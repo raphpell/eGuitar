@@ -116,30 +116,20 @@ code {
 	margin: 0 12px 0 0;
 	padding: 0;
 	}
-	
+
 .reglage {
 	background:rgba(255,255,255,.5);
 	border-radius: 4px;
 	bottom: 5px;
+	right: 5px;
 	cursor: hand;
 	position: absolute;
 	z-index: 10;
 	transition:all 200ms;
 	}
-.hideFretsNumber .reglage {
-	bottom: 20px;
-	}
-	
+
 .reglage:hover {
 	box-shadow: inset 0 0 10px #FFF, inset 0 0 4px #FFF;
-	}
-.gaucher .reglage,
-.gaucher_flipped .reglage {
-	right: 5px ;
-	}
-.droitier .reglage ,
-.droitier_flipped .reglage {
-	left: 5px;
 	}
 .reglage LABEL {
 	cursor: hand;
