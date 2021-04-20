@@ -22,7 +22,7 @@ Events ={
 		}
 	}
 
-window.onselectstart =function(){ return false } // prevent text selection
+window.onselectstart =function(){ return false }	// prevent text selection
 
 // Objet wrapper : il sert à déclencher des événements quand la valeur de l'objet change
 class SpecialVar {
@@ -46,9 +46,14 @@ class SpecialVar {
 		}
 	}
 
-/*-------------*/
-// Notation courante utilisé dans l'application [false,'FR'] = bBemol sLang
-Notation = new SpecialVar ([0,'EN'])
+/*
+Variables partagés par tous les composants
+valeur changée -> composantS mis à jour
+*/
+let Tuning = new SpecialVar ( 0 )	// Accordage - defaut Accordage standard E ( voir Manche.aAccordage )
+, LeftHanded = new SpecialVar ( 0 )	// Option Gaucher - defaut false
+, Mirror = new SpecialVar ( 0 )	// Option Miroir - defaut false
+, Notation = new SpecialVar ([0,'EN'])	// Notation courante utilisé dans l'application [false,'FR'] = bBemol sLang
 Notations= {
 	choices :{
 		'♯':{	FR:['La',	'La♯',	'Si',	'Do',	'Do♯',	'Ré',	'Ré♯',	'Mi',	'Fa',	'Fa♯',	'Sol',	'Sol♯'],
@@ -88,13 +93,6 @@ Notations= {
 		throw Error ( 'Invalid note name... '+ sNote )
 		}
 	}
-
-// Accordage - defaut Accordage standard E ( voir Manche.aAccordage )
-Tuning = new SpecialVar ( 0 )
-// Option Gaucher - defaut false
-LeftHanded = new SpecialVar ( 0 )
-// Option Miroir - defaut false
-Mirror = new SpecialVar ( 0 )
 
 
 class Manche{
