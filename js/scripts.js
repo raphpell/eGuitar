@@ -176,9 +176,9 @@ class Manche{
 		for(var i=0, ni=a.length; i<ni; i++ ){
 			a[i].className = a[i].className.replace( /ton\d[^\s]*/gim, '' )
 			a[i].classList.add( sClassName )
-			let sNote = a[i].innerHTML, sOctave = a[i].octave+3
+			let sNote = a[i].innerHTML, sOctave = a[i].octave
 			a[i].onmouseover = function(){
-			//	playTone( tone[sNote + sOctave])
+				playTone( tone[sNote+sOctave])
 				}
 			}
 		}
@@ -296,19 +296,21 @@ class Manche{
 		var sAccordage = Manche.aAccordage[ nId ][0]
 		var aAccordage = sAccordage.split('|')
 		var aNotes = aAccordage[0].split(',')
-		var aFrequences = aAccordage[1].split(',')
-		var aBase = [12,17,22,27,31,36]
-		var aNotation = Notations.getSequence( 'E' )
+		var aFrequences = aAccordage[1].split(',') // écarts tons de base accordage
+		var aBase = [12,17,22,27,31,36] // tons selon les cordes
+		var aNotation = Notations.getSequence( 'E' ) // liste des 12 notes commencant par E
+	//	console.info( aNotation )
 		for(var i=0; i<this.nCordes; i++ ){
-			this.aFrequences[i] = aBase[i] += 2*aFrequences[i]
+			this.aFrequences[i] = aBase[i] += 2*aFrequences[i] // bouge les écarts de case : 2*ton
 			}
 		for(var i=0; i<this.nCordes; i++ ){
 			var nBase = aBase[i]
 			for(var j=0; j<=this.nCases; j++ ){
-				var e = this.aCordes[i][j].firstChild
-				e.innerHTML = aNotation[ nBase%12 ]
 				/* Test octave */
-				let nOctave = parseInt( nBase/12 )
+				let nOctave = parseInt( (nBase+4)/12 ) + 3 // +4 pour aller à DO...
+				
+				var e = this.aCordes[i][j].firstChild
+				e.innerHTML = aNotation[ nBase%12 ] // note
 				e.octave = nOctave
 				if( -1 == e.className.indexOf('octave'))
 					e.className += ' octave' + nOctave

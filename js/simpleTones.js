@@ -1,8 +1,8 @@
 //Create Audio Context
-var AudioContext = window.AudioContext || window.webkitAudioContext;
-var context = new AudioContext();
-var o = null;
-var g = null;
+var AudioContext = window.AudioContext || window.webkitAudioContext
+var context = new AudioContext()
+var o = null
+var g = null
 
 //Sound Storage 
 //If you add your own sounds here, please consider 
@@ -17,7 +17,7 @@ var soundObj = {
 	siren:["sawtooth",900,2.5, 400,0.5 ,900, 1, 400,1.4, 900, 2, 400, 2.5],
 	loop:["sine", 340, 2.5, 550, 0.8, 440, 1.4],
 	falling:["sine", 750, 5.2, 700, 1, 600, 2, 500, 3, 400, 4, 300, 4.5, 200, 5]
-}
+	}
 
 //Tone Storage
 var tone = {
@@ -169,7 +169,7 @@ var tone = {
 	'A8': 7040,
 	'Bb8': 7459,
 	'B8': 7902
-}
+	}
 
 // Chord Storage
 var chord = {
@@ -192,80 +192,81 @@ var chord = {
 	'A♯': [466.2, 587.330, 698.456],
 	'B': [493.9, 622.254, 739.989],
 	'Bm': [493.9, 587.330, 739.989]
-}
+	}
+
 //Primary function
 playTone = (frequency, type, duration) => {
-	if (type === undefined) {
-		type = "sine";
-	}
-	if (duration === undefined) {
-		duration = 1.3;
-	}
-	if (frequency === undefined) {
-		frequency = 440;
-	}
-	o = context.createOscillator();
-	g = context.createGain();
-	o.connect(g);
-	o.type = type;
-	if (typeof frequency === "string") {
-		if (tone[frequency] === undefined) {
-			o.frequency.value = chord[frequency][0];
-			completeChord(chord[frequency][1], type, duration);
-			completeChord(chord[frequency][2], type, duration);
-		} else if (chord[frequency] === undefined) {
-			o.frequency.value = tone[frequency];
+	if( type === undefined ) type = "sine"
+	if( duration === undefined ) duration = 1.3
+	if( frequency === undefined ) frequency = 440
+
+	o = context.createOscillator()
+	g = context.createGain()
+	o.connect(g)
+	o.type = type
+	
+	if( typeof frequency === "string" ){
+		// chord
+		if( tone[frequency] === undefined ){
+			o.frequency.value = chord[frequency][0]
+			completeChord( chord[frequency][1], type, duration )
+			completeChord( chord[frequency][2], type, duration )
+		// ton
+		} else if( chord[frequency] === undefined ){
+			o.frequency.value = tone[ frequency ]
 		}
-	} else if (typeof frequency === "object") {
-		o.frequency.value = frequency[0];
-		completeChord(frequency[1], type, duration);
-		completeChord(frequency[2], type, duration);
+	// sound
+	} else if( typeof frequency === "object" ){
+		o.frequency.value = frequency[0]
+		completeChord( frequency[1], type, duration )
+		completeChord( frequency[2], type, duration )
+	// frequency
 	} else {
-		o.frequency.value = frequency;
+		o.frequency.value = frequency
+		}
+	g.connect( context.destination )
+	o.start(0)
+	g.gain.exponentialRampToValueAtTime( 0.0001, context.currentTime + duration )
 	}
-	g.connect(context.destination);
-	o.start(0);
-	g.gain.exponentialRampToValueAtTime(0.0001,context.currentTime + duration);
-}
 
 //This function helps complete chords and should not be used by itself
 completeChord = (frequency, type, duration) => {
-	osc = context.createOscillator();
-	gn = context.createGain();
-	osc.connect(gn);
-	osc.type = type;
-	osc.frequency.value = frequency;
-	gn.connect(context.destination);
-	osc.start(0);
-	gn.gain.exponentialRampToValueAtTime(0.0001,context.currentTime + duration);
-}
+	osc = context.createOscillator()
+	gn = context.createGain()
+	osc.connect(gn)
+	osc.type = type
+	osc.frequency.value = frequency
+	gn.connect(context.destination)
+	osc.start(0)
+	gn.gain.exponentialRampToValueAtTime(0.0001,context.currentTime + duration)
+	}
 
 
 //This function plays sounds
-  function playSound(waveType,startFreq,endTime) {
-	if (soundObj[arguments[0]] && arguments.length === 1) {
-		var soundName = arguments[0];
-		playSound(...soundObj[soundName]);
-	}  else {
-	var oscillatorNode = context.createOscillator();
-	var gainNode = context.createGain();
-	
-	oscillatorNode.type = waveType;
-	oscillatorNode.frequency.setValueAtTime(startFreq, context.currentTime);
-	
-for (var i = 3; i < arguments.length; i += 2) {
-	oscillatorNode.frequency.exponentialRampToValueAtTime(arguments[i], context.currentTime + arguments[i+1]);
-}
-	gainNode.gain.setValueAtTime(0.3, context.currentTime);
-	gainNode.gain.exponentialRampToValueAtTime(0.1, context.currentTime +  0.5);
-  
-	oscillatorNode.connect(gainNode);
-	gainNode.connect(context.destination);
-  
-	oscillatorNode.start();
-	oscillatorNode.stop(context.currentTime + endTime);
-  }
-}
+  function playSound ( waveType, startFreq, endTime ){
+	if( soundObj[ arguments[0] ] && arguments.length === 1 ){
+		var soundName = arguments[0]
+		playSound(...soundObj[soundName])
+	} else {
+		var oscillatorNode = context.createOscillator()
+		var gainNode = context.createGain()
+
+		oscillatorNode.type = waveType
+		oscillatorNode.frequency.setValueAtTime( startFreq, context.currentTime )
+
+		for( var i = 3; i < arguments.length; i += 2 ){
+			oscillatorNode.frequency.exponentialRampToValueAtTime( arguments[i], context.currentTime + arguments[i+1] )
+			}
+		gainNode.gain.setValueAtTime( 0.3, context.currentTime )
+		gainNode.gain.exponentialRampToValueAtTime( 0.1, context.currentTime +  0.5 )
+
+		oscillatorNode.connect( gainNode )
+		gainNode.connect( context.destination )
+
+		oscillatorNode.start()
+		oscillatorNode.stop( context.currentTime + endTime )
+		}
+	}
 
 
 
