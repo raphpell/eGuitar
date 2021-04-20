@@ -84,14 +84,11 @@ Harmonie.aArpeges =[
 	['101101010010','m11 - m9(sus4)']
 	]
 Harmonie.aScales =[
-	['111111111111','Chromatique'],
-	
 	['100000000000',''],
+	['111111111111','Chromatique'],
 	['100101110010','Blues Mineur'],
 	['100101010010','Pentatonique Mineure'],
 	['101010010100','Pentatonique Majeure'],
-
-	['100000000000',''],
 	['101011010101','Majeure naturelle - I Ionien'],
 	['101101010110','Majeure naturelle - II Dorien'],
 	['110101011010','Majeure naturelle - III Phrygien'],
@@ -99,8 +96,6 @@ Harmonie.aScales =[
 	['101011010110','Majeure naturelle - V Mixolydien'],
 	['101101011010','Mineure naturelle - VI Eolien'],
 	['110101101010','Majeure naturelle - VII Locrien'],
-	
-	['100000000000',''],
 	['101101011001','Mineure Harmonique - I'],
 	['110101100110','Mineure Harmonique - II locrien ♮13'],
 	['101011001101','Mineure Harmonique - III ionien ♯5'],
@@ -108,8 +103,6 @@ Harmonie.aScales =[
 	['110011011010','Mineure Harmonique - V mixolydien ♭9♭13'],
 	['100110110101','Mineure Harmonique - VI lydien ♯9'],
 	['110110101100','Mineure Harmonique - VII altéré ♭♭7'],
-	
-	['100000000000',''],
 	['101101010101','Mineure Mélodique - I'],
 	['110101010110','Mineure Mélodique - II dorien ♭9'],
 	['101010101101','Mineure Mélodique - III lydien ♯5'],
@@ -117,13 +110,10 @@ Harmonie.aScales =[
 	['101011011010','Mineure Mélodique - V mixolydien ♭13'],
 	['101101101010','Mineure Mélodique - VI locrien ♮9'],
 	['110110101010','Mineure Mélodique - VII altéré'],
-	
-	
-	['100000000000',''],
 	['101011011101','Bebop Majeur'],
 	['101111010110','Bebop Mineur'],
 	['101011010111','Bebop Dominant'],
-	
+/* 	
 	['100000000000',''],
 	['101011010111',"Mixolydien+Ionien"],
 	['101011110101',"Lydien+Ionien"],
@@ -167,7 +157,9 @@ Harmonie.aScales =[
 	['100010110001','Chinoise'],
 	['110110011010','Indien'],
 	['101011011010','Hindou']
+*/
 	]
+/* 
 Harmonie.aChords =[
 	['m',		{0:['022000','x02210']}],
 	['M',		{0:['022100','x02220']}],
@@ -218,3 +210,4 @@ Harmonie.aChords =[
 	['m11',		{0:[]}],
 	['m13',		{0:[]}]
 	]
+*/

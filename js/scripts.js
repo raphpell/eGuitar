@@ -376,9 +376,7 @@ Manche.getHTML = function( nCordes, nCases ){
 	}
 
 MancheForm =function( oManche ){
-	/*
-	MENU HAUT
-	*/
+	/* MENU HAUT */
 	var eUL = _.Tag( 'UL', 'mancheForm' )
 	var eLI = _.Tag( 'LI' )
 	var eLabel = eUL.appendChild( _.Tag( 'LABEL' ))
@@ -421,14 +419,6 @@ MancheForm =function( oManche ){
 		Notation.getValue()[0],
 		function(){ oManche.setNotation( e5.checked?'EN':'FR', e6.checked )}
 		)
-	, e4 = oManche.eNotesName = cb( 'eNotesName', L10n('NOTES'),
-		false,
-		function(){ oManche.notes.setValue( this.checked )}
-		)
-	, e7 = oManche.eFretsNumber = cb( 'eFretsNumber', L10n('NUMEROS'),
-		false,
-		function(){ oManche.setFretsNumber( this.checked )}
-		)
 	, e3 = oManche.eOctave = cb( 'eOctaves', L10n('OCTAVES'),
 		false,
 		function(){ oManche.setOctave( this.checked )}
@@ -437,26 +427,13 @@ MancheForm =function( oManche ){
 		false,
 		function(){ Mirror.setValue( this.checked )}
 		)
-	, e1 = oManche.eFlipH = cb( 'eFlipH', L10n('GAUCHER'),
-		false,
-		function(){ LeftHanded.setValue( this.checked )}
-		)
 
 	eAccordage.onkeyup =
 	eAccordage.onchange = function(){ Tuning.setValue( eAccordage.value )}
 
-	Notation.addObserver( function( a ){
-		e5.checked = a[1] == 'EN'
-		e6.checked = a[0]
-		})
-	Tuning.addObserver( function( nId ){ eAccordage.value = nId })
-	oManche.notes.addObserver( function( b ){ e4.checked = b })
-
 	oManche.e.appendChild( eUL )
 
-	/*
-	MENU DROIT
-	*/
+	/* MENU DROIT */
 	let eUL2 = _.Tag( 'UL', 'mancheMenu' )
 	cb.eUL = eUL2
 	cb( 'eConfig', '' ,
@@ -469,7 +446,31 @@ MancheForm =function( oManche ){
 		function(){ Sound.setValue( this.checked )},
 		'sound'
 		)
+	e4 = cb( 'eNotesName', '', // L10n('NOTES'),
+		false,
+		function(){ oManche.notes.setValue( this.checked )},
+		'notes'
+		)
+		
+	oManche.eFretsNumber = cb( 'eFretsNumber', '', // L10n('NUMEROS'),
+		false,
+		function(){ oManche.setFretsNumber( this.checked )},
+		'numbers'
+		)
+	oManche.eFlipH = cb( 'eFlipH', '', //L10n('GAUCHER'),
+		false,
+		function(){ LeftHanded.setValue( this.checked )},
+		'lefthanded'
+		)
 	
+	/* Observateurs */
+	Notation.addObserver( function( a ){
+		e5.checked = a[1] == 'EN'
+		e6.checked = a[0]
+		})
+	Tuning.addObserver( function( nId ){ eAccordage.value = nId })
+	oManche.notes.addObserver( function( b ){ e4.checked = b })
+
 	oManche.e.appendChild( eUL2 )
 	}
 

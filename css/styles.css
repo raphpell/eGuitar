@@ -11,7 +11,7 @@ TD {
 	font-family: Verdana;
 	text-align: right;
 	}
-			
+
 /* LOGO et checkbox réglage manche */
 #eHead * {
 	line-height: 55px;
@@ -128,8 +128,7 @@ code {
 
 /* Menu droit */
 .mancheMenu {
-	transform: rotate(180deg);
-	bottom: 0;
+	top: 30px;
 	right: 0;
 	margin: 0;
 	padding: 0;
@@ -137,9 +136,12 @@ code {
 	width: 30px;
 	position: absolute;
 	z-index: 10;
+	transition: all 200ms;
+	}
+.hideForm .mancheMenu {
+	top: 0;
 	}
 .mancheMenu LI {
-	transform: rotate(-180deg);
 	display: inline-block;
 	float:right;
 	height: 20px;
@@ -150,8 +152,7 @@ code {
 .mancheMenu LABEL {
 	cursor: hand;
 	}
-.mancheMenu LI INPUT:checked + LABEL,
-.mancheMenu LI LABEL:hover {
+.mancheMenu LI INPUT:checked + LABEL {
 	box-shadow: inset 0 0 10px #FFF, inset 0 0 4px #FFF;
 	}
 .mancheMenu LI INPUT {
@@ -167,19 +168,17 @@ code {
 	overflow: hidden;
 	transition:all 200ms;
 	}
-.reglage LABEL {
-	background: url(../sprites/gear.png) -5px -5px;
-	}
-.sound LABEL {
-	background: url(../sprites/sound.png) -5px -5px;
-	}
-	
+.reglage LABEL { background: url(../sprites/gear.png) -5px -5px; }
+.sound LABEL { background: url(../sprites/sound.png) -5px -5px;}
+.notes LABEL { background: url(../sprites/notes.png) -5px -5px;}
+.numbers LABEL { background: url(../sprites/numbers.png) -5px -5px;}
+.lefthanded LABEL { background: url(../sprites/lefthanded.png) -5px -5px;}
 
 .scale {
 	width: 200px;
 	}
-	
-/* cases du manche */	
+
+/* cases du manche */
 .case {
 	background: url(../sprites/default.png) no-repeat -270px -10px;
 	display: inline-block;
@@ -195,7 +194,7 @@ code {
 	width: 70px;
 	}
 
-/* notes du manche */	
+/* notes du manche */
 .case .corde SPAN {
 	background: #eee;
 	border-color: #000;
@@ -220,7 +219,7 @@ code {
 	z-index: 2;
 	transition:width 200ms, left 200ms, margin 200ms, border 200ms, line-height 200ms;
 	}
-	
+
 .case .corde SPAN:hover {
 	border-color: #FFF;
 	box-shadow: 0 0 1em #000, 0 0 1em #FFF, inset 0 0 .2em #FFF;
@@ -237,7 +236,7 @@ code {
 	text-indent:-100em;
 }
 
-/* cordes */	
+/* cordes */
 .corde {
 	background-image: url(../sprites/default.png);
 	background-repeat: no-repeat;
@@ -254,7 +253,7 @@ code {
 .corde5 { background-position: -350px -130px; }
 .corde6 { background-position: -350px -160px; }
 
-/* frettes + numéros des cases */	
+/* frettes + numéros des cases */
 .frette {
 	background: url(../sprites/default.png) no-repeat -10px -10px;
 	height: inherit;
@@ -285,7 +284,7 @@ code {
 	opacity: 0;
 	}
 
-/* incrustations */	
+/* incrustations */
 .case3 .incrustation,
 .case5 .incrustation,
 .case7 .incrustation,
@@ -306,12 +305,12 @@ code {
 	}
 
 /* Octaves */
-.octaves .octave8 { border-width:1px 9px !important; }
-.octaves .octave7 { border-width:1px 7px !important; }
-.octaves .octave6 { border-width:1px 5px !important; }
-.octaves .octave5 { border-width:1px 3px !important; }
-.octaves .octave4 { border-width:1px 1px !important; }
-.octaves .octave3 { border-width:0px !important; }
+.octaves .octave8 { border-width: 1px 9px !important; }
+.octaves .octave7 { border-width: 1px 7px !important; }
+.octaves .octave6 { border-width: 1px 5px !important; }
+.octaves .octave5 { border-width: 1px 3px !important; }
+.octaves .octave4 { border-width: 1px 1px !important; }
+.octaves .octave3 { border-width: 0px !important; }
 
 /* Configuration */
 .default  {
