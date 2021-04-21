@@ -7,7 +7,7 @@ Memoire ={
 		if( localStorage ) localStorage.setItem( sName, sValue )
 	},
 	get:function( sName ){
-		return localStorage ? localStorage.getItem( sName ) : null
+		return localStorage ? JSON.parse( localStorage.getItem( sName )) : null
 	}
 }
 
@@ -42,7 +42,7 @@ class SpecialVar {
 		}
 	setValue ( mValue ){
 		this.value = mValue
-		for(var i=0,ni=this._aOnSet.length; i<ni; i++ ){ this._aOnSet[i]( mValue )}
+		for(var i=0,ni=this._aOnSet.length; i<ni; i++ ) this._aOnSet[i]( mValue )
 		return mValue
 		}
 	getValue (){
@@ -61,11 +61,25 @@ class SpecialVar {
 /*============================*/
 // Variables partagés par tous les composants
 // valeur changée -> composantS mis à jour
-let Tuning = new SpecialVar ( 0 )	// Accordage - defaut Accordage standard E ( voir Manche.aAccordage )
-, LeftHanded = new SpecialVar ( 0 )	// Option Gaucher - defaut false
-, Mirror = new SpecialVar ( 0 )	// Option Miroir - defaut false
-, Notation = new SpecialVar ([0,'EN'])	// Notation courante utilisé dans l'application [false,'FR'] = bBemol sLang
-, Sound = new SpecialVar ( 0 )	// Option son
+
+// Accordage - defaut Accordage standard E ( voir Manche.aAccordage )
+let Tuning = new SpecialVar ( 0 )
+Tuning.addObserver( function( n ){ Memoire.set( 'Tuning', n )})
+
+// Option Gaucher - defaut false
+let LeftHanded = new SpecialVar ( 0 )
+LeftHanded.addObserver( function( b ){ Memoire.set( 'LeftHanded', b )})
+
+// Option Miroir - defaut false
+let Mirror = new SpecialVar ( 0 )
+Mirror.addObserver( function( b ){ Memoire.set( 'Mirror', b )})
+
+// Notation courante utilisé dans l'application [false,'FR'] = bBemol sLang
+let Notation = new SpecialVar ([0,'EN'])
+
+// Option son
+let Sound = new SpecialVar ( 0 )
+
 
 Notations= {
 	choices :{
@@ -346,9 +360,9 @@ Manche.DefaultSettings ={
 	config: 0,
 	strings: 6,
 	cases: 12,
-	tuning: 0,
-	lefthanded:0,
-	mirror:0,
+	tuning: Memoire.get( 'Tuning' ) || 0,
+	lefthanded: Memoire.get( 'LeftHanded' ) || 0,
+	mirror: Memoire.get( 'Mirror' ) || 0,
 	octaves:0,
 	notes:0,
 	numbers:0
@@ -400,6 +414,7 @@ MancheForm =function( oManche ){
 	for(var a=Manche.aAccordage, i=0, ni=a.length; i<ni; i++ ){
 		eOption = Tag( 'OPTION' )
 		eOption.value = i
+		eOption.selected = i == Tuning.getValue()
 		eOption.innerHTML = a[i][1]
 		eAccordage.appendChild( eOption ) 
 		}
