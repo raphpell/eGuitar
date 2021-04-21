@@ -3,7 +3,7 @@
 <head>
 	<title>eGuitar</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0 viewport-fit=cover">
+    <meta name="viewport" content="width=1000, width=device-width, initial-scale=1.0">
     <meta name="description" content="" />
     <meta name="author" content="Raphaël Pellicier | Web developer">
 	<link rel="stylesheet" type="text/css" href="css/styles.css">
@@ -11,7 +11,7 @@
 <body>
 
 <div id="eHead" style="margin:.25em;">
-	<img src="guitare.png"><h1>eGuitar </h1>
+	<img src="guitare.png" onclick="if( confirm('Effacer vos données ?')) Memoire.clear()"><h1>eGuitar </h1>
 <!--
 	<ul>
 		<li><a href="https://github.com/raphpell/eGuitar/">eGuitar sur Github</a></li>
@@ -41,34 +41,8 @@ var oConfig ={
 	}
 
 var o = new Manche( "eTarget", oConfig )
-/*
-o.setForm( false )
-o.setNotation( 'FR', false )
-//o.highlightNotes('Mi', 'ton0' )
-//o.reset()
-//o.setTuning( 'Ré,La,Ré,Sol,Si,Mi|-1,0,0,0,0,0')
-//o.highlightNotes('Do', 'ton0' )
-//o.highlightNotes('Ré', 'ton1' )
-// o.highlightNotes('Mib', 'ton2' )
-//o.highlightNotes('Fa', 'ton2_5' )
-//o.highlightNotes('Sol', 'ton3_5' )
-//o.highlightNotes('A#', 'ton4_5' )
-//o.highlightNotes('La', 'ton4_5' )
-//o.highlightNotes('Si', 'ton5_5' )
-// o.setOctave( true )
-o.setNotation( 'FR', false )
-// o.setNotation( 'EN' )
-// o.setNotesName( false )
-//  o.setConfig( true, false )
-// o.setAccord( 'x32010' )
-*/
-// o.setScale( 'Do', '101011010101' )
-/*
-var o2 = new Manche( "eTarget2" )
-o2.setScale( 'Ré', '101011010101' )
-*/
+
 var oH = new Harmonie( eTarget2, o )
-//oH.showInterval( 'Mi', '101101010110' )
 oH.showInterval( oH.eTonique.value, oH.eScale.value )
 oH.displayChords()
 

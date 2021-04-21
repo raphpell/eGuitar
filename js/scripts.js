@@ -5,6 +5,9 @@
 Memoire =(function( sBase ){
 	let o = JSON.parse( localStorage.getItem( sBase )) || {}
 	return {
+		clear:function(){
+			localStorage.removeItem( sBase )
+			},
 		set:function( sName, mValue ){
 			if( o[ sName ] == mValue ) return false
 			o[ sName ] = mValue
