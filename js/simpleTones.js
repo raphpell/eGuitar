@@ -4,6 +4,7 @@ var context = null
 var o = null
 var g = null
 
+
 //Sound Storage 
 //If you add your own sounds here, please consider 
 //submitting a pull request with your additional sounds
@@ -69,7 +70,7 @@ var tone = function( sNoteOctave ){
 		}
 	let nIndex = oIndex[ sNote ] - 9
 	let n = nIndex + 12 * ( nOctave - 3 )
-	return Math.round10( LA3 * Math.pow( Math.pow( 2, 1/12 ), n ), -2 )
+	return Math.round10( La3.getValue() * Math.pow( Math.pow( 2, 1/12 ), n ), -2 )
 	}
 
 // Chord Storage
@@ -95,12 +96,13 @@ var chord = {
 	'Bm': [493.9, 587.330, 739.989]
 	}
 
+
 //Primary function
 playTone = (frequency, type, duration) => {
 	if( ! context ) context = new AudioContext()
 	if( type === undefined ) type = "sine"
 	if( duration === undefined ) duration = 1
-	if( frequency === undefined ) frequency = LA3
+	if( frequency === undefined ) frequency = 440
 
 	o = context.createOscillator()
 	g = context.createGain()

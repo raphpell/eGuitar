@@ -1,7 +1,7 @@
 /*====================*/
 /*=== Utilitaires ====*/
 /*====================*/
-// Utilisé pour mémoriser la dernière page vu, entre autre
+// Mémorise les choix utilisateurs
 Memoire =(function( sBase ){
 	let o = JSON.parse( localStorage.getItem( sBase )) || {}
 	return {
@@ -177,13 +177,14 @@ class Manche{
 		Notes.setValue( oConfig.notes )
 		Numbers.setValue( oConfig.numbers )
 		Octaves.setValue( oConfig.octaves )
+		Notation.setValue( oConfig.notation )
 
 		// Pour éviter de mettre tous les composants à jour au chargement
 		if( Tuning.getValue() != oConfig.tuning )
 			Tuning.setValue( oConfig.tuning )
 		else
 			this.setTuning( oConfig.tuning )
-		
+
 		this.oConfig = null
 		}
 
@@ -245,7 +246,7 @@ class Manche{
 	searchMask ( sMask ){
 		var o = this.oHarmonie
 		if( ! o ) return;
-		var sName = o.oTonique.getValue(), sFound
+		var sName = Tonic.getValue(), sFound
 		for(var i=0, a=Harmonie.aArpeges, ni=a.length; i<ni ; i++ ){
 			if( a[i][0] == sMask ){
 				o.eChords.value = sMask
@@ -364,6 +365,7 @@ Manche.DefaultSettings ={
 	strings: 6,
 	cases: 12,
 	tuning: Memoire.get( 'Tuning' ) || 0,
+	notation: Memoire.get( 'Notation' ) || [0,'EN'],
 	lefthanded: Memoire.get( 'LeftHanded' ) || 0,
 	mirror: Memoire.get( 'Mirror' ) || 0,
 	octaves: Memoire.get( 'Octaves' ) || 0,
@@ -612,9 +614,10 @@ class Harmonie {
 
 		/* Construction html */
 		var eTonique = selectbox( 'eTonique', L10n('TONIQUE'), Notations.getSequence())
-		eTonique.value = Memoire.get( 'Tonic' ) || 'A'
+		eTonique.value = Notations.getNoteName( Memoire.get( 'Tonic' ) || 'A' )
 		eTonique.onkeyup = eTonique.onchange =function(){}
 		Notation.addObserver( function(){
+			Tonic.refresh()
 			var a = Notations.getSequence()
 			var e = eTonique.firstChild
 			var i = 0
