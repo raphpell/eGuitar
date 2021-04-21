@@ -82,6 +82,10 @@ Notation.addObserver( function( a ){ Memoire.set( 'Notation', a )})
 let Sound = new SpecialVar ( Memoire.get( 'Sound' ) || 0 )
 Sound.addObserver( function( b ){ Memoire.set( 'Sound', b )})
 
+// La3
+let La3 = new SpecialVar ( Memoire.get( 'La3' ) || 440 )
+La3.addObserver( function( n ){ Memoire.set( 'La3', n )})
+
 
 Notations= {
 	choices :{
@@ -472,10 +476,11 @@ MancheForm =function( oManche ){
 	eINPUT.min = 400
 	eINPUT.max = 500
 	eINPUT.value = LA3
-	eINPUT.oninput=function(){ 
-		this.nextSibling.value = this.value +'Hz'
-		Memoire.set( 'La3', LA3 = this.value )
-		}
+	eINPUT.oninput=function(){ La3.setValue( this.value )}
+	La3.addObserver( function( n ){
+		eINPUT.value = n
+		eINPUT.nextSibling.value = n+'Hz' 
+		})
 	let eOUTPUT = Tag('OUTPUT')
 	eOUTPUT.innerHTML = LA3+'Hz'
 
@@ -614,6 +619,7 @@ class Harmonie {
 
 		/* Construction html */
 		var eTonique = selectbox( 'eTonique', L10n('TONIQUE'), Notations.getSequence())
+		eTonique.value = Memoire.get( 'Tonic' ) || 'A'
 		eTonique.onkeyup = eTonique.onchange =function(){}
 		Notation.addObserver( function(){
 			_oTonique.refresh()
@@ -628,15 +634,20 @@ class Harmonie {
 			})
 
 		var eScale = selectbox( 'eScales', L10n('GAMME'), Harmonie.aScales, 'choice' )
-		eScale.value = '100101010010'
+		eScale.value = Memoire.get( 'Scale' ) || '100101010010'
 		eScale.className = 'scale'
 		btn( "OK", eScale, eScale.onkeyup = eScale.onchange =function(){
+			Memoire.set( 'Scale', eScale.value )
+			Memoire.set( 'Tonic', eTonique.value )
 			that.showInterval( eTonique.value, eScale.value )
 			that.displayChords()
 			})
 
 		var eChords = selectbox( 'eChords', L10n('ARPEGE'), Harmonie.aArpeges, 'choice' )
+		eChords.value = Memoire.get( 'Arpege' ) || '100100010000'
 		btn( "OK", eChords, eChords.onkeyup = eChords.onchange = function(){
+			Memoire.set( 'Arpege', eChords.value )
+			Memoire.set( 'Tonic', eTonique.value )
 			that.showInterval( eTonique.value, eChords.value )
 			})
 

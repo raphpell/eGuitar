@@ -126,7 +126,7 @@ playTone = (frequency, type, duration) => {
 	} else {
 		o.frequency.value = frequency
 		}
-	console.info( g )
+
 	g.connect( context.destination )
 	o.start(0)
 	g.gain.exponentialRampToValueAtTime( 0.0001, context.currentTime + duration )
