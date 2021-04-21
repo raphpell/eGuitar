@@ -4,23 +4,6 @@ var context = null
 var o = null
 var g = null
 
-
-//Sound Storage 
-//If you add your own sounds here, please consider 
-//submitting a pull request with your additional sounds
-var soundObj = {
-	bump:["triangle",100,0.8,333,0.2,100,0.4,80,0.7],
-	buzzer:["sawtooth",40,0.8, 100,0.3 ,110, 0.5],
-	zip:["sawtooth",75,0.8,85,0.2,95,0.4,110,0.6,120,0.7,100,0.8],
-	powerdown:["sine", 300, 1.2, 150, 0.5,1,0.9],
-	powerup:["sine", 30, 1, 150, 0.4,350,0.9],
-	bounce:["square", 75, 0.5, 150, 0.4],
-	siren:["sawtooth",900,2.5, 400,0.5 ,900, 1, 400,1.4, 900, 2, 400, 2.5],
-	loop:["sine", 340, 2.5, 550, 0.8, 440, 1.4],
-	falling:["sine", 750, 5.2, 700, 1, 600, 2, 500, 3, 400, 4, 300, 4.5, 200, 5]
-	}
-
-
 ;(function(){
 	function decimalAdjust ( type, value, exp ){
 		value = +value
@@ -73,105 +56,19 @@ var tone = function( sNoteOctave ){
 	return Math.round10( La3.getValue() * Math.pow( Math.pow( 2, 1/12 ), n ), -2 )
 	}
 
-// Chord Storage
-var chord = {
-	'CM': [261.6, 329.6, 392.0],
-	'Cm': [261.6, 311.1, 392.0],
-	'C♯M': [277.2, 349.2, 415.3],
-	'DM': [293.7, 370.0, 440.0],
-	'DmM': [293.7, 349.2, 440.0],
-	'D♯': [311.1, 392.0, 466.2],
-	'EM': [329.6, 415.3, 493.9],
-	'Em': [329.6, 392.0, 493.9],
-	'FM': [349.2, 440.0, 523.251],
-	'Fm': [349.2, 415.3, 523.251],
-	'F♯M': [370.0, 554.365, 466.2],
-	'GM': [392.0, 493.9, 587.330],
-	'Gm': [392.0, 466.2, 587.330],
-	'G♯M': [466.2, 523.251, 622.254],
-	'AM': [440.0, 554.365, 659.255],
-	'Am': [440.0, 523.251, 659.255],
-	'A♯M': [466.2, 587.330, 698.456],
-	'BM': [493.9, 622.254, 739.989],
-	'Bm': [493.9, 587.330, 739.989]
-	}
-
-
 //Primary function
-playTone = (frequency, type, duration) => {
+playTone = (frequency, type ) => {
 	if( ! context ) context = new AudioContext()
-	if( type === undefined ) type = "sine"
-	if( duration === undefined ) duration = 1
 	if( frequency === undefined ) frequency = 440
-
+	if( type === undefined ) type = "sine"
 	o = context.createOscillator()
 	g = context.createGain()
 	o.connect(g)
 	o.type = type
-	
-	if( typeof frequency === "string" ){
-		// chord
-		if( chord[frequency]){
-			o.frequency.value = chord[frequency][0]
-			completeChord( chord[frequency][1], type, duration )
-			completeChord( chord[frequency][2], type, duration )
-		// ton
-		} else {
-			o.frequency.value = tone( frequency )
-		}
-	// sound
-	} else if( typeof frequency === "object" ){
-		o.frequency.value = frequency[0]
-		completeChord( frequency[1], type, duration )
-		completeChord( frequency[2], type, duration )
-	// frequency
-	} else {
-		o.frequency.value = frequency
-		}
-
+	o.frequency.value = tone( frequency )
 	g.connect( context.destination )
+	g.gain.setValueAtTime( g.gain.value, context.currentTime )
+	g.gain.exponentialRampToValueAtTime( 0.0001, context.currentTime + 1.000 )
+	g.gain.setValueAtTime( g.gain.value, context.currentTime + .250 )
 	o.start(0)
-	g.gain.exponentialRampToValueAtTime( 0.0001, context.currentTime + duration )
 	}
-
-//This function helps complete chords and should not be used by itself
-completeChord = (frequency, type, duration) => {
-	osc = context.createOscillator()
-	gn = context.createGain()
-	osc.connect(gn)
-	osc.type = type
-	osc.frequency.value = frequency
-	gn.connect(context.destination)
-	osc.start(0)
-	gn.gain.exponentialRampToValueAtTime(0.0001,context.currentTime + duration)
-	}
-
-
-//This function plays sounds
-  function playSound ( waveType, startFreq, endTime ){
-	if( soundObj[ arguments[0] ] && arguments.length === 1 ){
-		var soundName = arguments[0]
-		playSound(...soundObj[soundName])
-	} else {
-		var oscillatorNode = context.createOscillator()
-		var gainNode = context.createGain()
-
-		oscillatorNode.type = waveType
-		oscillatorNode.frequency.setValueAtTime( startFreq, context.currentTime )
-
-		for( var i = 3; i < arguments.length; i += 2 ){
-			oscillatorNode.frequency.exponentialRampToValueAtTime( arguments[i], context.currentTime + arguments[i+1] )
-			}
-		gainNode.gain.setValueAtTime( 0.3, context.currentTime )
-		gainNode.gain.exponentialRampToValueAtTime( 0.1, context.currentTime +  0.5 )
-
-		oscillatorNode.connect( gainNode )
-		gainNode.connect( context.destination )
-
-		oscillatorNode.start()
-		oscillatorNode.stop( context.currentTime + endTime )
-		}
-	}
-
-
-
