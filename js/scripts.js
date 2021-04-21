@@ -80,7 +80,7 @@ Notation.addObserver( function( a ){ Memoire.set( 'Notation', a )})
 
 // Option son
 let Sound = new SpecialVar ( Memoire.get( 'Sound' ) || 0 )
-Notation.addObserver( function( b ){ Memoire.set( 'Sound', b )})
+Sound.addObserver( function( b ){ Memoire.set( 'Sound', b )})
 
 
 Notations= {
