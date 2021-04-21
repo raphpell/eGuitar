@@ -34,6 +34,9 @@ Events ={
 
 window.onselectstart =function(){ return false }	// prevent text selection
 
+/*============================*/
+/*=== VARIABLES SPECIALES ====*/
+/*============================*/
 // Objet wrapper : il sert à déclencher des événements quand la valeur de l'objet change
 class SpecialVar {
 	constructor ( mValue ){
@@ -55,19 +58,16 @@ class SpecialVar {
 		this._aOnSet.push( fObserver )
 		}
 	}
-
-/*============================*/
-/*=== VARIABLES SPECIALES ====*/
-/*============================*/
+	
 // Variables partagés par tous les composants
 // valeur changée -> composants mis à jour
-function addSpecialVars ( aVars ){
+function SpecialVars ( aVars ){
 	aVars.forEach( ([sName, mDefaultValue ]) => {
 		( window[ sName ] = new SpecialVar ( mDefaultValue ))
 			.addObserver( m => Memoire.set( sName, m ))
 		})
 	}
-addSpecialVars([
+SpecialVars([
 	[ "Tuning", 0 ], // Accordage - defaut Accordage standard E ( voir Manche.aAccordage )
 	[ "LeftHanded", 0 ], 
 	[ "Mirror", 0 ],
@@ -76,7 +76,8 @@ addSpecialVars([
 	[ "La3", Memoire.get( 'La3' ) || 440 ],
 	[ "Notes", 0 ],
 	[ "Numbers", 0 ],
-	[ "Octaves", 0 ]
+	[ "Octaves", 0 ],
+	[ "Tonic", 0 ]
 	])
 
 Notations= {
@@ -560,9 +561,7 @@ class Harmonie {
 		let oIntervalBox = this.oIntervalBox = new IntervalBox ( oManche )
 		eParent.appendChild( oIntervalBox.eHTML )
 
-		var _sTonique = 'Mi'
-		var _oTonique = this.oTonique = new SpecialVar ( 'Mi' )
-		_oTonique.addObserver( function( sNote ){
+		Tonic.addObserver( function( sNote ){
 			that.eTonique.value = sNote
 			oIntervalBox.setNotes( Notations.getSequence( sNote ))
 			})
@@ -612,7 +611,6 @@ class Harmonie {
 		eTonique.value = Memoire.get( 'Tonic' ) || 'A'
 		eTonique.onkeyup = eTonique.onchange =function(){}
 		Notation.addObserver( function(){
-			_oTonique.refresh()
 			var a = Notations.getSequence()
 			var e = eTonique.firstChild
 			var i = 0
@@ -620,7 +618,8 @@ class Harmonie {
 				e.innerHTML = e.value = a[i++]
 				e = e.nextSibling
 				}
-			eTonique.value = Notations.getNoteName( _oTonique.getValue())
+			eTonique.value = Notations.getNoteName( Tonic.getValue())
+			Tonic.setValue( eTonique.value )
 			})
 
 		var eScale = selectbox( 'eScales', L10n('GAMME'), Harmonie.aScales, 'choice' )
@@ -649,7 +648,7 @@ class Harmonie {
 			var sTonique = e.attributes.tonique && e.attributes.tonique.value
 			var sMask = e.attributes && e.attributes.arpege && e.attributes.arpege.value
 			if( sMask ){
-				that.oTonique.setValue( sTonique )
+				Tonic.setValue( sTonique )
 				that.eChords.value = sMask
 				that.showInterval( sTonique, sMask )
 			//	that.displayChordsSimilarities( sTonique, sMask )
@@ -657,7 +656,7 @@ class Harmonie {
 
 			var sScale = e.scale
 			if( sScale ){
-				that.oTonique.setValue( e.tonique )
+				Tonic.setValue( e.tonique )
 				that.eScale.value = sScale
 				that.showInterval( e.tonique, sScale )
 			//	that.displayChordsSimilarities( e.tonique, sScale )
@@ -810,7 +809,7 @@ class Harmonie {
 		return null
 		}
 	showInterval ( sNote, sMask ){
-		this.oTonique.setValue( sNote )
+		Tonic.setValue( sNote )
 		this.oIntervalBox.setValue( sMask )
 		this.oManche.setScale( sNote, sMask )
 		}
