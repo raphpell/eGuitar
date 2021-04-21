@@ -61,31 +61,23 @@ class SpecialVar {
 /*============================*/
 // Variables partagés par tous les composants
 // valeur changée -> composants mis à jour
-
-// Accordage - defaut Accordage standard E ( voir Manche.aAccordage )
-let Tuning = new SpecialVar ( 0 )
-Tuning.addObserver( function( n ){ Memoire.set( 'Tuning', n )})
-
-// Option Gaucher - defaut false
-let LeftHanded = new SpecialVar ( 0 )
-LeftHanded.addObserver( function( b ){ Memoire.set( 'LeftHanded', b )})
-
-// Option Miroir - defaut false
-let Mirror = new SpecialVar ( 0 )
-Mirror.addObserver( function( b ){ Memoire.set( 'Mirror', b )})
-
-// Notation courante utilisé dans l'application [true,'FR'] = bBemol sLang
-let Notation = new SpecialVar ( Memoire.get( 'Notation' ) || [0,'EN'])
-Notation.addObserver( function( a ){ Memoire.set( 'Notation', a )})
-
-// Option son
-let Sound = new SpecialVar ( Memoire.get( 'Sound' ) || 0 )
-Sound.addObserver( function( b ){ Memoire.set( 'Sound', b )})
-
-// La3
-let La3 = new SpecialVar ( Memoire.get( 'La3' ) || 440 )
-La3.addObserver( function( n ){ Memoire.set( 'La3', n )})
-
+function addSpecialVars ( aVars ){
+	aVars.forEach( ([sName, mDefaultValue ]) => {
+		( window[ sName ] = new SpecialVar ( mDefaultValue ))
+			.addObserver( m => Memoire.set( sName, m ))
+		})
+	}
+addSpecialVars([
+	[ "Tuning", 0 ], // Accordage - defaut Accordage standard E ( voir Manche.aAccordage )
+	[ "LeftHanded", 0 ], 
+	[ "Mirror", 0 ],
+	[ "Notation", Memoire.get( 'Notation' ) || [0,'EN'] ], // Notation courante utilisé dans l'application [true,'FR'] = bBemol sLang
+	[ "Sound", Memoire.get( 'Sound' ) || 0 ],
+	[ "La3", Memoire.get( 'La3' ) || 440 ],
+	[ "Notes", 0 ],
+	[ "Numbers", 0 ],
+	[ "Octaves", 0 ]
+	])
 
 Notations= {
 	choices :{
@@ -148,9 +140,6 @@ class Manche{
 			this.e.getElementsByClassName('corde6')
 			]
 
-		// Option Notes - defaut true
-		this.notes = new SpecialVar ( 1 )
-		
 		// Ajoute les observateurs des options
 		let that = this
 		Tuning.addObserver( function( nId ){ that.setTuning( nId )})
@@ -158,10 +147,11 @@ class Manche{
 		LeftHanded.addObserver( function(b){ that.setLeftHanded(b) })
 		Sound.addObserver( function(b){ that.setSound(b) })
 		Mirror.addObserver( function(b){ that.setMirror(b) })
-		this.notes.addObserver( function(b){ that.setNotesName(b) })
+		Notes.addObserver( function(b){ that.setNotesName(b) })
+		Numbers.addObserver( function(b){ that.setFretsNumber(b) })
+		Octaves.addObserver( function(b){ that.setOctave(b) })
 		
 		MancheForm( this )
-		this.setFretsNumber( oConfig.numbers )
 		
 		this.e.onclick= function( evt ){
 			var e = Events.element( evt )
@@ -173,13 +163,13 @@ class Manche{
 		// TROUVER UNE SOLUTION POUR QUE LES VARIABLES SPECIALES SOIT GLOBAL OU LOCAL
 
 		// Défini la valeur des options
-		if( oConfig.numbers ) this.setFretsNumber( oConfig.numbers )
-		if( oConfig.octaves ) this.setOctave( oConfig.octaves )
 		this.hideForm( oConfig.config )
 
 		LeftHanded.setValue( oConfig.lefthanded )
 		Mirror.setValue( oConfig.mirror )
-		this.notes.setValue( oConfig.notes )
+		Notes.setValue( oConfig.notes )
+		Numbers.setValue( oConfig.numbers )
+		Octaves.setValue( oConfig.octaves )
 
 		// Pour éviter de mettre tous les composants à jour au chargement
 		if( Tuning.getValue() != oConfig.tuning )
@@ -369,9 +359,9 @@ Manche.DefaultSettings ={
 	tuning: Memoire.get( 'Tuning' ) || 0,
 	lefthanded: Memoire.get( 'LeftHanded' ) || 0,
 	mirror: Memoire.get( 'Mirror' ) || 0,
-	octaves:0,
-	notes: 0,
-	numbers:0
+	octaves: Memoire.get( 'Octaves' ) || 0,
+	notes: Memoire.get( 'Notes' ) || 0,
+	numbers: Memoire.get( 'Numbers' ) || 0
 	}
 Manche.getDefaultSettings = function( oConfig ){
 	oConfig = oConfig || {}
@@ -463,7 +453,7 @@ MancheForm =function( oManche ){
 		)
 	, e3 = oManche.eOctave = cb( 'eOctaves', L10n('OCTAVES'),
 		false,
-		function(){ oManche.setOctave( this.checked )}
+		function(){ Octaves.setValue( this.checked )}
 		)
 		
 	eLI = Tag('LI')
@@ -503,13 +493,13 @@ MancheForm =function( oManche ){
 		)
 	e4 = cb( 'eNotesName', '', // L10n('NOTES'),
 		false,
-		function(){ oManche.notes.setValue( this.checked )},
+		function(){ Notes.setValue( this.checked )},
 		'notes'
 		)
 		
 	oManche.eFretsNumber = cb( 'eFretsNumber', '', // L10n('NUMEROS'),
 		false,
-		function(){ oManche.setFretsNumber( this.checked )},
+		function(){ Numbers.setValue( this.checked )},
 		'numbers'
 		)
 	oManche.eSound = cb( 'eSound', '' ,
@@ -529,7 +519,7 @@ MancheForm =function( oManche ){
 		e6.checked = a[0]
 		})
 	Tuning.addObserver( function( nId ){ eAccordage.value = nId })
-	oManche.notes.addObserver( function( b ){ e4.checked = b })
+	Notes.addObserver( function( b ){ e4.checked = b })
 
 	oManche.e.appendChild( eUL2 )
 	}
