@@ -1,12 +1,12 @@
-HTML, BODY {
-	width: 944px;
-	margin: 0 auto;
-	}
 BODY {
 	font: normal 1em Verdana;
 	background: #222;
 	color: #FFF;
-	transform: rotate(-2.5deg);
+	}
+HTML, BODY {
+	width: 944px;
+	margin: 0 auto;
+>>>>>>> parent of e80b5c4 (mumuze2)
 	}
 TD {
 	font-family: Verdana;
