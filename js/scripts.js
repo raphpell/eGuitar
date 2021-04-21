@@ -4,7 +4,7 @@
 // Utilisé pour mémoriser la dernière page vu, entre autre
 Memoire ={
 	set:function( sName, sValue ){
-		if( localStorage ) localStorage.setItem( sName, sValue )
+		if( localStorage ) localStorage.setItem( sName, JSON.stringify( sValue ))
 	},
 	get:function( sName ){
 		return localStorage ? JSON.parse( localStorage.getItem( sName )) : null
@@ -74,11 +74,13 @@ LeftHanded.addObserver( function( b ){ Memoire.set( 'LeftHanded', b )})
 let Mirror = new SpecialVar ( 0 )
 Mirror.addObserver( function( b ){ Memoire.set( 'Mirror', b )})
 
-// Notation courante utilisé dans l'application [false,'FR'] = bBemol sLang
-let Notation = new SpecialVar ([0,'EN'])
+// Notation courante utilisé dans l'application [true,'FR'] = bBemol sLang
+let Notation = new SpecialVar ( Memoire.get( 'Notation' ) || [0,'EN'])
+Notation.addObserver( function( a ){ Memoire.set( 'Notation', a )})
 
 // Option son
-let Sound = new SpecialVar ( 0 )
+let Sound = new SpecialVar ( Memoire.get( 'Sound' ) || 0 )
+Notation.addObserver( function( b ){ Memoire.set( 'Sound', b )})
 
 
 Notations= {

@@ -50,9 +50,24 @@ var tone = function( sNoteOctave ){
 		'A#':10,'A♯':10,'Bb':10,'B♭':10,
 		'B':11
 		}
+	let oIndex2= {
+		'La':'A',
+		'Si':'B',
+		'Do':'C',
+		'Ré':'D',
+		'Mi':'E',
+		'Fa':'F',
+		'Sol':'G'
+		}
 	let nOctave =  sNoteOctave.charAt( sNoteOctave.length-1 )
 	let sNote =  sNoteOctave.slice( 0, -1 )
-	if( oIndex[ sNote ] === undefined ) throw Error( "pas de note " + sNote )
+	if( oIndex[ sNote ] === undefined ){
+		var a = sNote.replace(/([^#♯b♭]*)([#♯b♭]*)/, function ( matched, m1, m2 ){ return [m1, m2]}).split(',')
+		sNote2 = oIndex2[ a[0]] + a[1]
+		if( oIndex[ sNote2 ] === undefined ) throw Error(`La note "${sNote2}" existe ?`)
+		oIndex[ sNote ] = oIndex[ sNote2 ]
+		sNote = sNote2
+		}
 	let nIndex = oIndex[ sNote ] - 9
 	let n = nIndex + 12 * ( nOctave - 3 )
 	return Math.round10( LA3 * Math.pow( Math.pow( 2, 1/12 ), n ), -2 )
