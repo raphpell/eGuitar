@@ -99,8 +99,8 @@ var chord = {
 playTone = (frequency, type, duration) => {
 	if( ! context ) context = new AudioContext()
 	if( type === undefined ) type = "sine"
-	if( duration === undefined ) duration = 1.3
-	if( frequency === undefined ) frequency = 440
+	if( duration === undefined ) duration = 1
+	if( frequency === undefined ) frequency = LA3
 
 	o = context.createOscillator()
 	g = context.createGain()
@@ -126,6 +126,7 @@ playTone = (frequency, type, duration) => {
 	} else {
 		o.frequency.value = frequency
 		}
+	console.info( g )
 	g.connect( context.destination )
 	o.start(0)
 	g.gain.exponentialRampToValueAtTime( 0.0001, context.currentTime + duration )
