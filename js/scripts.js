@@ -58,7 +58,7 @@ class SpecialVar {
 		this._aOnSet.push( fObserver )
 		}
 	}
-	
+
 // Variables partagés par tous les composants
 // valeur changée -> composants mis à jour
 function SpecialVars ( aVars ){
@@ -419,7 +419,7 @@ MancheForm =function( oManche ){
 		}
 	eLabel.htmlFor = eAccordage.id =  'eAccordage'+ oManche.ID
 	eUL.appendChild( eLI )
-	
+
 	let checkbox =function( sTag, sId, sLabel, sClass, fFunction ){
 		var eTAG = Tag( sTag )
 		if( sClass ) eTAG.className = sClass
@@ -456,7 +456,7 @@ MancheForm =function( oManche ){
 		false,
 		function(){ Octaves.setValue( this.checked )}
 		)
-		
+
 	eLI = Tag('LI')
 	eLabel = Tag('LABEL')
 	eLabel.innerHTML = "LA3 "
@@ -478,10 +478,8 @@ MancheForm =function( oManche ){
 	eLI.appendChild( eLabel )
 	eLI.appendChild( eINPUT )
 	eLI.appendChild( eOUTPUT )
-	
 	eUL.appendChild( eLI )
-	
-	
+
 	oManche.e.appendChild( eUL )
 
 	/* MENU DROIT */
