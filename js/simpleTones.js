@@ -1,6 +1,6 @@
 //Create Audio Context
 var AudioContext = window.AudioContext || window.webkitAudioContext
-var context = null
+var context = new AudioContext()
 var o = null
 var g = null
 
@@ -115,7 +115,6 @@ playTone = (frequency, type, duration) => {
 			o.frequency.value = chord[frequency][0]
 			completeChord( chord[frequency][1], type, duration )
 			completeChord( chord[frequency][2], type, duration )
-		// ton
 		} else {
 			o.frequency.value = tone( frequency )
 		}
