@@ -125,11 +125,6 @@ code {
 	margin: 0 12px 0 0;
 	padding: 0;
 	}
-.mancheForm LI LABEL,
-.mancheForm LI INPUT,
-.mancheForm LI SELECT {
-	vertical-align: middle;
-	}
 
 /* Menu droit */
 .mancheMenu {
