@@ -1,11 +1,21 @@
-/* UTILITAIRES */
-var _ ={
-	Tag :function( sName, sClasses, sId ){
-		var e = document.createElement( sName )
-		if( sClasses ) e.className = sClasses
-		if( sId ) e.id = sId
-		return e
-		}
+/*====================*/
+/*=== Utilitaires ====*/
+/*====================*/
+// Utilisé pour mémoriser la dernière page vu, entre autre
+Memoire ={
+	set:function( sName, sValue ){
+		if( localStorage ) localStorage.setItem( sName, sValue )
+	},
+	get:function( sName ){
+		return localStorage ? localStorage.getItem( sName ) : null
+	}
+}
+
+Tag =function( sName, sClasses, sId ){
+	var e = document.createElement( sName )
+	if( sClasses ) e.className = sClasses
+	if( sId ) e.id = sId
+	return e
 	}
 Events ={
 	get :function( evt ){
@@ -46,15 +56,17 @@ class SpecialVar {
 		}
 	}
 
-/*
-Variables partagés par tous les composants
-valeur changée -> composantS mis à jour
-*/
+/*============================*/
+/*=== VARIABLES SPECIALES ====*/
+/*============================*/
+// Variables partagés par tous les composants
+// valeur changée -> composantS mis à jour
 let Tuning = new SpecialVar ( 0 )	// Accordage - defaut Accordage standard E ( voir Manche.aAccordage )
 , LeftHanded = new SpecialVar ( 0 )	// Option Gaucher - defaut false
 , Mirror = new SpecialVar ( 0 )	// Option Miroir - defaut false
 , Notation = new SpecialVar ([0,'EN'])	// Notation courante utilisé dans l'application [false,'FR'] = bBemol sLang
 , Sound = new SpecialVar ( 0 )	// Option son
+
 Notations= {
 	choices :{
 		'♯':{	FR:['La',	'La♯',	'Si',	'Do',	'Do♯',	'Ré',	'Ré♯',	'Mi',	'Fa',	'Fa♯',	'Sol',	'Sol♯'],
@@ -94,7 +106,6 @@ Notations= {
 		throw Error ( 'Invalid note name... '+ sNote )
 		}
 	}
-
 
 class Manche{
 	constructor ( sNodeID, oConfig ){
@@ -351,24 +362,24 @@ Manche.getDefaultSettings = function( oConfig ){
 	return oConfig
 	}
 Manche.getHTML = function( nCordes, nCases ){
-	var eParent = _.Tag( 'DIV', 'eGuitar' )
-	var e = _.Tag( 'DIV', 'manche' ), eCase, eCorde, eFrette
+	var eParent = Tag( 'DIV', 'eGuitar' )
+	var e = Tag( 'DIV', 'manche' ), eCase, eCorde, eFrette
 	
 	// manche
 	for(var i=0, ni=nCases+1; i<ni; i++ ){
-		eCase = _.Tag( 'DIV', 'case case'+ i )
+		eCase = Tag( 'DIV', 'case case'+ i )
 		for(var j=nCordes; j>0; j-- ){
-			eCorde = _.Tag( 'DIV', 'corde corde'+ j )
-			eCorde.appendChild( _.Tag( 'SPAN' ))
+			eCorde = Tag( 'DIV', 'corde corde'+ j )
+			eCorde.appendChild( Tag( 'SPAN' ))
 			eCase.appendChild( eCorde )
 			}
 		if( i!=0 ){
-			eFrette = _.Tag( 'DIV', 'frette' )
-			eFrette.appendChild( _.Tag( 'SPAN' )).innerHTML = i
+			eFrette = Tag( 'DIV', 'frette' )
+			eFrette.appendChild( Tag( 'SPAN' )).innerHTML = i
 			eCase.appendChild( eFrette )
 			}
 		if( i==3 || i==5 || i==7 || i==9 || i==12 || i==15 || i==17 || i==19 || i==21 || i==24 ){
-			eFrette = _.Tag( 'DIV', 'incrustation' )
+			eFrette = Tag( 'DIV', 'incrustation' )
 			eCase.appendChild( eFrette )
 			}
 		e.appendChild( eCase )
@@ -381,13 +392,13 @@ Manche.getHTML = function( nCordes, nCases ){
 
 MancheForm =function( oManche ){
 	/* MENU HAUT */
-	var eUL = _.Tag( 'UL', 'mancheForm' )
-	var eLI = _.Tag( 'LI' )
-	var eLabel = eUL.appendChild( _.Tag( 'LABEL' ))
+	var eUL = Tag( 'UL', 'mancheForm' )
+	var eLI = Tag( 'LI' )
+	var eLabel = eUL.appendChild( Tag( 'LABEL' ))
 	eLabel.innerHTML = L10n('ACCORDAGE') +' : '
-	var eAccordage = eUL.appendChild( _.Tag( 'SELECT' )), eOption
+	var eAccordage = eUL.appendChild( Tag( 'SELECT' )), eOption
 	for(var a=Manche.aAccordage, i=0, ni=a.length; i<ni; i++ ){
-		eOption = _.Tag( 'OPTION' )
+		eOption = Tag( 'OPTION' )
 		eOption.value = i
 		eOption.innerHTML = a[i][1]
 		eAccordage.appendChild( eOption ) 
@@ -396,10 +407,10 @@ MancheForm =function( oManche ){
 	eUL.appendChild( eLI )
 	
 	let checkbox =function( sTag, sId, sLabel, sClass, fFunction ){
-		var eTAG = _.Tag( sTag )
+		var eTAG = Tag( sTag )
 		if( sClass ) eTAG.className = sClass
-		var eCheckBox = eTAG.appendChild( _.Tag( 'INPUT' ))
-		var eLabel = eTAG.appendChild( _.Tag( 'LABEL' ))
+		var eCheckBox = eTAG.appendChild( Tag( 'INPUT' ))
+		var eLabel = eTAG.appendChild( Tag( 'LABEL' ))
 		eCheckBox.type = 'checkbox'
 		if( fFunction ) eCheckBox.onclick = fFunction
 		eLabel.htmlFor = eCheckBox.id = sId + oManche.ID
@@ -438,7 +449,7 @@ MancheForm =function( oManche ){
 	oManche.e.appendChild( eUL )
 
 	/* MENU DROIT */
-	let eUL2 = _.Tag( 'UL', 'mancheMenu' )
+	let eUL2 = Tag( 'UL', 'mancheMenu' )
 	cb.eUL = eUL2
 	cb( 'eConfig', '' ,
 		oManche.oConfig.config,
@@ -521,25 +532,25 @@ class Harmonie {
 			oIntervalBox.setNotes( Notations.getSequence( sNote ))
 			})
 
-		var eTable = _.Tag( 'TABLE', 'harmonieForm' )
-		var eSUGG = _.Tag( 'TABLE', 'suggestion', 'eSuggestion'+ Manche.ID )
+		var eTable = Tag( 'TABLE', 'harmonieForm' )
+		var eSUGG = Tag( 'TABLE', 'suggestion', 'eSuggestion'+ Manche.ID )
 		eSUGG.cellSpacing = 0
 
 		/* Constructeur html */
 		var selectbox =function( sId, sLabel, a, sRadio ){
-			var eTH, eTD, eTR = _.Tag( 'TR' )
+			var eTH, eTD, eTR = Tag( 'TR' )
 			
-			eTH = _.Tag( 'TH' )
+			eTH = Tag( 'TH' )
 			eTH.align="right"
 
-			var eLabel = eTH.appendChild( _.Tag( 'LABEL' ))
+			var eLabel = eTH.appendChild( Tag( 'LABEL' ))
 			eLabel.innerHTML = sLabel +':'
 			eTR.appendChild( eTH )
 			
-			eTD = _.Tag( 'TD' )
-			var eSelect = eTD.appendChild( _.Tag( 'SELECT' )), eOption
+			eTD = Tag( 'TD' )
+			var eSelect = eTD.appendChild( Tag( 'SELECT' )), eOption
 			for(var i=0, ni=a.length; i<ni; i++ ){
-				eOption = _.Tag( 'OPTION' )
+				eOption = Tag( 'OPTION' )
 				if( a[i].constructor == String )
 						eOption.innerHTML = eOption.value = a[i]
 					else {
@@ -555,7 +566,7 @@ class Harmonie {
 			return eSelect
 			}
 		var btn =function( sText, eSelect, f ){
-			var eBTN = _.Tag( 'Button' )
+			var eBTN = Tag( 'Button' )
 			eBTN.innerHTML = sText
 			eBTN.onclick = f
 			eSelect.parentNode.appendChild( eBTN )
@@ -717,7 +728,7 @@ class Harmonie {
 		this.TableSorter.init( this.eSUGG.id )
 		if( aSort ) this.TableSorter.sort( aSort[0], aSort[1] )
 
-		var e = _.Tag( 'CAPTION' )
+		var e = Tag( 'CAPTION' )
 		e.innerHTML = '<h2>'+ this.sScaleName +'</h2>'
 		e.tonique = sTonique
 		e.scale = sScaleMask
@@ -791,16 +802,16 @@ class IntervalBox {
 		this.oManche = oManche
 		let that = this
 		// Construction HTML
-		let eUL = this.eHTML = _.Tag('UL','interval')
+		let eUL = this.eHTML = Tag('UL','interval')
 		, eLI, eDIV, eDL, eDT, eDD
 		for(let i=0; i<12; i++ ){
-			eLI = _.Tag('LI','ton'+i)
-			eDIV = _.Tag('DIV')
+			eLI = Tag('LI','ton'+i)
+			eDIV = Tag('DIV')
 			eLI.appendChild( eDIV )
-			eDL = _.Tag('DL')
-			eDT = _.Tag('DT')
+			eDL = Tag('DL')
+			eDT = Tag('DT')
 			eDT.innerHTML = IntervalBox.DT[i]
-			eDD = _.Tag('DD')
+			eDD = Tag('DD')
 			eDD.innerHTML = IntervalBox.DD[i]
 			eDL.appendChild( eDT )
 			eDL.appendChild( eDD )
@@ -853,5 +864,5 @@ IntervalBox.DD = ['0','&half;','1','1&half;','2','2&half;','3','3&half;','4','4&
 
 
 ChordsBox =function(){
-	var eDIV = this.eHTML = _.Tag('DIV','chords')
+	var eDIV = this.eHTML = Tag('DIV','chords')
 	}
