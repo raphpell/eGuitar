@@ -909,7 +909,6 @@ class IntervalBox {
 IntervalBox.DT = ['1','b2','2','b3','3','4','b5','5','b6','6','b7','7','8']
 IntervalBox.DD = ['0','&half;','1','1&half;','2','2&half;','3','3&half;','4','4&half;','5','5&half;','6']
 
-
 ChordsBox =function(){
 	var eDIV = this.eHTML = Tag('DIV','chords')
 	}
