@@ -130,6 +130,9 @@ code {
 .mancheForm LI SELECT {
 	vertical-align: middle;
 	}
+.range {
+	width: 50px;
+	}
 
 /* Menu droit */
 .mancheMenu {

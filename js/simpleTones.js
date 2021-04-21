@@ -34,7 +34,6 @@ var soundObj = {
 	if( ! Math.ceil10 ) Math.ceil10 =function( value, exp ){ return decimalAdjust('ceil', value, exp)}
 })();
 
-let LA3 = 440
 var tone = function( sNoteOctave ){
 	let oIndex = {
 		'C':0,

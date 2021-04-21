@@ -60,7 +60,7 @@ class SpecialVar {
 /*=== VARIABLES SPECIALES ====*/
 /*============================*/
 // Variables partagés par tous les composants
-// valeur changée -> composantS mis à jour
+// valeur changée -> composants mis à jour
 
 // Accordage - defaut Accordage standard E ( voir Manche.aAccordage )
 let Tuning = new SpecialVar ( 0 )
@@ -366,7 +366,7 @@ Manche.DefaultSettings ={
 	lefthanded: Memoire.get( 'LeftHanded' ) || 0,
 	mirror: Memoire.get( 'Mirror' ) || 0,
 	octaves:0,
-	notes:0,
+	notes: 0,
 	numbers:0
 	}
 Manche.getDefaultSettings = function( oConfig ){
@@ -412,7 +412,9 @@ MancheForm =function( oManche ){
 	var eLI = Tag( 'LI' )
 	var eLabel = eUL.appendChild( Tag( 'LABEL' ))
 	eLabel.innerHTML = L10n('ACCORDAGE') +' : '
-	var eAccordage = eUL.appendChild( Tag( 'SELECT' )), eOption
+	var eAccordage = eUL.appendChild( Tag( 'SELECT' ))
+	eAccordage.onkeyup = eAccordage.onchange = function(){ Tuning.setValue( eAccordage.value )}
+	let eOption
 	for(var a=Manche.aAccordage, i=0, ni=a.length; i<ni; i++ ){
 		eOption = Tag( 'OPTION' )
 		eOption.value = i
@@ -451,18 +453,39 @@ MancheForm =function( oManche ){
 		Notation.getValue()[0],
 		function(){ oManche.setNotation( e5.checked?'EN':'FR', e6.checked )}
 		)
-	, e3 = oManche.eOctave = cb( 'eOctaves', L10n('OCTAVES'),
-		false,
-		function(){ oManche.setOctave( this.checked )}
-		)
 	, e2 = oManche.eFlipV = cb( 'eFlipV', L10n('MIROIR'),
 		false,
 		function(){ Mirror.setValue( this.checked )}
 		)
+	, e3 = oManche.eOctave = cb( 'eOctaves', L10n('OCTAVES'),
+		false,
+		function(){ oManche.setOctave( this.checked )}
+		)
+		
+	eLI = Tag('LI')
+	eLabel = Tag('LABEL')
+	eLabel.innerHTML = "LA3 "
+	let eINPUT = Tag('INPUT')
+	eINPUT.className = "range"
+	eINPUT.type = "range"
+	eINPUT.step = 1
+	eINPUT.min = 400
+	eINPUT.max = 500
+	eINPUT.value = LA3
+	eINPUT.oninput=function(){ 
+		this.nextSibling.value = this.value +'Hz'
+		Memoire.set( 'La3', LA3 = this.value )
+		}
+	let eOUTPUT = Tag('OUTPUT')
+	eOUTPUT.innerHTML = LA3+'Hz'
 
-	eAccordage.onkeyup =
-	eAccordage.onchange = function(){ Tuning.setValue( eAccordage.value )}
-
+	eLI.appendChild( eLabel )
+	eLI.appendChild( eINPUT )
+	eLI.appendChild( eOUTPUT )
+	
+	eUL.appendChild( eLI )
+	
+	
 	oManche.e.appendChild( eUL )
 
 	/* MENU DROIT */

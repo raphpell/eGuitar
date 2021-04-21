@@ -1,3 +1,4 @@
+let LA3 = Memoire.get('La3')||440
 
 Manche.aAccordage =[
 	["Mi,La,Ré,Sol,Si,Mi|0,0,0,0,0,0",'E'],
