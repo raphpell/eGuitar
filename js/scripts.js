@@ -200,7 +200,6 @@ class Manche{
 		}
 	hideForm ( b ){
 		this.e.classList[ ! b ? 'add' : 'remove' ]( 'hideForm' )
-		playSound('bump')
 		}
 	highlightNote ( nCorde, nCase, sClassName ){
 		var e = this.aCordes[ nCorde-1 ][ nCase ]
@@ -287,7 +286,6 @@ class Manche{
 	setFretsNumber ( b ){
 		this.eFretsNumber.checked = b
 		this.e.classList[ ! b ? 'add' : 'remove' ]( 'hideFretsNumber' )
-		playSound('bump')
 		}
 	setLeftHanded ( b ){
 		this.setFlip( b, Mirror.getValue())
