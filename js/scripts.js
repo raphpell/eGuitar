@@ -2,14 +2,20 @@
 /*=== Utilitaires ====*/
 /*====================*/
 // Utilisé pour mémoriser la dernière page vu, entre autre
-Memoire ={
-	set:function( sName, sValue ){
-		if( localStorage ) localStorage.setItem( sName, JSON.stringify( sValue ))
-	},
-	get:function( sName ){
-		return localStorage ? JSON.parse( localStorage.getItem( sName )) : null
-	}
-}
+Memoire =(function( sBase ){
+	let o = JSON.parse( localStorage.getItem( sBase )) || {}
+	return {
+		set:function( sName, mValue ){
+			if( o[ sName ] == mValue ) return false
+			o[ sName ] = mValue
+			localStorage.setItem( sBase, JSON.stringify( o ))
+			return true
+			},
+		get:function( sName ){
+			return o[ sName ] || null
+			}
+		}
+	})( 'eGuitar' )
 
 Tag =function( sName, sClasses, sId ){
 	var e = document.createElement( sName )
