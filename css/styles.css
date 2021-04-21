@@ -19,14 +19,19 @@ TD {
 #eHead IMG {
 	float: left;
 	margin: 7px 1em 7px 1em;
-	height: 41px;
+	height: 30px;
+	width: 30px;
 	}
 #eHead H1 {
+	color: #FFF;
+	font: normal 1.5em Verdana;
+	line-height: 45px;
+	letter-spacing: 5px;
 	float: left;
-	display: none;
 	margin: 0;
 	padding: 0;
-	}
+	text-shadow: 0 0 3px rgba(255,255,255,50%);
+ 	}
 
 #eHead UL {
 	float: right;
