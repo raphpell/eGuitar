@@ -483,6 +483,9 @@ MancheForm =function( oManche ){
 		eINPUT.value = n
 		eINPUT.nextSibling.value = n+'Hz' 
 		})
+	Notation.addObserver( function( a ){
+		eLabel.innerHTML = a[1]=='FR' ? 'La3' : 'A3'
+		})
 	let eOUTPUT = Tag('OUTPUT')
 	eOUTPUT.innerHTML = LA3+'Hz'
 
