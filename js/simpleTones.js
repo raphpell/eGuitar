@@ -68,7 +68,7 @@ playTone = (frequency, type ) => {
 	o.frequency.value = tone( frequency )
 	g.connect( context.destination )
 	g.gain.setValueAtTime( g.gain.value, context.currentTime )
-	g.gain.exponentialRampToValueAtTime( 0.0001, context.currentTime + 1.000 )
+	g.gain.linearRampToValueAtTime( 0.0001, context.currentTime + 1.000 )
 	g.gain.setValueAtTime( g.gain.value, context.currentTime + .250 )
 	o.start(0)
 	}
