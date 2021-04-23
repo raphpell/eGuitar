@@ -86,7 +86,7 @@ SpecialVars([
 	[ "Octaves", 0 ],
 	[ "Sound", Memoire.get( 'Sound' ) || 0 ],
 	[ "Tonic", 0 ],
-	[ "Tuning", 0 ] // Accordage - defaut Accordage standard E ( voir Manche.aAccordage )
+	[ "Tuning", 0 ] // Accordage - defaut Accordage standard E ( voir Tunings )
 	])
 
 Notations= {
@@ -228,7 +228,7 @@ class Manche{
 		let eAccordage = eUL.appendChild( Tag( 'SELECT' ))
 		eAccordage.onkeyup = eAccordage.onchange = function(){ Tuning.setValue( eAccordage.value )}
 		let eOption
-		for(let a=Manche.aAccordage, i=0, ni=a.length; i<ni; i++ ){
+		for(let a=Tunings, i=0, ni=a.length; i<ni; i++ ){
 			eOption = Tag( 'OPTION' )
 			eOption.value = i
 			eOption.selected = i == Tuning.getValue()
@@ -402,14 +402,14 @@ class Manche{
 		var o = this.oHarmonie
 		if( ! o ) return;
 		var sName = Tonic.getValue(), sFound
-		for(var i=0, a=Harmonie.aArpeges, ni=a.length; i<ni ; i++ ){
+		for(var i=0, a=Arpeggio, ni=a.length; i<ni ; i++ ){
 			if( a[i][0] == sMask ){
 				o.eChords.value = sMask
 				sFound = a[i][1]
 				break;
 				}
 			}
-		for(var i=0, a=Harmonie.aScales, ni=a.length; i<ni ; i++ ){
+		for(var i=0, a=Scales, ni=a.length; i<ni ; i++ ){
 			if( a[i][0] == sMask ){
 				o.eScale.value = sMask
 				sFound = a[i][1]
@@ -483,7 +483,7 @@ class Manche{
 		this.eSound.checked = Sound.getValue()
 		}
 	setTuning ( nId ){
-		var sAccordage = Manche.aAccordage[ nId ][0]
+		var sAccordage = Tunings[ nId ][0]
 		var aAccordage = sAccordage.split('|')
 		var aNotes = aAccordage[0].split(',')
 		var aFrequences = aAccordage[1].split(',') // écarts tons de base accordage
@@ -635,7 +635,7 @@ class Harmonie {
 			Tonic.setValue( eTonique.value )
 			})
 
-		var eScale = selectbox( 'eScales', L10n('GAMME'), Harmonie.aScales, 'choice' )
+		var eScale = selectbox( 'eScales', L10n('GAMME'), Scales, 'choice' )
 		eScale.value = Memoire.get( 'Scale' ) || '100101010010'
 		eScale.className = 'scale'
 		btn( "OK", eScale, eScale.onkeyup = eScale.onchange =function(){
@@ -645,7 +645,7 @@ class Harmonie {
 			that.displayChords()
 			})
 
-		var eChords = selectbox( 'eChords', L10n('ARPEGE'), Harmonie.aArpeges, 'choice' )
+		var eChords = selectbox( 'eChords', L10n('ARPEGE'), Arpeggio, 'choice' )
 		eChords.value = Memoire.get( 'Arpege' ) || '100100010000'
 		btn( "OK", eChords, eChords.onkeyup = eChords.onchange = function(){
 			Memoire.set( 'Arpege', eChords.value )
@@ -748,8 +748,8 @@ class Harmonie {
 		}
 	searchChords ( sScaleMask ){
 		var aResult = []
-		for(var j=0,nj=Harmonie.aArpeges.length; j<nj; j++ ){
-			var a = Harmonie.aArpeges[j]
+		for(var j=0,nj=Arpeggio.length; j<nj; j++ ){
+			var a = Arpeggio[j]
 			if( ( parseInt(sScaleMask,2) & parseInt(a[0],2) ).toString(2) == a[0])
 				aResult.push( a.concat( Harmonie.getSimilarity( sScaleMask, a[0], 'scale' )))
 			}
@@ -757,13 +757,13 @@ class Harmonie {
 		}
 	setChords ( sTonique, sScaleMask, aChords ){
 		var o = {}
-		for(var i=0, ni=Harmonie.aArpeges.length; i<ni; i++ ){
-			var sChordName =  Harmonie.aArpeges[i][1]
+		for(var i=0, ni=Arpeggio.length; i<ni; i++ ){
+			var sChordName =  Arpeggio[i][1]
 			o[ sChordName ] = []
 			o[ sChordName ][12] = 0
 						
 			// Compte le nombre de "1"
-			var sMask = Harmonie.aArpeges[i][0]
+			var sMask = Arpeggio[i][0]
 			var count = 0
 			var pos = sMask.indexOf('1');
 			while (pos !== -1) {
@@ -789,8 +789,8 @@ class Harmonie {
 			}
 
 		var aTR = []
-		for(var i=0, ni=Harmonie.aArpeges.length; i<ni; i++ ){
-			var sChordName = Harmonie.aArpeges[i][1]
+		for(var i=0, ni=Arpeggio.length; i<ni; i++ ){
+			var sChordName = Arpeggio[i][1]
 			if( o[ sChordName ][12] > 0 )
 				aTR[i] = '<tr><td>'+ o[ sChordName ].join('</td><td>' ) +'</td></tr>'
 			}

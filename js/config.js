@@ -1,6 +1,6 @@
 let LA3 = Memoire.get('La3')||440
 
-Manche.aAccordage =[
+const Tunings =[
 	["Mi,La,Ré,Sol,Si,Mi|0,0,0,0,0,0",'E'],
 	["Ré,La,Ré,Sol,Si,Mi|-1,0,0,0,0,0",'Dropped D'],
 	["Mi,La,Ré,Fa?Sol?,Si,Ré|0,0,0,-.5,0,-1",'Open de Luth'],
@@ -18,8 +18,7 @@ Manche.aAccordage =[
 	["Mi,La,Mi,La,Do?Ré?,Mi|0,0,1,1,1,0",'Open de La ("Spanish Tuning")'],
 	["Ré,La,Ré,Fa?Sol?,La,Do?Ré?|-1,0,0,-.5,-1,-1.5",'Open de Ré 7M']
 	]
-
-Harmonie.aArpeges =[
+const Arpeggio =[
 	['100100010000','m'],
 	['100010010000','M'],
 	['100010001000','(aug)'],
@@ -84,7 +83,7 @@ Harmonie.aArpeges =[
 	['101100010001','m9(M7)'],
 	['101101010010','m11 - m9(sus4)']
 	]
-Harmonie.aScales =[
+const Scales =[
 	['100000000000',''],
 	['100101110010', L10n('mBlues')],
 	['100101010010', L10n('mPenta')],
