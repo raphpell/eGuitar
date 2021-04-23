@@ -77,16 +77,16 @@ function SpecialVars ( aVars ){
 		})
 	}
 SpecialVars([
-	[ "Tuning", 0 ], // Accordage - defaut Accordage standard E ( voir Manche.aAccordage )
-	[ "LeftHanded", 0 ], 
+	[ "La3", Memoire.get( 'La3' ) || 440 ],
+	[ "LeftHanded", 0 ],
 	[ "Mirror", 0 ],
 	[ "Notation", Memoire.get( 'Notation' ) || [0,'EN'] ], // Notation courante utilisé dans l'application [true,'FR'] = bBemol sLang
-	[ "Sound", Memoire.get( 'Sound' ) || 0 ],
-	[ "La3", Memoire.get( 'La3' ) || 440 ],
 	[ "Notes", 0 ],
 	[ "Numbers", 0 ],
 	[ "Octaves", 0 ],
-	[ "Tonic", 0 ]
+	[ "Sound", Memoire.get( 'Sound' ) || 0 ],
+	[ "Tonic", 0 ],
+	[ "Tuning", 0 ] // Accordage - defaut Accordage standard E ( voir Manche.aAccordage )
 	])
 
 Notations= {
@@ -118,7 +118,7 @@ Notations= {
 			! sIndex1 && sNote.length == 1 || sIndex1 && sNote.length == 2 
 			? 'EN'
 			: 'FR'
-		if( ! sIndex1 ) sIndex1 = "♭"
+		if( ! sIndex1 ) sIndex1 = Notation.getValue()[0]?'♭':'♯'
 
 		var a = Notations.choices[sIndex1][sIndex2]
 		for(var i=0; i<12; i++ )
