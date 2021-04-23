@@ -3,17 +3,17 @@
 eGuitar est une aide pour visualiser :
 - une gamme
 - un arpège
-- les accords présent dans une gamme !
+- les accords présent dans des intervalles précis !
 
 Et tout cela selon l'orientation du manche de votre choix.
-(cette option n'est pas disponible pour tous les navigateurs)
 
 Vous pouvez aussi  :
-- visualiser les noms des notes selon les 2 notations courantes
+- mettre du son et régler la fréquence du La (experimental)
 - mettre en avant les octaves.
+- choisir la notation à utilisé : Do ou C, avec ou sans bémol.
 
 [Cette application est une page web alors consulter là !](http://raphpell.github.io/eGuitar/)
 
 [![Preview](https://github.com/raphpell/eGuitar/raw/gh-pages/preview1.png "allez y !")](http://raphpell.github.io/eGuitar/)
 
-Faites moi des suggestions !
+Faites du bruit !
