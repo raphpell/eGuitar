@@ -138,7 +138,7 @@ class Manche{
 		var eParent = document.getElementById( sNodeID )
 		var nCases = oConfig.cases
 		this.ID = Manche.ID++
-		this.e = eParent.appendChild( Manche.getHTML( oConfig.strings, oConfig.cases ))
+		this.e = eParent.appendChild( this.createHTML( oConfig.strings, oConfig.cases ))
 		this.nCordes = oConfig.strings
 		this.nCases = oConfig.cases
 		this.aCordes =[
@@ -160,8 +160,8 @@ class Manche{
 		Notes.addObserver( function(b){ that.setNotesName(b) })
 		Numbers.addObserver( function(b){ that.setFretsNumber(b) })
 		Octaves.addObserver( function(b){ that.setOctave(b) })
-		
-		MancheForm( this )
+
+		this.createMenuHTML()
 		
 		this.e.onclick= function( evt ){
 			var e = Events.element( evt )
@@ -191,6 +191,159 @@ class Manche{
 		this.oConfig = null
 		}
 
+	createHTML ( nCordes, nCases ){
+		var eParent = Tag( 'DIV', 'eGuitar' )
+		var e = Tag( 'DIV', 'manche' ), eCase, eCorde, eFrette
+		
+		// manche
+		for(var i=0, ni=nCases+1; i<ni; i++ ){
+			eCase = Tag( 'DIV', 'case case'+ i )
+			for(var j=nCordes; j>0; j-- ){
+				eCorde = Tag( 'DIV', 'corde corde'+ j )
+				eCorde.appendChild( Tag( 'SPAN' ))
+				eCase.appendChild( eCorde )
+				}
+			if( i!=0 ){
+				eFrette = Tag( 'DIV', 'frette' )
+				eFrette.appendChild( Tag( 'SPAN' )).innerHTML = i
+				eCase.appendChild( eFrette )
+				}
+			if( i==3 || i==5 || i==7 || i==9 || i==12 || i==15 || i==17 || i==19 || i==21 || i==24 ){
+				eFrette = Tag( 'DIV', 'incrustation' )
+				eCase.appendChild( eFrette )
+				}
+			e.appendChild( eCase )
+			}
+		eParent.appendChild( e )
+		eParent.style.width = 30+ (nCases+1)*70 +'px'
+		eParent.style.height = nCordes*30 +'px'
+		return eParent
+		}
+	createMenuHTML (){
+		let that = this
+		/* MENU HAUT */
+		let eUL = Tag( 'UL', 'mancheForm' )
+		let eLI = Tag( 'LI' )
+		let eLabel = eUL.appendChild( Tag( 'LABEL' ))
+		eLabel.innerHTML = L10n('ACCORDAGE') +' : '
+		let eAccordage = eUL.appendChild( Tag( 'SELECT' ))
+		eAccordage.onkeyup = eAccordage.onchange = function(){ Tuning.setValue( eAccordage.value )}
+		let eOption
+		for(let a=Manche.aAccordage, i=0, ni=a.length; i<ni; i++ ){
+			eOption = Tag( 'OPTION' )
+			eOption.value = i
+			eOption.selected = i == Tuning.getValue()
+			eOption.innerHTML = a[i][1]
+			eAccordage.appendChild( eOption ) 
+			}
+		eLabel.htmlFor = eAccordage.id =  'eAccordage'+ this.ID
+		eUL.appendChild( eLI )
+
+		let checkbox =function( sTag, sId, sLabel, sClass, fFunction ){
+			let eTAG = Tag( sTag )
+			if( sClass ) eTAG.className = sClass
+			let eCheckBox = eTAG.appendChild( Tag( 'INPUT' ))
+			let eLabel = eTAG.appendChild( Tag( 'LABEL' ))
+			eCheckBox.type = 'checkbox'
+			if( fFunction ) eCheckBox.onclick = fFunction
+			eLabel.htmlFor = eCheckBox.id = sId + that.ID
+			eLabel.innerHTML = sLabel
+			return eTAG
+			}
+		, cb =function( sId, sLabel, bChecked, fFunction, sClassName ){
+			let eLI = checkbox( 'LI', sId, sLabel, sClassName||'', fFunction )
+			let eCB = eLI.firstChild
+			eCB.checked = bChecked
+			cb.eUL.appendChild( eLI )
+			return eCB
+			}
+		cb.eUL = eUL
+		let e5 = this.eNotationI = cb( 'eNotationI',
+			L10n('ABCDEFG'),
+			Notation.getValue()[1] == 'EN',
+			function(){ that.setNotation( e5.checked?'EN':'FR', e6.checked )}
+			)
+		, e6 = this.eBemol = cb( 'eBemol', L10n('BEMOL'),
+			Notation.getValue()[0],
+			function(){ that.setNotation( e5.checked?'EN':'FR', e6.checked )}
+			)
+		, e2 = this.eFlipV = cb( 'eFlipV', L10n('MIROIR'),
+			false,
+			function(){ Mirror.setValue( this.checked )}
+			)
+		, e3 = this.eOctave = cb( 'eOctaves', L10n('OCTAVES'),
+			false,
+			function(){ Octaves.setValue( this.checked )}
+			)
+
+		eLI = Tag('LI')
+		eLabel = Tag('LABEL')
+		eLabel.innerHTML = "LA3 "
+		let eINPUT = Tag('INPUT')
+		eINPUT.className = "range"
+		eINPUT.type = "range"
+		eINPUT.step = 1
+		eINPUT.min = 400
+		eINPUT.max = 500
+		eINPUT.value = LA3
+		eINPUT.oninput=function(){ La3.setValue( this.value )}
+		La3.addObserver( function( n ){
+			eINPUT.value = n
+			eINPUT.nextSibling.value = n+'Hz' 
+			})
+		Notation.addObserver( function( a ){
+			eLabel.innerHTML = a[1]=='FR' ? 'La3' : 'A3'
+			})
+		let eOUTPUT = Tag('OUTPUT')
+		eOUTPUT.innerHTML = LA3+'Hz'
+
+		eLI.appendChild( eLabel )
+		eLI.appendChild( eINPUT )
+		eLI.appendChild( eOUTPUT )
+		eUL.appendChild( eLI )
+
+		this.e.appendChild( eUL )
+
+		/* MENU DROIT */
+		let eUL2 = Tag( 'UL', 'mancheMenu' )
+		cb.eUL = eUL2
+		cb( 'eConfig', '' ,
+			this.oConfig.config,
+			function(){ that.hideForm( this.checked )},
+			'reglage'
+			)
+		let e4 = cb( 'eNotesName', '', // L10n('NOTES'),
+			false,
+			function(){ Notes.setValue( this.checked )},
+			'notes'
+			)
+			
+		this.eFretsNumber = cb( 'eFretsNumber', '', // L10n('NUMEROS'),
+			false,
+			function(){ Numbers.setValue( this.checked )},
+			'numbers'
+			)
+		this.eSound = cb( 'eSound', '' ,
+			Sound.getValue(),
+			function(){ Sound.setValue( this.checked )},
+			'sound'
+			)
+		this.eFlipH = cb( 'eFlipH', '', //L10n('GAUCHER'),
+			false,
+			function(){ LeftHanded.setValue( this.checked )},
+			'lefthanded'
+			)
+		
+		/* Observateurs */
+		Notation.addObserver( function( a ){
+			e5.checked = a[1] == 'EN'
+			e6.checked = a[0]
+			})
+		Tuning.addObserver( function( nId ){ eAccordage.value = nId })
+		Notes.addObserver( function( b ){ e4.checked = b })
+
+		this.e.appendChild( eUL2 )
+		}
 	getNotes ( sNote ){
 		sNote = Notations.getNoteName( sNote )
 		var aElts = []
@@ -383,159 +536,6 @@ Manche.getDefaultSettings = function( oConfig ){
 			: Manche.DefaultSettings[s]
 	return oConfig
 	}
-Manche.getHTML = function( nCordes, nCases ){
-	var eParent = Tag( 'DIV', 'eGuitar' )
-	var e = Tag( 'DIV', 'manche' ), eCase, eCorde, eFrette
-	
-	// manche
-	for(var i=0, ni=nCases+1; i<ni; i++ ){
-		eCase = Tag( 'DIV', 'case case'+ i )
-		for(var j=nCordes; j>0; j-- ){
-			eCorde = Tag( 'DIV', 'corde corde'+ j )
-			eCorde.appendChild( Tag( 'SPAN' ))
-			eCase.appendChild( eCorde )
-			}
-		if( i!=0 ){
-			eFrette = Tag( 'DIV', 'frette' )
-			eFrette.appendChild( Tag( 'SPAN' )).innerHTML = i
-			eCase.appendChild( eFrette )
-			}
-		if( i==3 || i==5 || i==7 || i==9 || i==12 || i==15 || i==17 || i==19 || i==21 || i==24 ){
-			eFrette = Tag( 'DIV', 'incrustation' )
-			eCase.appendChild( eFrette )
-			}
-		e.appendChild( eCase )
-		}
-	eParent.appendChild( e )
-	eParent.style.width = 30+ (nCases+1)*70 +'px'
-	eParent.style.height = nCordes*30 +'px'
-	return eParent
-	}
-
-MancheForm =function( oManche ){
-	/* MENU HAUT */
-	var eUL = Tag( 'UL', 'mancheForm' )
-	var eLI = Tag( 'LI' )
-	var eLabel = eUL.appendChild( Tag( 'LABEL' ))
-	eLabel.innerHTML = L10n('ACCORDAGE') +' : '
-	var eAccordage = eUL.appendChild( Tag( 'SELECT' ))
-	eAccordage.onkeyup = eAccordage.onchange = function(){ Tuning.setValue( eAccordage.value )}
-	let eOption
-	for(var a=Manche.aAccordage, i=0, ni=a.length; i<ni; i++ ){
-		eOption = Tag( 'OPTION' )
-		eOption.value = i
-		eOption.selected = i == Tuning.getValue()
-		eOption.innerHTML = a[i][1]
-		eAccordage.appendChild( eOption ) 
-		}
-	eLabel.htmlFor = eAccordage.id =  'eAccordage'+ oManche.ID
-	eUL.appendChild( eLI )
-
-	let checkbox =function( sTag, sId, sLabel, sClass, fFunction ){
-		var eTAG = Tag( sTag )
-		if( sClass ) eTAG.className = sClass
-		var eCheckBox = eTAG.appendChild( Tag( 'INPUT' ))
-		var eLabel = eTAG.appendChild( Tag( 'LABEL' ))
-		eCheckBox.type = 'checkbox'
-		if( fFunction ) eCheckBox.onclick = fFunction
-		eLabel.htmlFor = eCheckBox.id = sId + oManche.ID
-		eLabel.innerHTML = sLabel
-		return eTAG
-		}
-	, cb =function( sId, sLabel, bChecked, fFunction, sClassName ){
-		let eLI = checkbox( 'LI', sId, sLabel, sClassName||'', fFunction )
-		let eCB = eLI.firstChild
-		eCB.checked = bChecked
-		cb.eUL.appendChild( eLI )
-		return eCB
-		}
-	cb.eUL = eUL
-	let e5 = oManche.eNotationI = cb( 'eNotationI',
-		L10n('ABCDEFG'),
-		Notation.getValue()[1] == 'EN',
-		function(){ oManche.setNotation( e5.checked?'EN':'FR', e6.checked )}
-		)
-	, e6 = oManche.eBemol = cb( 'eBemol', L10n('BEMOL'),
-		Notation.getValue()[0],
-		function(){ oManche.setNotation( e5.checked?'EN':'FR', e6.checked )}
-		)
-	, e2 = oManche.eFlipV = cb( 'eFlipV', L10n('MIROIR'),
-		false,
-		function(){ Mirror.setValue( this.checked )}
-		)
-	, e3 = oManche.eOctave = cb( 'eOctaves', L10n('OCTAVES'),
-		false,
-		function(){ Octaves.setValue( this.checked )}
-		)
-
-	eLI = Tag('LI')
-	eLabel = Tag('LABEL')
-	eLabel.innerHTML = "LA3 "
-	let eINPUT = Tag('INPUT')
-	eINPUT.className = "range"
-	eINPUT.type = "range"
-	eINPUT.step = 1
-	eINPUT.min = 400
-	eINPUT.max = 500
-	eINPUT.value = LA3
-	eINPUT.oninput=function(){ La3.setValue( this.value )}
-	La3.addObserver( function( n ){
-		eINPUT.value = n
-		eINPUT.nextSibling.value = n+'Hz' 
-		})
-	Notation.addObserver( function( a ){
-		eLabel.innerHTML = a[1]=='FR' ? 'La3' : 'A3'
-		})
-	let eOUTPUT = Tag('OUTPUT')
-	eOUTPUT.innerHTML = LA3+'Hz'
-
-	eLI.appendChild( eLabel )
-	eLI.appendChild( eINPUT )
-	eLI.appendChild( eOUTPUT )
-	eUL.appendChild( eLI )
-
-	oManche.e.appendChild( eUL )
-
-	/* MENU DROIT */
-	let eUL2 = Tag( 'UL', 'mancheMenu' )
-	cb.eUL = eUL2
-	cb( 'eConfig', '' ,
-		oManche.oConfig.config,
-		function(){ oManche.hideForm( this.checked )},
-		'reglage'
-		)
-	e4 = cb( 'eNotesName', '', // L10n('NOTES'),
-		false,
-		function(){ Notes.setValue( this.checked )},
-		'notes'
-		)
-		
-	oManche.eFretsNumber = cb( 'eFretsNumber', '', // L10n('NUMEROS'),
-		false,
-		function(){ Numbers.setValue( this.checked )},
-		'numbers'
-		)
-	oManche.eSound = cb( 'eSound', '' ,
-		Sound.getValue(),
-		function(){ Sound.setValue( this.checked )},
-		'sound'
-		)
-	oManche.eFlipH = cb( 'eFlipH', '', //L10n('GAUCHER'),
-		false,
-		function(){ LeftHanded.setValue( this.checked )},
-		'lefthanded'
-		)
-	
-	/* Observateurs */
-	Notation.addObserver( function( a ){
-		e5.checked = a[1] == 'EN'
-		e6.checked = a[0]
-		})
-	Tuning.addObserver( function( nId ){ eAccordage.value = nId })
-	Notes.addObserver( function( b ){ e4.checked = b })
-
-	oManche.e.appendChild( eUL2 )
-	}
 
 /*
 Sauvegarde les fonctions d'affichage des notes du manche
@@ -563,6 +563,7 @@ class MancheHistory {
 		}
 	}
 
+/* Recherche des accords présent dans des intervalles */
 class Harmonie {
 	constructor( eParent, oManche ){
 		var that = this
@@ -579,7 +580,7 @@ class Harmonie {
 			})
 
 		var eTable = Tag( 'TABLE', 'harmonieForm' )
-		var eSUGG = Tag( 'TABLE', 'suggestion', 'eSuggestion'+ Manche.ID )
+		var eSUGG = Tag( 'TABLE', 'suggestion', 'eSuggestion'+ oManche.ID )
 		eSUGG.cellSpacing = 0
 
 		/* Constructeur html */
@@ -607,7 +608,7 @@ class Harmonie {
 				}
 			eTR.appendChild( eTD )
 			
-			eLabel.htmlFor = eSelect.id =  sId + Harmonie.ID
+			eLabel.htmlFor = eSelect.id =  sId + oManche.ID
 			eTable.appendChild( eTR )
 			return eSelect
 			}
@@ -691,6 +692,40 @@ class Harmonie {
 
 		this.oManche.setScale( sTonique, sScaleMask )
 		this.setChords( sTonique, sScaleMask, this.getChordsSuggestion( sTonique, sScaleMask ))
+		}
+	displayChordsSimilarities ( sTonique, sChordMask ){
+		var ai = this.aResult
+		
+		// Cherche le degré de l'accord pour créé un masque correspondant à celui de la gamme
+		for( var i=0, ni=ai.length; i<ni; i++ ){
+			if( ai[i][0] == sTonique ){
+				var nPos = ai[i][2]
+				sChordMask = sChordMask.substr( 12-nPos ) + sChordMask.substr( 0, 12-nPos )
+				break;
+				}
+			}
+			
+		// Parcours les degrés
+		for( var i=0, ni=ai.length; i<ni; i++ ){
+			var aChords = ai[i][1]
+			var nPos = ai[i][2]
+			var sDegreMask = sChordMask.substr( nPos ) + sChordMask.substr( 0, nPos )
+
+			// Parcours les accords résultat
+			for( var j=0, nj=aChords.length; j<nj; j++ ){
+				// Stock la similitude : valeur de 0 à 1
+				if( aChords[j].length > 2 )  aChords[j] = aChords[j].slice( 0, 2 )
+				aChords[j] = aChords[j].concat( Harmonie.getSimilarity( aChords[j][1], sDegreMask, 'chord' ))
+				}
+			}
+
+		// Met à jour l'affichage
+		var sScaleMask = this.eScale.value 
+		var sTonique = ai[0][0]
+
+		this.setChords( sTonique, sScaleMask, this.aResult )
+		
+		return null
 		}
 	getChordsSuggestion ( sTonique, sScaleMask ){
 		var aNotesTmp = Notations.getSequence( this.sFondamental = sTonique )
@@ -787,47 +822,12 @@ class Harmonie {
 		e.scale = sScaleMask
 		this.eSUGG.insertBefore( e, this.eSUGG.firstChild )
 		}
-	displayChordsSimilarities ( sTonique, sChordMask ){
-		var ai = this.aResult
-		
-		// Cherche le degré de l'accord pour créé un masque correspondant à celui de la gamme
-		for( var i=0, ni=ai.length; i<ni; i++ ){
-			if( ai[i][0] == sTonique ){
-				var nPos = ai[i][2]
-				sChordMask = sChordMask.substr( 12-nPos ) + sChordMask.substr( 0, 12-nPos )
-				break;
-				}
-			}
-			
-		// Parcours les degrés
-		for( var i=0, ni=ai.length; i<ni; i++ ){
-			var aChords = ai[i][1]
-			var nPos = ai[i][2]
-			var sDegreMask = sChordMask.substr( nPos ) + sChordMask.substr( 0, nPos )
-
-			// Parcours les accords résultat
-			for( var j=0, nj=aChords.length; j<nj; j++ ){
-				// Stock la similitude : valeur de 0 à 1
-				if( aChords[j].length > 2 )  aChords[j] = aChords[j].slice( 0, 2 )
-				aChords[j] = aChords[j].concat( Harmonie.getSimilarity( aChords[j][1], sDegreMask, 'chord' ))
-				}
-			}
-
-		// Met à jour l'affichage
-		var sScaleMask = this.eScale.value 
-		var sTonique = ai[0][0]
-
-		this.setChords( sTonique, sScaleMask, this.aResult )
-		
-		return null
-		}
 	showInterval ( sNote, sMask ){
 		Tonic.setValue( sNote )
 		this.oIntervalBox.setValue( sMask )
 		this.oManche.setScale( sNote, sMask )
 		}
 	}
-Harmonie.ID = 0
 Harmonie.getSimilarity = function( sChordOrScaleMask1 , sChordMask2 , sType ){
 	var countTons = function ( sMask ){ return sMask.split("1").length - 1 }
 	var nTons1 = countTons( sChordOrScaleMask1 )
@@ -848,6 +848,7 @@ Harmonie.getSimilarity = function( sChordOrScaleMask1 , sChordMask2 , sType ){
 	
 	}
 
+/* Affichage d'intervalles */
 class IntervalBox {
 	constructor ( oManche ){
 		oManche.oIntervalBox = this
