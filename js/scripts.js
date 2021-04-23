@@ -850,10 +850,10 @@ Harmonie.getSimilarity = function( sChordOrScaleMask1 , sChordMask2 , sType ){
 
 class IntervalBox {
 	constructor ( oManche ){
-		this.sMask = null
 		oManche.oIntervalBox = this
 		this.oManche = oManche
-		let that = this
+		this.sMask = null
+		
 		// Construction HTML
 		let eUL = this.eHTML = Tag('UL','interval')
 		, eLI, eDIV, eDL, eDT, eDD
@@ -871,6 +871,7 @@ class IntervalBox {
 			eLI.appendChild( eDL )
 			eUL.appendChild( eLI )
 			}
+		let that = this
 		this.eHTML.onclick= function( evt ){
 			let e = Events.element( evt )
 			if( e.nodeName == 'UL' ) return null
