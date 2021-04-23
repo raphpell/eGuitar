@@ -190,7 +190,6 @@ class Manche{
 
 		this.oConfig = null
 		}
-
 	createHTML ( nCordes, nCases ){
 		var eParent = Tag( 'DIV', 'eGuitar' )
 		var e = Tag( 'DIV', 'manche' ), eCase, eCorde, eFrette
@@ -419,7 +418,7 @@ class Manche{
 			}
 		o.displayChords( sMask, sFound ? sName +' '+ sFound : sName + '...' )
 		}
-	setAccord ( sAccord ){
+	setAccord ( sAccord ){ // not used
 	//	this.history.add( 'setAccord', [ sAccord ])
 		var sNote
 		for( var i=0;i<6;i++ ){
