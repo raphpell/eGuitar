@@ -411,7 +411,7 @@ addObserver( fObserver ) <y:LabelModel>
               <y:Geometry height="35.549999999999955" width="90.08346423562398" x="1678.8608465217378" y="-213.61835476020747"/>
               <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="br" textColor="#000000" visible="true" width="48.6953125" x="37.38815173562398" y="12.848828124999955">Arpèges</y:NodeLabel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="br" textColor="#000000" visible="true" width="52.03515625" x="34.04830798562398" y="12.848828124999955">Arpeggio</y:NodeLabel>
             </y:GenericNode>
           </data>
         </node>
@@ -421,7 +421,7 @@ addObserver( fObserver ) <y:LabelModel>
               <y:Geometry height="35.549999999999955" width="90.08346423562398" x="1678.8608465217378" y="-315.31571147060777"/>
               <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="br" textColor="#000000" visible="true" width="67.369140625" x="18.71432361062398" y="12.848828124999955">Accordages</y:NodeLabel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="br" textColor="#000000" visible="true" width="46.69140625" x="39.39205798562398" y="12.848828124999955">Tunings</y:NodeLabel>
             </y:GenericNode>
           </data>
         </node>
@@ -431,7 +431,7 @@ addObserver( fObserver ) <y:LabelModel>
               <y:Geometry height="35.549999999999955" width="90.08346423562398" x="1678.8608465217378" y="-264.4670331154076"/>
               <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="br" textColor="#000000" visible="true" width="52.673828125" x="33.40963611062398" y="12.848828124999955">Gammes</y:NodeLabel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="br" textColor="#000000" visible="true" width="40.017578125" x="46.06588611062398" y="12.848828124999955">Scales</y:NodeLabel>
             </y:GenericNode>
           </data>
         </node>
