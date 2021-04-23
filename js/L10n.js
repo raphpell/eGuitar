@@ -1,13 +1,17 @@
 let L10n =function( sId ){
-	var o = L10n[ L10n.sLanguage ] || L10n[ L10n.sDefaultLanguage ]
+	var o = L10n.sForceLanguage
+		? L10n[ L10n.sForceLanguage ]
+		: L10n[ L10n.sLanguage ] || L10n[ L10n.sDefaultLanguage ]
 	return o && o[sId] || '<code>'+sId+'</code>'
 	}
 	
-// 'CZ' || // pour traduction
+
+L10n.sForceLanguage = '' // Debug purpose
 L10n.sDefaultLanguage = 'FR'
 L10n.sLanguage = navigator.language.substring(0,2).toUpperCase() || 'FR'
 
 L10n.FR ={
+	DELETE_PREF: "Effacer vos préférences",
 	ACCORDAGE:	'Accordage',
 	ABCDEFG:	'ABCDEFG',
 	BEMOL:		'Bémol',
@@ -50,6 +54,7 @@ L10n.FR ={
 	Chrom:		'Chromatique',
 	}
 L10n.EN ={
+	DELETE_PREF: "Delete your preferences",
 	ACCORDAGE:	'Tuning',
 	ABCDEFG:	'ABCDEFG',
 	BEMOL:		'Flat',

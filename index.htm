@@ -15,8 +15,7 @@
 </head>
 <body>
 
-<div id="eHead" style="margin:.25em;">
-	<img src="logo.png" onclick="if( confirm('Effacer vos données ?')) Memoire.clear()" width="50" height="50"><h1>eGuitar </h1>
+<div id="eHead"><img src="logo.png"><h1>eGuitar </h1></div>
 <!--
 	<ul>
 		<li><a href="https://github.com/raphpell/eGuitar/">eGuitar sur Github</a></li>
@@ -26,10 +25,8 @@
 			- Suggestion de doigter d'accords...
 			- Accordeur
 -->
-</div>
 
 <div id="eTarget"></div>
-
 <div id="eTarget2"></div>
 
 <script type="text/javascript" src="js/L10n.js"></script>
@@ -50,11 +47,18 @@ var oConfig ={
 	}
 
 var o = new Manche( "eTarget", oConfig )
+/* Test instance multiple
+var o2 = new Manche( "eTarget" )
+o2.setScale( 'Ré', '101011010101' )
+*/
 
 var oH = new Harmonie( eTarget2, o )
 oH.showInterval( oH.eTonique.value, oH.eScale.value )
 oH.displayChords()
 
+eHead.firstChild.onclick = function(){
+	if( confirm( L10n('DELETE_PREF'))) Memoire.clear()
+	}
 </script>
 
 </body>

@@ -13,8 +13,8 @@ TD {
 	}
 
 /* LOGO et checkbox réglage manche */
-#eHead * {
-	line-height: 55px;
+#eHead {
+	margin:.25em;
 	}
 #eHead IMG {
 	float: left;
