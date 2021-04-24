@@ -668,6 +668,7 @@ class Harmonie {
 				e = e.nextSibling
 				}
 			Tonic.setValue( eTonique.value )
+			that.displayChords()
 			})
 
 		var eScale = selectbox( 'eScales', L10n('GAMME'), Scales, 'choice' )
