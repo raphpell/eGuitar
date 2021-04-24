@@ -187,7 +187,16 @@ class Manche {
 			this.e.getElementsByClassName('corde5'),
 			this.e.getElementsByClassName('corde6')
 			]
+		this.e.onclick= function( evt ){
+			var e = Events.element( evt )
+			if( e.nodeName != 'SPAN' ) return ;
+			if( ! that.oIntervalBox ) return ;
+			that.oIntervalBox.toggleNote( e.innerHTML )
+			}
+		this.createMenuHTML()
+		this.hideForm( oConfig.config )
 
+		// TROUVER UNE SOLUTION POUR QUE LES VARIABLES SPECIALES SOIT GLOBAL OU LOCAL
 		// Ajoute les observateurs des options
 		let that = this
 		Tuning.addSubscriber( 'oManche.setTuning', function( nId ){ that.setTuning( nId )})
@@ -198,21 +207,8 @@ class Manche {
 		Notes.addSubscriber( 'oManche.setNotesName', function(b){ that.setNotesName(b) })
 		Numbers.addSubscriber( 'oManche.setFretsNumber', function(b){ that.setFretsNumber(b) })
 		Octaves.addSubscriber( 'oManche.setOctave', function(b){ that.setOctave(b) })
-
-		this.createMenuHTML()
 		
-		this.e.onclick= function( evt ){
-			var e = Events.element( evt )
-			if( e.nodeName != 'SPAN' ) return ;
-			if( ! that.oIntervalBox ) return ;
-			that.oIntervalBox.toggleNote( e.innerHTML )
-			}
-
-		// TROUVER UNE SOLUTION POUR QUE LES VARIABLES SPECIALES SOIT GLOBAL OU LOCAL
-
 		// Défini la valeur des options
-		this.hideForm( oConfig.config )
-
 		LeftHanded.setValue( oConfig.lefthanded )
 		Mirror.setValue( oConfig.mirror )
 		Notes.setValue( oConfig.notes )
