@@ -111,18 +111,18 @@ class SpecialVar {
 // valeur changée -> composants mis à jour
 function SpecialVars ( aVars ){
 	aVars.forEach( ([sName, mDefaultValue ]) => {
-		window[ sName ] = new SpecialVar ( sName, mDefaultValue )
+		window[ sName ] = new SpecialVar ( sName, Memoire.get( sName ) || mDefaultValue )
 		})
 	}
 SpecialVars([
-	[ "La3", Memoire.get( 'La3' ) || 440 ],
+	[ "La3", 440 ],
 	[ "LeftHanded", 0 ],
-	[ "Mirror", 0 ],
-	[ "Notation", Memoire.get( 'Notation' ) || [0,'EN'] ], // Notation courante utilisé dans l'application [true,'FR'] = bBemol sLang
+	[ "Mirror", 0  ],
+	[ "Notation", [0,'EN'] ], // Notation courante utilisé dans l'application [true,'FR'] = bBemol sLang
 	[ "Notes", 0 ],
 	[ "Numbers", 0 ],
 	[ "Octaves", 0 ],
-	[ "Sound", Memoire.get( 'Sound' ) || 0 ],
+	[ "Sound", 0 ],
 	[ "Tonic", 0 ],
 	[ "Tuning", 0 ] // Accordage - defaut Accordage standard E ( voir Tunings )
 	])
@@ -167,7 +167,7 @@ Notations= {
 		}
 	}
 
-class Manche{
+class Manche {
 	constructor ( sNodeID, oConfig ){
 		this.oConfig = oConfig = Manche.getDefaultSettings( oConfig )
 
@@ -556,13 +556,13 @@ Manche.DefaultSettings ={
 	config: 0,
 	strings: 6,
 	cases: 12,
-	tuning: Memoire.get( 'Tuning' ) || 0,
-	notation: Memoire.get( 'Notation' ) || [0,'EN'],
-	lefthanded: Memoire.get( 'LeftHanded' ) || 0,
-	mirror: Memoire.get( 'Mirror' ) || 0,
-	octaves: Memoire.get( 'Octaves' ) || 0,
-	notes: Memoire.get( 'Notes' ) || 0,
-	numbers: Memoire.get( 'Numbers' ) || 0
+	tuning: Tuning.getValue(),
+	notation: Notation.getValue(),
+	lefthanded: LeftHanded.getValue(),
+	mirror: Mirror.getValue(),
+	octaves: Octaves.getValue(),
+	notes: Notes.getValue(),
+	numbers: Numbers.getValue()
 	}
 Manche.getDefaultSettings = function( oConfig ){
 	oConfig = oConfig || {}
