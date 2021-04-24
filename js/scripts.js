@@ -46,7 +46,7 @@ window.onselectstart =function(){ return false }	// prevent text selection
 /*============================*/
 /*=== VARIABLES SPECIALES ====*/
 /*============================*/
-let Publishers = (function( bDebug ){
+let Publishers = function( bDebug ){
 	let o = {}
 	let oTopics = {}
 	let nID = -1
@@ -82,18 +82,61 @@ let Publishers = (function( bDebug ){
 		return null
 		}
 	return o
-	})( false )
+	}
 
+var notationCreator = function(){
+	let choices = {
+		'♯':{	FR:['La',	'La♯',	'Si',	'Do',	'Do♯',	'Ré',	'Ré♯',	'Mi',	'Fa',	'Fa♯',	'Sol',	'Sol♯'],
+				EN:['A',	'A♯',	'B',	'C',	'C♯',	'D',	'D♯',	'E',	'F',	'F♯',	'G',	'G♯']},
+		'♭':{	FR:['La',	'Si♭',	'Si',	'Do',	'Ré♭',	'Ré',	'Mi♭',	'Mi',	'Fa',	'Sol♭',	'Sol',	'La♭'],
+				EN:['A',	'B♭',	'B',	'C',	'D♭',	'D',	'E♭',	'E',	'F',	'G♭',	'G',	'A♭']}
+		}
+	this.getSequence =function( sNote ){
+		var a = this.getValue()
+		if( ! sNote ) return choices[ a[0]?'♭':'♯' ][ a[1]]
+		else {
+			sNote = this.getNoteName( sNote )
+			var a = this.getSequence()
+			var nIndex = a.indexOf( sNote )
+			return a.slice( nIndex ).concat( a.slice( 0, nIndex))
+			}
+		}
+	this.getNoteName =function( sNote ){
+		var sIndex1
+		if( ~sNote.indexOf('b')) sNote = sNote.replace( /b/, '♭' )
+		if( ~sNote.indexOf('♭')) sIndex1 = "♭"
+		if( ~sNote.indexOf('#')) sNote = sNote.replace( /#/, '♯' )
+		if( ~sNote.indexOf('♯')) sIndex1 = "♯"
+
+		var sIndex2 = 
+			! sIndex1 && sNote.length == 1 || sIndex1 && sNote.length == 2 
+			? 'EN'
+			: 'FR'
+		if( ! sIndex1 ) sIndex1 = this.getValue()[0]?'♭':'♯'
+
+		var a = choices[sIndex1][sIndex2]
+		for(var i=0; i<12; i++ )
+			if( a[i]== sNote )
+				return this.getSequence()[i]
+
+		throw Error ( 'Invalid note name... '+ sNote )
+		}
+	}
+	
 // Objet wrapper : il sert à déclencher des événements quand la valeur de l'objet change
 class SpecialVar {
 	constructor ( sName, mValue ){
 		this.id = sName
 		this.value = mValue
-		Publishers.subscribe( sName, m => Memoire.set( sName, m ), 'Memoire.set' )
+		switch( sName ){
+			case 'notation': notationCreator.call( this )
+				break;
+			default:
+			}
 		}
 	setValue ( mValue ){
 		this.value = mValue
-		Publishers.publish( this.id, mValue )
+		this.Publisher.publish( this.id, mValue )
 		return mValue
 		}
 	getValue (){
@@ -103,15 +146,21 @@ class SpecialVar {
 		return this.setValue( this.getValue())
 		}
 	addSubscriber ( sTitle, fObserver ){
-		return Publishers.subscribe( this.id, fObserver, sTitle )
+		return this.Publisher.subscribe( this.id, fObserver, sTitle )
 		}
 	}
 
 // Variables partagés par tous les composants
 // valeur changée -> composants mis à jour
 function SpecialVars ( aVars ){
+	let oPublisher = Publishers()
 	aVars.forEach( ([sName, mDefaultValue ]) => {
-		window[ sName ] = new SpecialVar ( sName, Memoire.get( sName ) || mDefaultValue )
+		sName = sName.toLowerCase()
+		let o = new SpecialVar ( sName, Memoire.get( sName ) || mDefaultValue )
+		SpecialVars[ sName ] = o
+		o.Publisher = oPublisher
+		o.type = "global"
+		o.Publisher.subscribe( sName, m => Memoire.set( sName, m ), 'Memoire.set' )
 		})
 	}
 SpecialVars([
@@ -127,56 +176,36 @@ SpecialVars([
 	[ "Tuning", 0 ] // Accordage - defaut Accordage standard E ( voir Tunings )
 	])
 
-Notations= {
-	choices :{
-		'♯':{	FR:['La',	'La♯',	'Si',	'Do',	'Do♯',	'Ré',	'Ré♯',	'Mi',	'Fa',	'Fa♯',	'Sol',	'Sol♯'],
-				EN:['A',	'A♯',	'B',	'C',	'C♯',	'D',	'D♯',	'E',	'F',	'F♯',	'G',	'G♯']},
-		'♭':{	FR:['La',	'Si♭',	'Si',	'Do',	'Ré♭',	'Ré',	'Mi♭',	'Mi',	'Fa',	'Sol♭',	'Sol',	'La♭'],
-				EN:['A',	'B♭',	'B',	'C',	'D♭',	'D',	'E♭',	'E',	'F',	'G♭',	'G',	'A♭']}
-		},
-	// Notations.getSequence = Retourne la sequence de 12 notes depuis la note de départ sNote
-	getSequence :function( sNote ){
-		var a = Notation.getValue()
-		if( ! sNote ) return Notations.choices[ a[0]?'♭':'♯' ][ a[1]]
-		else {
-			sNote = Notations.getNoteName( sNote )
-			var a = Notations.getSequence()
-			var nIndex = a.indexOf( sNote )
-			return a.slice( nIndex ).concat( a.slice( 0, nIndex))
-			}
-		},
-	getNoteName :function( sNote ){
-		var sIndex1
-		if( ~sNote.indexOf('b')) sNote = sNote.replace( /b/, '♭' )
-		if( ~sNote.indexOf('♭')) sIndex1 = "♭"
-		if( ~sNote.indexOf('#')) sNote = sNote.replace( /#/, '♯' )
-		if( ~sNote.indexOf('♯')) sIndex1 = "♯"
-
-		var sIndex2 = 
-			! sIndex1 && sNote.length == 1 || sIndex1 && sNote.length == 2 
-			? 'EN'
-			: 'FR'
-		if( ! sIndex1 ) sIndex1 = Notation.getValue()[0]?'♭':'♯'
-
-		var a = Notations.choices[sIndex1][sIndex2]
-		for(var i=0; i<12; i++ )
-			if( a[i]== sNote )
-				return Notations.getSequence()[i]
-
-		throw Error ( 'Invalid note name... '+ sNote )
-		}
-	}
 
 class Manche {
 	constructor ( sNodeID, oConfig ){
+		this.ID = Manche.ID++
 		let that = this
-		this.oConfig = oConfig = Manche.getDefaultSettings( oConfig )
+
+		// TROUVER UNE SOLUTION POUR QUE LES VARIABLES SPECIALES SOIT GLOBAL OU LOCAL
+		let o = this.Config =(function(){
+			let oPublisher = Publishers()
+			oConfig = Manche.getDefaultSettings( oConfig )
+			let o = {}
+			for( let s in oConfig ){
+				console.info( s, oConfig[ s ] , Manche.DefaultSettings[ s ] )
+				o[s] =
+					oConfig[ s ] != Manche.DefaultSettings[ s ] 
+					? new SpecialVar ( s, oConfig[ s ] )
+					: SpecialVars[ s ]
+				if( o[s] && ! o[s].type ){
+					o[s].type =  "local"
+					o[s].Publisher = oPublisher
+					}
+				}
+			console.info( o )
+			return o
+			})()
 
 		this.history = new MancheHistory ( this )
 		this.aFrequences = [0,0,0,0,0,0] // Ecarts accordage standard E en ton (+grave à +aigue)
 		var eParent = document.getElementById( sNodeID )
 		var nCases = oConfig.cases
-		this.ID = Manche.ID++
 		this.e = eParent.appendChild( this.createHTML( oConfig.strings, oConfig.cases ))
 		this.nCordes = oConfig.strings
 		this.nCases = oConfig.cases
@@ -197,32 +226,25 @@ class Manche {
 		this.createMenuHTML()
 		this.hideForm( oConfig.config )
 
-		// TROUVER UNE SOLUTION POUR QUE LES VARIABLES SPECIALES SOIT GLOBAL OU LOCAL
+		
 		// Ajoute les observateurs des options
-		Tuning.addSubscriber( 'oManche.setTuning', function( nId ){ that.setTuning( nId )})
-		Notation.addSubscriber( 'oManche.renameNotes', function(){ that.renameNotes() })
-		LeftHanded.addSubscriber( 'oManche.setLeftHanded', function(b){ that.setLeftHanded(b) })
-		Sound.addSubscriber( 'oManche.setSound', function(b){ that.setSound(b) })
-		Mirror.addSubscriber( 'oManche.setMirror', function(b){ that.setMirror(b) })
-		Notes.addSubscriber( 'oManche.setNotesName', function(b){ that.setNotesName(b) })
-		Numbers.addSubscriber( 'oManche.setFretsNumber', function(b){ that.setFretsNumber(b) })
-		Octaves.addSubscriber( 'oManche.setOctave', function(b){ that.setOctave(b) })
+		o.lefthanded.addSubscriber( 'oManche.setLeftHanded', function(b){ that.setLeftHanded(b) })
+		o.mirror.addSubscriber( 'oManche.setMirror', function(b){ that.setMirror(b) })
+		o.notation.addSubscriber( 'oManche.renameNotes', function(){ that.renameNotes() })
+		o.notes.addSubscriber( 'oManche.setNotesName', function(b){ that.setNotesName(b) })
+		o.numbers.addSubscriber( 'oManche.setFretsNumber', function(b){ that.setFretsNumber(b) })
+		o.octaves.addSubscriber( 'oManche.setOctave', function(b){ that.setOctave(b) })
+		o.sound.addSubscriber( 'oManche.setSound', function(b){ that.setSound(b) })
+		o.tuning.addSubscriber( 'oManche.setTuning', function( nId ){ that.setTuning( nId )})
 		
 		// Défini la valeur des options
-		LeftHanded.setValue( oConfig.lefthanded )
-		Mirror.setValue( oConfig.mirror )
-		Notes.setValue( oConfig.notes )
-		Numbers.setValue( oConfig.numbers )
-		Octaves.setValue( oConfig.octaves )
-		Notation.setValue( oConfig.notation )
-
-		// Pour éviter de mettre tous les composants à jour au chargement
-		if( Tuning.getValue() != oConfig.tuning )
-			Tuning.setValue( oConfig.tuning )
-		else
-			this.setTuning( oConfig.tuning )
-
-		this.oConfig = null
+		o.lefthanded.setValue( oConfig.lefthanded )
+		o.mirror.setValue( oConfig.mirror )
+		o.notation.setValue( oConfig.notation )
+		o.notes.setValue( oConfig.notes )
+		o.numbers.setValue( oConfig.numbers )
+		o.octaves.setValue( oConfig.octaves )
+		o.tuning.setValue( oConfig.tuning )
 		}
 	createHTML ( nCordes, nCases ){
 		var eParent = Tag( 'DIV', 'eGuitar' )
@@ -254,18 +276,20 @@ class Manche {
 		}
 	createMenuHTML (){
 		let that = this
+		let o = this.Config
+		
 		/* MENU HAUT */
 		let eUL = Tag( 'UL', 'mancheForm' )
 		let eLI = Tag( 'LI' )
 		let eLabel = eUL.appendChild( Tag( 'LABEL' ))
 		eLabel.innerHTML = L10n('ACCORDAGE') +' : '
 		let eAccordage = eUL.appendChild( Tag( 'SELECT' ))
-		eAccordage.onkeyup = eAccordage.onchange = function(){ Tuning.setValue( eAccordage.value )}
+		eAccordage.onkeyup = eAccordage.onchange = function(){ o.tuning.setValue( eAccordage.value )}
 		let eOption
 		for(let a=Tunings, i=0, ni=a.length; i<ni; i++ ){
 			eOption = Tag( 'OPTION' )
 			eOption.value = i
-			eOption.selected = i == Tuning.getValue()
+			eOption.selected = i == o.tuning.getValue()
 			eOption.innerHTML = a[i][1]
 			eAccordage.appendChild( eOption ) 
 			}
@@ -293,20 +317,20 @@ class Manche {
 		cb.eUL = eUL
 		let e5 = this.eNotationI = cb( 'eNotationI',
 			L10n('ABCDEFG'),
-			Notation.getValue()[1] == 'EN',
+			o.notation.getValue()[1] == 'EN',
 			function(){ that.setNotation( e5.checked?'EN':'FR', e6.checked )}
 			)
 		, e6 = this.eBemol = cb( 'eBemol', L10n('BEMOL'),
-			Notation.getValue()[0],
+			o.notation.getValue()[0],
 			function(){ that.setNotation( e5.checked?'EN':'FR', e6.checked )}
 			)
 		, e2 = this.eFlipV = cb( 'eFlipV', L10n('MIROIR'),
 			false,
-			function(){ Mirror.setValue( this.checked )}
+			function(){ o.mirror.setValue( this.checked )}
 			)
 		, e3 = this.eOctave = cb( 'eOctaves', L10n('OCTAVES'),
 			false,
-			function(){ Octaves.setValue( this.checked )}
+			function(){ o.octaves.setValue( this.checked )}
 			)
 
 		eLI = Tag('LI')
@@ -319,12 +343,12 @@ class Manche {
 		eINPUT.min = 400
 		eINPUT.max = 500
 		eINPUT.value = LA3
-		eINPUT.oninput=function(){ La3.setValue( this.value )}
-		La3.addSubscriber( 'màj Input range La3', function( n ){
+		eINPUT.oninput=function(){ SpecialVars.la3.setValue( this.value )}
+		SpecialVars.la3.addSubscriber( 'màj Input range La3', function( n ){
 			eINPUT.value = n
 			eINPUT.nextSibling.value = n+'Hz' 
 			})
-		Notation.addSubscriber( 'màj Label La3', function( a ){
+		o.notation.addSubscriber( 'màj Label La3', function( a ){
 			eLabel.innerHTML = a[1]=='FR' ? 'La3' : 'A3'
 			})
 		let eOUTPUT = Tag('OUTPUT')
@@ -341,42 +365,42 @@ class Manche {
 		let eUL2 = Tag( 'UL', 'mancheMenu' )
 		cb.eUL = eUL2
 		cb( 'eConfig', '' ,
-			this.oConfig.config,
+			o.config.getValue(),
 			function(){ that.hideForm( this.checked )},
 			'reglage'
 			)
 		this.eNotesName = cb( 'eNotesName', '', // L10n('NOTES'),
 			false,
-			function(){ Notes.setValue( this.checked )},
+			function(){ o.notes.setValue( this.checked )},
 			'notes'
 			)
 		this.eFretsNumber = cb( 'eFretsNumber', '', // L10n('NUMEROS'),
 			false,
-			function(){ Numbers.setValue( this.checked )},
+			function(){ o.numbers.setValue( this.checked )},
 			'numbers'
 			)
 		this.eSound = cb( 'eSound', '' ,
-			Sound.getValue(),
-			function(){ Sound.setValue( this.checked )},
+			o.sound.getValue(),
+			function(){ o.sound.setValue( this.checked )},
 			'sound'
 			)
 		this.eFlipH = cb( 'eFlipH', '', //L10n('GAUCHER'),
 			false,
-			function(){ LeftHanded.setValue( this.checked )},
+			function(){ o.lefthanded.setValue( this.checked )},
 			'lefthanded'
 			)
 		
 		/* Observateurs */
-		Notation.addSubscriber( 'màj valeur checkbox ABCD et Bémol', function( a ){
+		o.notation.addSubscriber( 'màj valeur checkbox ABCD et Bémol', function( a ){
 			e5.checked = a[1] == 'EN'
 			e6.checked = a[0]
 			})
-		Tuning.addSubscriber( 'màj valeur selectBox Accordage', function( nId ){ eAccordage.value = nId })
+		o.tuning.addSubscriber( 'màj valeur selectBox Accordage', function( nId ){ eAccordage.value = nId })
 
 		this.e.appendChild( eUL2 )
 		}
 	getNotes ( sNote ){
-		sNote = Notations.getNoteName( sNote )
+		sNote = this.Config.notation.getNoteName( sNote )
 		var aElts = []
 		var a = this.e.getElementsByClassName('corde')
 		for(var i=0, ni=a.length; i<ni; i++ ){
@@ -393,6 +417,7 @@ class Manche {
 		if( e ) e.classList.add( sClassName )
 		}
 	highlightNotes ( sNote, sClassName ){
+		let that = this
 		this.history.add( 'highlightNotes', [ sNote, sClassName ])
 		let a = this.getNotes( sNote )
 		for(let i=0, ni=a.length; i<ni; i++ ){
@@ -400,7 +425,7 @@ class Manche {
 			a[i].classList.add( sClassName )
 			let sNote = a[i].innerHTML, sOctave = a[i].octave
 			a[i].onmouseover = function(){
-				if( Sound.getValue()) playTone( sNote+sOctave )
+				if( that.Config.sound.getValue()) playTone( sNote+sOctave )
 				}
 			}
 		}
@@ -413,7 +438,7 @@ class Manche {
 			}
 		}
 	renameNotes	(){
-		var a = Notations.getSequence('E')
+		var a = this.Config.notation.getSequence('E')
 		// Renomme les cordes
 		for(var i=0; i<this.nCordes; i++ ){
 			var nBase = this.aFrequences[i]
@@ -433,7 +458,7 @@ class Manche {
 	searchMask ( sMask ){
 		var o = this.oHarmonie
 		if( ! o ) return;
-		var sName = Tonic.getValue(), sFound
+		var sName = this.Config.tonic.getValue(), sFound
 		for(var i=0, a=Arpeggio, ni=a.length; i<ni ; i++ ){
 			if( a[i][0] == sMask ){
 				o.eChords.value = sMask
@@ -475,18 +500,18 @@ class Manche {
 		this.e.classList[ ! b ? 'add' : 'remove' ]( 'hideFretsNumber' )
 		}
 	setLeftHanded ( b ){
-		this.setFlip( b, Mirror.getValue())
+		this.setFlip( b, this.Config.mirror.getValue())
 		}
 	setMirror ( b ){
-		this.setFlip( LeftHanded.getValue(), b )
+		this.setFlip( this.Config.lefthanded.getValue(), b )
 		}
 	setNotation	( sLang, bBemol ){
-		var a = Notation.getValue()
+		var a = this.Config.notation.getValue()
 		bBemol = bBemol || false
 		if( a[0]==bBemol && a[1]==sLang ) return ;
 		this.eNotationI.checked = sLang == 'EN'
 		this.eBemol.checked = bBemol
-		Notation.setValue([bBemol,sLang])
+		this.Config.notation.setValue([bBemol,sLang])
 		}
 	setNotesName ( b ){
 		this.eNotesName.checked = b
@@ -499,7 +524,7 @@ class Manche {
 	setScale ( sNote, sScaleMask ){
 		this.history.reset()
 		this.reset()
-		var a = Notations.getSequence( sNote )
+		var a = this.Config.notation.getSequence( sNote )
 		var aNotes = []
 		
 		// Compte le nombre de "1"
@@ -513,7 +538,7 @@ class Manche {
 			}
 		}
 	setSound ( b ){
-		this.eSound.checked = Sound.getValue()
+		this.eSound.checked = this.Config.sound.getValue()
 		}
 	setTuning ( nId ){
 		var sAccordage = Tunings[ nId ][0]
@@ -521,7 +546,7 @@ class Manche {
 		var aNotes = aAccordage[0].split(',')
 		var aFrequences = aAccordage[1].split(',') // écarts tons de base accordage
 		var aBase = [12,17,22,27,31,36] // tons selon les cordes
-		var aNotation = Notations.getSequence( 'E' ) // liste des 12 notes commencant par E
+		var aNotation = this.Config.notation.getSequence( 'E' ) // liste des 12 notes commencant par E
 	//	console.info( aNotation )
 		for(var i=0; i<this.nCordes; i++ ){
 			this.aFrequences[i] = aBase[i] += 2*aFrequences[i] // bouge les écarts de case : 2*ton
@@ -552,13 +577,15 @@ Manche.DefaultSettings ={
 	config: 0,
 	strings: 6,
 	cases: 12,
-	tuning: Tuning.getValue(),
-	notation: Notation.getValue(),
-	lefthanded: LeftHanded.getValue(),
-	mirror: Mirror.getValue(),
-	octaves: Octaves.getValue(),
-	notes: Notes.getValue(),
-	numbers: Numbers.getValue()
+	tuning: SpecialVars.tuning.getValue(),
+	notation: SpecialVars.notation.getValue(),
+	lefthanded: SpecialVars.lefthanded.getValue(),
+	mirror: SpecialVars.mirror.getValue(),
+	octaves: SpecialVars.octaves.getValue(),
+	notes: SpecialVars.notes.getValue(),
+	numbers: SpecialVars.numbers.getValue(),
+	sound: SpecialVars.sound.getValue(),
+	tonic: SpecialVars.tonic.getValue()
 	}
 Manche.getDefaultSettings = function( oConfig ){
 	oConfig = oConfig || {}
@@ -602,13 +629,15 @@ class Harmonie {
 		this.aResult = null
 			
 		this.oManche = oManche
+		let Config = oManche.Config
+		let oNotation = Config.notation
 		oManche.oHarmonie = this
 		let oIntervalBox = this.oIntervalBox = new IntervalBox ( oManche )
 		eParent.appendChild( oIntervalBox.eHTML )
 
-		Tonic.addSubscriber( 'selectBox Tonic[màj selection]+IntervalBox.setNotes', function( sNote ){
+		Config.tonic.addSubscriber( 'selectBox Tonic[màj selection]+IntervalBox.setNotes', function( sNote ){
 			that.eTonique.value = sNote
-			oIntervalBox.setNotes( Notations.getSequence( sNote ))
+			oIntervalBox.setNotes( oNotation.getSequence( sNote ))
 			})
 
 		var eTable = Tag( 'TABLE', 'harmonieForm' )
@@ -652,18 +681,18 @@ class Harmonie {
 			}
 
 		/* Construction html */
-		var eTonique = selectbox( 'eTonique', L10n('TONIQUE'), Notations.getSequence())
-		eTonique.value = Notations.getNoteName( Memoire.get( 'Tonic' ) || 'A' )
+		var eTonique = selectbox( 'eTonique', L10n('TONIQUE'), oNotation.getSequence())
+		eTonique.value = oNotation.getNoteName( Config.tonic.getValue() || 'A' )
 		eTonique.onkeyup = eTonique.onchange =function(){}
-		Notation.addSubscriber( 'selectBox Tonic[Renommage options] + màj SpecialVar Tonic', function(){
-			var a = Notations.getSequence()
+		oNotation.addSubscriber( 'selectBox Tonic[Renommage options] + màj SpecialVar Tonic', function(){
+			var a = oNotation.getSequence()
 			var e = eTonique.firstChild
 			var i = 0
 			while( e ){
 				e.innerHTML = e.value = a[i++]
 				e = e.nextSibling
 				}
-			Tonic.setValue( eTonique.value )
+			Config.tonic.setValue( eTonique.value )
 			that.displayChords()
 			})
 
@@ -691,7 +720,7 @@ class Harmonie {
 			var sTonique = e.attributes.tonique && e.attributes.tonique.value
 			var sMask = e.attributes && e.attributes.arpege && e.attributes.arpege.value
 			if( sMask ){
-				Tonic.setValue( sTonique )
+				Config.tonic.setValue( sTonique )
 				that.eChords.value = sMask
 				that.showInterval( sTonique, sMask )
 			//	that.displayChordsSimilarities( sTonique, sMask )
@@ -699,7 +728,7 @@ class Harmonie {
 
 			var sScale = e.scale
 			if( sScale ){
-				Tonic.setValue( e.tonique )
+				Config.tonic.setValue( e.tonique )
 				that.eScale.value = sScale
 				that.showInterval( e.tonique, sScale )
 			//	that.displayChordsSimilarities( e.tonique, sScale )
@@ -757,7 +786,7 @@ class Harmonie {
 		return null
 		}
 	getChordsSuggestion ( sTonique, sScaleMask ){
-		var aNotesTmp = Notations.getSequence( this.sFondamental = sTonique )
+		var aNotesTmp = this.oManche.Config.notation.getSequence( this.sFondamental = sTonique )
 		var aResult = []
 		
 		// Cherche la position des degrés et la tonique, créé un masque et cherche les accords possibles
@@ -827,7 +856,7 @@ class Harmonie {
 
 		var sTHEAD = '<thead><tr>'
 
-		var aNotesTmp = Notations.getSequence( sTonique )
+		var aNotesTmp = this.oManche.Config.notation.getSequence( sTonique )
 		
 		var aRoman = 'I?II?III?IV?V?VI?VII?VIII?IX?X?XI?XII'.split('?')
 		for(var i=0, j=0, ni=aNotesTmp.length; i<ni; i++ ){
@@ -852,7 +881,7 @@ class Harmonie {
 		this.eSUGG.insertBefore( e, this.eSUGG.firstChild )
 		}
 	showInterval ( sNote, sMask ){
-		Tonic.setValue( sNote )
+		this.oManche.Config.tonic.setValue( sNote )
 		this.oIntervalBox.setValue( sMask )
 		this.oManche.setScale( sNote, sMask )
 		}

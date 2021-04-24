@@ -35,19 +35,9 @@
 <script type="text/javascript" src="js/tSorter.js"></script>
 <script type="text/javascript" src="js/audio.js"></script>
 <script>
-var oConfig ={
- 	config: 1, // local
-//	notation: [0,'FR'], // global
-//	lefthanded:0, // global
-//	mirror:0, // global
-//	tuning: 0, // global
-//	notes:1, // global
-//	octaves:1, // global
-//	numbers:0, // global
-	}
+var o = new Manche( "eTarget", { config: 1 })
 
-var o = new Manche( "eTarget", oConfig )
-/* Test instance multiple
+/* Test instance multiple */
 var o2 = new Manche( "eTarget" ,{
  	config: 1, // local
 	notation: [0,'FR'], // global
@@ -59,7 +49,7 @@ var o2 = new Manche( "eTarget" ,{
 	numbers:1, // global
 	})
 o2.setScale( 'Ré', '101011010101' )
-*/
+
 
 var oH = new Harmonie( eTarget2, o )
 oH.showInterval( oH.eTonique.value, oH.eScale.value )
