@@ -37,19 +37,20 @@
 <script>
 var o = new Manche( "eTarget", { config: 1 })
 
-/* Test instance multiple */
+/* Test instance multiple 
 var o2 = new Manche( "eTarget" ,{
  	config: 1, // local
-	notation: [0,'FR'], // global
+	notation: [1,'FR'], // global
 	lefthanded:1, // global
 	mirror:1, // global
 	tuning:1, // global
 	notes:1, // global
 	octaves:1, // global
 	numbers:1, // global
+	sound:1, // global
 	})
 o2.setScale( 'Ré', '101011010101' )
-
+*/
 
 var oH = new Harmonie( eTarget2, o )
 oH.showInterval( oH.eTonique.value, oH.eScale.value )

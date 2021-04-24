@@ -93,8 +93,9 @@ var notationCreator = function(){
 		}
 	this.getSequence =function( sNote ){
 		var a = this.getValue()
-		if( ! sNote ) return choices[ a[0]?'♭':'♯' ][ a[1]]
-		else {
+		if( ! sNote ){
+			return choices[ a[0]?'♭':'♯' ][ a[1]]
+		} else {
 			sNote = this.getNoteName( sNote )
 			var a = this.getSequence()
 			var nIndex = a.indexOf( sNote )
@@ -188,27 +189,27 @@ class Manche {
 			oConfig = Manche.getDefaultSettings( oConfig )
 			let o = {}
 			for( let s in oConfig ){
-				console.info( s, oConfig[ s ] , Manche.DefaultSettings[ s ] )
+				
 				o[s] =
-					oConfig[ s ] != Manche.DefaultSettings[ s ] 
-					? new SpecialVar ( s, oConfig[ s ] )
+					oConfig[ s ].type == "local"
+					? new SpecialVar ( s, oConfig[ s ].value )
 					: SpecialVars[ s ]
 				if( o[s] && ! o[s].type ){
 					o[s].type =  "local"
 					o[s].Publisher = oPublisher
 					}
 				}
-			console.info( o )
 			return o
 			})()
 
 		this.history = new MancheHistory ( this )
 		this.aFrequences = [0,0,0,0,0,0] // Ecarts accordage standard E en ton (+grave à +aigue)
 		var eParent = document.getElementById( sNodeID )
-		var nCases = oConfig.cases
-		this.e = eParent.appendChild( this.createHTML( oConfig.strings, oConfig.cases ))
-		this.nCordes = oConfig.strings
-		this.nCases = oConfig.cases
+		var nCases = oConfig.cases.value
+		var nStrings = oConfig.strings.value
+		this.e = eParent.appendChild( this.createHTML( nStrings, nCases ))
+		this.nCordes = nStrings
+		this.nCases = nCases
 		this.aCordes =[
 			this.e.getElementsByClassName('corde1'),
 			this.e.getElementsByClassName('corde2'),
@@ -224,7 +225,7 @@ class Manche {
 			that.oIntervalBox.toggleNote( e.innerHTML )
 			}
 		this.createMenuHTML()
-		this.hideForm( oConfig.config )
+		this.hideForm( oConfig.config.value )
 
 		
 		// Ajoute les observateurs des options
@@ -238,13 +239,13 @@ class Manche {
 		o.tuning.addSubscriber( 'oManche.setTuning', function( nId ){ that.setTuning( nId )})
 		
 		// Défini la valeur des options
-		o.lefthanded.setValue( oConfig.lefthanded )
-		o.mirror.setValue( oConfig.mirror )
-		o.notation.setValue( oConfig.notation )
-		o.notes.setValue( oConfig.notes )
-		o.numbers.setValue( oConfig.numbers )
-		o.octaves.setValue( oConfig.octaves )
-		o.tuning.setValue( oConfig.tuning )
+		o.lefthanded.setValue( oConfig.lefthanded.value )
+		o.mirror.setValue( oConfig.mirror.value )
+		o.notation.setValue( oConfig.notation.value )
+		o.notes.setValue( oConfig.notes.value )
+		o.numbers.setValue( oConfig.numbers.value )
+		o.octaves.setValue( oConfig.octaves.value )
+		o.tuning.setValue( oConfig.tuning.value )
 		}
 	createHTML ( nCordes, nCases ){
 		var eParent = Tag( 'DIV', 'eGuitar' )
@@ -438,12 +439,13 @@ class Manche {
 			}
 		}
 	renameNotes	(){
-		var a = this.Config.notation.getSequence('E')
+		let a = this.Config.notation.getSequence('E')
 		// Renomme les cordes
-		for(var i=0; i<this.nCordes; i++ ){
-			var nBase = this.aFrequences[i]
-			for(var j=0; j<=this.nCases; j++ )
+		for(let i=0; i<this.nCordes; i++ ){
+			let nBase = this.aFrequences[i] || 0
+			for(let j=0; j<=this.nCases; j++ ){
 				this.aCordes[i][j].firstChild.innerHTML = a[ (nBase+j)%12 ]
+				}
 			}
 		}
 	reset (){
@@ -547,7 +549,6 @@ class Manche {
 		var aFrequences = aAccordage[1].split(',') // écarts tons de base accordage
 		var aBase = [12,17,22,27,31,36] // tons selon les cordes
 		var aNotation = this.Config.notation.getSequence( 'E' ) // liste des 12 notes commencant par E
-	//	console.info( aNotation )
 		for(var i=0; i<this.nCordes; i++ ){
 			this.aFrequences[i] = aBase[i] += 2*aFrequences[i] // bouge les écarts de case : 2*ton
 			}
@@ -567,7 +568,6 @@ class Manche {
 				nBase++
 				}
 			}
-
 		this.reset()
 		this.history.apply()
 		}
@@ -591,8 +591,8 @@ Manche.getDefaultSettings = function( oConfig ){
 	oConfig = oConfig || {}
 	for( const s in Manche.DefaultSettings )
 		oConfig[s] = oConfig[s] !== undefined
-			? oConfig[s]
-			: Manche.DefaultSettings[s]
+			? { type:'local', value: oConfig[s] }
+			: { type:'global', value: Manche.DefaultSettings[s] }
 	return oConfig
 	}
 
