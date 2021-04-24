@@ -169,6 +169,7 @@ Notations= {
 
 class Manche {
 	constructor ( sNodeID, oConfig ){
+		let that = this
 		this.oConfig = oConfig = Manche.getDefaultSettings( oConfig )
 
 		this.history = new MancheHistory ( this )
@@ -198,7 +199,6 @@ class Manche {
 
 		// TROUVER UNE SOLUTION POUR QUE LES VARIABLES SPECIALES SOIT GLOBAL OU LOCAL
 		// Ajoute les observateurs des options
-		let that = this
 		Tuning.addSubscriber( 'oManche.setTuning', function( nId ){ that.setTuning( nId )})
 		Notation.addSubscriber( 'oManche.renameNotes', function(){ that.renameNotes() })
 		LeftHanded.addSubscriber( 'oManche.setLeftHanded', function(b){ that.setLeftHanded(b) })
