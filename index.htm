@@ -35,30 +35,30 @@
 <script type="text/javascript" src="js/tSorter.js"></script>
 <script type="text/javascript" src="js/audio.js"></script>
 <script>
-var o = new Manche( "eTarget", { config: 1 })
-
-/* Test instance multiple 
-var o2 = new Manche( "eTarget" ,{
- 	config: 1, // local
-	notation: [1,'FR'], // global
-	lefthanded:1, // global
-	mirror:1, // global
-	tuning:1, // global
-	notes:1, // global
-	octaves:1, // global
-	numbers:1, // global
-	sound:1, // global
-	})
-o2.setScale( 'Ré', '101011010101' )
-*/
-
-var oH = new Harmonie( eTarget2, o )
-oH.showInterval( oH.eTonique.value, oH.eScale.value )
-oH.displayChords()
-
 eHead.firstChild.onclick = function(){
 	if( confirm( L10n('DELETE_PREF'))) Memoire.clear()
 	}
+
+var o = new Manche( "eTarget", { config: 1 })
+
+var oH = new Harmonie( eTarget, o )
+oH.showInterval( oH.eTonique.value, oH.eScale.value )
+oH.displayChords()
+
+/* Test instance multiple 
+var o2 = new Manche( "eTarget2" ,{
+ 	config: 0, // local
+//	notation: [1,'FR'], // global
+//	lefthanded:1, // global
+//	mirror:1, // global
+//	tuning:1, // global
+//	notes:1, // global
+//	octaves:1, // global
+//	numbers:1, // global
+//	sound:1, // global
+	})
+o2.setScale( 'Ré', '101011010101' )
+*/
 </script>
 
 </body>
