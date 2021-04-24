@@ -46,15 +46,54 @@ window.onselectstart =function(){ return false }	// prevent text selection
 /*============================*/
 /*=== VARIABLES SPECIALES ====*/
 /*============================*/
+let Publishers = (function( bDebug ){
+	let o = {}
+	let oTopics = {}
+	let nID = -1
+	o.publish =function( sTopic, mArg ){
+		if ( ! oTopics[ sTopic ]) return false
+		let aSubscribers = oTopics[ sTopic ]
+		, n = aSubscribers ? aSubscribers.length : 0
+		if( bDebug ) console.warn( `publish "${sTopic}" : "${mArg}"` )
+		while( n-- ){
+			if( bDebug ) console.info( `\t${aSubscribers[n].title}` )
+			aSubscribers[ n ].func( mArg )
+			}
+		return this
+		}
+	o.subscribe =function( sTopic, fFunc, sTitle ){
+		if( ! oTopics[ sTopic ]) oTopics[ sTopic ] = []
+		if( bDebug ) console.info( `Publisher "${sTopic}" \n\t\tnew subscriber "${sTitle||''}"` )
+		let sToken = ( ++nID ).toString()
+		oTopics[ sTopic ].unshift({ token: sToken, func: fFunc, title:sTitle||'' })
+		return sToken
+		}
+	o.unsubscribe =function( sToken ){
+		for( let m in oTopics ){
+			if( oTopics[ m ]){
+				for( let i=0, ni=oTopics[m].length; i < ni; i++ ){
+					if( oTopics[m][i].token === sToken ){
+						oTopics[m].splice( i, 1 )
+						return sToken
+						}
+					}
+				}
+			}
+		return null
+		}
+	return o
+	})( false )
+
 // Objet wrapper : il sert à déclencher des événements quand la valeur de l'objet change
 class SpecialVar {
-	constructor ( mValue ){
-		this._aOnSet = []
-		this.setValue( mValue )
+	constructor ( sName, mValue ){
+		this.id = sName
+		this.value = mValue
+		Publishers.subscribe( sName, m => Memoire.set( sName, m ), 'Memoire.set' )
 		}
 	setValue ( mValue ){
 		this.value = mValue
-		for(var i=0,ni=this._aOnSet.length; i<ni; i++ ) this._aOnSet[i]( mValue )
+		Publishers.publish( this.id, mValue )
 		return mValue
 		}
 	getValue (){
@@ -63,8 +102,8 @@ class SpecialVar {
 	refresh (){
 		return this.setValue( this.getValue())
 		}
-	addObserver ( fObserver ){
-		this._aOnSet.push( fObserver )
+	addSubscriber ( sTitle, fObserver ){
+		return Publishers.subscribe( this.id, fObserver, sTitle )
 		}
 	}
 
@@ -72,8 +111,7 @@ class SpecialVar {
 // valeur changée -> composants mis à jour
 function SpecialVars ( aVars ){
 	aVars.forEach( ([sName, mDefaultValue ]) => {
-		( window[ sName ] = new SpecialVar ( mDefaultValue ))
-			.addObserver( m => Memoire.set( sName, m ))
+		window[ sName ] = new SpecialVar ( sName, mDefaultValue )
 		})
 	}
 SpecialVars([
@@ -152,14 +190,14 @@ class Manche{
 
 		// Ajoute les observateurs des options
 		let that = this
-		Tuning.addObserver( function( nId ){ that.setTuning( nId )})
-		Notation.addObserver( function(){ that.renameNotes() })
-		LeftHanded.addObserver( function(b){ that.setLeftHanded(b) })
-		Sound.addObserver( function(b){ that.setSound(b) })
-		Mirror.addObserver( function(b){ that.setMirror(b) })
-		Notes.addObserver( function(b){ that.setNotesName(b) })
-		Numbers.addObserver( function(b){ that.setFretsNumber(b) })
-		Octaves.addObserver( function(b){ that.setOctave(b) })
+		Tuning.addSubscriber( 'oManche.setTuning', function( nId ){ that.setTuning( nId )})
+		Notation.addSubscriber( 'oManche.renameNotes', function(){ that.renameNotes() })
+		LeftHanded.addSubscriber( 'oManche.setLeftHanded', function(b){ that.setLeftHanded(b) })
+		Sound.addSubscriber( 'oManche.setSound', function(b){ that.setSound(b) })
+		Mirror.addSubscriber( 'oManche.setMirror', function(b){ that.setMirror(b) })
+		Notes.addSubscriber( 'oManche.setNotesName', function(b){ that.setNotesName(b) })
+		Numbers.addSubscriber( 'oManche.setFretsNumber', function(b){ that.setFretsNumber(b) })
+		Octaves.addSubscriber( 'oManche.setOctave', function(b){ that.setOctave(b) })
 
 		this.createMenuHTML()
 		
@@ -286,11 +324,11 @@ class Manche{
 		eINPUT.max = 500
 		eINPUT.value = LA3
 		eINPUT.oninput=function(){ La3.setValue( this.value )}
-		La3.addObserver( function( n ){
+		La3.addSubscriber( 'màj Input range La3', function( n ){
 			eINPUT.value = n
 			eINPUT.nextSibling.value = n+'Hz' 
 			})
-		Notation.addObserver( function( a ){
+		Notation.addSubscriber( 'màj Label La3', function( a ){
 			eLabel.innerHTML = a[1]=='FR' ? 'La3' : 'A3'
 			})
 		let eOUTPUT = Tag('OUTPUT')
@@ -311,12 +349,11 @@ class Manche{
 			function(){ that.hideForm( this.checked )},
 			'reglage'
 			)
-		let e4 = cb( 'eNotesName', '', // L10n('NOTES'),
+		this.eNotesName = cb( 'eNotesName', '', // L10n('NOTES'),
 			false,
 			function(){ Notes.setValue( this.checked )},
 			'notes'
 			)
-			
 		this.eFretsNumber = cb( 'eFretsNumber', '', // L10n('NUMEROS'),
 			false,
 			function(){ Numbers.setValue( this.checked )},
@@ -334,12 +371,11 @@ class Manche{
 			)
 		
 		/* Observateurs */
-		Notation.addObserver( function( a ){
+		Notation.addSubscriber( 'màj valeur checkbox ABCD et Bémol', function( a ){
 			e5.checked = a[1] == 'EN'
 			e6.checked = a[0]
 			})
-		Tuning.addObserver( function( nId ){ eAccordage.value = nId })
-		Notes.addObserver( function( b ){ e4.checked = b })
+		Tuning.addSubscriber( 'màj valeur selectBox Accordage', function( nId ){ eAccordage.value = nId })
 
 		this.e.appendChild( eUL2 )
 		}
@@ -457,6 +493,7 @@ class Manche{
 		Notation.setValue([bBemol,sLang])
 		}
 	setNotesName ( b ){
+		this.eNotesName.checked = b
 		this.e.classList[ ! b ? 'add' : 'remove' ]( 'hideNotes' )
 		}
 	setOctave ( b ){
@@ -573,7 +610,7 @@ class Harmonie {
 		let oIntervalBox = this.oIntervalBox = new IntervalBox ( oManche )
 		eParent.appendChild( oIntervalBox.eHTML )
 
-		Tonic.addObserver( function( sNote ){
+		Tonic.addSubscriber( 'selectBox Tonic[màj selection]+IntervalBox.setNotes', function( sNote ){
 			that.eTonique.value = sNote
 			oIntervalBox.setNotes( Notations.getSequence( sNote ))
 			})
@@ -622,8 +659,7 @@ class Harmonie {
 		var eTonique = selectbox( 'eTonique', L10n('TONIQUE'), Notations.getSequence())
 		eTonique.value = Notations.getNoteName( Memoire.get( 'Tonic' ) || 'A' )
 		eTonique.onkeyup = eTonique.onchange =function(){}
-		Notation.addObserver( function(){
-			Tonic.refresh()
+		Notation.addSubscriber( 'selectBox Tonic[Renommage options] + màj SpecialVar Tonic', function(){
 			var a = Notations.getSequence()
 			var e = eTonique.firstChild
 			var i = 0
@@ -631,7 +667,6 @@ class Harmonie {
 				e.innerHTML = e.value = a[i++]
 				e = e.nextSibling
 				}
-			eTonique.value = Notations.getNoteName( Tonic.getValue())
 			Tonic.setValue( eTonique.value )
 			})
 
@@ -640,7 +675,6 @@ class Harmonie {
 		eScale.className = 'scale'
 		btn( "OK", eScale, eScale.onkeyup = eScale.onchange =function(){
 			Memoire.set( 'Scale', eScale.value )
-			Memoire.set( 'Tonic', eTonique.value )
 			that.showInterval( eTonique.value, eScale.value )
 			that.displayChords()
 			})
@@ -649,7 +683,6 @@ class Harmonie {
 		eChords.value = Memoire.get( 'Arpege' ) || '100100010000'
 		btn( "OK", eChords, eChords.onkeyup = eChords.onchange = function(){
 			Memoire.set( 'Arpege', eChords.value )
-			Memoire.set( 'Tonic', eTonique.value )
 			that.showInterval( eTonique.value, eChords.value )
 			})
 
@@ -694,7 +727,7 @@ class Harmonie {
 		}
 	displayChordsSimilarities ( sTonique, sChordMask ){
 		var ai = this.aResult
-		
+
 		// Cherche le degré de l'accord pour créé un masque correspondant à celui de la gamme
 		for( var i=0, ni=ai.length; i<ni; i++ ){
 			if( ai[i][0] == sTonique ){
@@ -713,7 +746,7 @@ class Harmonie {
 			// Parcours les accords résultat
 			for( var j=0, nj=aChords.length; j<nj; j++ ){
 				// Stock la similitude : valeur de 0 à 1
-				if( aChords[j].length > 2 )  aChords[j] = aChords[j].slice( 0, 2 )
+				if( aChords[j].length > 2 ) aChords[j] = aChords[j].slice( 0, 2 )
 				aChords[j] = aChords[j].concat( Harmonie.getSimilarity( aChords[j][1], sDegreMask, 'chord' ))
 				}
 			}
@@ -723,7 +756,7 @@ class Harmonie {
 		var sTonique = ai[0][0]
 
 		this.setChords( sTonique, sScaleMask, this.aResult )
-		
+
 		return null
 		}
 	getChordsSuggestion ( sTonique, sScaleMask ){
