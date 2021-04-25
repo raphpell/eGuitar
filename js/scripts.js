@@ -950,10 +950,13 @@ Harmonie.getSimilarity = function( sChordOrScaleMask1 , sChordMask2 , sType ){
 class HarmonieForm {
 	constructor(){
 		}
+	createHTML(){
+		}
 	}
 
 class HarmonieTable {
 	constructor(){
 		}
-	
+	createHTML(){
+		}
 	}
