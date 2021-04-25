@@ -618,6 +618,7 @@ class MancheHistory {
 	}
 
 /* Recherche des accords présent dans des intervalles */
+// Exploser cette objet en deux : HarmonieForm et HarmonieTable
 class Harmonie {
 	constructor( eParent, oManche ){
 		let that = this
