@@ -123,7 +123,7 @@ var notationCreator = function(){
 		throw Error ( 'Invalid note name... '+ sNote )
 		}
 	}
-	
+
 // Objet wrapper : il sert à déclencher des événements quand la valeur de l'objet change
 class SpecialVar {
 	constructor ( sName, mValue ){
