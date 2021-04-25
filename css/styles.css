@@ -363,9 +363,10 @@ code {
 	border-radius: 3px;
 	box-shadow: 0 0 .5em rgba(0,0,0,.5);
 	float: left;
-	margin: .5em 0 0 0;
+	margin: .5em;
 	padding: .25em;
-	width: 394px;
+	width: 368px;
+	height: 93px;
 	}
 .harmonieForm TD {
 	text-align: left;
@@ -445,7 +446,7 @@ UL.interval {
 	border-radius: 3px;
 	box-shadow: 0 0 .5em rgba(0,0,0,.5);
 	list-style-type: none;
-	margin: .5em .5em 0 0;
+	margin: .5em;
 	padding: .5em .25em .5em .5em;
 	float: left;
 	}
