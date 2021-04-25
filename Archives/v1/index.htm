@@ -1,0 +1,563 @@
+﻿<html>
+<head>
+	<title>eGuitar</title>
+	<link rel="stylesheet" type="text/css" href="css/styles.css">
+	<meta name="Title" content="eGuitar">
+	<meta name="Description" content="eGuitar est une page web pour visualiser des gammes, des accords et plus encore... tout simplement des notes d'un intervalle.">
+	<meta name="Keywords" content="guitare basse fondamentale tonique intervalle tons seconde tierce quarte quinte sixte septième octave gamme accord ABCDEFG Blues Mineure Majeure Locrien Phrygien Eolien Dorien Mélodique Ionien Mixolydien Lydien Harmonique Diminué Augmenté">
+	<meta name="Copyright" content="© 2015 raphpell">
+</head>
+<body>
+
+<div id="eGuitar">
+
+<div id="eCartouche">
+	<img src="guitare.png"><h1>eGuitar </h1>
+	<ul>
+		<li><a href="https://github.com/raphpell/eGuitar/">eGuitar sur Github</a></li>
+	</ul>
+</div>
+
+<!-- <input type="color"> -->
+
+<div class="default">
+<div id="eManche">
+	<div class="case case0">
+		<div class="corde corde6"><span>Mi</span></div>
+		<div class="corde corde5"><span>Si</span></div>
+		<div class="corde corde4"><span>Sol</span></div>
+		<div class="corde corde3"><span>Ré</span></div>
+		<div class="corde corde2"><span>La</span></div>
+		<div class="corde corde1"><span>Mi</span></div>
+	</div>
+	<div class="case case1">
+		<div class="corde corde6"><span></span></div>
+		<div class="corde corde5"><span></span></div>
+		<div class="corde corde4"><span></span></div>
+		<div class="corde corde3"><span></span></div>
+		<div class="corde corde2"><span></span></div>
+		<div class="corde corde1"><span></span></div>
+		<div class="nomDeCase">1</div>
+	</div>
+	<div class="case case2">
+		<div class="corde corde6"><span></span></div>
+		<div class="corde corde5"><span></span></div>
+		<div class="corde corde4"><span></span></div>
+		<div class="corde corde3"><span></span></div>
+		<div class="corde corde2"><span></span></div>
+		<div class="corde corde1"><span></span></div>
+		<div class="nomDeCase">2</div>
+	</div>
+	<div class="case case3">
+		<div class="corde corde6"><span></span></div>
+		<div class="corde corde5"><span></span></div>
+		<div class="corde corde4"><span></span></div>
+		<div class="corde corde3"><span></span></div>
+		<div class="corde corde2"><span></span></div>
+		<div class="corde corde1"><span></span></div>
+		<div class="nomDeCase">3</div>
+	</div>
+	<div class="case case4">
+		<div class="corde corde6"><span></span></div>
+		<div class="corde corde5"><span></span></div>
+		<div class="corde corde4"><span></span></div>
+		<div class="corde corde3"><span></span></div>
+		<div class="corde corde2"><span></span></div>
+		<div class="corde corde1"><span></span></div>
+		<div class="nomDeCase">4</div>
+	</div>
+	<div class="case case5">
+		<div class="corde corde6"><span></span></div>
+		<div class="corde corde5"><span></span></div>
+		<div class="corde corde4"><span></span></div>
+		<div class="corde corde3"><span></span></div>
+		<div class="corde corde2"><span></span></div>
+		<div class="corde corde1"><span></span></div>
+		<div class="nomDeCase">5</div>
+	</div>
+	<div class="case case6">
+		<div class="corde corde6"><span></span></div>
+		<div class="corde corde5"><span></span></div>
+		<div class="corde corde4"><span></span></div>
+		<div class="corde corde3"><span></span></div>
+		<div class="corde corde2"><span></span></div>
+		<div class="corde corde1"><span></span></div>
+		<div class="nomDeCase">6</div>
+	</div>
+	<div class="case case7">
+		<div class="corde corde6"><span></span></div>
+		<div class="corde corde5"><span></span></div>
+		<div class="corde corde4"><span></span></div>
+		<div class="corde corde3"><span></span></div>
+		<div class="corde corde2"><span></span></div>
+		<div class="corde corde1"><span></span></div>
+		<div class="nomDeCase">7</div>
+	</div>
+	<div class="case case8">
+		<div class="corde corde6"><span></span></div>
+		<div class="corde corde5"><span></span></div>
+		<div class="corde corde4"><span></span></div>
+		<div class="corde corde3"><span></span></div>
+		<div class="corde corde2"><span></span></div>
+		<div class="corde corde1"><span></span></div>
+		<div class="nomDeCase">8</div>
+	</div>
+	<div class="case case9">
+		<div class="corde corde6"><span></span></div>
+		<div class="corde corde5"><span></span></div>
+		<div class="corde corde4"><span></span></div>
+		<div class="corde corde3"><span></span></div>
+		<div class="corde corde2"><span></span></div>
+		<div class="corde corde1"><span></span></div>
+		<div class="nomDeCase">9</div>
+	</div>
+	<div class="case case10">
+		<div class="corde corde6"><span></span></div>
+		<div class="corde corde5"><span></span></div>
+		<div class="corde corde4"><span></span></div>
+		<div class="corde corde3"><span></span></div>
+		<div class="corde corde2"><span></span></div>
+		<div class="corde corde1"><span></span></div>
+		<div class="nomDeCase">10</div>
+	</div>
+	<div class="case case11">
+		<div class="corde corde6"><span></span></div>
+		<div class="corde corde5"><span></span></div>
+		<div class="corde corde4"><span></span></div>
+		<div class="corde corde3"><span></span></div>
+		<div class="corde corde2"><span></span></div>
+		<div class="corde corde1"><span></span></div>
+		<div class="nomDeCase">11</div>
+	</div>
+	<div class="case case12">
+		<div class="corde corde6"><span></span></div>
+		<div class="corde corde5"><span></span></div>
+		<div class="corde corde4"><span></span></div>
+		<div class="corde corde3"><span></span></div>
+		<div class="corde corde2"><span></span></div>
+		<div class="corde corde1"><span></span></div>
+		<div class="nomDeCase">12</div>
+	</div>
+</div></div>
+
+<table id="menu">
+	<colgroup>
+		<col style="width:25%;">
+		<col style="width:25%;">
+		<col style="width:30% !important;">
+		<col style="width:20%;">
+	</colgroup>
+	<tr>
+		<td valign="top"><table>
+			<tr>
+				<td><label for="eAccordage">Accordage: </label></td>
+				<td><select id="eAccordage">
+					<option value="Mi,La,Ré,Sol,Si,Mi|0,0,0,0,0,0">E</option>
+					<option value="Ré,La,Ré,Sol,Si,Mi|-1,0,0,0,0,0">Dropped D</option>
+					<option value="Mi,La,Ré,Fa♯Sol♭,Si,Ré|0,0,0,-.5,0,-1">Open de Luth</option>
+					<option value="Ré,La,Ré,Fa♯Sol♭,La,Ré|-1,0,0,-.5,-1,-1">Open de Ré</option>
+					<option value="Ré,La,Ré,Sol,La,Ré|-1,0,0,0,-1,-1">Open de Ré alternatif</option>
+					<option value="Ré,Sol,Ré,Sol,Si,Ré|-1,-1,0,0,0,-1">Open de Sol</option>
+					<option value="Do,Sol,Do,Sol,Do,Mi|-2,-1,-1,0,0.5,0">Open de Do</option>
+					<option value="Do,La,Do,Sol,Do,Mi|-2,0,-1,0,.5,0">Open de La m7</option>
+					<option value="Do,Sol,Do,Sol,La,Mi|-2,-1,-1,0,-1,0">Open de Do 6</option>
+					<option value="Mi,Si,Mi,Sol,Si,Mi|0,1,1,0,0,0">Open de Mi mineur</option>
+					<option value="Mi,Si,Mi,Sol♯La♭,Si,Mi|0,1,1,.5,0,0">Open de Mi</option>
+					<option value="Fa,Sol♯La♭,Do,Fa,Sol♯La♭,Fa|1,-.5,-1,-1,1,1">Open de Fa mineur</option>
+					<option value="Ré,Sol,Ré,Sol,La♯Si♭,Ré|-1,-1,0,0,-.5,-1">Open de Sol mineur</option>
+					<option value="Ré,Sol,Ré,Sol,Si,Mi|-1,-1,0,0,0,0">Open de Sol 6</option>
+					<option value="Mi,La,Mi,La,Do♯Ré♭,Mi|0,0,1,1,1,0">Open de La ("Spanish Tuning")</option>
+					<option value="Ré,La,Ré,Fa♯Sol♭,La,Do♯Ré♭|-1,0,0,-.5,-1,-1.5">Open de Ré 7M</option>
+					</select></td>
+			</tr>
+			<tr><td colspan="2">
+				<input type="checkbox" id="eGaucher">
+				<label for="eGaucher" title="Inverse le manche">Gaucher.</label>
+			</td></tr>
+			<tr><td colspan="2">
+				<input type="checkbox" id="eFlip">
+				<label for="eFlip" title="Inverse l'ordre des cordes">Inverser.</label>
+			</td></tr>
+		</table></td>
+		<td valign="top"><table>
+			<tr><td><label for="eFondamentale" title="tonique">Fondamentale: </label>
+				<select id="eFondamentale">
+					<option value="Mi">Mi</option>
+					<option value="Fa">Fa</option>
+					<option value="Fa♯Sol♭">Fa♯Sol♭</option>
+					<option value="Sol">Sol</option>
+					<option value="Sol♯La♭">Sol♯La♭</option>
+					<option value="La">La</option>
+					<option value="La♯Si♭">La♯Si♭</option>
+					<option value="Si">Si</option>
+					<option value="Do">Do</option>
+					<option value="Do♯Ré♭">Do♯Ré♭</option>
+					<option value="Ré">Ré</option>
+					<option value="Ré♯Mi♭">Ré♯Mi♭</option>
+				</select></td></tr>
+			<tr><td id="eTitle"></td></tr>
+		</table></td>
+		<td><table>
+			<tr><td>
+				<input type="radio" id="eR_Gamme" name="choice" checked>
+				<label for="eR_Gamme">Gamme: </label></td>
+				<td><select id="eGamme">
+					<option value="1 b2 2 b3 3 4 b5 5 b6 6 b7 7">Chromatique</option>
+					<optgroup label="Pentatonique">
+						<option value="1 b3 4 5 b7" selected>Mineure</option>
+						<option value="1 b3 4 b5 5 b7" >Blues</option>
+						<option value="1 2 3 5 6">Majeure</option>
+					</optgroup>
+					<optgroup label="à 7 notes">
+						<option value="1 b2 b3 4 b5 b6 b7">Locrien</option>
+						<option value="1 b2 b3 4 5 b6 b7">Phrygien</option>
+						<option value="1 2 b3 4 5 b6 b7">Eolien(Mineure naturelle)</option>
+						<option value="1 2 b3 4 5 6 b7">Dorien</option>
+						<option value="1 2 b3 4 5 6 7">Mineure Mélodique</option>
+						<option value="1 2 3 4 5 6 7">Ionien(Majeure)</option>
+						<option value="1 2 3 4 5 6 b7">Mixolydien</option>
+						<option value="1 2 3 #4 5 6 7">Lydien</option>
+						<option value="1 2 3 4 #5 6 7">Majeur Harmonique</option>
+						<option value="1 2 b3 4 5 b6 7">Mineure Harmonique</option>
+					</optgroup>
+					<optgroup label="Divers">
+						<option value="1 b2 b3 5 b6">Balinaise</option>
+						<option value="1 b2 b3 5 b7">Pelog(Balinaise)</option>
+						<option value="1 b2 4 5 b6">Japonaise</option>
+						<option value="1 b2 4 b5 b7">Iwato(Japonaise)</option>
+						<option value="1 2 4 5 b7">Egyptienne</option>
+						<option value="1 3 b5 5 7">Chinoise</option>
+						<option value="1 b2 b3 3 5 b6 b7">Indien</option>
+						<option value="1 2 3 4 5 b6 b7">Hindou</option>
+					</optgroup>
+				</select></td></tr>
+			<tr><td>
+				<input type="radio" id="eR_Accord" name="choice">
+				<label for="eR_Accord">Accord: </label></td>
+				<td><select id="eAccord">
+					<optgroup label="Accords à 3 sons (triades)">
+						<option value="1 3 5|" selected>Majeure</option>
+						<option value="1 b3 5|m">Mineure</option>
+						<option value="1 b3 b5|°">Diminué</option>
+						<option value="1 3 b6|+">Augmenté</option>
+					</optgroup>
+					<optgroup label="Accords à 4 sons (tétrades)">
+						<option value="1 3 5 7|Δ">Majeur 7</option>
+						<option value="1 3m 5 7m|m7">Mineur 7</option>
+						<option value="1 3m 5 7|mΔ">Mineur septième majeure</option>
+						<option value="1 3 5 7m|7">7</option>
+						<option value="1 3m b5 7m|m7♭5">Mineur 7 ♭5</option>
+						<option value="1 3 #5 7m|+7">Augmenté 7</option>
+						<option value="1 3 #5 7|+Δ">Majeur 7 augmenté</option>
+					</optgroup>
+					<optgroup label="Accords à 5 sons">
+						<option value="1 3 5 7m 9M|9">9</option>
+						<option value="1 3 5 7 9M|Δ9">Majeur 9</option>
+						<option value="1 3 5 7m 9m|7♭9">7♭9</option>
+						<option value="1 3 5 7m #9|7♯9">7♯9</option>
+						<option value="1 3m 5 7m 9M|m9">m9</option>
+					</optgroup>
+					<optgroup label="Divers">
+						<option value="1 4j 5j|sus4">sus4</option>
+						<option value="1 4j 5j 7m|7sus4">7sus4</option>
+						<option value="1 3m 5j 9M|m add9">m add9</option>
+						<option value="1 3m 5j 6M|m6">m6</option>
+						<option value="1 3M 5j 7m 13M|13">13</option>
+						<option value="1 3m 5j 7m 11|m11">m11</option>
+					</optgroup>
+				</select></td></tr>
+			<tr><td colspan="2">
+				<input type="radio" id="eR_Free" name="choice">
+				<label for="eR_Free">Mode libre. </label>
+				</td></tr>
+		</table></td>
+		<td><table>
+			<tr><td>
+				<input type="checkbox" id="eShowNotes">
+				<label for="eShowNotes">Nom des notes.</label>
+			</td></tr>
+			<tr><td>
+				<input type="checkbox" id="eABCDEFG" checked>
+				<label for="eABCDEFG" title="Notation internationale">A B C D E F G.</label>
+			</td></tr>
+			<tr><td>
+				<input type="checkbox" id="eShowOctaves">
+				<label for="eShowOctaves">Afficher octaves.</label>
+			</td></tr>
+		</table></td>
+	</tr>
+</table>
+
+<div style="clear:both;"></div>
+
+<table class="intervalles">
+	<tr>
+		<th><i></i></th>
+		<th>tonique</th>
+		<th colspan="2">seconde</th>
+		<th colspan="2">tierce</th>
+		<th>quarte</th>
+		<th></th>
+		<th>quinte</th>
+		<th colspan="2">sixte</th>
+		<th colspan="2">septième</th>
+		<th>octave</th>
+	</tr>
+	<tr id="eTons">
+		<th>Tons</th>
+		<td><label class="ton ton0">0</label></td>
+		<td><input type="checkbox" id="e2m"><label for="e2m" class="ton ton0_5">&half;</label></td>
+		<td><input type="checkbox" id="e2M"><label for="e2M" class="ton ton1">1</label></td>
+		<td><input type="checkbox" id="e3m"><label for="e3m" class="ton ton1_5">1+&half;</label></td>
+		<td><input type="checkbox" id="e3M"><label for="e3M" class="ton ton2">2</label></td>
+		<td><input type="checkbox" id="e4j"><label for="e4j" class="ton ton2_5">2+&half;</label></td>
+		<td><input type="checkbox" id="eb5"><label for="eb5" class="ton ton3">3</label></td>
+		<td><input type="checkbox" id="e5j"><label for="e5j" class="ton ton3_5">3+&half;</label></td>
+		<td><input type="checkbox" id="e6m"><label for="e6m" class="ton ton4">4</label></td>
+		<td><input type="checkbox" id="e6M"><label for="e6M" class="ton ton4_5">4+&half;</label></td>
+		<td><input type="checkbox" id="e7m"><label for="e7m" class="ton ton5">5</label></td>
+		<td><input type="checkbox" id="e7M"><label for="e7M" class="ton ton5_5">5+&half;</label></td>
+		<td><label class="ton ton6">6</label></td>
+	</tr>
+	<tr>
+		<th rowspan="2">Qualificatif</th>
+		<td></td>
+		<td>♭2</td><td>2</td>
+		<td>♭3</td><td>3</td>
+		<td>4</td>
+		<td>♯4/♭5</td><td>5</td>
+		<td>♯5/♭6</td><td>6</td>
+		<td>♭7</td><td>7</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td>♭9</td><td>9</td>
+		<td>♯9</td><td></td>
+		<td>11</td>
+		<td></td><td></td>
+		<td>♭13</td><td>7°/13</td>
+		<td></td><td></td>
+		<td></td>
+	</tr>
+</table>
+
+</div><!-- end #eGuitar -->
+
+<script>
+var _ ={
+	getEltsById :function( s ){
+		var a = s.split(',')
+		for(var i=0, ni=a.length; i<ni; i++ ) a[i] = window[ a[i]] = document.getElementById( a[i])
+		return a
+		}
+	}
+_.getEltsById( 'eManche,eManche,eFondamentale,eGamme,eAccord,eShowNotes,eABCDEFG,eShowOctaves,eGaucher,eFlip,eTons' )
+var aTons = _.getEltsById( 'e2m,e2M,e3m,e3M,e4j,eb5,e5j,e6m,e6M,e7m,e7M' )
+var aRadios = _.getEltsById( 'eR_Gamme,eR_Accord,eR_Free' )
+
+var onRadioChange =function(){
+	var bFree = eR_Free.checked
+	for(var i=0, ni=aTons.length; i<ni; i++ ){
+		aTons[i].disabled = ! bFree
+		if( bFree ) onIntervallesChange.call( aTons[i])
+		}
+	if( bFree ) setScale( eFondamentale.value, '1' )
+	if( eR_Gamme.checked ) setScale( eFondamentale.value, eGamme.value )
+	if( eR_Accord.checked ) setScale( eFondamentale.value, eAccord.value )
+	}
+var onIntervallesChange =function(){
+	var eLabel = this.nextSibling
+	eLabel.classList[ this.checked ? 'add' : 'remove' ]( 'ton_highlighted' )
+	Manche.highlightNote( this.value, this.checked
+		? eLabel.className.replace( /[\s\w]*(ton\d[^\s]*)[\s\w]*/, '$1' )
+		: ''
+		)
+	}
+for(var i=0, ni=aRadios.length; i<ni; i++ )	aRadios[i].onchange = onRadioChange
+for(var i=0, ni=aTons.length; i<ni; i++ ) aTons[i].onchange = onIntervallesChange
+
+var aCordes =[
+	eManche.getElementsByClassName('corde1'),
+	eManche.getElementsByClassName('corde2'),
+	eManche.getElementsByClassName('corde3'),
+	eManche.getElementsByClassName('corde4'),
+	eManche.getElementsByClassName('corde5'),
+	eManche.getElementsByClassName('corde6')
+ 	]
+	
+var sNotesFR = 'Mi|Fa|Fa♯Sol♭|Sol|Sol♯La♭|La|La♯Si♭|Si|Do|Do♯Ré♭|Ré|Ré♯Mi♭|Mi|Fa|Fa♯Sol♭|Sol|Sol♯La♭|La|La♯Si♭|Si|Do|Do♯Ré♭|Ré|Ré♯Mi♭'
+var sNotesEN = 'E|F|F♯G♭|G|G♯A♭|A|A♯B♭|B|C|C♯D♭|D|D♯E♭|E|F|F♯G♭|G|G♯A♭|A|A♯B♭|B|C|C♯D♭|D|D♯E♭'
+
+var sNotation = 'FR'
+var oRename = (function (){
+	var o = {}
+	var aFR = sNotesFR.split('|')
+	var aEN = sNotesEN.split('|')
+	for(var i=0; i<12; i++ ){
+		o[ aFR[i]] = aEN[i]
+		o[ aEN[i]] = aFR[i]
+		}
+	return o
+	})();
+
+function setConfig (){
+	eManche.parentNode.className = eGaucher.checked
+		?( eFlip.checked
+			? 'gaucher_flipped'
+			: 'gaucher'
+			)
+		:( eFlip.checked
+			? 'flipped'
+			: ''
+			)
+	}
+function getNoteName ( sNote ){
+	return sNotation!='FR' ? oRename[ sNote ] : sNote
+	}
+function setNotation ( sLang ){
+	sNotation = sLang
+	// Renomme la fondamentale
+	var a = eFondamentale.getElementsByTagName('OPTION')
+	if( a[0].innerHTML == 'E' && sNotation == "EN" ) return;
+	if( a[0].innerHTML == 'Mi' && sNotation == "FR" ) return;
+	for(var i=0, ni=a.length; i<ni; i++ )
+		a[i].innerHTML = oRename[ a[i].innerHTML ]
+	// Renomme les cordes
+	for(var i=0; i<6; i++ )
+		for(var j=0; j<13; j++ )
+			aCordes[i][j].firstChild.innerHTML = oRename[ aCordes[i][j].firstChild.innerHTML ]
+	// Renomme le tableau des intervalles
+	// ...
+	onRadioChange()
+	}
+	
+Manche={
+	getNotes :function( sNote ){
+		var aElts = []
+		var a = eManche.getElementsByClassName('corde')
+		for(var i=0, ni=a.length; i<ni; i++ ){
+			var e = a[i].firstChild
+			if( e.innerHTML == sNote ) aElts.push( e )
+			}
+		return aElts
+		},
+	highlightNote :function( sNote, sClassName ){
+		var a = Manche.getNotes( sNote )
+		for(var i=0, ni=a.length; i<ni; i++ ){
+			a[i].className = a[i].className.replace( /ton\d[^\s]*/gim, '' )
+			a[i].className += ' '+ sClassName
+			}
+		}
+	}
+function getScaleFrom ( sNote ){
+	var a = window['sNotes'+ sNotation].split( sNote +'|' )[1].slice(0,-1).split('|')
+	a.unshift( sNote )
+	a.push( sNote )
+	return a 
+	}
+function setAccordage ( sAccordage ){
+	var aAccordage = sAccordage.split('|')
+	var aNotes = aAccordage[0].split(',')
+	var aFrequences = aAccordage[1].split(',')
+	var sBaseNote = sNotation=="EN" ? oRename[ aNotes[0]] : aNotes[0]
+	var aBase = [12,17,22,27,31,36]
+	for(var i=0; i<6; i++ ) aBase[i] += 2*aFrequences[i]
+	for(var i=0; i<6; i++ ){
+		var nBase = aBase[i]
+		var sNote = aNotes[i]
+		if( sNotation=="EN" ) sNote = oRename[sNote]
+		var a = getScaleFrom( sNote )
+		for(var j=0; j<13; j++ ){
+			var e = aCordes[i][j].firstChild
+			e.innerHTML = a[j]
+			/* Test octave */
+			if( -1 == e.className.indexOf('octave')) e.className += ' octave' + parseInt( nBase/12 )
+				else e.className = e.className.replace( /octave\d/, ' octave' + parseInt( nBase/12 ))
+			e.title = e.className
+			nBase++
+			}
+		}
+	onRadioChange()
+	}
+function reset (){
+	var a = eManche.getElementsByClassName('corde')
+	for(var i=0, ni=a.length; i<ni; i++ ){
+		var e = a[i].firstChild
+		e.className = e.className.replace( /ton\d[^\s]*/gim, '' )
+		}
+	}
+function setScale ( sNote, sScale ){
+	sNote =  sNotation!='FR' ? oRename[ sNote ] : sNote
+	var oIndex ={
+		'1':0,
+		'b2':1, '2m':1, 'b9':1, '9m':1,
+		'2':2, '2M':2, '9M':2,
+		'b3':3, '3m':3, '#9':3,
+		'3':4, '3M':4,
+		'4':5, '4j':5, '11':5,
+		'#4':6, '4aug':6, 'b5':6, '5dim':6, '#11':6,
+		'5':7, '5j':7,
+		'5aug':8, '#5':8, 'b6':8, '6m':8, 'b13':8,
+		'6':9, '6M':9, '13M':9,
+		'b7':10, '7m':10,
+		'7':11, '7M':11
+		}	
+	reset()
+	var a = getScaleFrom( sNote )
+	var aValue = sScale.split('|')
+	eTitle.innerHTML = aValue[1] == undefined
+		? ''
+		: sNote +'<span>'+ aValue[1] +'</span>'
+	var aScale = aValue[0].split(' ')
+	for(var i=0, ni=aTons.length; i<ni; i++ ){
+		var e = aTons[i]
+		e.nextSibling.classList.remove( 'ton_highlighted' )
+		e.value = e.nextSibling.title = a[i+1]
+		e.checked = false
+		}
+	for(var i=0, ni=aScale.length; i<ni; i++ ){
+		var nIndex = oIndex[ aScale[i]]
+		var nTon = nIndex/2
+		var sClassName = 'ton'+ (nTon+'').replace( '.','_')
+		Manche.highlightNote( a[ nIndex ], sClassName )
+		var aTon = eTons.getElementsByClassName( sClassName )
+		for(var j=0, nj=aTon.length; j<nj; j++ ){
+			aTon[j].classList.add( 'ton_highlighted' )
+			var e = aTon[j].previousSibling
+			if( e ){
+				e.checked = true
+				e.onchange()
+				}
+			}
+		}
+	var aTon = eTons.getElementsByClassName( 'ton6' )
+	for(var j=0, nj=aTon.length; j<nj; j++ )
+		aTon[j].classList.add( 'ton_highlighted' )
+	}
+function init (){
+	setAccordage( eAccordage.value )
+	eShowNotes.onchange()
+	eShowOctaves.onchange()
+	eABCDEFG.onchange()
+	if( eManche.style.transform == undefined ){
+		eGaucher.parentNode.style.visibility = 'hidden'
+		eFlip.parentNode.style.visibility = 'hidden'
+		} else setConfig()
+	}
+
+eAccordage.onkeyup =
+eAccordage.onchange = function(){ setAccordage( eAccordage.value )}
+eGamme.onkeyup = eGamme.onchange =
+eAccord.onkeyup = eAccord.onchange =
+eFondamentale.onkeyup = eFondamentale.onchange = onRadioChange
+eShowNotes.onchange = function(){ eManche.classList[ eShowNotes.checked ? 'remove' : 'add' ]( 'hideNotes' )}
+eABCDEFG.onchange = function(){ setNotation( eABCDEFG.checked?'EN':'FR' )}
+eShowOctaves.onchange = function(){ eManche.classList[ eShowOctaves.checked ? 'add' : 'remove' ]( 'octaves' )}
+eGaucher.onchange = eFlip.onchange = setConfig
+
+init()
+</script>
+
+</body>
+</html>
