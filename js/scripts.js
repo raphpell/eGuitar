@@ -697,7 +697,7 @@ class IntervalBox {
 	}
 
 /* Recherche des accords présent dans des intervalles */
-// Exploser cette objet en deux : HarmonieForm et HarmonieTable
+// Exploser cette objet en deux : HarmonieForm et HarmonieTable. voir trois pour les calcules
 class Harmonie {
 	constructor( eParent, oManche ){
 		let that = this
@@ -947,6 +947,7 @@ Harmonie.getSimilarity = function( sChordOrScaleMask1 , sChordMask2 , sType ){
 		]
 	}
 	
+/* Affichage formulaire harmonie */
 class HarmonieForm {
 	constructor(){
 		}
@@ -954,6 +955,7 @@ class HarmonieForm {
 		}
 	}
 
+/* Affichage des accords trouvé dans des intervalles */
 class HarmonieTable {
 	constructor(){
 		}
