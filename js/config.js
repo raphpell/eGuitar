@@ -1,5 +1,11 @@
 let LA3 = Memoire.get('La3')||440
 
+const Notations ={
+	'♯':{	FR:['La',	'La♯',	'Si',	'Do',	'Do♯',	'Ré',	'Ré♯',	'Mi',	'Fa',	'Fa♯',	'Sol',	'Sol♯'],
+			EN:['A',	'A♯',	'B',	'C',	'C♯',	'D',	'D♯',	'E',	'F',	'F♯',	'G',	'G♯']},
+	'♭':{	FR:['La',	'Si♭',	'Si',	'Do',	'Ré♭',	'Ré',	'Mi♭',	'Mi',	'Fa',	'Sol♭',	'Sol',	'La♭'],
+			EN:['A',	'B♭',	'B',	'C',	'D♭',	'D',	'E♭',	'E',	'F',	'G♭',	'G',	'A♭']}
+	}
 const Tunings =[
 	["Mi,La,Ré,Sol,Si,Mi|0,0,0,0,0,0",'E'],
 	["Ré,La,Ré,Sol,Si,Mi|-1,0,0,0,0,0",'Dropped D'],

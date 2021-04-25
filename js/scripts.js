@@ -84,17 +84,12 @@ let Publishers = function( bDebug ){
 	return o
 	}
 
+// Etend les variables spéciales 'notation'
 var notationCreator = function(){
-	let choices = {
-		'♯':{	FR:['La',	'La♯',	'Si',	'Do',	'Do♯',	'Ré',	'Ré♯',	'Mi',	'Fa',	'Fa♯',	'Sol',	'Sol♯'],
-				EN:['A',	'A♯',	'B',	'C',	'C♯',	'D',	'D♯',	'E',	'F',	'F♯',	'G',	'G♯']},
-		'♭':{	FR:['La',	'Si♭',	'Si',	'Do',	'Ré♭',	'Ré',	'Mi♭',	'Mi',	'Fa',	'Sol♭',	'Sol',	'La♭'],
-				EN:['A',	'B♭',	'B',	'C',	'D♭',	'D',	'E♭',	'E',	'F',	'G♭',	'G',	'A♭']}
-		}
 	this.getSequence =function( sNote ){
 		var a = this.getValue()
 		if( ! sNote ){
-			return choices[ a[0]?'♭':'♯' ][ a[1]]
+			return Notations[ a[0]?'♭':'♯' ][ a[1]]
 		} else {
 			sNote = this.getNoteName( sNote )
 			var a = this.getSequence()
@@ -115,7 +110,7 @@ var notationCreator = function(){
 			: 'FR'
 		if( ! sIndex1 ) sIndex1 = this.getValue()[0]?'♭':'♯'
 
-		var a = choices[sIndex1][sIndex2]
+		var a = Notations[sIndex1][sIndex2]
 		for(var i=0; i<12; i++ )
 			if( a[i]== sNote )
 				return this.getSequence()[i]
@@ -172,7 +167,7 @@ GlobalVars([
 	[ "Notes", 0 ],
 	[ "Numbers", 0 ],
 	[ "Octaves", 0 ],
-	[ "Mask", '100101010010' ],
+	[ "Mask", '100101010010' ], // gamme par défaut mPenta
 	[ "Sound", 0 ],
 	[ "Tonic", 0 ],
 	[ "Tuning", 0 ] // Accordage - defaut Accordage standard E ( voir Tunings )
@@ -458,7 +453,7 @@ class Manche {
 				break;
 				}
 			}
-		o.displayChords( sMask, sFound ? sName +' '+ sFound : sName + '...' )
+		o.displayChords( sMask, sName +' '+ (sFound ? sFound : '...' ))
 		}
 	setAccord ( sAccord ){ // not used
 	//	this.history.add( 'setAccord', [ sAccord ])
@@ -824,7 +819,7 @@ class Harmonie {
 		let Config =  this.oManche.Config
 		var sTonique = this.eTonique.value || Config.tonic.getValue()
 		var sScaleMask = sMask || this.eScale.value || Config.mask.getValue()
-		this.sScaleName = sName || sTonique + ( e ? e.innerHTML : '...' )
+		this.sScaleName = sName || sTonique +' '+ ( e ? e.innerHTML : '...' )
 		this.oManche.setScale( sTonique, sScaleMask )
 		this.setChords( sTonique, sScaleMask )
 		}
