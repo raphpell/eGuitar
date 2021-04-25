@@ -46,10 +46,14 @@ var o = new Manche( "eTarget", {
 //	mask:'101011010101' 
 	})
 
-/* Test couplage IntervalBox */
+
 var oIB = new IntervalBox( o )
-// eTarget.insertBefore( oIB.eHTML, eTarget.firstChild )
 eTarget.appendChild( oIB.eHTML )
+
+/* Test couplage IntervalBox 
+var oIB2 = new IntervalBox( o )
+eTarget.insertBefore( oIB2.eHTML, eTarget.firstChild )
+*/
 
 var oH = new Harmonie( eTarget, o )
 eTarget.appendChild( oH.eHTML )
@@ -57,15 +61,15 @@ oH.displayChords()
 
 /* Test instance multiple 
 var o2 = new Manche( "eTarget2" ,{
- 	config: 0, // local
-//	notation: [1,'FR'], // global
-//	lefthanded:1, // global
-//	mirror:1, // global
-//	tuning:1, // global
-//	notes:1, // global
-//	octaves:1, // global
-//	numbers:1, // global
-//	sound:1, // global
+ 	config: 0,
+//	notation: [1,'FR'],
+//	lefthanded:1,
+//	mirror:1,
+//	tuning:1,
+//	notes:1,
+//	octaves:1,
+//	numbers:1,
+//	sound:1, 
 	})
 o2.setScale( 'Ré', '101011010101' )
 */
