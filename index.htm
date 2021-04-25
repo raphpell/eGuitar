@@ -35,39 +35,48 @@
 <script type="text/javascript" src="js/tSorter.js"></script>
 <script type="text/javascript" src="js/audio.js"></script>
 <script>
-var oConfig ={
- 	config: 1, // local
-//	notation: [0,'FR'], // global
-//	lefthanded:0, // global
-//	mirror:0, // global
-//	tuning: 0, // global
-//	notes:1, // global
-//	octaves:1, // global
-//	numbers:0, // global
-	}
-
-var o = new Manche( "eTarget", oConfig )
-/* Test instance multiple
-var o2 = new Manche( "eTarget" ,{
- 	config: 1, // local
-	notation: [0,'FR'], // global
-	lefthanded:1, // global
-	mirror:1, // global
-	tuning:1, // global
-	notes:1, // global
-	octaves:1, // global
-	numbers:1, // global
-	})
-o2.setScale( 'Ré', '101011010101' )
-*/
-
-var oH = new Harmonie( eTarget2, o )
-oH.showInterval( oH.eTonique.value, oH.eScale.value )
-oH.displayChords()
-
 eHead.firstChild.onclick = function(){
 	if( confirm( L10n('DELETE_PREF'))) Memoire.clear()
 	}
+
+
+var oManche = new Manche( "eTarget", {
+	config: 1,
+//	tonic:'Ré',
+//	mask:'101011010101'
+	})
+
+var oHF = new HarmonieForm ( oManche.Config )
+eTarget.appendChild( oHF.eHTML )
+
+var oIB = new IntervalBox( oManche )
+eTarget.appendChild( oIB.eHTML )
+
+
+var oHT = new HarmonieTable ( oManche.Config )
+eTarget.appendChild( oHT.eHTML )
+oHT.displayChords()
+
+
+/* Test instance multiple 
+var o2 = new Manche( "eTarget2" ,{
+ 	config: 0,
+//	notation: [1,'FR'],
+//	lefthanded:1,
+//	mirror:1,
+//	tuning:1,
+	notes:1,
+	octaves:1,
+//	numbers:1,
+//	sound:1,
+	tonic:'Ré',
+	mask:'101011010101'
+	})
+
+// Test couplage IntervalBox 
+var oIB2 = new IntervalBox( o2 )
+eTarget2.insertBefore( oIB2.eHTML, eTarget2.firstChild )
+*/
 </script>
 
 </body>

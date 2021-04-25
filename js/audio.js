@@ -53,7 +53,7 @@ var tone = function( sNoteOctave ){
 		}
 	let nIndex = oIndex[ sNote ] - 9
 	let n = nIndex + 12 * ( nOctave - 3 )
-	return Math.round10( La3.getValue() * Math.pow( Math.pow( 2, 1/12 ), n ), -2 )
+	return Math.round10( GlobalVars.la3.getValue() * Math.pow( Math.pow( 2, 1/12 ), n ), -2 )
 	}
 
 //Primary function
