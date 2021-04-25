@@ -39,7 +39,7 @@ eHead.firstChild.onclick = function(){
 	if( confirm( L10n('DELETE_PREF'))) Memoire.clear()
 	}
 
-var o = new Manche( "eTarget", {
+var oManche = new Manche( "eTarget", {
 	config: 1,
 //	tonic:'Ré',
 //	mask:'101011010101' 
@@ -47,15 +47,15 @@ var o = new Manche( "eTarget", {
 	})
 
 
-var oIB = new IntervalBox( o )
+var oIB = new IntervalBox( oManche )
 eTarget.appendChild( oIB.eHTML )
 
 /* Test couplage IntervalBox 
-var oIB2 = new IntervalBox( o )
+var oIB2 = new IntervalBox( oManche )
 eTarget.insertBefore( oIB2.eHTML, eTarget.firstChild )
 */
 
-var oH = new Harmonie( eTarget, o )
+var oH = new Harmonie( eTarget, oManche )
 eTarget.appendChild( oH.eHTML )
 oH.displayChords()
 

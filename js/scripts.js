@@ -621,8 +621,19 @@ class IntervalBox {
 		this.oManche = oManche
 		this.sMask = null
 
-		// Construction HTML
-		let eUL = this.eHTML = Tag('UL','interval')
+		this.createHTML()
+		this.setNotes()
+		this.setValue( Config.mask.getValue())
+
+		Config.tonic.addSubscriber( 'IntervalBox.setNotes', sNote => that.setNotes( Config.notation.getSequence( sNote )))
+		Config.notation.addSubscriber( 'IntervalBox.setNotes', Note => that.setNotes() )
+		Config.mask.addSubscriber( 'IntervalBox.setValue', sMask => that.setValue( sMask ) )
+		}
+	createHTML (){
+		let that = this
+		, DT = ['1','b2','2','b3','3','4','b5','5','b6','6','b7','7','8']
+		, DD = ['0','&half;','1','1&half;','2','2&half;','3','3&half;','4','4&half;','5','5&half;','6']
+		, eUL = this.eHTML = Tag('UL','interval')
 		, eLI, eDIV, eDL, eDT, eDD
 		for(let i=0; i<12; i++ ){
 			eLI = Tag('LI','ton'+i)
@@ -631,27 +642,20 @@ class IntervalBox {
 			eDIV.innerHTML = eDIV.parentNode.sNoteName = '-'
 			eDL = Tag('DL')
 			eDT = Tag('DT')
-			eDT.innerHTML = IntervalBox.DT[i]
+			eDT.innerHTML = DT[i]
 			eDD = Tag('DD')
-			eDD.innerHTML = IntervalBox.DD[i]
+			eDD.innerHTML = DD[i]
 			eDL.appendChild( eDT )
 			eDL.appendChild( eDD )
 			eLI.appendChild( eDL )
 			eUL.appendChild( eLI )
 			}
-		this.setNotes()
-		this.setValue( Config.mask.getValue())
-
 		this.eHTML.onclick= function( evt ){
 			let e = Events.element( evt )
 			if( e.nodeName == 'UL' ) return null
 			while( e.nodeName != 'LI' ) e = e.parentNode
 			return that.toggleNote( e.firstChild.innerHTML )
 			}
-
-		Config.tonic.addSubscriber( 'IntervalBox.setNotes', sNote => that.setNotes( Config.notation.getSequence( sNote )))
-		Config.notation.addSubscriber( 'IntervalBox.setNotes', Note => that.setNotes() )
-		Config.mask.addSubscriber( 'IntervalBox.setValue', sMask => that.setValue( sMask ) )
 		}
 	setNotes ( aNotes ){
 		if( ! aNotes ){
@@ -691,8 +695,6 @@ class IntervalBox {
 		return null
 		}
 	}
-IntervalBox.DT = ['1','b2','2','b3','3','4','b5','5','b6','6','b7','7','8']
-IntervalBox.DD = ['0','&half;','1','1&half;','2','2&half;','3','3&half;','4','4&half;','5','5&half;','6']
 
 /* Recherche des accords présent dans des intervalles */
 // Exploser cette objet en deux : HarmonieForm et HarmonieTable
@@ -943,5 +945,15 @@ Harmonie.getSimilarity = function( sChordOrScaleMask1 , sChordMask2 , sType ){
 		( Number( nOpacity )).toFixed(2),
 		getLabel()
 		]
+	}
+	
+class HarmonieForm {
+	constructor(){
+		}
+	}
+
+class HarmonieTable {
+	constructor(){
+		}
 	
 	}
