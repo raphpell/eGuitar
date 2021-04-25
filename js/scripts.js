@@ -120,7 +120,7 @@ var notationCreator = function(){
 			if( a[i]== sNote )
 				return this.getSequence()[i]
 
-		throw Error ( 'Invalid note name... '+ sNote )
+		throw Error ( 'Invalid note name. '+ sNote )
 		}
 	}
 
@@ -153,18 +153,18 @@ class SpecialVar {
 
 // Variables partagés par tous les composants
 // valeur changée -> composants mis à jour
-function SpecialVars ( aVars ){
+function GlobalVars ( aVars ){
 	let oPublisher = Publishers()
 	aVars.forEach( ([sName, mDefaultValue ]) => {
 		sName = sName.toLowerCase()
 		let o = new SpecialVar ( sName, Memoire.get( sName ) || mDefaultValue )
-		SpecialVars[ sName ] = o
+		GlobalVars[ sName ] = o
 		o.Publisher = oPublisher
 		o.type = "global"
 		o.Publisher.subscribe( sName, m => Memoire.set( sName, m ), 'Memoire.set' )
 		})
 	}
-SpecialVars([
+GlobalVars([
 	[ "La3", 440 ],
 	[ "LeftHanded", 0 ],
 	[ "Mirror", 0  ],
@@ -172,41 +172,23 @@ SpecialVars([
 	[ "Notes", 0 ],
 	[ "Numbers", 0 ],
 	[ "Octaves", 0 ],
+	[ "Mask", '100101010010' ],
 	[ "Sound", 0 ],
 	[ "Tonic", 0 ],
 	[ "Tuning", 0 ] // Accordage - defaut Accordage standard E ( voir Tunings )
 	])
 
-
 class Manche {
 	constructor ( sNodeID, oConfig ){
 		this.ID = Manche.ID++
 		let that = this
-
-		// TROUVER UNE SOLUTION POUR QUE LES VARIABLES SPECIALES SOIT GLOBAL OU LOCAL
-		let o = this.Config =(function(){
-			let oPublisher = Publishers()
-			oConfig = Manche.getDefaultSettings( oConfig )
-			let o = {}
-			for( let s in oConfig ){
-				
-				o[s] =
-					oConfig[ s ].type == "local"
-					? new SpecialVar ( s, oConfig[ s ].value )
-					: SpecialVars[ s ]
-				if( o[s] && ! o[s].type ){
-					o[s].type =  "local"
-					o[s].Publisher = oPublisher
-					}
-				}
-			return o
-			})()
+		let o = this.Config = Manche.getDefaultSettings( oConfig )
 
 		this.history = new MancheHistory ( this )
 		this.aFrequences = [0,0,0,0,0,0] // Ecarts accordage standard E en ton (+grave à +aigue)
 		var eParent = document.getElementById( sNodeID )
-		var nCases = oConfig.cases.value
-		var nStrings = oConfig.strings.value
+		var nCases = oConfig.cases
+		var nStrings = oConfig.strings
 		this.e = eParent.appendChild( this.createHTML( nStrings, nCases ))
 		this.nCordes = nStrings
 		this.nCases = nCases
@@ -225,27 +207,28 @@ class Manche {
 			that.oIntervalBox.toggleNote( e.innerHTML )
 			}
 		this.createMenuHTML()
-		this.hideForm( oConfig.config.value )
+		this.hideForm( oConfig.config )
 
-		
 		// Ajoute les observateurs des options
-		o.lefthanded.addSubscriber( 'oManche.setLeftHanded', function(b){ that.setLeftHanded(b) })
-		o.mirror.addSubscriber( 'oManche.setMirror', function(b){ that.setMirror(b) })
-		o.notation.addSubscriber( 'oManche.renameNotes', function(){ that.renameNotes() })
-		o.notes.addSubscriber( 'oManche.setNotesName', function(b){ that.setNotesName(b) })
-		o.numbers.addSubscriber( 'oManche.setFretsNumber', function(b){ that.setFretsNumber(b) })
-		o.octaves.addSubscriber( 'oManche.setOctave', function(b){ that.setOctave(b) })
-		o.sound.addSubscriber( 'oManche.setSound', function(b){ that.setSound(b) })
-		o.tuning.addSubscriber( 'oManche.setTuning', function( nId ){ that.setTuning( nId )})
-		
+		o.lefthanded.addSubscriber( 'oManche.setLeftHanded', b => that.setLeftHanded(b))
+		o.mirror.addSubscriber( 'oManche.setMirror', b => that.setMirror(b))
+		o.notation.addSubscriber( 'oManche.renameNotes', () => that.renameNotes())
+		o.notes.addSubscriber( 'oManche.setNotesName', b => that.setNotesName(b) )
+		o.numbers.addSubscriber( 'oManche.setFretsNumber', b => that.setFretsNumber(b))
+		o.octaves.addSubscriber( 'oManche.setOctave', b => that.setOctave(b))
+		o.sound.addSubscriber( 'oManche.setSound', b => that.setSound(b))
+		o.tuning.addSubscriber( 'oManche.setTuning', nId => that.setTuning( nId ))
+		/*  */
 		// Défini la valeur des options
-		o.lefthanded.setValue( oConfig.lefthanded.value )
-		o.mirror.setValue( oConfig.mirror.value )
-		o.notation.setValue( oConfig.notation.value )
-		o.notes.setValue( oConfig.notes.value )
-		o.numbers.setValue( oConfig.numbers.value )
-		o.octaves.setValue( oConfig.octaves.value )
-		o.tuning.setValue( oConfig.tuning.value )
+		o.lefthanded.setValue( oConfig.lefthanded )
+		o.mirror.setValue( oConfig.mirror )
+		o.notation.setValue( oConfig.notation )
+		o.notes.setValue( oConfig.notes )
+		o.numbers.setValue( oConfig.numbers )
+		o.octaves.setValue( oConfig.octaves )
+		o.tuning.setValue( oConfig.tuning )
+		
+		this.setScale( oConfig.tonic, oConfig.mask )
 		}
 	createHTML ( nCordes, nCases ){
 		var eParent = Tag( 'DIV', 'eGuitar' )
@@ -344,8 +327,8 @@ class Manche {
 		eINPUT.min = 400
 		eINPUT.max = 500
 		eINPUT.value = LA3
-		eINPUT.oninput=function(){ SpecialVars.la3.setValue( this.value )}
-		SpecialVars.la3.addSubscriber( 'màj Input range La3', function( n ){
+		eINPUT.oninput=function(){ GlobalVars.la3.setValue( this.value )}
+		GlobalVars.la3.addSubscriber( 'màj Input range La3', function( n ){
 			eINPUT.value = n
 			eINPUT.nextSibling.value = n+'Hz' 
 			})
@@ -524,6 +507,9 @@ class Manche {
 		this.e.classList[ b ? 'add' : 'remove' ]( 'octaves' )
 		}
 	setScale ( sNote, sScaleMask ){
+		this.Config.tonic.setValue( sNote )
+		this.Config.mask.setValue( sScaleMask )
+		
 		this.history.reset()
 		this.reset()
 		var a = this.Config.notation.getSequence( sNote )
@@ -556,7 +542,7 @@ class Manche {
 			var nBase = aBase[i]
 			for(var j=0; j<=this.nCases; j++ ){
 				/* Test octave */
-				let nOctave = parseInt( (nBase+4)/12 ) + 3 // +4 pour aller à DO...
+				let nOctave = parseInt( (nBase+4)/12 ) + 3 // +4 pour aller à DO
 				
 				var e = this.aCordes[i][j].firstChild
 				e.innerHTML = aNotation[ nBase%12 ] // note
@@ -577,23 +563,32 @@ Manche.DefaultSettings ={
 	config: 0,
 	strings: 6,
 	cases: 12,
-	tuning: SpecialVars.tuning.getValue(),
-	notation: SpecialVars.notation.getValue(),
-	lefthanded: SpecialVars.lefthanded.getValue(),
-	mirror: SpecialVars.mirror.getValue(),
-	octaves: SpecialVars.octaves.getValue(),
-	notes: SpecialVars.notes.getValue(),
-	numbers: SpecialVars.numbers.getValue(),
-	sound: SpecialVars.sound.getValue(),
-	tonic: SpecialVars.tonic.getValue()
+	mask: GlobalVars.mask.getValue(),
+	tuning: GlobalVars.tuning.getValue(),
+	notation: GlobalVars.notation.getValue(),
+	lefthanded: GlobalVars.lefthanded.getValue(),
+	mirror: GlobalVars.mirror.getValue(),
+	octaves: GlobalVars.octaves.getValue(),
+	notes: GlobalVars.notes.getValue(),
+	numbers: GlobalVars.numbers.getValue(),
+	sound: GlobalVars.sound.getValue(),
+	tonic: GlobalVars.tonic.getValue()
 	}
+// Décision de rendre une var local ou global si elle est définie ou non
 Manche.getDefaultSettings = function( oConfig ){
 	oConfig = oConfig || {}
-	for( const s in Manche.DefaultSettings )
-		oConfig[s] = oConfig[s] !== undefined
-			? { type:'local', value: oConfig[s] }
-			: { type:'global', value: Manche.DefaultSettings[s] }
-	return oConfig
+	let o = {}, oPublisher = Publishers()
+	for( const s in Manche.DefaultSettings ){
+		if( oConfig[s] !== undefined ){
+			o[s] = new SpecialVar ( s, oConfig[ s ])
+			o[s].Publisher = oPublisher
+			}
+		else {
+			oConfig[s] = Manche.DefaultSettings[s]
+			o[s] = GlobalVars[ s ] // Attention si GlobalVars[ s ]  n'existe pas == undefined
+			}
+		}
+	return o
 	}
 
 /*
@@ -625,39 +620,33 @@ class MancheHistory {
 /* Recherche des accords présent dans des intervalles */
 class Harmonie {
 	constructor( eParent, oManche ){
-		var that = this
+		let that = this
 		this.aResult = null
-			
+
 		this.oManche = oManche
 		let Config = oManche.Config
 		let oNotation = Config.notation
 		oManche.oHarmonie = this
-		let oIntervalBox = this.oIntervalBox = new IntervalBox ( oManche )
-		eParent.appendChild( oIntervalBox.eHTML )
 
-		Config.tonic.addSubscriber( 'selectBox Tonic[màj selection]+IntervalBox.setNotes', function( sNote ){
-			that.eTonique.value = sNote
-			oIntervalBox.setNotes( oNotation.getSequence( sNote ))
-			})
-
-		var eTable = Tag( 'TABLE', 'harmonieForm' )
-		var eSUGG = Tag( 'TABLE', 'suggestion', 'eSuggestion'+ oManche.ID )
+		this.eHTML = Tag('DIV')
+		let eTable = Tag( 'TABLE', 'harmonieForm' )
+		let eSUGG = this.eSUGG = Tag( 'TABLE', 'suggestion', 'eSuggestion'+ oManche.ID )
 		eSUGG.cellSpacing = 0
 
 		/* Constructeur html */
-		var selectbox =function( sId, sLabel, a, sRadio ){
-			var eTH, eTD, eTR = Tag( 'TR' )
+		let selectbox =function( sId, sLabel, a, sSelected ){
+			let eTH, eTD, eTR = Tag( 'TR' )
 			
 			eTH = Tag( 'TH' )
 			eTH.align="right"
 
-			var eLabel = eTH.appendChild( Tag( 'LABEL' ))
+			let eLabel = eTH.appendChild( Tag( 'LABEL' ))
 			eLabel.innerHTML = sLabel +':'
 			eTR.appendChild( eTH )
 			
 			eTD = Tag( 'TD' )
-			var eSelect = eTD.appendChild( Tag( 'SELECT' )), eOption
-			for(var i=0, ni=a.length; i<ni; i++ ){
+			let eSelect = eTD.appendChild( Tag( 'SELECT' )), eOption
+			for(let i=0, ni=a.length; i<ni; i++ ){
 				eOption = Tag( 'OPTION' )
 				if( a[i].constructor == String )
 						eOption.innerHTML = eOption.value = a[i]
@@ -665,54 +654,50 @@ class Harmonie {
 						eOption.innerHTML = a[i][1]
 						eOption.value = a[i][0]
 						}
+				if( eOption.value == sSelected ) eOption.selected = true 
 				eSelect.appendChild( eOption ) 
 				}
+			eSelect.value =  sSelected
 			eTR.appendChild( eTD )
 			
 			eLabel.htmlFor = eSelect.id =  sId + oManche.ID
 			eTable.appendChild( eTR )
 			return eSelect
 			}
-		var btn =function( sText, eSelect, f ){
-			var eBTN = Tag( 'Button' )
+		let btn =function( sText, eSelect, f ){
+			let eBTN = Tag( 'Button' )
 			eBTN.innerHTML = sText
 			eBTN.onclick = f
 			eSelect.parentNode.appendChild( eBTN )
 			}
 
 		/* Construction html */
-		var eTonique = selectbox( 'eTonique', L10n('TONIQUE'), oNotation.getSequence())
-		eTonique.value = oNotation.getNoteName( Config.tonic.getValue() || 'A' )
-		eTonique.onkeyup = eTonique.onchange =function(){}
-		oNotation.addSubscriber( 'selectBox Tonic[Renommage options] + màj SpecialVar Tonic', function(){
-			var a = oNotation.getSequence()
-			var e = eTonique.firstChild
-			var i = 0
-			while( e ){
-				e.innerHTML = e.value = a[i++]
-				e = e.nextSibling
-				}
-			Config.tonic.setValue( eTonique.value )
-			that.displayChords()
-			})
+		let eTonique = this.eTonique = selectbox( 'eTonique', L10n('TONIQUE'),
+			oNotation.getSequence(),
+			oNotation.getNoteName( Config.tonic.getValue() || 'A' )
+			)
 
-		var eScale = selectbox( 'eScales', L10n('GAMME'), Scales, 'choice' )
-		eScale.value = Memoire.get( 'Scale' ) || '100101010010'
+		eTonique.onkeyup = eTonique.onchange =function(){}
+
+		let eScale = this.eScale = selectbox( 'eScales', L10n('GAMME'),
+			Scales,
+			oManche.Config.mask.getValue()
+			)
 		eScale.className = 'scale'
 		btn( "OK", eScale, eScale.onkeyup = eScale.onchange =function(){
-			Memoire.set( 'Scale', eScale.value )
+			oManche.Config.mask.setValue( eScale.value )
 			that.showInterval( eTonique.value, eScale.value )
 			that.displayChords()
 			})
 
-		var eChords = selectbox( 'eChords', L10n('ARPEGE'), Arpeggio, 'choice' )
-		eChords.value = Memoire.get( 'Arpege' ) || '100100010000'
+		let eChords = this.eChords = selectbox( 'eChords', L10n('ARPEGE'),
+			Arpeggio,
+			Memoire.get( 'Arpege' ) || '100100010000'
+			)
 		btn( "OK", eChords, eChords.onkeyup = eChords.onchange = function(){
 			Memoire.set( 'Arpege', eChords.value )
 			that.showInterval( eTonique.value, eChords.value )
 			})
-
-		eParent.appendChild( eTable )
 
 		eSUGG.onclick =function( evt ){
 			var e = Events.element( evt )
@@ -723,67 +708,42 @@ class Harmonie {
 				Config.tonic.setValue( sTonique )
 				that.eChords.value = sMask
 				that.showInterval( sTonique, sMask )
-			//	that.displayChordsSimilarities( sTonique, sMask )
 				}
-
 			var sScale = e.scale
 			if( sScale ){
 				Config.tonic.setValue( e.tonique )
-				that.eScale.value = sScale
+				Config.mask.setValue( that.eScale.value = sScale )
 				that.showInterval( e.tonique, sScale )
-			//	that.displayChordsSimilarities( e.tonique, sScale )
 				}
 			}
 
-		eParent.appendChild( eSUGG )
+		this.eHTML.appendChild( eTable )
+		this.eHTML.appendChild( eSUGG )
 
-		this.eSUGG = eSUGG
-		this.eTonique = eTonique
-		this.eScale = eScale
-		this.eChords = eChords
+		// 
+		Config.tonic.addSubscriber( 'selectBox Tonic[màj selection]', sNote => that.eTonique.value = sNote )
+		oNotation.addSubscriber( 'selectBox Tonic[Renommage options] + màj SpecialVar Tonic', function(){
+			let a = oNotation.getSequence()
+			let e = eTonique.firstChild
+			let i = 0
+			while( e ){
+				e.innerHTML = e.value = a[i++]
+				e = e.nextSibling
+				}
+			Config.tonic.setValue( eTonique.value )
+			that.displayChords()
+			})
+
+		// this.displayChords() // impossible le noeud n'est pas attaché
 		}
 	displayChords ( sMask, sName ){
-		var that = this
-		var sTonique = this.eTonique.value
-		var sScaleMask = sMask || this.eScale.value
-		this.sScaleName = sName || sTonique +' '+ this.eScale.selectedOptions[0].innerHTML
-
+		let e = this.eScale.selectedOptions[0]
+		let Config =  this.oManche.Config
+		var sTonique = this.eTonique.value || Config.tonic.getValue()
+		var sScaleMask = sMask || this.eScale.value || Config.mask.getValue()
+		this.sScaleName = sName || sTonique + ( e ? e.innerHTML : '...' )
 		this.oManche.setScale( sTonique, sScaleMask )
-		this.setChords( sTonique, sScaleMask, this.getChordsSuggestion( sTonique, sScaleMask ))
-		}
-	displayChordsSimilarities ( sTonique, sChordMask ){
-		var ai = this.aResult
-
-		// Cherche le degré de l'accord pour créé un masque correspondant à celui de la gamme
-		for( var i=0, ni=ai.length; i<ni; i++ ){
-			if( ai[i][0] == sTonique ){
-				var nPos = ai[i][2]
-				sChordMask = sChordMask.substr( 12-nPos ) + sChordMask.substr( 0, 12-nPos )
-				break;
-				}
-			}
-			
-		// Parcours les degrés
-		for( var i=0, ni=ai.length; i<ni; i++ ){
-			var aChords = ai[i][1]
-			var nPos = ai[i][2]
-			var sDegreMask = sChordMask.substr( nPos ) + sChordMask.substr( 0, nPos )
-
-			// Parcours les accords résultat
-			for( var j=0, nj=aChords.length; j<nj; j++ ){
-				// Stock la similitude : valeur de 0 à 1
-				if( aChords[j].length > 2 ) aChords[j] = aChords[j].slice( 0, 2 )
-				aChords[j] = aChords[j].concat( Harmonie.getSimilarity( aChords[j][1], sDegreMask, 'chord' ))
-				}
-			}
-
-		// Met à jour l'affichage
-		var sScaleMask = this.eScale.value 
-		var sTonique = ai[0][0]
-
-		this.setChords( sTonique, sScaleMask, this.aResult )
-
-		return null
+		this.setChords( sTonique, sScaleMask )
 		}
 	getChordsSuggestion ( sTonique, sScaleMask ){
 		var aNotesTmp = this.oManche.Config.notation.getSequence( this.sFondamental = sTonique )
@@ -806,6 +766,7 @@ class Harmonie {
 		return this.aResult = aResult
 		}
 	searchChords ( sScaleMask ){
+		sScaleMask = sScaleMask || this.oManche.Config.mask.getValue()
 		var aResult = []
 		for(var j=0,nj=Arpeggio.length; j<nj; j++ ){
 			var a = Arpeggio[j]
@@ -814,7 +775,8 @@ class Harmonie {
 			}
 		return aResult
 		}
-	setChords ( sTonique, sScaleMask, aChords ){
+	setChords ( sTonique, sScaleMask ){
+		let aChords = this.getChordsSuggestion( sTonique, sScaleMask )
 		var o = {}
 		for(var i=0, ni=Arpeggio.length; i<ni; i++ ){
 			var sChordName =  Arpeggio[i][1]
@@ -870,7 +832,7 @@ class Harmonie {
 
 		var aSort = [13,'DESC']
 		if( this.TableSorter ) aSort = this.TableSorter.getSort()
-		this.TableSorter = new TSorter;
+		this.TableSorter = new TSorter
 		this.TableSorter.init( this.eSUGG.id )
 		if( aSort ) this.TableSorter.sort( aSort[0], aSort[1] )
 
@@ -882,7 +844,7 @@ class Harmonie {
 		}
 	showInterval ( sNote, sMask ){
 		this.oManche.Config.tonic.setValue( sNote )
-		this.oIntervalBox.setValue( sMask )
+		if( this.oIntervalBox ) this.oIntervalBox.setValue( sMask )
 		this.oManche.setScale( sNote, sMask )
 		}
 	}
@@ -909,10 +871,12 @@ Harmonie.getSimilarity = function( sChordOrScaleMask1 , sChordMask2 , sType ){
 /* Affichage d'intervalles */
 class IntervalBox {
 	constructor ( oManche ){
+		let that = this
+		let Config = oManche.Config
 		oManche.oIntervalBox = this
 		this.oManche = oManche
 		this.sMask = null
-		
+
 		// Construction HTML
 		let eUL = this.eHTML = Tag('UL','interval')
 		, eLI, eDIV, eDL, eDT, eDD
@@ -920,6 +884,7 @@ class IntervalBox {
 			eLI = Tag('LI','ton'+i)
 			eDIV = Tag('DIV')
 			eLI.appendChild( eDIV )
+			eDIV.innerHTML = eDIV.parentNode.sNoteName = '-'
 			eDL = Tag('DL')
 			eDT = Tag('DT')
 			eDT.innerHTML = IntervalBox.DT[i]
@@ -930,15 +895,25 @@ class IntervalBox {
 			eLI.appendChild( eDL )
 			eUL.appendChild( eLI )
 			}
-		let that = this
+		this.setNotes()
+		this.setValue( Config.mask.getValue())
+
 		this.eHTML.onclick= function( evt ){
 			let e = Events.element( evt )
 			if( e.nodeName == 'UL' ) return null
 			while( e.nodeName != 'LI' ) e = e.parentNode
 			return that.toggleNote( e.firstChild.innerHTML )
 			}
+
+		Config.tonic.addSubscriber( 'IntervalBox.setNotes', sNote => that.setNotes( Config.notation.getSequence( sNote )))
+		Config.notation.addSubscriber( 'IntervalBox.setNotes', Note => that.setNotes() )
+		Config.mask.addSubscriber( 'IntervalBox.setValue', sMask => that.setValue( sMask ) )
 		}
 	setNotes ( aNotes ){
+		if( ! aNotes ){
+			let o = this.oManche.Config
+			aNotes = o.notation.getSequence( o.tonic.getValue())
+			}
 		let aDIVs = this.eHTML.getElementsByTagName('DIV')
 		for(let i=0; i<12; i++ ){
 			aDIVs[i].innerHTML = aDIVs[i].parentNode.sNoteName = aNotes[i]
