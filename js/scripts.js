@@ -669,7 +669,6 @@ class IntervalBox {
 				let e = aLIs[i]
 				, bAdded = e.classList.toggle( 'selected' )
 				, sTon = e.className.replace( /\s*selected\s*/, '' )
-				this.oManche[ bAdded ? 'highlightNotes' : 'removeNote' ]( e.sNoteName , sTon )
 				let sMask = ''
 				for(let i=0; i<12; i++ ){
 					sMask += aLIs[i].classList.contains( 'selected' ) ? 1 : 0
@@ -866,13 +865,13 @@ class HarmonieTable {
 		return aResult
 		}
 	// Recherche des accords dans un mask
-	searchChords ( sScaleMask ){
-		sScaleMask = sScaleMask || this.Config.scale.getValue()[0]
+	searchChords ( sMask ){
+		sMask = sMask || this.Config.scale.getValue()[0]
 		var aResult = []
 		for(var j=0,nj=Arpeggio.length; j<nj; j++ ){
 			var a = Arpeggio[j]
-			if( ( parseInt(sScaleMask,2) & parseInt(a[0],2) ).toString(2) == a[0])
-				aResult.push( a.concat( Harmonie.getSimilarity( sScaleMask, a[0], 'scale' )))
+			if( ( parseInt(sMask,2) & parseInt(a[0],2) ).toString(2) == a[0])
+				aResult.push( a.concat( Harmonie.getSimilarity( sMask, a[0], 'scale' )))
 			}
 		return aResult
 		}
