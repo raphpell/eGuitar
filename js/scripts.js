@@ -223,17 +223,15 @@ class Manche {
 		o.mask.addSubscriber( 'oManche.setScale', sMask => that.setScale())
 		o.tonic.addSubscriber( 'oManche.setScale', sMask => that.setScale())
 
-		// Défini la valeur des options
-		o.lefthanded.setValue( oConfig.lefthanded )
-		o.mirror.setValue( oConfig.mirror )
-		o.notation.setValue( oConfig.notation )
-		o.notes.setValue( oConfig.notes )
-		o.numbers.setValue( oConfig.numbers )
-		o.octaves.setValue( oConfig.octaves )
-		o.tuning.setValue( oConfig.tuning )
-		o.tonic.setValue( oConfig.tonic )
-
-		this.setScale( oConfig.tonic, oConfig.mask )
+		// Rafraichissement de la valeur des options
+		o.lefthanded.refresh()
+		o.mirror.refresh()
+		o.notation.refresh()
+		o.notes.refresh()
+		o.numbers.refresh()
+		o.octaves.refresh()
+		o.tuning.refresh()
+		o.tonic.refresh()
 		}
 	createHTML ( nCordes, nCases ){
 		var eParent = Tag( 'DIV', 'eGuitar' )
@@ -332,8 +330,8 @@ class Manche {
 		eINPUT.min = 400
 		eINPUT.max = 500
 		eINPUT.value = LA3
-		eINPUT.oninput=function(){ GlobalVars.la3.setValue( this.value )}
-		GlobalVars.la3.addSubscriber( 'màj Input range La3', function( n ){
+		eINPUT.oninput=function(){ o.la3.setValue( this.value )}
+		o.la3.addSubscriber( 'màj Input range La3', function( n ){
 			eINPUT.value = n
 			eINPUT.nextSibling.value = n+'Hz' 
 			})
@@ -538,17 +536,18 @@ Manche.DefaultSettings ={
 	config: 0,
 	strings: 6,
 	cases: 12,
-	mask: GlobalVars.mask.getValue(),
-	scale: GlobalVars.scale.getValue(),
-	tuning: GlobalVars.tuning.getValue(),
-	notation: GlobalVars.notation.getValue(),
+	la3: GlobalVars.la3.getValue(),
 	lefthanded: GlobalVars.lefthanded.getValue(),
+	mask: GlobalVars.mask.getValue(),
 	mirror: GlobalVars.mirror.getValue(),
-	octaves: GlobalVars.octaves.getValue(),
+	notation: GlobalVars.notation.getValue(),
 	notes: GlobalVars.notes.getValue(),
 	numbers: GlobalVars.numbers.getValue(),
+	octaves: GlobalVars.octaves.getValue(),
+	scale: GlobalVars.scale.getValue(),
 	sound: GlobalVars.sound.getValue(),
-	tonic: GlobalVars.tonic.getValue()
+	tonic: GlobalVars.tonic.getValue(),
+	tuning: GlobalVars.tuning.getValue()
 	}
 // Décision de rendre une var local ou global si elle est définie ou non
 Manche.getDefaultSettings = function( oConfig ){
@@ -577,9 +576,9 @@ class IntervalBox {
 		this.setNotes()
 		this.setValue( Config.mask.getValue())
 
-		Config.tonic.addSubscriber( 'IntervalBox.setNotes', sNote => that.setNotes( Config.notation.getSequence( sNote )))
-		Config.notation.addSubscriber( 'IntervalBox.setNotes', Note => that.setNotes() )
-		Config.mask.addSubscriber( 'IntervalBox.setValue', sMask => that.setValue( sMask ) )
+		Config.tonic.addSubscriber( 'IntervalBox.setNotes', ()=> that.setNotes())
+		Config.notation.addSubscriber( 'IntervalBox.setNotes', ()=> that.setNotes())
+		Config.mask.addSubscriber( 'IntervalBox.setValue', sMask => that.setValue( sMask ))
 		}
 	createHTML (){
 		let that = this
@@ -748,14 +747,14 @@ class HarmonieForm {
 
 		eScale.className = 'scale'
 
-		Config.tonic.addSubscriber( 'HarmonieForm tonic value', sTonic => eTonique.value = sTonic )
-		Config.mask.addSubscriber( 'HarmonieForm values chords et scale', sMask =>{
+		Config.tonic.addSubscriber( 'HarmonieForm selectBox tonic value', sTonic => eTonique.value = sTonic )
+		Config.mask.addSubscriber( 'HarmonieForm selectBox chords et scales + publish scale', sMask =>{
 			eChords.value = eScale.value = sMask
 			if( eScale.value ) Config.scale.setValue([ sMask, eScale.selectedOptions[0].innerHTML ])
 			else if( eChords.value ) Config.scale.setValue([ sMask, eChords.selectedOptions[0].innerHTML ])
 			})
 		Config.scale.addSubscriber( 'HarmonieForm values', a => eScale.value = a[0] )
-		Config.notation.addSubscriber( 'HarmonieForm choix tonic', function(){
+		Config.notation.addSubscriber( 'HarmonieForm selectBox tonic choix', function(){
 			var a = Config.notation.getSequence()
 			var e = eTonique.firstChild
 			var i = 0
