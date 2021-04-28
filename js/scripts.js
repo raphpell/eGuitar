@@ -1,7 +1,7 @@
 /*====================*/
 /*=== Utilitaires ====*/
 /*====================*/
-// Mémorise les choix utilisateurs
+// Mémorise les choix utilisateurs d'une session à une autre
 Memoire =(function( sBase ){
 	let o = JSON.parse( localStorage.getItem( sBase )) || {}
 	return {
@@ -41,11 +41,12 @@ Events ={
 		}
 	}
 
-window.onselectstart =function(){ return false }	// prevent text selection
+window.onselectstart =function(){ return false }	// empêche la sélection de texte
 
 /*============================*/
 /*=== VARIABLES SPECIALES ====*/
 /*============================*/
+// Pattern Publishers/Subscribers
 let Publishers = function( bDebug ){
 	let o = {}
 	let oTopics = {}
@@ -85,7 +86,8 @@ let Publishers = function( bDebug ){
 	}
 
 // Etend les variables spéciales 'notation'
-var notationCreator = function(){
+// -> notationCreator.call( AugmentedObject )
+let notationCreator = function(){
 	this.getSequence =function( sNote ){
 		var a = this.getValue()
 		if( ! sNote ){
@@ -119,16 +121,13 @@ var notationCreator = function(){
 		}
 	}
 
-// Objet wrapper : il sert à déclencher des événements quand la valeur de l'objet change
+// Objet wrapper : il sert à déclencher des événements quand sa valeur change
+// Attention: this.Publisher doit être défini après la création d'une instance
 class SpecialVar {
 	constructor ( sName, mValue ){
 		this.id = sName
 		this.value = mValue
-		switch( sName ){
-			case 'notation': notationCreator.call( this ); break;
-			case 'scale': break;
-			default:
-			}
+		if( sName == 'notation' ) notationCreator.call( this )
 		}
 	setValue ( mValue ){
 		this.value = mValue
@@ -146,8 +145,8 @@ class SpecialVar {
 		}
 	}
 
-// Variables partagés par tous les composants
-// valeur changée -> composants mis à jour
+// Variables globales pouvant être partagées ou non par tous les composants
+// Leur valeur est stocké dans le localStorage
 function GlobalVars ( aVars ){
 	let oPublisher = Publishers(  )
 	aVars.forEach( ([sName, mDefaultValue ]) => {
