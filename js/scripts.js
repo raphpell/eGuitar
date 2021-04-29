@@ -185,8 +185,8 @@ class Manche {
 
 		this.aFrequences = [0,0,0,0,0,0] // Ecarts accordage standard E en ton (+grave à +aigue)
 		var eParent = document.getElementById( sNodeID )
-		var nCases = oConfig.cases
-		var nStrings = oConfig.strings
+		var nCases = o.cases
+		var nStrings = o.strings
 		this.e = eParent.appendChild( this.createHTML( nStrings, nCases ))
 		this.nCordes = nStrings
 		this.nCases = nCases
@@ -214,7 +214,7 @@ class Manche {
 				}
 			}
 		this.createMenuHTML()
-		this.hideForm( oConfig.config )
+		this.hideForm( o.config )
 
 		// Ajoute les observateurs des options
 		o.lefthanded.addSubscriber( 'oManche.setLeftHanded', b => that.setLeftHanded(b))
@@ -334,7 +334,7 @@ class Manche {
 		eINPUT.step = 1
 		eINPUT.min = 400
 		eINPUT.max = 500
-		eINPUT.value = LA3
+		eINPUT.value = o.la3.getValue()
 		eINPUT.oninput=function(){ o.la3.setValue( this.value )}
 		o.la3.addSubscriber( 'màj Input range La3', function( n ){
 			eINPUT.value = n
@@ -344,7 +344,7 @@ class Manche {
 			eLabel.innerHTML = a[1]=='FR' ? 'La3' : 'A3'
 			})
 		let eOUTPUT = Tag('OUTPUT')
-		eOUTPUT.innerHTML = LA3+'Hz'
+		eOUTPUT.innerHTML = eINPUT.value+'Hz'
 
 		eLI.appendChild( eLabel )
 		eLI.appendChild( eINPUT )
@@ -357,7 +357,7 @@ class Manche {
 		let eUL2 = Tag( 'UL', 'mancheMenu' )
 		cb.eUL = eUL2
 		cb( 'eConfig', '' ,
-			o.config.getValue(),
+			o.config,
 			function(){ that.hideForm( this.checked )},
 			'reglage'
 			)
@@ -560,12 +560,19 @@ Manche.getDefaultSettings = function( oConfig ){
 	let o = {}, oPublisher = Publishers( 1 )
 	for( const s in Manche.DefaultSettings ){
 		if( oConfig[s] !== undefined ){
-			o[s] = new SpecialVar ( s, oConfig[ s ])
-			o[s].Publisher = oPublisher
+			switch( s ){
+				case 'config':
+				case 'strings':
+				case 'cases':
+					o[s] = oConfig[ s ]
+					break;
+				default:
+					o[s] = new SpecialVar ( s, oConfig[ s ])
+					o[s].Publisher = oPublisher
+				}
 			}
 		else {
-			oConfig[s] = Manche.DefaultSettings[s]
-			o[s] = GlobalVars[ s ] // Attention si GlobalVars[ s ]  n'existe pas == undefined
+			o[s] = GlobalVars[ s ] || Manche.DefaultSettings[s]
 			}
 		}
 	return o
@@ -724,7 +731,7 @@ class HarmonieForm {
 			eSelect.onkeyup = eSelect.onchange = fOnChange
 			eTR.appendChild( eTD )
 
-			eLabel.htmlFor = eSelect.id =  sId + oManche.ID
+			eLabel.htmlFor = eSelect.id =  sId + HarmonieForm.ID
 			eTable.appendChild( eTR )
 			return eSelect
 			}

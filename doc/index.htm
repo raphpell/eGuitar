@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title></title>
+	<meta charset="UTF-8">
+	<meta name="author" content="Raphaël Pellicier | Web developer">
+	<link rel="stylesheet" type="text/css" href="../css/styles.css">
+	<style>
+	#eDefault,
+	#eTarget {
+		background: #000;
+		width: 944px;
+		}
+	</style>
+</head>
+<body>
+
+<h1>Class Manche</h1>
+<h3>Affichage par défaut</h3>
+<p>Toutes les configuration sont globales. Elles sont stockées et réutilisées lors du chargement de page.</p>
+<p>Un changement entraine une répercution sur toutes les instances courantes et futures.</p>
+<p>Configuration partagées:</p>
+<ul>
+	<li><b>la3</b> : fréquence du La. Valeur par défaut 440hz.
+	<li><b>lefthanded</b> : Joueur gauché.
+	<li><b>mask</b> : masque des notes affiché.
+	<li><b>mirror</b> : reflet du manche dans un mirroir.
+	<li><b>notation</b> : La ou A, avec ♭ ou ♯.
+	<li><b>notes</b> : Affichage des notes du manche.
+	<li><b>numbers</b> : Affichage des numéros des cases.
+	<li><b>octaves</b> : Affichage simplifié des octaves.
+	<li><b>scale</b> : ...
+	<li><b>sound</b> : Experimental. son attaché aux notes.
+	<li><b>tonic</b> : Tonique de la 'gamme'. Points rouge non désélectionnable.
+	<li><b>tuning</b> : Accordage du manche.
+</ul>
+
+<div id="eDefault"></div>
+
+
+<h3>Affichage : Utilisation recommandée</h3>
+<p>
+	On partage les préférences d'affichage d'un utilisateur entre toutes les instances.<br> 
+	Le reste doit appartenir à une et une seule instance.<br> 
+	On peut cela dit rendre indépendant chaque configuration.
+</p>
+
+<div id="eTarget"></div>
+
+
+<code>Un soucis persiste avec le nombre de cordes et de cases.</code>
+
+<script type="text/javascript" src="../js/L10n.js"></script>
+<script type="text/javascript" src="../js/scripts.js"></script>
+<script type="text/javascript" src="../js/config.js"></script>
+<script type="text/javascript" src="../js/tSorter.js"></script>
+<script type="text/javascript" src="../js/audio.js"></script>
+<script>
+
+var oManche0 = new Manche( "eDefault" )
+var oManche1 = new Manche( "eDefault" )
+var oHF = new HarmonieForm ( oManche0.Config )
+eDefault.appendChild( oHF.eHTML )
+
+var oManche3 = new Manche( "eTarget", {
+	config: 1,
+	strings: 4,
+	cases: 10,
+	tonic:'Ré',
+	mask:'101011010101',
+	la3: 432,
+	lefthanded: 1,
+	mirror: 1,
+	notation: [1,'FR'],
+	notes: 1,
+	numbers: 1,
+	octaves: 1,
+	sound: 1,
+	tuning: 1
+	})
+</script>
+
+</body>
+</html>

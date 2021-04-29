@@ -1,4 +1,4 @@
-let LA3 = Memoire.get('La3')||440
+let LA3 = Memoire.get('la3')||440
 
 const Notations ={
 	'♯':{	FR:['La',	'La♯',	'Si',	'Do',	'Do♯',	'Ré',	'Ré♯',	'Mi',	'Fa',	'Fa♯',	'Sol',	'Sol♯'],
