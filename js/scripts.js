@@ -55,17 +55,20 @@ let Publishers = function( bDebug ){
 		if ( ! oTopics[ sTopic ]) return false
 		let aSubscribers = oTopics[ sTopic ]
 		, n = aSubscribers ? aSubscribers.length : 0
-		if( bDebug ) console.warn( `publish "${sTopic}" : "${mArg}"` )
+		let b = Publishers.bConsole
+		if( b ) console.groupCollapsed( `%cpublish "${sTopic}" : %O` , 'color:yellow;', mArg )
+		//	console.trace() 
 		while( n-- ){
-			if( bDebug ) console.info( `\t${aSubscribers[n].title}` )
+			if( b ) console.info( `${aSubscribers[n].title}` )
 			aSubscribers[ n ].func( mArg )
 			}
+		if( b ) console.groupEnd()
 		return this
 		}
 	o.subscribe =function( sTopic, fFunc, sTitle ){
 		if( ! oTopics[ sTopic ]) oTopics[ sTopic ] = []
-		if( bDebug ) console.info( `Publisher "${sTopic}" \n\t\tnew subscriber "${sTitle||''}"` )
 		let sToken = ( ++nID ).toString()
+		if( Publishers.bConsole ) console.log( `%cPublisher "${sTopic}" new subscriber\n\t "${sTitle||''}" %O` , 'color:lightskyblue', fFunc, sToken )
 		oTopics[ sTopic ].unshift({ token: sToken, func: fFunc, title:sTitle||'' })
 		return sToken
 		}
@@ -84,6 +87,8 @@ let Publishers = function( bDebug ){
 		}
 	return o
 	}
+Publishers.bConsole = false
+
 
 // Etend les variables spéciales 'notation'
 // -> notationCreator.call( AugmentedObject )
@@ -148,7 +153,7 @@ class SpecialVar {
 // Variables globales pouvant être partagées ou non par tous les composants
 // Leur valeur est stocké dans le localStorage
 function GlobalVars ( aVars ){
-	let oPublisher = Publishers(  )
+	let oPublisher = Publishers( 1 )
 	aVars.forEach( ([sName, mDefaultValue ]) => {
 		let o = new SpecialVar ( sName, Memoire.get( sName ) || mDefaultValue )
 		GlobalVars[ sName ] = o
@@ -552,7 +557,7 @@ Manche.DefaultSettings ={
 // Décision de rendre une var local ou global si elle est définie ou non
 Manche.getDefaultSettings = function( oConfig ){
 	oConfig = oConfig || {}
-	let o = {}, oPublisher = Publishers(  )
+	let o = {}, oPublisher = Publishers( 1 )
 	for( const s in Manche.DefaultSettings ){
 		if( oConfig[s] !== undefined ){
 			o[s] = new SpecialVar ( s, oConfig[ s ])
@@ -748,7 +753,7 @@ class HarmonieForm {
 		eScale.className = 'scale'
 
 		Config.tonic.addSubscriber( 'HarmonieForm selectBox tonic value', sTonic => eTonique.value = sTonic )
-		Config.mask.addSubscriber( 'HarmonieForm selectBox chords et scales + publish scale', sMask =>{
+		Config.mask.addSubscriber( 'HarmonieForm selectBox chords et scales values + publish scale', sMask =>{
 			eChords.value = eScale.value = sMask
 			if( eScale.value ) Config.scale.setValue([ sMask, eScale.selectedOptions[0].innerHTML ])
 			else if( eChords.value ) Config.scale.setValue([ sMask, eChords.selectedOptions[0].innerHTML ])
