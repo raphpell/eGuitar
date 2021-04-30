@@ -47,7 +47,7 @@ window.onselectstart =function(){ return false }	// empêche la sélection de te
 /*=== VARIABLES SPECIALES ====*/
 /*============================*/
 // Pattern Publishers/Subscribers
-let Publishers = function( bDebug ){
+let Publishers = function(){
 	let o = {}
 	let oTopics = {}
 	let nID = -1
@@ -87,8 +87,7 @@ let Publishers = function( bDebug ){
 		}
 	return o
 	}
-Publishers.bConsole = false
-
+Publishers.bConsole = true
 
 // Etend les variables spéciales 'notation'
 // -> notationCreator.call( AugmentedObject )
@@ -129,14 +128,15 @@ let notationCreator = function(){
 // Objet wrapper : il sert à déclencher des événements quand sa valeur change
 // Attention: this.Publisher doit être défini après la création d'une instance
 class SpecialVar {
-	constructor ( sName, mValue ){
+	constructor ( sName, mValue, oPublisher ){
 		this.id = sName
 		this.value = mValue
+		this.publisher = oPublisher
 		if( sName == 'notation' ) notationCreator.call( this )
 		}
 	setValue ( mValue ){
 		this.value = mValue
-		this.Publisher.publish( this.id, mValue )
+		this.publisher.publish( this.id, mValue )
 		return mValue
 		}
 	getValue (){
@@ -146,20 +146,17 @@ class SpecialVar {
 		return this.setValue( this.getValue())
 		}
 	addSubscriber ( sTitle, fObserver ){
-		return this.Publisher.subscribe( this.id, fObserver, sTitle )
+		return this.publisher.subscribe( this.id, fObserver, sTitle )
 		}
 	}
 
 // Variables globales pouvant être partagées ou non par tous les composants
 // Leur valeur est stocké dans le localStorage
 function GlobalVars ( aVars ){
-	let oPublisher = Publishers( 1 )
+	let oPublisher = Publishers()
 	aVars.forEach( ([sName, mDefaultValue ]) => {
-		let o = new SpecialVar ( sName, Memoire.get( sName ) || mDefaultValue )
-		GlobalVars[ sName ] = o
-		o.Publisher = oPublisher
-		o.type = "global"
-		o.Publisher.subscribe( sName, m => Memoire.set( sName, m ), 'Memoire.set' )
+		let o = GlobalVars[ sName ] = new SpecialVar ( sName, Memoire.get( sName ) || mDefaultValue, oPublisher )
+		oPublisher.subscribe( sName, m => Memoire.set( sName, m ), `Memoire.set-${sName}` )
 		})
 	}
 GlobalVars([
@@ -177,11 +174,46 @@ GlobalVars([
 	[ "tuning", 0 ] // Accordage - defaut Accordage standard E ( voir Tunings )
 	])
 
+// Décision de rendre une var local ou global si elle est définie ou non
+getConfig =( function (){
+	const DefaultSettings ={ // Doit contenir tous les attributs possibles
+		config: 0,
+		strings: 6,
+		cases: 12,
+		// Défaut : SpecialVars avec répercution localStorage
+		la3: null,
+		lefthanded: null,
+		mask: null,
+		mirror: null,
+		notation: null,
+		notes: null,
+		numbers: null,
+		octaves: null,
+		scale: null,
+		sound: null,
+		tonic: null,
+		tuning: null
+		}
+	return function ( oConfig ){
+		oConfig = oConfig || {}
+		let o = {}, oPublisher = Publishers()
+		for( const s in DefaultSettings ){
+			o[s] = oConfig[s] !== undefined
+				? ( GlobalVars[ s ]
+					? new SpecialVar ( s, oConfig[ s ], oPublisher )
+					: oConfig[ s ] 
+					)
+				: GlobalVars[ s ] || DefaultSettings[s]
+			}
+		return o
+		}
+	})()
+
 class Manche {
 	constructor ( sNodeID, oConfig ){
 		this.ID = ++Manche.ID
 		let that = this
-		let o = this.Config = Manche.getDefaultSettings( oConfig )
+		let o = this.Config = getConfig( oConfig )
 
 		this.aFrequences = [0,0,0,0,0,0] // Ecarts accordage standard E en ton (+grave à +aigue)
 		var eParent = document.getElementById( sNodeID )
@@ -537,46 +569,6 @@ class Manche {
 		}
 	}
 Manche.ID = 0
-Manche.DefaultSettings ={
-	config: 0,
-	strings: 6,
-	cases: 12,
-	la3: GlobalVars.la3.getValue(),
-	lefthanded: GlobalVars.lefthanded.getValue(),
-	mask: GlobalVars.mask.getValue(),
-	mirror: GlobalVars.mirror.getValue(),
-	notation: GlobalVars.notation.getValue(),
-	notes: GlobalVars.notes.getValue(),
-	numbers: GlobalVars.numbers.getValue(),
-	octaves: GlobalVars.octaves.getValue(),
-	scale: GlobalVars.scale.getValue(),
-	sound: GlobalVars.sound.getValue(),
-	tonic: GlobalVars.tonic.getValue(),
-	tuning: GlobalVars.tuning.getValue()
-	}
-// Décision de rendre une var local ou global si elle est définie ou non
-Manche.getDefaultSettings = function( oConfig ){
-	oConfig = oConfig || {}
-	let o = {}, oPublisher = Publishers( 1 )
-	for( const s in Manche.DefaultSettings ){
-		if( oConfig[s] !== undefined ){
-			switch( s ){
-				case 'config':
-				case 'strings':
-				case 'cases':
-					o[s] = oConfig[ s ]
-					break;
-				default:
-					o[s] = new SpecialVar ( s, oConfig[ s ])
-					o[s].Publisher = oPublisher
-				}
-			}
-		else {
-			o[s] = GlobalVars[ s ] || Manche.DefaultSettings[s]
-			}
-		}
-	return o
-	}
 
 /* Affichage d'intervalles */
 class IntervalBox {

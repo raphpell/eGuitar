@@ -1,0 +1,80 @@
+@media only screen and (max-width: 959px) {
+	* {
+		transition: none !important;
+		}
+	}
+
+BODY {
+	font: normal 1em Verdana;
+	background: #222;
+	color: #FFF;
+	}
+HTML, BODY {
+	width: 944px;
+	margin: 0 auto;
+	}
+TD {
+	font-family: Verdana;
+	text-align: right;
+	}
+
+/* L10n */
+code {
+	animation-duration: 2s;
+	animation-name: clignoter;
+	animation-iteration-count: infinite;
+	transition: none;
+	color:red; 
+	}
+@keyframes clignoter {
+	0%	{ color:red; }
+	50%	{ color:orange; }
+	100%	{ color:red; }
+	}
+
+/* LOGO et checkbox réglage manche */
+#eHead {
+	margin:.25em;
+	}
+#eHead IMG {
+	float: left;
+	margin: 7px 1em 7px 1em;
+	height: 30px;
+	width: 30px;
+	}
+#eHead H1 {
+	color: #FFF;
+	font: normal 1.5em Verdana;
+	line-height: 45px;
+	letter-spacing: 5px;
+	float: left;
+	margin: 0;
+	padding: 0;
+	text-shadow: 0 0 3px rgba(255,255,255,50%);
+ 	}
+
+#eHead UL {
+	float: right;
+	list-style-type: none;
+	margin: 0 1em 0 0; padding: 0;
+	}
+#eHead UL LI {
+	float: left;
+	margin: 0; padding: 0;
+	}
+#eHead UL LI A {
+	background: #eee;
+	color: #000;
+	text-decoration: none;
+	border-radius: .5em;
+	height: 30px;
+	line-height: 30px;
+	display: block;
+	margin: 0 .25em;
+	padding: 0 1em;
+	}
+#eHead UL LI A:hover {
+	background: #000;
+	box-shadow: 0 0 1em #ccc;
+	color: #fff;
+	}

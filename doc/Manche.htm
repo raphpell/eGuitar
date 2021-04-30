@@ -9,11 +9,14 @@
 	#eDefault,
 	#eTarget {
 		background: #000;
+		color: #FFF;
 		width: 944px;
 		}
 	</style>
 </head>
 <body>
+
+<a href="index.htm">Sommaire</a>
 
 <h1>Class Manche</h1>
 <h3>Affichage par défaut</h3>
@@ -21,18 +24,18 @@
 <p>Un changement entraine une répercution sur toutes les instances courantes et futures.</p>
 <p>Configuration partagées:</p>
 <ul>
-	<li><b>la3</b> : fréquence du La. Valeur par défaut 440hz.
-	<li><b>lefthanded</b> : Joueur gauché.
-	<li><b>mask</b> : masque des notes affiché.
-	<li><b>mirror</b> : reflet du manche dans un mirroir.
-	<li><b>notation</b> : La ou A, avec ♭ ou ♯.
-	<li><b>notes</b> : Affichage des notes du manche.
-	<li><b>numbers</b> : Affichage des numéros des cases.
-	<li><b>octaves</b> : Affichage simplifié des octaves.
+	<li><b>la3</b> : Nombre - fréquence du La. Valeur par défaut 440hz.
+	<li><b>lefthanded</b> : Booléen - Joueur gauché.
+	<li><b>mask</b> : Chaîne - masque des notes affiché.
+	<li><b>mirror</b> : Booléen - reflet du manche dans un mirroir.
+	<li><b>notation</b> : Tableau - Choix de la notation : La ou A, avec ♭ ou ♯.
+	<li><b>notes</b> : Booléen - Affichage du nom des notes du manche.
+	<li><b>numbers</b> : Booléen - Affichage des numéros des cases.
+	<li><b>octaves</b> : Booléen - Affichage simplifié des octaves.
 	<li><b>scale</b> : ...
-	<li><b>sound</b> : Experimental. son attaché aux notes.
-	<li><b>tonic</b> : Tonique de la 'gamme'. Points rouge non désélectionnable.
-	<li><b>tuning</b> : Accordage du manche.
+	<li><b>sound</b> : Booléen - sons associés aux notes.  Experimental. 
+	<li><b>tonic</b> : Note - tonique de la 'gamme' ( Points rouge non désélectionnable )
+	<li><b>tuning</b> : Nombre - 'Accordage du manche'.
 </ul>
 
 <div id="eDefault"></div>
@@ -48,7 +51,7 @@
 <div id="eTarget"></div>
 
 
-<code>Un soucis persiste avec le nombre de cordes et de cases.</code>
+<p>Une fonction inutile nombre de case 10 et nombre de corde 4. Le but sera de faire un manche de basse : il faudra modifié les octaves !</p>
 
 <script type="text/javascript" src="../js/L10n.js"></script>
 <script type="text/javascript" src="../js/scripts.js"></script>

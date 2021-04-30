@@ -15,9 +15,21 @@ class MancheHistory {
 	apply (){
 		let o = this.oObject
 		this.a.forEach( aElt => o[ aElt[0]].apply( o, aElt[1]))
-		this.a.length = this.a.length/2 // ???
 		}
 	info (){
 		this.a.forEach( aElt => console.info( aElt[0] +"\t"+ JSON.stringify( aElt[1] )))
+		}
+	}
+
+/* 
+let oConfigFabric = new ConfigFabric( oDefaultSettings )
+let oNewConfig = oConfigFabric.get( oSettings )
+*/
+class ConfigFabric {
+	constructor ( oDefaultSettings ){
+		this.oDefaultSettings = oDefaultSettings // ne doit être modifié
+		}
+	get ( oSettings ){
+		return Object.assign( {}, this.oDefaultSettings, oSettings )
 		}
 	}
