@@ -1,3 +1,5 @@
+window.onselectstart =function(){ return false }	// empêche la sélection de texte
+
 /*====================*/
 /*=== Utilitaires ====*/
 /*====================*/
@@ -19,7 +21,6 @@ Memoire =(function( sBase ){
 			}
 		}
 	})( 'eGuitar' )
-
 Tag =function( sName, sClasses, sId ){
 	var e = document.createElement( sName )
 	if( sClasses ) e.className = sClasses
@@ -41,141 +42,139 @@ Events ={
 		}
 	}
 
-window.onselectstart =function(){ return false }	// empêche la sélection de texte
-
 /*============================*/
 /*=== VARIABLES SPECIALES ====*/
 /*============================*/
-// Pattern Publishers/Subscribers
-let Publishers = function(){
-	let o = {}
-	let oTopics = {}
-	let nID = -1
-	o.publish =function( sTopic, mArg ){
-		if ( ! oTopics[ sTopic ]) return false
-		let aSubscribers = oTopics[ sTopic ]
-		, n = aSubscribers ? aSubscribers.length : 0
-		let b = Publishers.bConsole
-		if( b ) console.groupCollapsed( `%cpublish "${sTopic}" : %O` , 'color:yellow;', mArg )
-		//	console.trace() 
-		while( n-- ){
-			if( b ) console.info( `${aSubscribers[n].title}` )
-			aSubscribers[ n ].func( mArg )
+// Décision de rendre une var local ou global si elle est définie ou non
+getConfig =( function (){
+	// Pattern Publishers/Subscribers
+	let Publishers = function(){
+		let o = {}
+		let oTopics = {}
+		let nID = -1
+		o.publish =function( sTopic, mArg ){
+			if ( ! oTopics[ sTopic ]) return false
+			let aSubscribers = oTopics[ sTopic ]
+			, n = aSubscribers ? aSubscribers.length : 0
+			let b = Publishers.bConsole
+			if( b ) console.groupCollapsed( `%cpublish "${sTopic}" : %O` , 'color:yellow;', mArg )
+			//	console.trace() 
+			while( n-- ){
+				if( b ) console.info( `${aSubscribers[n].title}` )
+				aSubscribers[ n ].func( mArg )
+				}
+			if( b ) console.groupEnd()
+			return this
 			}
-		if( b ) console.groupEnd()
-		return this
-		}
-	o.subscribe =function( sTopic, fFunc, sTitle ){
-		if( ! oTopics[ sTopic ]) oTopics[ sTopic ] = []
-		let sToken = ( ++nID ).toString()
-		if( Publishers.bConsole ) console.log( `%cPublisher "${sTopic}" new subscriber\n\t "${sTitle||''}" %O` , 'color:lightskyblue', fFunc, sToken )
-		oTopics[ sTopic ].unshift({ token: sToken, func: fFunc, title:sTitle||'' })
-		return sToken
-		}
-	o.unsubscribe =function( sToken ){
-		for( let m in oTopics ){
-			if( oTopics[ m ]){
-				for( let i=0, ni=oTopics[m].length; i < ni; i++ ){
-					if( oTopics[m][i].token === sToken ){
-						oTopics[m].splice( i, 1 )
-						return sToken
+		o.subscribe =function( sTopic, fFunc, sTitle ){
+			if( ! oTopics[ sTopic ]) oTopics[ sTopic ] = []
+			let sToken = ( ++nID ).toString()
+			if( Publishers.bConsole ) console.log( `%cPublisher "${sTopic}" new subscriber\n\t "${sTitle||''}" %O` , 'color:lightskyblue', fFunc, sToken )
+			oTopics[ sTopic ].unshift({ token: sToken, func: fFunc, title:sTitle||'' })
+			return sToken
+			}
+		o.unsubscribe =function( sToken ){
+			for( let m in oTopics ){
+				if( oTopics[ m ]){
+					for( let i=0, ni=oTopics[m].length; i < ni; i++ ){
+						if( oTopics[m][i].token === sToken ){
+							oTopics[m].splice( i, 1 )
+							return sToken
+							}
 						}
 					}
 				}
+			return null
 			}
-		return null
+		return o
 		}
-	return o
-	}
-Publishers.bConsole = 0
+	Publishers.bConsole = 0
 
-// Etend les variables spéciales 'notation'
-// -> notationCreator.call( AugmentedObject )
-let notationCreator = function(){
-	this.getSequence =function( sNote ){
-		var a = this.getValue()
-		if( ! sNote ){
-			return Notations[ a[0]?'♭':'♯' ][ a[1]]
-		} else {
-			sNote = this.getNoteName( sNote )
-			var a = this.getSequence()
-			var nIndex = a.indexOf( sNote )
-			return a.slice( nIndex ).concat( a.slice( 0, nIndex))
+	// Objet wrapper : il sert à déclencher des fonctions quand sa valeur change
+	class SpecialVar {
+		constructor ( sName, mValue, oPublisher ){
+			this.id = sName
+			this.value = mValue
+			this.publisher = oPublisher
+			if( sName == 'notation' ) notationCreator.call( this )
+			}
+		setValue ( mValue ){
+			this.value = mValue
+			this.publisher.publish( this.id, mValue )
+			return mValue
+			}
+		getValue (){
+			return this.value
+			}
+		refresh (){
+			return this.setValue( this.getValue())
+			}
+		addSubscriber ( sTitle, fObserver ){
+			return this.publisher.subscribe( this.id, fObserver, sTitle )
 			}
 		}
-	this.getNoteName =function( sNote ){
-		var sIndex1
-		if( ~sNote.indexOf('b')) sNote = sNote.replace( /b/, '♭' )
-		if( ~sNote.indexOf('♭')) sIndex1 = "♭"
-		if( ~sNote.indexOf('#')) sNote = sNote.replace( /#/, '♯' )
-		if( ~sNote.indexOf('♯')) sIndex1 = "♯"
 
-		var sIndex2 = 
-			! sIndex1 && sNote.length == 1 || sIndex1 && sNote.length == 2 
-			? 'EN'
-			: 'FR'
-		if( ! sIndex1 ) sIndex1 = this.getValue()[0]?'♭':'♯'
+	// Etend les variables spéciales 'notation'
+	// -> notationCreator.call( AugmentedObject )
+	let notationCreator = function(){
+		this.getSequence =function( sNote ){
+			var a = this.getValue()
+			if( ! sNote ){
+				return Notations[ a[0]?'♭':'♯' ][ a[1]]
+			} else {
+				sNote = this.getNoteName( sNote )
+				var a = this.getSequence()
+				var nIndex = a.indexOf( sNote )
+				return a.slice( nIndex ).concat( a.slice( 0, nIndex))
+				}
+			}
+		this.getNoteName =function( sNote ){
+			var sIndex1
+			if( ~sNote.indexOf('b')) sNote = sNote.replace( /b/, '♭' )
+			if( ~sNote.indexOf('♭')) sIndex1 = "♭"
+			if( ~sNote.indexOf('#')) sNote = sNote.replace( /#/, '♯' )
+			if( ~sNote.indexOf('♯')) sIndex1 = "♯"
 
-		var a = Notations[sIndex1][sIndex2]
-		for(var i=0; i<12; i++ )
-			if( a[i]== sNote )
-				return this.getSequence()[i]
+			var sIndex2 = 
+				! sIndex1 && sNote.length == 1 || sIndex1 && sNote.length == 2 
+				? 'EN'
+				: 'FR'
+			if( ! sIndex1 ) sIndex1 = this.getValue()[0]?'♭':'♯'
 
-		throw Error ( 'Invalid note name. '+ sNote )
-		}
-	}
+			var a = Notations[sIndex1][sIndex2]
+			for(var i=0; i<12; i++ )
+				if( a[i]== sNote )
+					return this.getSequence()[i]
 
-// Objet wrapper : il sert à déclencher des événements quand sa valeur change
-// Attention: this.Publisher doit être défini après la création d'une instance
-class SpecialVar {
-	constructor ( sName, mValue, oPublisher ){
-		this.id = sName
-		this.value = mValue
-		this.publisher = oPublisher
-		if( sName == 'notation' ) notationCreator.call( this )
+			throw Error ( 'Invalid note name. '+ sNote )
+			}
 		}
-	setValue ( mValue ){
-		this.value = mValue
-		this.publisher.publish( this.id, mValue )
-		return mValue
-		}
-	getValue (){
-		return this.value
-		}
-	refresh (){
-		return this.setValue( this.getValue())
-		}
-	addSubscriber ( sTitle, fObserver ){
-		return this.publisher.subscribe( this.id, fObserver, sTitle )
-		}
-	}
 
-// Variables globales pouvant être partagées ou non par tous les composants
-// Leur valeur est stocké dans le localStorage
-function GlobalVars ( aVars ){
-	let oPublisher = Publishers()
-	aVars.forEach( ([sName, mDefaultValue ]) => {
-		let o = GlobalVars[ sName ] = new SpecialVar ( sName, Memoire.get( sName ) || mDefaultValue, oPublisher )
-		oPublisher.subscribe( sName, m => Memoire.set( sName, m ), `Memoire.set-${sName}` )
-		})
-	}
-GlobalVars([
-	[ "la3", 440 ],
-	[ "lefthanded", 0 ],
-	[ "mirror", 0  ],
-	[ "notation", [0,'EN'] ], // Notation courante utilisé dans l'application [true,'FR'] = bBemol sLang
-	[ "notes", 0 ],
-	[ "numbers", 0 ],
-	[ "octaves", 0 ],
-	[ "mask", '100101010010' ], // gamme par défaut mPenta
-	[ "scale", ['100101010010', L10n('mPenta')]], // gamme par défaut mPenta
-	[ "sound", 0 ],
-	[ "tonic", 'A' ],
-	[ "tuning", 0 ] // Accordage - defaut Accordage standard E ( voir Tunings )
-	])
+	// Créé les variables globales pouvant être partagées les composants par défaut
+	// Leur valeur est stocké dans le localStorage
+	function GlobalVars ( aVars ){
+		let oPublisher = Publishers()
+		aVars.forEach( ([sName, mDefaultValue ]) => {
+			let o = GlobalVars[ sName ] = new SpecialVar ( sName, Memoire.get( sName ) || mDefaultValue, oPublisher )
+			oPublisher.subscribe( sName, m => Memoire.set( sName, m ), `Memoire.set-${sName}` )
+			})
+		}
+	// Variables globales
+	GlobalVars([
+		[ "la3", 440 ],
+		[ "lefthanded", 0 ],
+		[ "mirror", 0  ],
+		[ "notation", [0,'EN'] ], // Notation courante utilisé dans l'application [true,'FR'] = bBemol sLang
+		[ "notes", 0 ],
+		[ "numbers", 0 ],
+		[ "octaves", 0 ],
+		[ "mask", '100101010010' ], // gamme par défaut mPenta
+		[ "scale", ['100101010010', L10n('mPenta')]], // gamme par défaut mPenta
+		[ "sound", 0 ],
+		[ "tonic", 'A' ],
+		[ "tuning", 0 ] // Accordage - defaut Accordage standard E ( voir Tunings )
+		])
 
-// Décision de rendre une var local ou global si elle est définie ou non
-getConfig =( function (){
 	const DefaultSettings ={ // Doit contenir tous les attributs possibles
 		config: 0,
 		strings: 6,
@@ -194,6 +193,7 @@ getConfig =( function (){
 		tonic: null,
 		tuning: null
 		}
+
 	return function ( oConfig ){
 		oConfig = oConfig || {}
 		let o = {}, oPublisher = Publishers()
