@@ -1,8 +1,6 @@
 //Create Audio Context
 var AudioContext = window.AudioContext || window.webkitAudioContext
 var context = null
-var o = null
-var g = null
 
 ;(function(){
 	function decimalAdjust ( type, value, exp ){
@@ -59,8 +57,8 @@ var tone = function( sNoteOctave, nFreqLa ){
 //Primary function
 playTone = ( sNoteOctave, nFreqLa ) => {
 	if( ! context ) context = new AudioContext()
-	o = context.createOscillator()
-	g = context.createGain()
+	let o = context.createOscillator()
+	let g = context.createGain()
 	o.connect(g)
 	o.type = "sine"
 	o.frequency.value = tone( sNoteOctave, nFreqLa )
