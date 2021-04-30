@@ -17,23 +17,7 @@
     <node id="n0">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-          <y:Geometry height="84.59999999999997" width="192.22434904423562" x="740.0591720988846" y="-582.8590775767543"/>
-          <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
-          <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#99CCFF" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="tl" textColor="#000000" verticalTextPosition="bottom" visible="true" width="116.72265625" x="4.0" xml:space="preserve" y="4.0">Publishers( bDebug )</y:NodeLabel>
-          <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="48.103515625" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="180.712890625" x="2.0" xml:space="preserve" y="30.701171875">publish ( sTopic, mArg )
-subscribe ( sTopic, fFunc, sTitle )
-unsubscribe ( sToken )<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:ModelParameter><y:ErdAttributesNodeLabelModelParameter/></y:ModelParameter></y:NodeLabel>
-          <y:StyleProperties>
-            <y:Property class="java.lang.Boolean" name="y.view.ShadowNodePainter.SHADOW_PAINTING" value="true"/>
-          </y:StyleProperties>
-        </y:GenericNode>
-      </data>
-    </node>
-    <node id="n1">
-      <data key="d6">
-        <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-          <y:Geometry height="50.49081674866321" width="140.52487862918906" x="1486.3346217978826" y="-494.8232126223088"/>
+          <y:Geometry height="50.49081674866321" width="140.52487862918906" x="1366.2556476195466" y="-494.8232126223088"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="tl" textColor="#000000" verticalTextPosition="bottom" visible="true" width="66.689453125" x="4.0" xml:space="preserve" y="4.0">L10N ( sId )</y:NodeLabel>
@@ -44,25 +28,10 @@ unsubscribe ( sToken )<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelMod
         </y:GenericNode>
       </data>
     </node>
-    <node id="n2">
+    <node id="n1">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-          <y:Geometry height="84.59999999999997" width="141.53945559374597" x="1039.2269024369732" y="228.14911517432017"/>
-          <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
-          <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="tl" textColor="#000000" verticalTextPosition="bottom" visible="true" width="86.716796875" x="4.0" xml:space="preserve" y="4.0">notationCreator</y:NodeLabel>
-          <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="127.380859375" x="2.0" xml:space="preserve" y="30.701171875">getSequence ( sNote )
-getNoteName ( sNote )<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:ModelParameter><y:ErdAttributesNodeLabelModelParameter/></y:ModelParameter></y:NodeLabel>
-          <y:StyleProperties>
-            <y:Property class="java.lang.Boolean" name="y.view.ShadowNodePainter.SHADOW_PAINTING" value="true"/>
-          </y:StyleProperties>
-        </y:GenericNode>
-      </data>
-    </node>
-    <node id="n3">
-      <data key="d6">
-        <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-          <y:Geometry height="115.02399999999994" width="185.60383620486698" x="982.5729388270026" y="-423.346796875"/>
+          <y:Geometry height="115.02399999999994" width="185.60383620486698" x="1018.189637530272" y="-514.6614524774191"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="64.029296875" x="60.78726966493355" xml:space="preserve" y="4.0">IntervalBox</y:NodeLabel>
@@ -77,18 +46,18 @@ toggleNote ( sNote )<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel
         </y:GenericNode>
       </data>
     </node>
-    <node id="n4" yfiles.foldertype="group">
+    <node id="n2" yfiles.foldertype="group">
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
             <y:GenericGroupNode configuration="com.yworks.bpmn.Activity.withShadow">
-              <y:Geometry height="531.8656732469866" width="285.1598937021229" x="1184.1684630815362" y="-444.33239587364557"/>
+              <y:Geometry height="450.8656732469866" width="285.1598937021229" x="1018.189637530272" y="-376.82857646492823"/>
               <y:Fill color="#FFFFFFE6" color2="#D4D4D4CC" transparent="false"/>
               <y:BorderStyle color="#123EA2" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="46.69140625" x="119.23424372606132" xml:space="preserve" y="4.0">Manche</y:NodeLabel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="46.69140625" x="119.23424372606155" xml:space="preserve" y="4.0">Manche</y:NodeLabel>
               <y:StyleProperties>
                 <y:Property class="java.awt.Color" name="com.yworks.bpmn.icon.line.color" value="#000000"/>
-                <y:Property class="com.yworks.yfiles.bpmn.view.TaskTypeEnum" name="com.yworks.bpmn.taskType" value="TASK_TYPE_SERVICE"/>
+                <y:Property class="com.yworks.yfiles.bpmn.view.TaskTypeEnum" name="com.yworks.bpmn.taskType" value="TASK_TYPE_ABSTRACT"/>
                 <y:Property class="java.awt.Color" name="com.yworks.bpmn.icon.fill2" value="#d4d4d4cc"/>
                 <y:Property class="java.awt.Color" name="com.yworks.bpmn.icon.fill" value="#ffffffe6"/>
                 <y:Property class="com.yworks.yfiles.bpmn.view.BPMNTypeEnum" name="com.yworks.bpmn.type" value="ACTIVITY_TYPE"/>
@@ -97,7 +66,7 @@ toggleNote ( sNote )<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel
               </y:StyleProperties>
               <y:State autoResize="true" closed="false" closedHeight="55.0" closedWidth="85.0"/>
               <y:Insets bottom="15" bottomF="15.0" left="15" leftF="15.0" right="15" rightF="15.0" top="15" topF="15.0"/>
-              <y:BorderInsets bottom="0" bottomF="0.0" left="0" leftF="0.0" right="0" rightF="0.0" top="0" topF="0.0"/>
+              <y:BorderInsets bottom="4" bottomF="4.258141388598233" left="0" leftF="0.0" right="0" rightF="0.0" top="0" topF="0.0"/>
             </y:GenericGroupNode>
             <y:GenericGroupNode configuration="com.yworks.bpmn.Activity.withShadow">
               <y:Geometry height="531.8656732469865" width="285.1598937021229" x="1184.1684630815362" y="-444.33239587364557"/>
@@ -120,11 +89,11 @@ toggleNote ( sNote )<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel
           </y:Realizers>
         </y:ProxyAutoBoundsNode>
       </data>
-      <graph edgedefault="directed" id="n4:">
-        <node id="n4::n0">
+      <graph edgedefault="directed" id="n2:">
+        <node id="n2::n0">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-              <y:Geometry height="25.381633497326447" width="247.15989370212287" x="1199.1684630815362" y="-47.4260358902572"/>
+              <y:Geometry height="25.381633497326447" width="247.15989370212287" x="1033.189637530272" y="20.077783518460137"/>
               <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="62.025390625" x="92.56725153856132" xml:space="preserve" y="4.0">Manche.ID</y:NodeLabel>
@@ -142,10 +111,10 @@ toggleNote ( sNote )<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel
             </y:GenericNode>
           </data>
         </node>
-        <node id="n4::n1">
+        <node id="n2::n1">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-              <y:Geometry height="345.9577509114157" width="255.15989370212287" x="1199.1684630815362" y="-410.63122399864557"/>
+              <y:Geometry height="345.9577509114157" width="255.15989370212287" x="1033.189637530272" y="-343.12740458992823"/>
               <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="46.69140625" x="104.23424372606132" xml:space="preserve" y="4.0">Manche</y:NodeLabel>
@@ -175,56 +144,14 @@ setTuning ( nId )<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y
             </y:GenericNode>
           </data>
         </node>
-        <node id="n4::n2">
-          <data key="d6">
-            <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-              <y:Geometry height="25.381633497326447" width="247.15989370212287" x="1199.1684630815362" y="-4.79696519595808"/>
-              <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
-              <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="146.08984375" x="50.53502497606132" xml:space="preserve" y="4.0">{ Manche.DefaultSettings }</y:NodeLabel>
-              <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="2.0" y="30.701171875">
-                <y:LabelModel>
-                  <y:ErdAttributesNodeLabelModel/>
-                </y:LabelModel>
-                <y:ModelParameter>
-                  <y:ErdAttributesNodeLabelModelParameter/>
-                </y:ModelParameter>
-              </y:NodeLabel>
-              <y:StyleProperties>
-                <y:Property class="java.lang.Boolean" name="y.view.ShadowNodePainter.SHADOW_PAINTING" value="true"/>
-              </y:StyleProperties>
-            </y:GenericNode>
-          </data>
-        </node>
-        <node id="n4::n3">
-          <data key="d6">
-            <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-              <y:Geometry height="25.381633497326447" width="247.15989370212287" x="1199.1684630815362" y="37.832105498341036"/>
-              <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
-              <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#99CCFF" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="164.751953125" x="41.20397028856132" xml:space="preserve" y="4.0">.getDefaultSettings ( oConfig )</y:NodeLabel>
-              <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="2.0" y="30.701171875">
-                <y:LabelModel>
-                  <y:ErdAttributesNodeLabelModel/>
-                </y:LabelModel>
-                <y:ModelParameter>
-                  <y:ErdAttributesNodeLabelModelParameter/>
-                </y:ModelParameter>
-              </y:NodeLabel>
-              <y:StyleProperties>
-                <y:Property class="java.lang.Boolean" name="y.view.ShadowNodePainter.SHADOW_PAINTING" value="true"/>
-              </y:StyleProperties>
-            </y:GenericNode>
-          </data>
-        </node>
       </graph>
     </node>
-    <node id="n5" yfiles.foldertype="group">
+    <node id="n3" yfiles.foldertype="group">
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
             <y:GenericGroupNode configuration="com.yworks.bpmn.Activity.withShadow">
-              <y:Geometry height="358.63800951303574" width="408.16501795414433" x="1486.712248213527" y="-76.77533395472221"/>
+              <y:Geometry height="358.63800951303574" width="408.16501795414433" x="1365.2410706549897" y="-76.77533395472221"/>
               <y:Fill color="#FFFFFFE6" color2="#D4D4D4CC" transparent="false"/>
               <y:BorderStyle color="#123EA2" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="56.01953125" x="176.07274335207217" xml:space="preserve" y="4.0">Harmonie</y:NodeLabel>
@@ -262,11 +189,11 @@ setTuning ( nId )<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y
           </y:Realizers>
         </y:ProxyAutoBoundsNode>
       </data>
-      <graph edgedefault="directed" id="n5:">
-        <node id="n5::n0">
+      <graph edgedefault="directed" id="n3:">
+        <node id="n3::n0">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-              <y:Geometry height="25.381633497326447" width="341.1785184806197" x="1512.712248213527" y="-43.074162079722214"/>
+              <y:Geometry height="25.381633497326447" width="341.1785184806197" x="1391.2410706549897" y="-43.074162079722214"/>
               <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#99CCFF" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="tl" textColor="#000000" verticalTextPosition="bottom" visible="true" width="334.76171875" x="4.0" xml:space="preserve" y="4.0">.getSimilarity ( sChordOrScaleMask1 , sChordMask2 , sType )</y:NodeLabel>
@@ -284,10 +211,10 @@ setTuning ( nId )<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y
             </y:GenericNode>
           </data>
         </node>
-        <node id="n5::n1">
+        <node id="n3::n1">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-              <y:Geometry height="25.381633497326447" width="341.1785184806197" x="1512.7122482135271" y="-3.889912645414938"/>
+              <y:Geometry height="25.381633497326447" width="341.1785184806197" x="1391.24107065499" y="-3.889912645414938"/>
               <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#99CCFF" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="tl" textColor="#000000" verticalTextPosition="bottom" visible="true" width="124.685546875" x="4.0" xml:space="preserve" y="4.0">.searchMask ( sMask )</y:NodeLabel>
@@ -305,10 +232,10 @@ setTuning ( nId )<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y
             </y:GenericNode>
           </data>
         </node>
-        <node id="n5::n2">
+        <node id="n3::n2">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-              <y:Geometry height="128.72112778235777" width="341.1785184806199" x="1512.712248213527" y="126.92975293893761"/>
+              <y:Geometry height="128.72112778235777" width="341.1785184806199" x="1391.2410706549897" y="126.92975293893761"/>
               <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="86.037109375" x="127.57070455280996" xml:space="preserve" y="4.0">HarmonieTable</y:NodeLabel>
@@ -324,10 +251,10 @@ setChords ( sTonique, sScaleMask )<y:LabelModel><y:ErdAttributesNodeLabelModel/>
             </y:GenericNode>
           </data>
         </node>
-        <node id="n5::n3">
+        <node id="n3::n3">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-              <y:Geometry height="72.76614559467004" width="341.1785184806199" x="1512.712248213527" y="37.82766409808954"/>
+              <y:Geometry height="72.76614559467004" width="341.1785184806199" x="1391.2410706549897" y="37.82766409808954"/>
               <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="84.015625" x="128.58144674030996" xml:space="preserve" y="4.0">HarmonieForm</y:NodeLabel>
@@ -341,7 +268,7 @@ createHTML ()<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:Mod
         </node>
       </graph>
     </node>
-    <node id="n6" yfiles.foldertype="folder">
+    <node id="n4" yfiles.foldertype="folder">
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="1">
@@ -364,13 +291,13 @@ createHTML ()<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:Mod
               <y:BorderInsets bottom="212" bottomF="212.21284375000016" left="0" leftF="0.0" right="0" rightF="0.0" top="12" topF="11.623874999999998"/>
             </y:GenericGroupNode>
             <y:GenericGroupNode configuration="com.yworks.bpmn.Activity.withShadow">
-              <y:Geometry height="51.549999999999955" width="160.2602913049227" x="488.4206060496192" y="-582.8590775767543"/>
+              <y:Geometry height="51.549999999999955" width="160.2602913049227" x="503.4206060496193" y="-622.1597338267543"/>
               <y:Fill color="#FFFFFFE6" color2="#D4D4D4CC" transparent="false"/>
               <y:BorderStyle color="#123EA2" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="76.046875" x="42.10670815246135" xml:space="preserve" y="4.0">AudioContext</y:NodeLabel>
               <y:StyleProperties>
                 <y:Property class="java.awt.Color" name="com.yworks.bpmn.icon.line.color" value="#000000"/>
-                <y:Property class="com.yworks.yfiles.bpmn.view.TaskTypeEnum" name="com.yworks.bpmn.taskType" value="TASK_TYPE_SERVICE"/>
+                <y:Property class="com.yworks.yfiles.bpmn.view.TaskTypeEnum" name="com.yworks.bpmn.taskType" value="TASK_TYPE_ABSTRACT"/>
                 <y:Property class="java.awt.Color" name="com.yworks.bpmn.icon.fill2" value="#d4d4d4cc"/>
                 <y:Property class="java.awt.Color" name="com.yworks.bpmn.icon.fill" value="#ffffffe6"/>
                 <y:Property class="com.yworks.yfiles.bpmn.view.BPMNTypeEnum" name="com.yworks.bpmn.type" value="ACTIVITY_TYPE"/>
@@ -384,14 +311,14 @@ createHTML ()<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:Mod
           </y:Realizers>
         </y:ProxyAutoBoundsNode>
       </data>
-      <graph edgedefault="directed" id="n6:"/>
+      <graph edgedefault="directed" id="n4:"/>
     </node>
-    <node id="n7" yfiles.foldertype="group">
+    <node id="n5" yfiles.foldertype="group">
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
             <y:GenericGroupNode configuration="com.yworks.bpmn.Activity.withShadow">
-              <y:Geometry height="605.1617564342747" width="160.2602913049227" x="488.4206060496193" y="-365.31520811551275"/>
+              <y:Geometry height="605.1617564342747" width="160.2602913049227" x="503.4206060496192" y="-323.2990808759612"/>
               <y:Fill color="#FFFFFFE6" color2="#D4D4D4CC" transparent="false"/>
               <y:BorderStyle color="#123EA2" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="50.67578125" x="54.79225502746135" xml:space="preserve" y="4.0">Memoire</y:NodeLabel>
@@ -429,11 +356,11 @@ createHTML ()<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:Mod
           </y:Realizers>
         </y:ProxyAutoBoundsNode>
       </data>
-      <graph edgedefault="directed" id="n7:">
-        <node id="n7::n0">
+      <graph edgedefault="directed" id="n5:">
+        <node id="n5::n0">
           <data key="d6">
             <y:SVGNode>
-              <y:Geometry height="46.887996673583984" width="39.527000427246094" x="548.7872514884575" y="-298.1491096398047"/>
+              <y:Geometry height="46.887996673583984" width="39.527000427246094" x="563.7872514884574" y="-256.1329824002531"/>
               <y:Fill color="#CCCCFF" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="113.39453125" x="-36.93376541137695" xml:space="preserve" y="-33.464926600708054">localStorage.eGuitar<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.5" nodeRatioX="0.0" nodeRatioY="-0.5" offsetX="0.0" offsetY="-14.763754725708054" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
@@ -444,10 +371,10 @@ createHTML ()<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:Mod
             </y:SVGNode>
           </data>
         </node>
-        <node id="n7::n1">
+        <node id="n5::n1">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-              <y:Geometry height="27.023999999999944" width="130.26029130492236" x="503.42060604961955" y="141.95602530634582"/>
+              <y:Geometry height="27.023999999999944" width="130.26029130492236" x="518.4206060496194" y="183.9721525458974"/>
               <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="29.34765625" x="50.45631752746124" xml:space="preserve" y="4.0">tonic</y:NodeLabel>
@@ -465,10 +392,10 @@ createHTML ()<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:Mod
             </y:GenericNode>
           </data>
         </node>
-        <node id="n7::n2">
+        <node id="n5::n2">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-              <y:Geometry height="27.023999999999944" width="130.26029130492236" x="503.42060604961955" y="30.075001066896874"/>
+              <y:Geometry height="27.023999999999944" width="130.26029130492236" x="518.4206060496194" y="72.09112830644844"/>
               <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="45.35546875" x="42.45241127746124" xml:space="preserve" y="4.0">octaves</y:NodeLabel>
@@ -486,10 +413,10 @@ createHTML ()<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:Mod
             </y:GenericNode>
           </data>
         </node>
-        <node id="n7::n3">
+        <node id="n5::n3">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-              <y:Geometry height="27.023999999999944" width="130.26029130492236" x="503.42060604961955" y="-7.3837932820850085"/>
+              <y:Geometry height="27.023999999999944" width="130.26029130492236" x="518.4206060496194" y="34.63233395746656"/>
               <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="50.6875" x="39.78639565246124" xml:space="preserve" y="4.0">numbers</y:NodeLabel>
@@ -507,10 +434,10 @@ createHTML ()<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:Mod
             </y:GenericNode>
           </data>
         </node>
-        <node id="n7::n4">
+        <node id="n5::n4">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-              <y:Geometry height="27.023999999999944" width="130.26029130492236" x="503.42060604961955" y="-44.84258763106689"/>
+              <y:Geometry height="27.023999999999944" width="130.26029130492236" x="518.4206060496194" y="-2.826460391515326"/>
               <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="33.35546875" x="48.45241127746124" xml:space="preserve" y="4.0">notes</y:NodeLabel>
@@ -528,10 +455,10 @@ createHTML ()<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:Mod
             </y:GenericNode>
           </data>
         </node>
-        <node id="n7::n5">
+        <node id="n5::n5">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-              <y:Geometry height="27.023999999999944" width="130.26029130492248" x="503.4206060496193" y="-194.67776502699442"/>
+              <y:Geometry height="27.023999999999944" width="130.26029130492248" x="518.4206060496192" y="-152.66163778744286"/>
               <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="20.013671875" x="55.12330971496124" xml:space="preserve" y="4.0">la3</y:NodeLabel>
@@ -549,10 +476,10 @@ createHTML ()<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:Mod
             </y:GenericNode>
           </data>
         </node>
-        <node id="n7::n6">
+        <node id="n5::n6">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-              <y:Geometry height="27.023999999999944" width="130.26029130492236" x="503.42060604961955" y="104.74491036111229"/>
+              <y:Geometry height="27.023999999999944" width="130.26029130492236" x="518.4206060496194" y="146.76103760066385"/>
               <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="36.6953125" x="46.78248940246124" xml:space="preserve" y="4.0">sound</y:NodeLabel>
@@ -570,10 +497,10 @@ createHTML ()<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:Mod
             </y:GenericNode>
           </data>
         </node>
-        <node id="n7::n7">
+        <node id="n5::n7">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-              <y:Geometry height="27.023999999999944" width="130.26029130492248" x="503.42060604961955" y="179.16714025157935"/>
+              <y:Geometry height="27.023999999999944" width="130.26029130492248" x="518.4206060496194" y="221.18326749113092"/>
               <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="36.6953125" x="46.78248940246124" xml:space="preserve" y="4.0">tuning</y:NodeLabel>
@@ -591,10 +518,10 @@ createHTML ()<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:Mod
             </y:GenericNode>
           </data>
         </node>
-        <node id="n7::n8">
+        <node id="n5::n8">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-              <y:Geometry height="27.023999999999944" width="130.26029130492248" x="503.4206060496193" y="-82.30138198004877"/>
+              <y:Geometry height="27.023999999999944" width="130.26029130492248" x="518.4206060496192" y="-40.28525474049721"/>
               <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="46.703125" x="41.77858315246124" xml:space="preserve" y="4.0">notation</y:NodeLabel>
@@ -612,10 +539,10 @@ createHTML ()<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:Mod
             </y:GenericNode>
           </data>
         </node>
-        <node id="n7::n9">
+        <node id="n5::n9">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-              <y:Geometry height="27.023999999999944" width="130.26029130492248" x="503.4206060496193" y="-119.76017632903066"/>
+              <y:Geometry height="27.023999999999944" width="130.26029130492248" x="518.4206060496192" y="-77.74404908947909"/>
               <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="35.32421875" x="47.46803627746124" xml:space="preserve" y="4.0">mirror</y:NodeLabel>
@@ -633,10 +560,10 @@ createHTML ()<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:Mod
             </y:GenericNode>
           </data>
         </node>
-        <node id="n7::n10">
+        <node id="n5::n10">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-              <y:Geometry height="27.023999999999944" width="130.26029130492248" x="503.4206060496193" y="-157.21897067801254"/>
+              <y:Geometry height="27.023999999999944" width="130.26029130492248" x="518.4206060496192" y="-115.20284343846097"/>
               <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="60.05078125" x="35.10475502746124" xml:space="preserve" y="4.0">lefthanded</y:NodeLabel>
@@ -654,10 +581,10 @@ createHTML ()<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:Mod
             </y:GenericNode>
           </data>
         </node>
-        <node id="n7::n11">
+        <node id="n5::n11">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-              <y:Geometry height="27.023999999999944" width="130.26029130492248" x="503.4206060496193" y="-232.1365593759763"/>
+              <y:Geometry height="27.023999999999944" width="130.26029130492248" x="518.4206060496192" y="-190.12043213642474"/>
               <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#FFFF99" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="32.669921875" x="48.79518471496124" xml:space="preserve" y="4.0">mask</y:NodeLabel>
@@ -675,10 +602,10 @@ createHTML ()<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:Mod
             </y:GenericNode>
           </data>
         </node>
-        <node id="n7::n12">
+        <node id="n5::n12">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-              <y:Geometry height="27.023999999999944" width="130.26029130492236" x="503.42060604961955" y="67.53379541587876"/>
+              <y:Geometry height="27.023999999999944" width="130.26029130492236" x="518.4206060496194" y="109.54992265543032"/>
               <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#FFFF99" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="38.013671875" x="46.12330971496124" xml:space="preserve" y="4.0">scales</y:NodeLabel>
@@ -698,12 +625,12 @@ createHTML ()<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:Mod
         </node>
       </graph>
     </node>
-    <node id="n8" yfiles.foldertype="group">
+    <node id="n6" yfiles.foldertype="group">
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
             <y:GenericGroupNode configuration="com.yworks.bpmn.Activity.withShadow">
-              <y:Geometry height="256.5100118152394" width="141.53945559374597" x="1485.3200448333257" y="-399.8655617008079"/>
+              <y:Geometry height="256.5100118152394" width="141.53945559374597" x="1365.2410706549897" y="-399.8655617008079"/>
               <y:Fill color="#FFFFFFE6" color2="#D4D4D4CC" transparent="false"/>
               <y:BorderStyle color="#123EA2" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="50.6875" x="45.425977796872985" xml:space="preserve" y="4.0">Config.js</y:NodeLabel>
@@ -741,41 +668,41 @@ createHTML ()<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:Mod
           </y:Realizers>
         </y:ProxyAutoBoundsNode>
       </data>
-      <graph edgedefault="directed" id="n8:">
-        <node id="n8::n0">
+      <graph edgedefault="directed" id="n6:">
+        <node id="n6::n0">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.flowchart.internalStorage">
-              <y:Geometry height="35.549999999999955" width="90.08346423562398" x="1511.5553289946652" y="-213.61835476020747"/>
+              <y:Geometry height="35.549999999999955" width="90.08346423562398" x="1391.4763548163291" y="-213.61835476020747"/>
               <y:Fill color="#CCFFCC" color2="#99CC00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="br" textColor="#000000" verticalTextPosition="bottom" visible="true" width="52.03515625" x="34.04830798562398" xml:space="preserve" y="12.848828124999955">Arpeggio</y:NodeLabel>
             </y:GenericNode>
           </data>
         </node>
-        <node id="n8::n1">
+        <node id="n6::n1">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.flowchart.internalStorage">
-              <y:Geometry height="35.549999999999955" width="90.08346423562398" x="1511.5553289946652" y="-315.31571147060777"/>
+              <y:Geometry height="35.549999999999955" width="90.08346423562398" x="1391.4763548163291" y="-315.31571147060777"/>
               <y:Fill color="#CCFFCC" color2="#99CC00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="br" textColor="#000000" verticalTextPosition="bottom" visible="true" width="46.69140625" x="39.39205798562398" xml:space="preserve" y="12.848828124999955">Tunings</y:NodeLabel>
             </y:GenericNode>
           </data>
         </node>
-        <node id="n8::n2">
+        <node id="n6::n2">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.flowchart.internalStorage">
-              <y:Geometry height="35.549999999999955" width="90.08346423562398" x="1511.5553289946652" y="-264.4670331154076"/>
+              <y:Geometry height="35.549999999999955" width="90.08346423562398" x="1391.4763548163291" y="-264.4670331154076"/>
               <y:Fill color="#CCFFCC" color2="#99CC00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="br" textColor="#000000" verticalTextPosition="bottom" visible="true" width="40.017578125" x="46.06588611062398" xml:space="preserve" y="12.848828124999955">Scales</y:NodeLabel>
             </y:GenericNode>
           </data>
         </node>
-        <node id="n8::n3">
+        <node id="n6::n3">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.flowchart.internalStorage">
-              <y:Geometry height="35.549999999999955" width="90.08346423562398" x="1511.5553289946652" y="-366.1643898258079"/>
+              <y:Geometry height="35.549999999999955" width="90.08346423562398" x="1391.4763548163291" y="-366.1643898258079"/>
               <y:Fill color="#CCFFCC" color2="#99CC00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="br" textColor="#000000" verticalTextPosition="bottom" visible="true" width="54.6953125" x="31.38815173562398" xml:space="preserve" y="12.848828124999955">Notations</y:NodeLabel>
@@ -784,15 +711,15 @@ createHTML ()<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:Mod
         </node>
       </graph>
     </node>
-    <node id="n9" yfiles.foldertype="group">
+    <node id="n7" yfiles.foldertype="group">
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
             <y:GenericGroupNode configuration="com.yworks.bpmn.Activity.withShadow">
-              <y:Geometry height="663.5836687530996" width="191.95561095345363" x="740.4760944190308" y="-423.346796875"/>
+              <y:Geometry height="904.0224093850678" width="222.37253327359963" x="724.9109878695206" y="-622.1597338267543"/>
               <y:Fill color="#FFFFFFE6" color2="#D4D4D4CC" transparent="false"/>
               <y:BorderStyle color="#123EA2" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="38.6875" x="76.63405547672676" xml:space="preserve" y="4.0">Config</y:NodeLabel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="38.6875" x="91.84251663679981" xml:space="preserve" y="4.0">Config</y:NodeLabel>
               <y:StyleProperties>
                 <y:Property class="java.awt.Color" name="com.yworks.bpmn.icon.line.color" value="#000000"/>
                 <y:Property class="com.yworks.yfiles.bpmn.view.TaskTypeEnum" name="com.yworks.bpmn.taskType" value="TASK_TYPE_SERVICE"/>
@@ -804,7 +731,7 @@ createHTML ()<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:Mod
               </y:StyleProperties>
               <y:State autoResize="true" closed="false" closedHeight="55.0" closedWidth="85.0"/>
               <y:Insets bottom="15" bottomF="15.0" left="15" leftF="15.0" right="15" rightF="15.0" top="15" topF="15.0"/>
-              <y:BorderInsets bottom="19" bottomF="19.427044857873625" left="0" leftF="0.0" right="1" rightF="0.5651065495103467" top="6" topF="5.5994843749999745"/>
+              <y:BorderInsets bottom="2" bottomF="2.4865023625263802" left="0" leftF="0.0" right="0" rightF="0.0" top="6" topF="5.5994843749999745"/>
             </y:GenericGroupNode>
             <y:GenericGroupNode configuration="com.yworks.bpmn.Activity.withShadow">
               <y:Geometry height="663.5836687530996" width="191.6126046861542" x="766.5457984645122" y="-423.346796875"/>
@@ -827,14 +754,14 @@ createHTML ()<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:Mod
           </y:Realizers>
         </y:ProxyAutoBoundsNode>
       </data>
-      <graph edgedefault="directed" id="n9:">
-        <node id="n9::n0">
+      <graph edgedefault="directed" id="n7:">
+        <node id="n7::n0">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-              <y:Geometry height="115.02399999999997" width="161.39050440394328" x="755.4760944190308" y="-384.046140625"/>
+              <y:Geometry height="115.02399999999997" width="192.22434904423562" x="740.0591720988846" y="-447.3226206037125"/>
               <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="62.03125" x="49.6796272019717" xml:space="preserve" y="4.0">SpecialVar</y:NodeLabel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="62.03125" x="65.09654952211781" xml:space="preserve" y="4.0">SpecialVar</y:NodeLabel>
               <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="77.505859375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="152.0546875" x="2.0" xml:space="preserve" y="30.701171875">constructor ( mValue )
 setValue( mValue )
 getValue()
@@ -846,12 +773,12 @@ addSubscriber( fObserver ) <y:LabelModel><y:ErdAttributesNodeLabelModel/></y:Lab
             </y:GenericNode>
           </data>
         </node>
-        <node id="n9::n1" yfiles.foldertype="group">
+        <node id="n7::n1" yfiles.foldertype="group">
           <data key="d6">
             <y:ProxyAutoBoundsNode>
               <y:Realizers active="0">
                 <y:GenericGroupNode configuration="com.yworks.bpmn.Activity.withShadow">
-                  <y:Geometry height="412.76788348110136" width="160.2602913049226" x="756.0412009685411" y="-206.95805646087547"/>
+                  <y:Geometry height="412.76788348110136" width="160.2602913049226" x="756.0412009685411" y="-148.3917102853142"/>
                   <y:Fill color="#FFFFFFE6" color2="#D4D4D4CC" transparent="false"/>
                   <y:BorderStyle color="#123EA2" type="line" width="1.0"/>
                   <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="78.13014565246124" y="4.0"/>
@@ -889,11 +816,11 @@ addSubscriber( fObserver ) <y:LabelModel><y:ErdAttributesNodeLabelModel/></y:Lab
               </y:Realizers>
             </y:ProxyAutoBoundsNode>
           </data>
-          <graph edgedefault="directed" id="n9::n1:">
-            <node id="n9::n1::n0">
+          <graph edgedefault="directed" id="n7::n1:">
+            <node id="n7::n1::n0">
               <data key="d6">
                 <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-                  <y:Geometry height="27.023999999999944" width="130.26029130492248" x="771.0412009685411" y="-150.72081427337542"/>
+                  <y:Geometry height="27.023999999999944" width="130.26029130492248" x="771.0412009685411" y="-92.15446809781415"/>
                   <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
                   <y:BorderStyle color="#000000" type="line" width="1.0"/>
                   <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="60.05078125" x="35.10475502746124" xml:space="preserve" y="4.0">lefthanded</y:NodeLabel>
@@ -911,10 +838,10 @@ addSubscriber( fObserver ) <y:LabelModel><y:ErdAttributesNodeLabelModel/></y:Lab
                 </y:GenericNode>
               </data>
             </node>
-            <node id="n9::n1::n1">
+            <node id="n7::n1::n1">
               <data key="d6">
                 <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-                  <y:Geometry height="27.023999999999944" width="130.26029130492248" x="771.0412009685411" y="-113.48357208587538"/>
+                  <y:Geometry height="27.023999999999944" width="130.26029130492248" x="771.0412009685411" y="-54.9172259103141"/>
                   <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
                   <y:BorderStyle color="#000000" type="line" width="1.0"/>
                   <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="35.32421875" x="47.46803627746124" xml:space="preserve" y="4.0">mirror</y:NodeLabel>
@@ -932,10 +859,10 @@ addSubscriber( fObserver ) <y:LabelModel><y:ErdAttributesNodeLabelModel/></y:Lab
                 </y:GenericNode>
               </data>
             </node>
-            <node id="n9::n1::n2">
+            <node id="n7::n1::n2">
               <data key="d6">
                 <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-                  <y:Geometry height="27.023999999999944" width="130.26029130492248" x="771.0412009685411" y="-76.24632989837534"/>
+                  <y:Geometry height="27.023999999999944" width="130.26029130492248" x="771.0412009685411" y="-17.679983722814058"/>
                   <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
                   <y:BorderStyle color="#000000" type="line" width="1.0"/>
                   <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="46.703125" x="41.77858315246124" xml:space="preserve" y="4.0">notation</y:NodeLabel>
@@ -953,10 +880,10 @@ addSubscriber( fObserver ) <y:LabelModel><y:ErdAttributesNodeLabelModel/></y:Lab
                 </y:GenericNode>
               </data>
             </node>
-            <node id="n9::n1::n3">
+            <node id="n7::n1::n3">
               <data key="d6">
                 <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-                  <y:Geometry height="27.023999999999944" width="130.26029130492248" x="771.0412009685411" y="134.67694313189895"/>
+                  <y:Geometry height="27.023999999999944" width="130.26029130492248" x="771.0412009685411" y="193.24328930746023"/>
                   <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
                   <y:BorderStyle color="#000000" type="line" width="1.0"/>
                   <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="36.6953125" x="46.78248940246124" xml:space="preserve" y="4.0">tuning</y:NodeLabel>
@@ -974,13 +901,13 @@ addSubscriber( fObserver ) <y:LabelModel><y:ErdAttributesNodeLabelModel/></y:Lab
                 </y:GenericNode>
               </data>
             </node>
-            <node id="n9::n1::n4">
+            <node id="n7::n1::n4">
               <data key="d6">
                 <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-                  <y:Geometry height="27.023999999999944" width="130.26029130492236" x="771.0412009685414" y="65.20253079478925"/>
+                  <y:Geometry height="27.023999999999944" width="130.26029130492236" x="771.0412009685414" y="123.76887697035053"/>
                   <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
                   <y:BorderStyle color="#000000" type="line" width="1.0"/>
-                  <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="36.6953125" x="46.782489402461124" xml:space="preserve" y="4.0">sound</y:NodeLabel>
+                  <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="36.6953125" x="46.78248940246124" xml:space="preserve" y="4.0">sound</y:NodeLabel>
                   <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="2.0" y="30.701171875">
                     <y:LabelModel>
                       <y:ErdAttributesNodeLabelModel/>
@@ -995,10 +922,10 @@ addSubscriber( fObserver ) <y:LabelModel><y:ErdAttributesNodeLabelModel/></y:Lab
                 </y:GenericNode>
               </data>
             </node>
-            <node id="n9::n1::n5">
+            <node id="n7::n1::n5">
               <data key="d6">
                 <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-                  <y:Geometry height="27.023999999999944" width="130.26029130492248" x="771.0412009685413" y="-187.95805646087547"/>
+                  <y:Geometry height="27.023999999999944" width="130.26029130492248" x="771.0412009685413" y="-129.3917102853142"/>
                   <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
                   <y:BorderStyle color="#000000" type="line" width="1.0"/>
                   <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="20.013671875" x="55.12330971496124" xml:space="preserve" y="4.0">la3</y:NodeLabel>
@@ -1016,13 +943,13 @@ addSubscriber( fObserver ) <y:LabelModel><y:ErdAttributesNodeLabelModel/></y:Lab
                 </y:GenericNode>
               </data>
             </node>
-            <node id="n9::n1::n6">
+            <node id="n7::n1::n6">
               <data key="d6">
                 <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-                  <y:Geometry height="27.023999999999944" width="130.26029130492236" x="771.0412009685414" y="-39.00908771087529"/>
+                  <y:Geometry height="27.023999999999944" width="130.26029130492236" x="771.0412009685414" y="19.557258464685987"/>
                   <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
                   <y:BorderStyle color="#000000" type="line" width="1.0"/>
-                  <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="33.35546875" x="48.452411277461124" xml:space="preserve" y="4.0">notes</y:NodeLabel>
+                  <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="33.35546875" x="48.45241127746124" xml:space="preserve" y="4.0">notes</y:NodeLabel>
                   <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="2.0" y="30.701171875">
                     <y:LabelModel>
                       <y:ErdAttributesNodeLabelModel/>
@@ -1037,13 +964,13 @@ addSubscriber( fObserver ) <y:LabelModel><y:ErdAttributesNodeLabelModel/></y:Lab
                 </y:GenericNode>
               </data>
             </node>
-            <node id="n9::n1::n7">
+            <node id="n7::n1::n7">
               <data key="d6">
                 <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-                  <y:Geometry height="27.023999999999944" width="130.26029130492236" x="771.0412009685413" y="-4.271881542320443"/>
+                  <y:Geometry height="27.023999999999944" width="130.26029130492236" x="771.0412009685413" y="54.294464633240835"/>
                   <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
                   <y:BorderStyle color="#000000" type="line" width="1.0"/>
-                  <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="50.6875" x="39.78639565246124" xml:space="preserve" y="4.0">numbers</y:NodeLabel>
+                  <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="50.6875" x="39.786395652461124" xml:space="preserve" y="4.0">numbers</y:NodeLabel>
                   <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="2.0" y="30.701171875">
                     <y:LabelModel>
                       <y:ErdAttributesNodeLabelModel/>
@@ -1058,13 +985,13 @@ addSubscriber( fObserver ) <y:LabelModel><y:ErdAttributesNodeLabelModel/></y:Lab
                 </y:GenericNode>
               </data>
             </node>
-            <node id="n9::n1::n8">
+            <node id="n7::n1::n8">
               <data key="d6">
                 <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-                  <y:Geometry height="27.023999999999944" width="130.26029130492236" x="771.0412009685414" y="30.465324626234406"/>
+                  <y:Geometry height="27.023999999999944" width="130.26029130492236" x="771.0412009685414" y="89.03167080179568"/>
                   <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
                   <y:BorderStyle color="#000000" type="line" width="1.0"/>
-                  <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="45.35546875" x="42.452411277461124" xml:space="preserve" y="4.0">octaves</y:NodeLabel>
+                  <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="45.35546875" x="42.45241127746124" xml:space="preserve" y="4.0">octaves</y:NodeLabel>
                   <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="2.0" y="30.701171875">
                     <y:LabelModel>
                       <y:ErdAttributesNodeLabelModel/>
@@ -1079,13 +1006,13 @@ addSubscriber( fObserver ) <y:LabelModel><y:ErdAttributesNodeLabelModel/></y:Lab
                 </y:GenericNode>
               </data>
             </node>
-            <node id="n9::n1::n9">
+            <node id="n7::n1::n9">
               <data key="d6">
                 <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-                  <y:Geometry height="27.023999999999944" width="130.26029130492236" x="771.0412009685414" y="99.9397369633441"/>
+                  <y:Geometry height="27.023999999999944" width="130.26029130492236" x="771.0412009685414" y="158.50608313890538"/>
                   <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
                   <y:BorderStyle color="#000000" type="line" width="1.0"/>
-                  <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="29.34765625" x="50.456317527461124" xml:space="preserve" y="4.0">tonic</y:NodeLabel>
+                  <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="29.34765625" x="50.45631752746124" xml:space="preserve" y="4.0">tonic</y:NodeLabel>
                   <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="2.0" y="30.701171875">
                     <y:LabelModel>
                       <y:ErdAttributesNodeLabelModel/>
@@ -1102,13 +1029,50 @@ addSubscriber( fObserver ) <y:LabelModel><y:ErdAttributesNodeLabelModel/></y:Lab
             </node>
           </graph>
         </node>
-        <node id="n9::n2">
+        <node id="n7::n2">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-              <y:Geometry height="25.381633497326447" width="161.39050440394317" x="755.4760944190308" y="-250.34316529160094"/>
+              <y:Geometry height="25.381633497326447" width="192.37253327359963" x="739.9109878695206" y="-287.3959280516759"/>
               <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#99CCFF" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="tl" textColor="#000000" verticalTextPosition="bottom" visible="true" width="112.703125" x="4.0" xml:space="preserve" y="4.0">GlobalVars ( aVars )</y:NodeLabel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#99CCFF" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" textColor="#000000" verticalTextPosition="bottom" visible="true" width="112.703125" x="24.343689701971584" xml:space="preserve" y="2.6804616223264475">GlobalVars ( aVars )</y:NodeLabel>
+              <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="94.18626663679981" y="10.690816748663224">
+                <y:LabelModel>
+                  <y:ErdAttributesNodeLabelModel/>
+                </y:LabelModel>
+                <y:ModelParameter>
+                  <y:ErdAttributesNodeLabelModelParameter/>
+                </y:ModelParameter>
+              </y:NodeLabel>
+              <y:StyleProperties>
+                <y:Property class="java.lang.Boolean" name="y.view.ShadowNodePainter.SHADOW_PAINTING" value="true"/>
+              </y:StyleProperties>
+            </y:GenericNode>
+          </data>
+        </node>
+        <node id="n7::n3">
+          <data key="d6">
+            <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
+              <y:Geometry height="84.59999999999997" width="192.22434904423562" x="740.0591720988846" y="-582.8590775767543"/>
+              <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+              <y:BorderStyle color="#000000" type="line" width="1.0"/>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#99CCFF" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="tl" textColor="#000000" verticalTextPosition="bottom" visible="true" width="116.72265625" x="4.0" xml:space="preserve" y="4.0">Publishers( bDebug )</y:NodeLabel>
+              <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="48.103515625" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="180.712890625" x="2.0" xml:space="preserve" y="30.701171875">publish ( sTopic, mArg )
+subscribe ( sTopic, fFunc, sTitle )
+unsubscribe ( sToken )<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:ModelParameter><y:ErdAttributesNodeLabelModelParameter/></y:ModelParameter></y:NodeLabel>
+              <y:StyleProperties>
+                <y:Property class="java.lang.Boolean" name="y.view.ShadowNodePainter.SHADOW_PAINTING" value="true"/>
+              </y:StyleProperties>
+            </y:GenericNode>
+          </data>
+        </node>
+        <node id="n7::n4">
+          <data key="d6">
+            <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
+              <y:Geometry height="25.381633497326447" width="192.22434904423562" x="740.0591720988846" y="-322.53809107635743"/>
+              <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+              <y:BorderStyle color="#000000" type="line" width="1.0"/>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="100.064453125" x="46.07994795961781" xml:space="preserve" y="4.0">{ DefaultSettings }</y:NodeLabel>
               <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="2.0" y="30.701171875">
                 <y:LabelModel>
                   <y:ErdAttributesNodeLabelModel/>
@@ -1123,33 +1087,31 @@ addSubscriber( fObserver ) <y:LabelModel><y:ErdAttributesNodeLabelModel/></y:Lab
             </y:GenericNode>
           </data>
         </node>
+        <node id="n7::n5">
+          <data key="d6">
+            <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
+              <y:Geometry height="84.59999999999997" width="192.37253327359963" x="739.9109878695206" y="-252.25376502699444"/>
+              <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+              <y:BorderStyle color="#000000" type="line" width="1.0"/>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="tl" textColor="#000000" verticalTextPosition="bottom" visible="true" width="86.716796875" x="4.0" xml:space="preserve" y="4.0">notationCreator</y:NodeLabel>
+              <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="127.380859375" x="2.0" xml:space="preserve" y="30.701171875">getSequence ( sNote )
+getNoteName ( sNote )<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:ModelParameter><y:ErdAttributesNodeLabelModelParameter/></y:ModelParameter></y:NodeLabel>
+              <y:StyleProperties>
+                <y:Property class="java.lang.Boolean" name="y.view.ShadowNodePainter.SHADOW_PAINTING" value="true"/>
+              </y:StyleProperties>
+            </y:GenericNode>
+          </data>
+        </node>
       </graph>
     </node>
-    <edge id="e0" source="n4::n1" target="n9">
+    <edge id="e0" source="n7" target="n1">
       <data key="d8" xml:space="preserve"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="96.01715973265141" ty="-146.0973860444875">
-            <y:Point x="1111.9985599714587" y="-237.65234854293772"/>
-          </y:Path>
-          <y:LineStyle color="#000000" type="line" width="2.0"/>
-          <y:Arrows source="none" target="standard"/>
-          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="62.8046875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="114.73046875" x="-203.12947182021594" xml:space="preserve" y="2.890084598482531">&lt;.subscribe&gt;
-global 
-ou 
-local si dans oConfig<y:LabelModel><y:SmartEdgeLabelModel autoRotationEnabled="false" defaultAngle="0.0" defaultDistance="10.0"/></y:LabelModel><y:ModelParameter><y:SmartEdgeLabelModelParameter angle="0.0" distance="2.8900893914202155" distanceToCenter="false" position="left" ratio="0.5" segment="-1"/></y:ModelParameter><y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="absolute" angleRotationOnRightSide="co" distance="-1.0" frozen="true" placement="anywhere" side="anywhere" sideReference="relative_to_edge_flow"/></y:EdgeLabel>
-          <y:BendStyle smoothed="false"/>
-        </y:PolyLineEdge>
-      </data>
-    </edge>
-    <edge id="e1" source="n9" target="n3">
-      <data key="d8" xml:space="preserve"/>
-      <data key="d10">
-        <y:PolyLineEdge>
-          <y:Path sx="96.00264605876146" sy="-265.8985926601754" tx="-85.02172925376249" ty="8.381241716374461"/>
+          <y:Path sx="100.16631115405642" sy="-278.6196816268243" tx="-85.02172925376249" ty="8.381241716374461"/>
           <y:LineStyle color="#000000" type="line" width="3.0"/>
           <y:Arrows source="transparent_circle" target="crows_foot_many"/>
-          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="23.045779130993537" y="-32.00000291253184">
+          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="33.47876683669608" y="-31.99999176690403">
             <y:LabelModel>
               <y:SmartEdgeLabelModel autoRotationEnabled="false" defaultAngle="0.0" defaultDistance="10.0"/>
             </y:LabelModel>
@@ -1162,26 +1124,26 @@ local si dans oConfig<y:LabelModel><y:SmartEdgeLabelModel autoRotationEnabled="f
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e2" source="n9" target="n7">
+    <edge id="e1" source="n7" target="n5">
       <data key="d8" xml:space="preserve"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="-57.80635801174981" sy="48.337555689325704" tx="65.92445373745954" ty="19.516923089250888"/>
+          <y:Path sx="-83.06399346858586" sy="69.5407810887703" tx="80.16018579791933" ty="-79.88954538662625"/>
           <y:LineStyle color="#000000" type="line" width="2.0"/>
           <y:Arrows source="none" target="standard"/>
-          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="36.02734375" x="-71.02283523059202" xml:space="preserve" y="-22.131286911732047">global<y:LabelModel><y:SmartEdgeLabelModel autoRotationEnabled="false" defaultAngle="0.0" defaultDistance="10.0"/></y:LabelModel><y:ModelParameter><y:SmartEdgeLabelModelParameter angle="6.283185307179586" distance="12.780701391670053" distanceToCenter="true" position="right" ratio="0.6557932544400089" segment="-1"/></y:ModelParameter><y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="absolute" angleRotationOnRightSide="co" distance="-1.0" frozen="true" placement="anywhere" side="anywhere" sideReference="relative_to_edge_flow"/></y:EdgeLabel>
+          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="36.02734375" x="-50.98819219697464" xml:space="preserve" y="-22.131285435655286">global<y:LabelModel><y:SmartEdgeLabelModel autoRotationEnabled="false" defaultAngle="0.0" defaultDistance="10.0"/></y:LabelModel><y:ModelParameter><y:SmartEdgeLabelModelParameter angle="6.283185307179586" distance="12.780701391670053" distanceToCenter="true" position="right" ratio="0.6557932544400089" segment="-1"/></y:ModelParameter><y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="absolute" angleRotationOnRightSide="co" distance="-1.0" frozen="true" placement="anywhere" side="anywhere" sideReference="relative_to_edge_flow"/></y:EdgeLabel>
           <y:BendStyle smoothed="false"/>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e3" source="n8::n1" target="n4">
+    <edge id="e2" source="n6::n1" target="n2">
       <data key="d8" xml:space="preserve"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="-25.797098124773584" sy="8.0" tx="142.60349925212927" ty="-111.14115222045552"/>
+          <y:Path sx="-25.797098124773584" sy="8.0" tx="128.8999011847036" ty="-138.14497162917286"/>
           <y:LineStyle color="#99CC00" type="line" width="2.0"/>
           <y:Arrows source="none" target="t_shape"/>
-          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="-35.218946419546455" y="27.85222576864612">
+          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="-78.47984404298609" y="27.85222576864618">
             <y:LabelModel>
               <y:SmartEdgeLabelModel autoRotationEnabled="false" defaultAngle="0.0" defaultDistance="10.0"/>
             </y:LabelModel>
@@ -1194,16 +1156,16 @@ local si dans oConfig<y:LabelModel><y:SmartEdgeLabelModel autoRotationEnabled="f
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e4" source="n8::n2" target="n5">
+    <edge id="e3" source="n6::n2" target="n3">
       <data key="d8" xml:space="preserve"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="37.33808486828798" sy="-1.1419178183543295" tx="122.71125579044747" ty="-165.54608570221012">
-            <y:Point x="1813.5060129810465" y="-247.83395093376197"/>
+            <y:Point x="1692.0348354225093" y="-247.83395093376197"/>
           </y:Path>
           <y:LineStyle color="#99CC00" type="line" width="2.0"/>
           <y:Arrows source="none" target="t_shape"/>
-          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="189.95867710520974" y="-35.751038589027246">
+          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="188.6929787750339" y="-35.751038589027246">
             <y:LabelModel>
               <y:SmartEdgeLabelModel autoRotationEnabled="false" defaultAngle="0.0" defaultDistance="10.0"/>
             </y:LabelModel>
@@ -1216,16 +1178,16 @@ local si dans oConfig<y:LabelModel><y:SmartEdgeLabelModel autoRotationEnabled="f
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e5" source="n8::n0" target="n5">
+    <edge id="e4" source="n6::n0" target="n3">
       <data key="d8" xml:space="preserve"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="27.513312445078327" sy="-1.141917818354301" tx="116.65543916283764" ty="-164.33682527091693">
-            <y:Point x="1807.4501963534367" y="-196.9852725785618"/>
+            <y:Point x="1685.9790187948995" y="-196.9852725785618"/>
           </y:Path>
           <y:LineStyle color="#99CC00" type="line" width="2.0"/>
           <y:Arrows source="none" target="t_shape"/>
-          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="236.4762139848624" y="-3.5267466993682888">
+          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="235.0849924810127" y="-3.5267466993682888">
             <y:LabelModel>
               <y:SmartEdgeLabelModel autoRotationEnabled="false" defaultAngle="0.0" defaultDistance="10.0"/>
             </y:LabelModel>
@@ -1238,14 +1200,14 @@ local si dans oConfig<y:LabelModel><y:SmartEdgeLabelModel autoRotationEnabled="f
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e6" source="n1" target="n8">
+    <edge id="e5" source="n0" target="n6">
       <data key="d8" xml:space="preserve"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.45681079435166794" ty="-92.31756961912077"/>
           <y:LineStyle color="#99CCFF" type="line" width="2.0"/>
           <y:Arrows source="none" target="t_shape"/>
-          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="27.370516145788088" y="14.413520551851946">
+          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="27.370521459639804" y="14.413520551851946">
             <y:LabelModel>
               <y:SmartEdgeLabelModel autoRotationEnabled="false" defaultAngle="0.0" defaultDistance="10.0"/>
             </y:LabelModel>
@@ -1258,16 +1220,16 @@ local si dans oConfig<y:LabelModel><y:SmartEdgeLabelModel autoRotationEnabled="f
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e7" source="n1" target="n4">
+    <edge id="e6" source="n0" target="n2">
       <data key="d8" xml:space="preserve"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="2.1218241216404863" tx="57.74368463781457" ty="-245.64315000094433">
-            <y:Point x="1384.492094570412" y="-467.4559801263367"/>
+          <y:Path sx="0.0" sy="2.1218241216404863" tx="105.31627146772234" ty="-213.13427855479097">
+            <y:Point x="1266.0858558490559" y="-467.4559801263367"/>
           </y:Path>
           <y:LineStyle color="#99CCFF" type="line" width="2.0"/>
           <y:Arrows source="none" target="t_shape"/>
-          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="-56.387911347102545" y="28.000013526007024">
+          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="-55.56899435944888" y="28.000013526007024">
             <y:LabelModel>
               <y:SmartEdgeLabelModel autoRotationEnabled="false" defaultAngle="0.0" defaultDistance="10.0"/>
             </y:LabelModel>
@@ -1280,16 +1242,16 @@ local si dans oConfig<y:LabelModel><y:SmartEdgeLabelModel autoRotationEnabled="f
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e8" source="n0" target="n4">
+    <edge id="e7" source="n7::n3" target="n2">
       <data key="d8" xml:space="preserve"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="-46.45562384715163" ty="-87.72705836360029">
-            <y:Point x="1280.2927860854459" y="-540.5590775767544"/>
+          <y:Path sx="0.0" sy="0.0" tx="78.28768774184823" ty="-219.5620140264893">
+            <y:Point x="1239.0572721231817" y="-540.5590775767544"/>
           </y:Path>
           <y:LineStyle color="#000000" type="dashed" width="3.0"/>
           <y:Arrows source="none" target="standard"/>
-          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="175.52240654397065" y="-31.999995545504362">
+          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="154.85136587143234" y="-31.999995545504476">
             <y:LabelModel>
               <y:SmartEdgeLabelModel autoRotationEnabled="false" defaultAngle="0.0" defaultDistance="10.0"/>
             </y:LabelModel>
@@ -1302,16 +1264,16 @@ local si dans oConfig<y:LabelModel><y:SmartEdgeLabelModel autoRotationEnabled="f
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e9" source="n1" target="n5">
+    <edge id="e8" source="n0" target="n3">
       <data key="d8" xml:space="preserve"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="2.1218241216404863" tx="166.07297841889203" ty="-150.83505243234242">
-            <y:Point x="1856.867735609491" y="-467.4559801263367"/>
+            <y:Point x="1735.396558050954" y="-467.4559801263367"/>
           </y:Path>
           <y:LineStyle color="#99CCFF" type="line" width="2.0"/>
           <y:Arrows source="none" target="t_shape"/>
-          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="116.50058090890639" y="-31.999986473992976">
+          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="115.83842007953217" y="-31.999986473992976">
             <y:LabelModel>
               <y:SmartEdgeLabelModel autoRotationEnabled="false" defaultAngle="0.0" defaultDistance="10.0"/>
             </y:LabelModel>
@@ -1324,19 +1286,19 @@ local si dans oConfig<y:LabelModel><y:SmartEdgeLabelModel autoRotationEnabled="f
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e10" source="n8::n3" target="n9::n1::n2">
+    <edge id="e9" source="n6::n3" target="n7::n1::n2">
       <data key="d8" xml:space="preserve"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
-            <y:Point x="1970.459851607584" y="-348.38938982580794"/>
-            <y:Point x="1970.459851607584" y="325.24341302555695"/>
-            <y:Point x="1029.9816982687544" y="325.24341302555695"/>
-            <y:Point x="1029.9816982687544" y="-62.734329898375364"/>
+            <y:Point x="1818.0329648151312" y="-348.38938982580794"/>
+            <y:Point x="1818.0329648151312" y="325.24341302555695"/>
+            <y:Point x="981.2050944951695" y="325.24341302555695"/>
+            <y:Point x="981.2050944951695" y="-4.1679837228140855"/>
           </y:Path>
           <y:LineStyle color="#99CC00" type="line" width="2.0"/>
           <y:Arrows source="none" target="t_shape"/>
-          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="182.41333609081153" y="-31.99998552893294">
+          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="166.24353548822955" y="-31.99998552893294">
             <y:LabelModel>
               <y:SmartEdgeLabelModel autoRotationEnabled="false" defaultAngle="0.0" defaultDistance="10.0"/>
             </y:LabelModel>
@@ -1349,14 +1311,14 @@ local si dans oConfig<y:LabelModel><y:SmartEdgeLabelModel autoRotationEnabled="f
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e11" source="n9" target="n5::n2">
+    <edge id="e10" source="n7" target="n3::n2">
       <data key="d8" xml:space="preserve"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="96.00332444284027" sy="299.7040776727704" tx="-147.90543818478363" ty="16.858798344203677"/>
+          <y:Path sx="99.14086813518861" sy="378.29764430854055" tx="-147.90543818478363" ty="16.858798344203677"/>
           <y:LineStyle color="#000000" type="line" width="3.0"/>
           <y:Arrows source="transparent_circle" target="crows_foot_many"/>
-          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="158.09124573243025" y="-31.999993712398663">
+          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="121.23523701410932" y="-31.999993712398663">
             <y:LabelModel>
               <y:SmartEdgeLabelModel autoRotationEnabled="false" defaultAngle="0.0" defaultDistance="10.0"/>
             </y:LabelModel>
@@ -1369,14 +1331,14 @@ local si dans oConfig<y:LabelModel><y:SmartEdgeLabelModel autoRotationEnabled="f
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e12" source="n5::n3" target="n9">
+    <edge id="e11" source="n3::n3" target="n7">
       <data key="d8" xml:space="preserve"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="-128.95475822783055" sy="26.639624301685814" tx="96.0006478647465" ty="192.40532369556058"/>
+          <y:Path sx="-128.95475822783055" sy="26.639624301685814" tx="82.12577379556603" ty="270.99889033133076"/>
           <y:LineStyle color="#000000" type="line" width="3.0"/>
           <y:Arrows source="crows_foot_many" target="transparent_circle"/>
-          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="-422.92275793450426" y="28.105387681091514">
+          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="-322.84681800605904" y="28.105387681091543">
             <y:LabelModel>
               <y:SmartEdgeLabelModel autoRotationEnabled="false" defaultAngle="0.0" defaultDistance="10.0"/>
             </y:LabelModel>
@@ -1389,16 +1351,16 @@ local si dans oConfig<y:LabelModel><y:SmartEdgeLabelModel autoRotationEnabled="f
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e13" source="n0" target="n3">
+    <edge id="e12" source="n7::n3" target="n1">
       <data key="d8" xml:space="preserve"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
-            <y:Point x="1075.3748569294362" y="-540.5590775767544"/>
+            <y:Point x="1110.9915556327055" y="-540.5590775767544"/>
           </y:Path>
           <y:LineStyle color="#000000" type="dashed" width="3.0"/>
           <y:Arrows source="none" target="standard"/>
-          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="73.06179401674694" y="-31.999995545504362">
+          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="90.8529314543191" y="-31.999995545504362">
             <y:LabelModel>
               <y:SmartEdgeLabelModel autoRotationEnabled="false" defaultAngle="0.0" defaultDistance="10.0"/>
             </y:LabelModel>
@@ -1411,28 +1373,48 @@ local si dans oConfig<y:LabelModel><y:SmartEdgeLabelModel autoRotationEnabled="f
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e14" source="n0" target="n5">
+    <edge id="e13" source="n7::n3" target="n3">
       <data key="d8" xml:space="preserve"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="185.45853383060853" ty="-179.3453025175803">
-            <y:Point x="1876.2532910212076" y="-540.5590775767544"/>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
+            <y:Point x="1569.3235796320619" y="-540.5590775767544"/>
           </y:Path>
           <y:LineStyle color="#000000" type="dashed" width="3.0"/>
           <y:Arrows source="none" target="standard"/>
-          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="59.376953125" x="102.521459851695" xml:space="preserve" y="-23.621941483004548">&lt;.publish&gt;<y:LabelModel><y:SmartEdgeLabelModel autoRotationEnabled="false" defaultAngle="0.0" defaultDistance="10.0"/></y:LabelModel><y:ModelParameter><y:SmartEdgeLabelModelParameter angle="6.283185307179586" distance="14.271360000000215" distanceToCenter="true" position="left" ratio="0.1072848274510095" segment="0"/></y:ModelParameter><y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="absolute" angleRotationOnRightSide="co" distance="-1.0" frozen="true" placement="anywhere" side="anywhere" sideReference="relative_to_edge_flow"/></y:EdgeLabel>
+          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="59.376953125" x="69.66128431165987" xml:space="preserve" y="-23.621941483004548">&lt;.publish&gt;<y:LabelModel><y:SmartEdgeLabelModel autoRotationEnabled="false" defaultAngle="0.0" defaultDistance="10.0"/></y:LabelModel><y:ModelParameter><y:SmartEdgeLabelModelParameter angle="6.283185307179586" distance="14.271360000000215" distanceToCenter="true" position="left" ratio="0.1072848274510095" segment="0"/></y:ModelParameter><y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="absolute" angleRotationOnRightSide="co" distance="-1.0" frozen="true" placement="anywhere" side="anywhere" sideReference="relative_to_edge_flow"/></y:EdgeLabel>
           <y:BendStyle smoothed="false"/>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e15" source="n9::n0" target="n0">
+    <edge id="n7::e0" source="n7::n0" target="n7::n3">
       <data key="d8" xml:space="preserve"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="45.726653378997526" sy="-46.929859375000035" tx="45.726653378997526" ty="9.495077576754284"/>
+          <y:Path sx="13.882407718619675" sy="-15.788175786206523" tx="13.882407718619675" ty="11.204407482415263"/>
           <y:LineStyle color="#000000" type="dashed" width="3.0"/>
           <y:Arrows source="none" target="standard"/>
-          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="-32.00001025390634" y="-59.10756515556466">
+          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="-32.00001763303419" y="-27.46675241054595">
+            <y:LabelModel>
+              <y:SmartEdgeLabelModel autoRotationEnabled="false" defaultAngle="0.0" defaultDistance="10.0"/>
+            </y:LabelModel>
+            <y:ModelParameter>
+              <y:SmartEdgeLabelModelParameter angle="0.0" distance="30.0" distanceToCenter="true" position="left" ratio="0.5" segment="0"/>
+            </y:ModelParameter>
+            <y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="absolute" angleRotationOnRightSide="co" distance="-1.0" frozen="true" placement="anywhere" side="anywhere" sideReference="relative_to_edge_flow"/>
+          </y:EdgeLabel>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e14" source="n7" target="n2">
+      <data key="d8" xml:space="preserve"/>
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="-14.508985607749764" ty="-18.75278929278545"/>
+          <y:LineStyle color="#000000" type="line" width="3.0"/>
+          <y:Arrows source="transparent_circle" target="transparent_circle"/>
+          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="33.43939916091483" y="-32.00000008148601">
             <y:LabelModel>
               <y:SmartEdgeLabelModel autoRotationEnabled="false" defaultAngle="0.0" defaultDistance="10.0"/>
             </y:LabelModel>
