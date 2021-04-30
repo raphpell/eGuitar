@@ -18,7 +18,7 @@ var g = null
 	if( ! Math.ceil10 ) Math.ceil10 =function( value, exp ){ return decimalAdjust('ceil', value, exp)}
 })();
 
-var tone = function( sNoteOctave ){
+var tone = function( sNoteOctave, nFreqLa ){
 	let oIndex = {
 		'C':0,
 		'C#':1,'C♯':1,'Db':1,'D♭':1,
@@ -53,19 +53,17 @@ var tone = function( sNoteOctave ){
 		}
 	let nIndex = oIndex[ sNote ] - 9
 	let n = nIndex + 12 * ( nOctave - 3 )
-	return Math.round10( GlobalVars.la3.getValue() * Math.pow( Math.pow( 2, 1/12 ), n ), -2 )
+	return Math.round10( nFreqLa * Math.pow( Math.pow( 2, 1/12 ), n ), -2 )
 	}
 
 //Primary function
-playTone = (frequency, type ) => {
+playTone = ( sNoteOctave, nFreqLa ) => {
 	if( ! context ) context = new AudioContext()
-	if( frequency === undefined ) frequency = 440
-	if( type === undefined ) type = "sine"
 	o = context.createOscillator()
 	g = context.createGain()
 	o.connect(g)
-	o.type = type
-	o.frequency.value = tone( frequency )
+	o.type = "sine"
+	o.frequency.value = tone( sNoteOctave, nFreqLa )
 	g.connect( context.destination )
 	g.gain.setValueAtTime( g.gain.value, context.currentTime )
 	g.gain.linearRampToValueAtTime( 0.0001, context.currentTime + 1.000 )

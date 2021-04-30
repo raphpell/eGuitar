@@ -117,6 +117,13 @@ getConfig =( function (){
 	// Etend les variables spéciales 'notation'
 	// -> notationCreator.call( AugmentedObject )
 	let notationCreator = function(){
+		const Notations ={
+			'♯':{	FR:['La',	'La♯',	'Si',	'Do',	'Do♯',	'Ré',	'Ré♯',	'Mi',	'Fa',	'Fa♯',	'Sol',	'Sol♯'],
+					EN:['A',	'A♯',	'B',	'C',	'C♯',	'D',	'D♯',	'E',	'F',	'F♯',	'G',	'G♯']},
+			'♭':{	FR:['La',	'Si♭',	'Si',	'Do',	'Ré♭',	'Ré',	'Mi♭',	'Mi',	'Fa',	'Sol♭',	'Sol',	'La♭'],
+					EN:['A',	'B♭',	'B',	'C',	'D♭',	'D',	'E♭',	'E',	'F',	'G♭',	'G',	'A♭']}
+			}
+	
 		this.getSequence =function( sNote ){
 			var a = this.getValue()
 			if( ! sNote ){
@@ -447,7 +454,7 @@ class Manche {
 			e.classList.add( sClassName )
 			let sNote = e.innerHTML, sOctave = e.octave
 			e.onmouseover = function(){
-				if( that.Config.sound.getValue()) playTone( sNote+sOctave )
+				if( that.Config.sound.getValue()) playTone( sNote+sOctave, that.Config.la3.getValue() )
 				}
 			})
 		}
