@@ -312,13 +312,13 @@ code {
 .case17 .incrustation,
 .case19 .incrustation,
 .case21 .incrustation {
-	background: url(../sprites/default.png) no-repeat -30px -10px;
+	background: url(../sprites/default.png) no-repeat -30px center;
 	height: inherit;
 	width: 70px;
 	}
 .case12 .incrustation ,
 .case24 .incrustation {
-	background: url(../sprites/default.png) no-repeat -110px -10px;
+	background: url(../sprites/default.png) no-repeat -110px center;
 	height: inherit;
 	width: 70px;
 	}
