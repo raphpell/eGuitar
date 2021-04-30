@@ -179,7 +179,7 @@ GlobalVars([
 
 class Manche {
 	constructor ( sNodeID, oConfig ){
-		this.ID = Manche.ID++
+		this.ID = ++Manche.ID
 		let that = this
 		let o = this.Config = Manche.getDefaultSettings( oConfig )
 
