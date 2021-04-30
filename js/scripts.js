@@ -87,7 +87,7 @@ let Publishers = function(){
 		}
 	return o
 	}
-Publishers.bConsole = true
+Publishers.bConsole = 0
 
 // Etend les variables spéciales 'notation'
 // -> notationCreator.call( AugmentedObject )
