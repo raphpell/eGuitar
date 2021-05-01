@@ -40,44 +40,24 @@ eHead.firstChild.onclick = function(){
 	if( confirm( L10n('DELETE_PREF'))) Memoire.clear()
 	}
 
-
-var oManche = new Manche( "eTarget", {
+var oConfig = Config({
 	config: 1,
 //	tonic:'Ré',
 //	mask:'101011010101'
 	})
 
-var oHF = new HarmonieForm ( oManche.Config )
+var oManche = new Manche( "eTarget", oConfig )
+
+var oHF = new HarmonieForm ( oConfig )
 eTarget.appendChild( oHF.eHTML )
 
-var oIB = new IntervalBox( oManche.Config )
+var oIB = new IntervalBox( oConfig )
 eTarget.appendChild( oIB.eHTML )
 
-
-var oHT = new HarmonieTable ( oManche.Config )
+var oHT = new HarmonieTable ( oConfig )
 eTarget.appendChild( oHT.eHTML )
 oHT.displayChords()
 
-
-/* Test instance multiple 
-var o2 = new Manche( "eTarget2" ,{
- 	config: 0,
-//	notation: [1,'FR'],
-//	lefthanded:1,
-//	mirror:1,
-//	tuning:1,
-	notes:1,
-	octaves:1,
-//	numbers:1,
-//	sound:1,
-	tonic:'Ré',
-	mask:'101011010101'
-	})
-
-// Test couplage IntervalBox 
-var oIB2 = new IntervalBox( o2 )
-eTarget2.insertBefore( oIB2.eHTML, eTarget2.firstChild )
-*/
 </script>
 
 </body>

@@ -46,9 +46,9 @@ Events ={
 /*=== VARIABLES SPECIALES ====*/
 /*============================*/
 // Décision de rendre une var local ou global si elle est définie ou non
-getConfig =( function (){
+Config =( function (){
 	// Pattern Publishers/Subscribers
-	let Publishers = function(){
+	function Publishers (){
 		let o = {}
 		let oTopics = {}
 		let nID = -1
@@ -116,14 +116,13 @@ getConfig =( function (){
 
 	// Etend les variables spéciales 'notation'
 	// -> notationCreator.call( AugmentedObject )
-	let notationCreator = function(){
+	function notationCreator (){
 		const Notations ={
 			'♯':{	FR:['La',	'La♯',	'Si',	'Do',	'Do♯',	'Ré',	'Ré♯',	'Mi',	'Fa',	'Fa♯',	'Sol',	'Sol♯'],
 					EN:['A',	'A♯',	'B',	'C',	'C♯',	'D',	'D♯',	'E',	'F',	'F♯',	'G',	'G♯']},
 			'♭':{	FR:['La',	'Si♭',	'Si',	'Do',	'Ré♭',	'Ré',	'Mi♭',	'Mi',	'Fa',	'Sol♭',	'Sol',	'La♭'],
 					EN:['A',	'B♭',	'B',	'C',	'D♭',	'D',	'E♭',	'E',	'F',	'G♭',	'G',	'A♭']}
 			}
-	
 		this.getSequence =function( sNote ){
 			var a = this.getValue()
 			if( ! sNote ){
@@ -220,7 +219,7 @@ class Manche {
 	constructor ( sNodeID, oConfig ){
 		this.ID = ++Manche.ID
 		let that = this
-		let o = this.Config = getConfig( oConfig )
+		let o = this.Config = oConfig || Config()
 
 		this.aFrequences = [0,0,0,0,0,0] // Ecarts accordage standard E en ton (+grave à +aigue)
 		var eParent = document.getElementById( sNodeID )
