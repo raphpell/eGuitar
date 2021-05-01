@@ -62,50 +62,46 @@ playTone =(function(){
 	//Create Audio Context
 	var AudioContext = window.AudioContext || window.webkitAudioContext
 	let context = new AudioContext()
+	
+
+	function genererCourbeDistortion(amount) {
+		var k = typeof amount === 'number' ? amount : 50,
+		n_samples = 44100,
+		curve = new Float32Array(n_samples),
+		deg = Math.PI / 180,
+		i = 0,
+		x;
+		for ( ; i < n_samples; ++i ) {
+			x = i * 2 / n_samples - 1;
+			curve[i] = ( 3 + k ) * x * 20 * deg / ( Math.PI + k * Math.abs(x) );
+		}
+		return curve;
+	}
 
 	return ( sNoteOctave, nFreqLa ) => {
 		let o = context.createOscillator()
 		let g = context.createGain()
-		o.connect(g)
+		let d = context.createWaveShaper()
+	//	let fn = context.createBiquadFilter()
+		
+		g.gain.value = .5
+		d.curve = genererCourbeDistortion()
+		
 		o.type = "sine"
 		o.frequency.value = tone( sNoteOctave, nFreqLa )
+		
+	
+		o.connect(d)
+		d.connect(g)
+	//	fn.connect(g)
 		g.connect( context.destination )
-		g.gain.setValueAtTime( g.gain.value, context.currentTime )
-		g.gain.linearRampToValueAtTime( 0.0001, context.currentTime + 1.000 )
-		g.gain.setValueAtTime( g.gain.value, context.currentTime + .250 )
+
+		g.gain.exponentialRampToValueAtTime( 0.0001, context.currentTime + 2.000 )
+		g.gain.setValueAtTime( g.gain.value, context.currentTime + .2 )
+		g.gain.setValueAtTime( g.gain.value, context.currentTime + .4 )
+		g.gain.setValueAtTime( g.gain.value, context.currentTime + .6)
+		g.gain.setValueAtTime( g.gain.value, context.currentTime + .8)
+		g.gain.setValueAtTime( g.gain.value, context.currentTime + 1)
 		o.start(0)
 		}
 	})()
-
-
-/* hallucinant
-//compressé
-with(new AudioContext)for(t=i=0;n=parseInt('l43l431db98643o86ogfdbdfdgfdzbdzgigikigfdbzbdv98db9864311480'[i++],36);)	with(createOscillator())frequency.value=880*2**(-~-n%20/12),connect(destination),start(t),stop(i>56?t+q*8:t+=n>20?q=6/13:q/2)
-
-
-// Packed notation string
-var sMusique = 'l43l431db98643o86ogfdbdfdgfdzbdzgigikigfdbzbdv98db9864311480'
-with(new AudioContext)            // use HTML5 audio
-  for(                            // iterate through the note pitches and lengths
-    t=i=0;                        // t = current time to place the note
-    n=parseInt(sMusique[i++],36);                // n = note pitch/length
-    )
-    with(createOscillator())      // create the note oscillator
-
-      // Set the note frequency (using Math.pow for the demo).
-      //frequency.value=880*2**(-~-n%20/12),
-      frequency.value=880*Math.pow(2,-~-n%20/12),
-
-      // Send the note's sound through the speakers (for the demo, we'll connect it to
-      // a gain node so we can reduce the volume).
-      //connect(destination),
-      connect((g=createGain(),g.gain.value=.3,g.connect(destination),g)),
-
-      start(t),                     // schedule the note to sound
-      stop(                         // schedule the end of the note
-        i>56?                       // if we are in the final chord
-          t+                        //   do not increment the time
-            q*8                     //   hard-code the length to a semibreve
-        :t+=n>20?q=6/13:q/2         // else update the length based on the note value
-      )
- */
