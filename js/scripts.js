@@ -236,21 +236,6 @@ class Manche {
 			this.e.getElementsByClassName('corde5'),
 			this.e.getElementsByClassName('corde6')
 			]
-		this.e.onclick= function( evt ){
-			let e = Events.element( evt )
-			if( e.nodeName != 'SPAN' ) return ;
-			let o = that.Config
-			let a = o.notation.getSequence( o.tonic.getValue())
-			for( let i=1, ni=a.length; i < ni; i++ ){
-				if( a[i] ==  e.innerHTML ){
-					let sMask = that.Config.mask.getValue()
-					let sToggle = sMask[i] == '0' ? '1' : '0'
-					sMask = sMask.substring( 0, i ) + sToggle + sMask.substring( i+1 )
-					that.Config.mask.setValue( sMask )
-					break;
-					}
-				}
-			}
 		this.createMenuHTML()
 		this.hideForm( o.config )
 
@@ -302,6 +287,31 @@ class Manche {
 		eParent.appendChild( e )
 		eParent.style.width = 30+ (nCases+1)*70 +'px'
 		eParent.style.height = nCordes*30 +'px'
+		
+		let o = this.Config
+		eParent.onclick = function( evt ){
+			let e = Events.element( evt )
+			if( e.nodeName != 'SPAN' ) return ;
+			let a = o.notation.getSequence( o.tonic.getValue())
+			for( let i=1, ni=a.length; i < ni; i++ ){
+				if( a[i] ==  e.innerHTML ){
+					let sMask = o.mask.getValue()
+					let sToggle = sMask[i] == '0' ? '1' : '0'
+					sMask = sMask.substring( 0, i ) + sToggle + sMask.substring( i+1 )
+					o.mask.setValue( sMask )
+					break;
+					}
+				}
+			}
+		let that = this
+		eParent.ontouchmove = eParent.onmouseover = function( evt ){
+			let e = Events.element( evt )
+			if( e.nodeName != 'SPAN' ) return ;
+			if( /ton/.test( e.className )){
+				let sNote = e.innerHTML, sOctave = e.octave
+				if( o.sound.getValue()) playTone( sNote+sOctave, o.la3.getValue() )
+				}
+			}
 		return eParent
 		}
 	createMenuHTML (){
@@ -447,14 +457,9 @@ class Manche {
 		if( e ) e.classList.add( sClassName )
 		}
 	highlightNotes ( sNote, sClassName ){
-		let that = this
 		this.getNotes( sNote ).forEach( e => {
 			e.className = e.className.replace( /ton\d+[^\s]*/gim, '' )
 			e.classList.add( sClassName )
-			let sNote = e.innerHTML, sOctave = e.octave
-			e.onmouseover = function(){
-				if( that.Config.sound.getValue()) playTone( sNote+sOctave, that.Config.la3.getValue() )
-				}
 			})
 		}
 	removeNote ( sNote ){
