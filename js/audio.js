@@ -1,7 +1,4 @@
-//Create Audio Context
-var AudioContext = window.AudioContext || window.webkitAudioContext
-var context = null
-
+// Utilitaire
 ;(function(){
 	function decimalAdjust ( type, value, exp ){
 		value = +value
@@ -16,7 +13,9 @@ var context = null
 	if( ! Math.ceil10 ) Math.ceil10 =function( value, exp ){ return decimalAdjust('ceil', value, exp)}
 })();
 
-var tone = function( sNoteOctave, nFreqLa ){
+// Retourne la fréquence d'une note
+var tone =(function(){
+	let cache = {}
 	let oIndex = {
 		'C':0,
 		'C#':1,'C♯':1,'Db':1,'D♭':1,
@@ -40,31 +39,40 @@ var tone = function( sNoteOctave, nFreqLa ){
 		'Fa':'F',
 		'Sol':'G'
 		}
-	let nOctave =  sNoteOctave.charAt( sNoteOctave.length-1 )
-	let sNote =  sNoteOctave.slice( 0, -1 )
-	if( oIndex[ sNote ] === undefined ){
-		var a = sNote.replace(/([^#♯b♭]*)([#♯b♭]*)/, function ( matched, m1, m2 ){ return [m1, m2]}).split(',')
-		sNote2 = oIndex2[ a[0]] + a[1]
-		if( oIndex[ sNote2 ] === undefined ) throw Error(`La note "${sNote2}" existe ?`)
-		oIndex[ sNote ] = oIndex[ sNote2 ]
-		sNote = sNote2
-		}
-	let nIndex = oIndex[ sNote ] - 9
-	let n = nIndex + 12 * ( nOctave - 3 )
-	return Math.round10( nFreqLa * Math.pow( Math.pow( 2, 1/12 ), n ), -2 )
-	}
 
-//Primary function
-playTone = ( sNoteOctave, nFreqLa ) => {
-	if( ! context ) context = new AudioContext()
-	let o = context.createOscillator()
-	let g = context.createGain()
-	o.connect(g)
-	o.type = "sine"
-	o.frequency.value = tone( sNoteOctave, nFreqLa )
-	g.connect( context.destination )
-	g.gain.setValueAtTime( g.gain.value, context.currentTime )
-	g.gain.linearRampToValueAtTime( 0.0001, context.currentTime + 1.000 )
-	g.gain.setValueAtTime( g.gain.value, context.currentTime + .250 )
-	o.start(0)
-	}
+	return ( sNoteOctave, nFreqLa ) => {
+		let sId = sNoteOctave + nFreqLa
+		if( cache[sId ]) return cache[ sId ]
+		let nOctave =  sNoteOctave.charAt( sNoteOctave.length-1 )
+		let sNote =  sNoteOctave.slice( 0, -1 )
+		if( oIndex[ sNote ] === undefined ){
+			var a = sNote.replace(/([^#♯b♭]*)([#♯b♭]*)/, function ( matched, m1, m2 ){ return [m1, m2]}).split(',')
+			sNote2 = oIndex2[ a[0]] + a[1]
+			if( oIndex[ sNote2 ] === undefined ) throw Error(`La note "${sNote2}" existe ?`)
+			sNote = sNote2
+			}
+		let nIndex = oIndex[ sNote ] - 9
+		let n = nIndex + 12 * ( nOctave - 3 )
+		return cache[sId] = Math.round10( nFreqLa * Math.pow( Math.pow( 2, 1/12 ), n ), -2 )
+		}
+	})()
+
+// Emet le son d'une note
+playTone =(function(){
+	//Create Audio Context
+	var AudioContext = window.AudioContext || window.webkitAudioContext
+	let context = new AudioContext()
+
+	return ( sNoteOctave, nFreqLa ) => {
+		let o = context.createOscillator()
+		let g = context.createGain()
+		o.connect(g)
+		o.type = "sine"
+		o.frequency.value = tone( sNoteOctave, nFreqLa )
+		g.connect( context.destination )
+		g.gain.setValueAtTime( g.gain.value, context.currentTime )
+		g.gain.linearRampToValueAtTime( 0.0001, context.currentTime + 1.000 )
+		g.gain.setValueAtTime( g.gain.value, context.currentTime + .250 )
+		o.start(0)
+		}
+	})()
