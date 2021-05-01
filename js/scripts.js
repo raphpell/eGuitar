@@ -289,9 +289,17 @@ class Manche {
 		eParent.style.height = nCordes*30 +'px'
 		
 		let o = this.Config
+		function playSound ( e ){
+			if( e.nodeName != 'SPAN' ) return ;
+			if( /ton/.test( e.className )){
+				let sNote = e.innerHTML, sOctave = e.octave
+				if( o.sound.getValue()) playTone( sNote+sOctave, o.la3.getValue() )
+				}
+			}
+			
 		eParent.onclick = function( evt ){
-			if( o.sound.getValue()) return ;
 			let e = Events.element( evt )
+			if( o.sound.getValue()) return playSound ( e )
 			if( e.nodeName != 'SPAN' ) return ;
 			let a = o.notation.getSequence( o.tonic.getValue())
 			for( let i=1, ni=a.length; i < ni; i++ ){
@@ -304,14 +312,8 @@ class Manche {
 					}
 				}
 			}
-		let that = this
 		eParent.onmouseover = function( evt ){
-			let e = Events.element( evt )
-			if( e.nodeName != 'SPAN' ) return ;
-			if( /ton/.test( e.className )){
-				let sNote = e.innerHTML, sOctave = e.octave
-				if( o.sound.getValue()) playTone( sNote+sOctave, o.la3.getValue() )
-				}
+			playSound( Events.element( evt ))
 			}
 		return eParent
 		}
