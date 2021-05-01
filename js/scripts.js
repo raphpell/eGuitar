@@ -290,6 +290,7 @@ class Manche {
 		
 		let o = this.Config
 		eParent.onclick = function( evt ){
+			if( o.sound.getValue()) return ;
 			let e = Events.element( evt )
 			if( e.nodeName != 'SPAN' ) return ;
 			let a = o.notation.getSequence( o.tonic.getValue())
