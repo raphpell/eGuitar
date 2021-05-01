@@ -304,7 +304,7 @@ class Manche {
 				}
 			}
 		let that = this
-		eParent.ontouchmove = eParent.onmouseover = function( evt ){
+		eParent.onmouseover = function( evt ){
 			let e = Events.element( evt )
 			if( e.nodeName != 'SPAN' ) return ;
 			if( /ton/.test( e.className )){
