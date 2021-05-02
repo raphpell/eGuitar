@@ -118,14 +118,14 @@
 
 /* cases du manche */
 .case {
-	background: url(../sprites/default.png) no-repeat -270px -10px;
+	background: url(../sprites/default.png) repeat-y -270px 0;
 	display: inline-block;
 	height: inherit;
 	position: relative;
 	width: 70px;
 	}
 .case0 {
-	background: url(../sprites/default.png) no-repeat -190px -10px;
+	background: url(../sprites/default.png) repeat-y -190px 0;
 	display: inline-block;
 	height: inherit;
 	position: relative;
@@ -179,6 +179,7 @@
 /* cordes */
 .corde {
 	background-image: url(../sprites/default.png);
+	background-position: -350px -150px;
 	background-repeat: no-repeat;
 	height: 30px;
 	width: 70px;
@@ -186,16 +187,16 @@
 	z-index: 3;
 	position: relative;
 	}
-.corde1 { background-position: -350px -10px; }
-.corde2 { background-position: -350px -40px; }
-.corde3 { background-position: -350px -70px; }
-.corde4 { background-position: -350px -100px; }
-.corde5 { background-position: -350px -130px; }
-.corde6 { background-position: -350px -160px; }
+.corde1 { background-position: -350px 0px; }
+.corde2 { background-position: -350px -30px; }
+.corde3 { background-position: -350px -60px; }
+.corde4 { background-position: -350px -90px; }
+.corde5 { background-position: -350px -120px; }
+.corde6 { background-position: -350px -150px; }
 
 /* frettes + numéros des cases */
 .frette {
-	background: url(../sprites/default.png) no-repeat -10px -10px;
+	background: url(../sprites/default.png) repeat-y -10px 0;
 	height: inherit;
 	left: 65px;
 	position: absolute;

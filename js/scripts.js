@@ -221,7 +221,7 @@ Config =( function (){
 
 class Manche {
 	constructor ( sNodeID, oConfig ){
-		this.stringsMax = 6
+		this.stringsMax = 10
 		this.ID = ++Manche.ID
 		let that = this
 		, o = this.Config = oConfig || Config()
@@ -475,7 +475,7 @@ class Manche {
 	map ( fFunction ){
 		let o = this.Config
 		for(let i=0, ni=o.strings.getValue(); i<ni; i++ )
-			for(let j=0, nj=o.cases; j<nj; j++ )
+			for(let j=0, nj=o.cases+1; j<nj; j++ )
 				fFunction( this.aCordes[i][j].firstChild, i, j )
 		}
 	removeNote ( sNote ){
