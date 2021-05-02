@@ -471,10 +471,9 @@ class Manche {
 	removeNote ( sNote ){
 		this.getNotes( sNote ).forEach( e => {
 			e.className = e.className.replace( /ton\d+[^\s]*/gim, '' )
-			e.onmouseover = null
 			})
 		}
-	renameNotes	(){
+	renameNotes (){
 		let a = this.Config.notation.getSequence('E')
 		let b = this.Config.octaves.getValue()
 		let that = this
@@ -490,7 +489,6 @@ class Manche {
 		for(var i=0, ni=a.length; i<ni; i++ ){
 			var e = a[i]
 			e.firstChild.className = e.firstChild.className.replace( /ton\d[^\s]*/gim, '' )
-			e.firstChild.onmouseover = null
 			e.className = e.className.replace( /position\d[^\s]*/gim, '' )
 			}
 		}
