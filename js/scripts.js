@@ -94,20 +94,20 @@ Config =( function (){
 	class SpecialVar {
 		constructor ( sName, mValue, oPublisher ){
 			this.id = sName
-			this.value = mValue
+			this.mValue = mValue
 			this.publisher = oPublisher
 			if( sName == 'notation' ) notationCreator.call( this )
 			}
-		setValue ( mValue ){
-			this.value = mValue
+		get value (){
+			return this.mValue
+			}
+		set value ( mValue ){
+			this.mValue = mValue
 			this.publisher.publish( this.id, mValue )
 			return mValue
 			}
-		getValue (){
-			return this.value
-			}
 		refresh (){
-			return this.setValue( this.getValue())
+			return this.value = this.value
 			}
 		addSubscriber ( sTitle, fObserver ){
 			return this.publisher.subscribe( this.id, fObserver, sTitle )
@@ -116,7 +116,7 @@ Config =( function (){
 
 	// Etend les variables spéciales 'notation'
 	// -> notationCreator.call( AugmentedObject )
-	notationCreator = ( function (){
+	let notationCreator = ( function (){
 		const cache = {}
 		const Notations ={
 			'♯':{	FR:['La',	'La♯',	'Si',	'Do',	'Do♯',	'Ré',	'Ré♯',	'Mi',	'Fa',	'Fa♯',	'Sol',	'Sol♯'],
@@ -126,7 +126,7 @@ Config =( function (){
 			}
 		return function (){
 			this.getSequence =function( sNote ){
-				var a = this.getValue()
+				var a = this.value
 				if( ! sNote ){
 					return Notations[ a[0]?'♭':'♯' ][ a[1]]
 				} else {
@@ -147,7 +147,7 @@ Config =( function (){
 					! sIndex1 && sNote.length == 1 || sIndex1 && sNote.length == 2 
 					? 'EN'
 					: 'FR'
-				if( ! sIndex1 ) sIndex1 = this.getValue()[0]?'♭':'♯'
+				if( ! sIndex1 ) sIndex1 = this.value[0]?'♭':'♯'
 
 				let a = Notations[sIndex1][sIndex2]
 				for(let i=0; i<12; i++ )
@@ -226,7 +226,7 @@ class Manche {
 		let that = this
 		, o = this.Config = oConfig || Config()
 		, eParent = document.getElementById( sNodeID )
-		, e = this.eHTML = eParent.appendChild( this.createHTML( o.strings.getValue(), o.cases ))
+		, e = this.eHTML = eParent.appendChild( this.createHTML( o.strings.value, o.cases ))
 		this.createMenuHTML()
 		this.hideForm( o.config )
 
@@ -254,7 +254,7 @@ class Manche {
 	createHTML ( nCordes, nCases ){
 		let o = this.Config
 		let e = Tag( 'DIV', 'manche' ), eCase, eCorde, eFrette
-		, nStrings = o.strings.getValue()
+		, nStrings = o.strings.value
 		, aStrings = Array( nStrings )
 		for(let i=0;i<nStrings; i++) aStrings[i]=[]
 		// manche
@@ -283,20 +283,20 @@ class Manche {
 			eParent = Tag( 'DIV', 'eGuitar' )
 			function playSound ( e ){
 				if( e.nodeName != 'SPAN' ) return ;
-				if( o.sound.getValue() && /ton/.test( e.className ))
-					playTone( e.note + e.octave, o.la3.getValue())
+				if( o.sound.value && /ton/.test( e.className ))
+					playTone( e.note + e.octave, o.la3.value)
 				}
 			eParent.onclick = function( evt ){
 				let e = Events.element( evt )
-				if( o.sound.getValue()) return playSound ( e )
+				if( o.sound.value) return playSound ( e )
 				if( e.nodeName != 'SPAN' ) return ;
-				let a = o.notation.getSequence( o.tonic.getValue())
+				let a = o.notation.getSequence( o.tonic.value)
 				for( let i=1, ni=a.length; i < ni; i++ ){
 					if( a[i] == e.note ){
-						let sMask = o.mask.getValue()
+						let sMask = o.mask.value
 						, sToggle = sMask[i] == '0' ? '1' : '0'
 						sMask = sMask.substring( 0, i ) + sToggle + sMask.substring( i+1 )
-						o.mask.setValue( sMask )
+						o.mask.value = sMask
 						break;
 						}
 					}
@@ -327,11 +327,11 @@ class Manche {
 		let eOption
 		eLabel.innerHTML = L10n('CORDES') +' : '
 		let eStrings = eLI.appendChild( Tag( 'SELECT' ))
-		eStrings.onkeyup = eStrings.onchange = function(){ o.strings.setValue( eStrings.value )}
+		eStrings.onkeyup = eStrings.onchange = function(){ o.strings.value = eStrings.value }
 		for(let i=4, ni=this.stringsMax+1; i<ni; i++ ){
 			eOption = Tag( 'OPTION' )
 			eOption.value = eOption.innerHTML = i
-			eOption.selected = i == o.strings.getValue()
+			eOption.selected = i == o.strings.value
 			eStrings.appendChild( eOption )
 			}
 		eUL.appendChild( eLI )
@@ -340,7 +340,7 @@ class Manche {
 		eLabel = eLI.appendChild( Tag( 'LABEL' ))
 		eLabel.innerHTML = L10n('ACCORDAGE') +' : '
 		let eAccordage = this.eTunings = eLI.appendChild( Tag( 'SELECT' ))
-		eAccordage.onkeyup = eAccordage.onchange = function(){ o.tuning.setValue( eAccordage.value )}
+		eAccordage.onkeyup = eAccordage.onchange = function(){ o.tuning.value = eAccordage.value }
 		this.setTunings()
 		eLabel.htmlFor = eAccordage.id =  'eAccordage'+ this.ID
 		eUL.appendChild( eLI )
@@ -366,20 +366,20 @@ class Manche {
 		cb.eUL = eUL
 		let e5 = this.eNotationI = cb( 'eNotationI',
 			L10n('ABCDEFG'),
-			o.notation.getValue()[1] == 'EN',
+			o.notation.value[1] == 'EN',
 			function(){ that.setNotation( e5.checked?'EN':'FR', e6.checked )}
 			)
 		, e6 = this.eBemol = cb( 'eBemol', L10n('BEMOL'),
-			o.notation.getValue()[0],
+			o.notation.value[0],
 			function(){ that.setNotation( e5.checked?'EN':'FR', e6.checked )}
 			)
 		, e2 = this.eFlipV = cb( 'eFlipV', L10n('MIROIR'),
 			false,
-			function(){ o.mirror.setValue( this.checked )}
+			function(){ o.mirror.value = this.checked }
 			)
 		, e3 = this.eOctave = cb( 'eOctaves', L10n('OCTAVES'),
 			false,
-			function(){ o.octaves.setValue( this.checked )}
+			function(){ o.octaves.value = this.checked }
 			)
 
 		eLI = Tag('LI')
@@ -391,8 +391,8 @@ class Manche {
 		eINPUT.step = 1
 		eINPUT.min = 400
 		eINPUT.max = 500
-		eINPUT.value = o.la3.getValue()
-		eINPUT.oninput=function(){ o.la3.setValue( this.value )}
+		eINPUT.value = o.la3.value
+		eINPUT.oninput=function(){ o.la3.value = this.value }
 		let eOUTPUT = Tag('OUTPUT')
 		eOUTPUT.innerHTML = eINPUT.value+'Hz'
 
@@ -413,22 +413,22 @@ class Manche {
 			)
 		this.eNotesName = cb( 'eNotesName', '', // L10n('NOTES'),
 			false,
-			function(){ o.notes.setValue( this.checked )},
+			function(){ o.notes.value = this.checked },
 			'notes'
 			)
 		this.eFretsNumber = cb( 'eFretsNumber', '', // L10n('NUMEROS'),
 			false,
-			function(){ o.numbers.setValue( this.checked )},
+			function(){ o.numbers.value = this.checked },
 			'numbers'
 			)
 		this.eSound = cb( 'eSound', '' ,
-			o.sound.getValue(),
-			function(){ o.sound.setValue( this.checked )},
+			o.sound.value,
+			function(){ o.sound.value = this.checked },
 			'sound'
 			)
 		this.eFlipH = cb( 'eFlipH', '', //L10n('GAUCHER'),
 			false,
-			function(){ o.lefthanded.setValue( this.checked )},
+			function(){ o.lefthanded.value = this.checked },
 			'lefthanded'
 			)
 		
@@ -474,7 +474,7 @@ class Manche {
 		}
 	map ( fFunction ){
 		let o = this.Config
-		for(let i=0, ni=o.strings.getValue(); i<ni; i++ )
+		for(let i=0, ni=o.strings.value; i<ni; i++ )
 			for(let j=0, nj=o.cases+1; j<nj; j++ )
 				fFunction( this.aCordes[i][j].firstChild, i, j )
 		}
@@ -485,7 +485,7 @@ class Manche {
 		}
 	renameNotes (){
 		let a = this.Config.notation.getSequence('E')
-		let b = this.Config.octaves.getValue()
+		let b = this.Config.octaves.value
 		let that = this
 		this.map((e,i,j)=>{
 			e.note = that.Config.notation.getNoteName( e.note )
@@ -518,18 +518,18 @@ class Manche {
 		this.eHTML.classList[ ! b ? 'add' : 'remove' ]( 'hideFretsNumber' )
 		}
 	setLeftHanded ( b ){
-		this.setFlip( b, this.Config.mirror.getValue())
+		this.setFlip( b, this.Config.mirror.value)
 		}
 	setMirror ( b ){
-		this.setFlip( this.Config.lefthanded.getValue(), b )
+		this.setFlip( this.Config.lefthanded.value, b )
 		}
 	setNotation	( sLang, bBemol ){
-		var a = this.Config.notation.getValue()
+		var a = this.Config.notation.value
 		bBemol = bBemol || false
 		if( a[0]==bBemol && a[1]==sLang ) return ;
 		this.eNotationI.checked = sLang == 'EN'
 		this.eBemol.checked = bBemol
-		this.Config.notation.setValue([bBemol,sLang])
+		this.Config.notation.value = [bBemol,sLang]
 		}
 	setNotesName ( b ){
 		this.eNotesName.checked = b
@@ -542,11 +542,11 @@ class Manche {
 		}
 	setScale ( sNote, sScaleMask ){
 		if( sNote ){
-			this.Config.tonic.setValue( sNote )
-			this.Config.mask.setValue( sScaleMask )
+			this.Config.tonic.value = sNote
+			this.Config.mask.value = sScaleMask
 		} else {
-			sNote = this.Config.tonic.getValue()
-			sScaleMask = this.Config.mask.getValue()
+			sNote = this.Config.tonic.value
+			sScaleMask = this.Config.mask.value
 			}
 		this.reset()
 		var a = this.Config.notation.getSequence( sNote )
@@ -563,7 +563,7 @@ class Manche {
 			}
 		}
 	setSound ( b ){
-		this.eSound.checked = this.Config.sound.getValue()
+		this.eSound.checked = this.Config.sound.value
 		}
 	setStrings ( n ){
 		let o = this.Config
@@ -573,9 +573,9 @@ class Manche {
 	setTuning ( sTuning ){
 		let o = this.Config
 		let sNoteC = o.notation.getNoteName('C')
-		let b = o.octaves.getValue()
+		let b = o.octaves.value
 		let aTuning = sTuning.split(',')
-		for(let i=0, ni=o.strings.getValue(); i<ni; i++ ){
+		for(let i=0, ni=o.strings.value; i<ni; i++ ){
 			aTuning[i] = { note:aTuning[i].slice(0,-1), octave:aTuning[i].slice(-1) }
 			let aNotes = o.notation.getSequence( aTuning[i].note )
 			for(let j=0, nj=o.cases; j<=nj; j++ ){
@@ -600,15 +600,15 @@ class Manche {
 		eSelect.innerHTML = ''
 		for(let a=Tunings, i=0, ni=a.length; i<ni; i++ ){
 			let sTuning = a[i][0]
-			if( sTuning.split(",").length == o.strings.getValue()){
+			if( sTuning.split(",").length == o.strings.value){
 				e = Tag( 'OPTION' )
 				e.value = sTuning
-				e.selected = sTuning == o.tuning.getValue()
+				e.selected = sTuning == o.tuning.value
 				e.innerHTML = a[i][1]
 				eSelect.appendChild( e )
 				}
 			}
-		o.tuning.setValue( eSelect.value )
+		o.tuning.value = eSelect.value
 		}
 	}
 Manche.ID = 0
@@ -621,7 +621,7 @@ class IntervalBox {
 
 		this.createHTML()
 		this.setNotes()
-		this.setValue( Config.mask.getValue())
+		this.setValue( Config.mask.value )
 
 		Config.tonic.addSubscriber( 'IntervalBox.setNotes', ()=> that.setNotes())
 		Config.notation.addSubscriber( 'IntervalBox.setNotes', ()=> that.setNotes())
@@ -658,7 +658,7 @@ class IntervalBox {
 	setNotes ( aNotes ){
 		if( ! aNotes ){
 			let o = this.Config
-			aNotes = o.notation.getSequence( o.tonic.getValue())
+			aNotes = o.notation.getSequence( o.tonic.value)
 			}
 		let aDIVs = this.eHTML.getElementsByTagName('DIV')
 		for(let i=0; i<12; i++ ){
@@ -683,7 +683,7 @@ class IntervalBox {
 				for(let i=0; i<12; i++ ){
 					sMask += aLIs[i].classList.contains( 'selected' ) ? 1 : 0
 					}
-				this.Config.mask.setValue( sMask )
+				this.Config.mask.value = sMask
 				return bAdded
 				}
 			}
@@ -715,7 +715,7 @@ Harmonie ={
 		},
 	searchMask :function( sMask ){
 		if( this.cache[sMask] ) return this.cache[sMask]
-		var sName = this.Config.tonic.getValue(), sFound
+		var sName = this.Config.tonic.value, sFound
 		for(var i=0, a=Arpeggio, ni=a.length; i<ni ; i++ ){
 			if( a[i][0] == sMask )
 				return this.cache[sMask] = a[i]
@@ -774,22 +774,22 @@ class HarmonieForm {
 			'eTonique',
 			L10n('TONIQUE'),
 			Config.notation.getSequence(),
-			Config.notation.getNoteName( Config.tonic.getValue() || 'A' ),
-			() => Config.tonic.setValue( eTonique.value )
+			Config.notation.getNoteName( Config.tonic.value || 'A' ),
+			() => Config.tonic.value = eTonique.value
 			)
 		, eScale = this.eScale = selectbox(
 			'eScales',
 			L10n('GAMME'),
 			Scales,
-			Config.mask.getValue(),
-			() => Config.mask.setValue( eScale.value )
+			Config.mask.value,
+			() => Config.mask.value = eScale.value
 			)
 		, eChords = this.eChords = selectbox(
 			'eChords',
 			L10n('ARPEGE'),
 			Arpeggio,
-			Config.mask.getValue(),
-			() => Config.mask.setValue( eChords.value )
+			Config.mask.value,
+			() => Config.mask.value = eChords.value
 			)
 
 		eScale.className = 'scale'
@@ -797,8 +797,8 @@ class HarmonieForm {
 		Config.tonic.addSubscriber( 'HarmonieForm selectBox tonic value', sTonic => eTonique.value = sTonic )
 		Config.mask.addSubscriber( 'HarmonieForm selectBox chords et scales values + publish scale', sMask =>{
 			eChords.value = eScale.value = sMask
-			if( eScale.value ) Config.scale.setValue([ sMask, eScale.selectedOptions[0].innerHTML ])
-			else if( eChords.value ) Config.scale.setValue([ sMask, eChords.selectedOptions[0].innerHTML ])
+			if( eScale.value ) Config.scale.value = [ sMask, eScale.selectedOptions[0].innerHTML ]
+			else if( eChords.value ) Config.scale.value = [ sMask, eChords.selectedOptions[0].innerHTML ]
 			})
 		Config.scale.addSubscriber( 'HarmonieForm values', a => eScale.value = a[0] )
 		Config.notation.addSubscriber( 'HarmonieForm selectBox tonic choix', function(){
@@ -809,7 +809,7 @@ class HarmonieForm {
 				e.innerHTML = e.value = a[i++]
 				e = e.nextSibling
 				}
-			Config.tonic.setValue( eTonique.value )
+			Config.tonic.value = eTonique.value
 			})
 		}
 	}
@@ -833,15 +833,15 @@ class HarmonieTable {
 			var sMask = e.attributes && e.attributes.arpege && e.attributes.arpege.value
 			if( sMask ){
 				that.locked = true
-				Config.tonic.setValue( sTonique )
-				Config.mask.setValue( sMask )
+				Config.tonic.value = sTonique
+				Config.mask.value = sMask
 				that.locked = false
 				}
 			var sScale = e.scale
 			if( sScale ){
-				Config.tonic.setValue( e.tonique )
-				Config.scale.setValue([ sScale, that.sScaleName ])
-				Config.mask.setValue( sScale )
+				Config.tonic.value = e.tonique
+				Config.scale.value = [ sScale, that.sScaleName ]
+				Config.mask.value = sScale
 				}
 			}
 		Config.mask.addSubscriber( 'HarmonieTable.displayChords', () => that.displayChords())
@@ -849,9 +849,9 @@ class HarmonieTable {
 		}
 	displayChords ( sTonique, sMask, sName ){
 		if( this.locked ) return ;
-		var sTonique = sTonique || this.Config.tonic.getValue()
-		var sScaleMask = sMask || this.Config.scale.getValue()[0]
-		this.sScaleName = sName || this.Config.scale.getValue()[1]
+		var sTonique = sTonique || this.Config.tonic.value
+		var sScaleMask = sMask || this.Config.scale.value[0]
+		this.sScaleName = sName || this.Config.scale.value[1]
 		this.setChords( sTonique, sScaleMask )
 		}
 	// Retourne un tableau des accords présent dans une gamme
@@ -877,7 +877,7 @@ class HarmonieTable {
 		}
 	// Recherche des accords dans un mask
 	searchChords ( sMask ){
-		sMask = sMask || this.Config.scale.getValue()[0]
+		sMask = sMask || this.Config.scale.value[0]
 		var aResult = []
 		Arpeggio.forEach( a => {
 			if( ( parseInt(sMask,2) & parseInt(a[0],2) ).toString(2) == a[0])
