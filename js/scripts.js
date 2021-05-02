@@ -281,17 +281,17 @@ class Manche {
 		let eParent
 		if( ! this.eHTML ){
 			eParent = Tag( 'DIV', 'eGuitar' )
-			function playSound ( e ){
+			function playSound ( evt ){
+				let e = Events.element( evt )
 				if( e.nodeName == 'SUP' ) e = e.parentNode
 				if( e.nodeName != 'SPAN' ) return ;
 				if( o.sound.value && /ton/.test( e.className ))
 					playTone( e.note + e.octave, o.la3.value)
+				return e
 				}
 			eParent.onclick = function( evt ){
-				let e = Events.element( evt )
-				if( o.sound.value) return playSound ( e )
-				if( e.nodeName == 'SUP' ) e = e.parentNode
-				if( e.nodeName != 'SPAN' ) return ;
+				let e = playSound( evt )
+				if( ! e ) return ;
 				let a = o.notation.getSequence( o.tonic.value)
 				for( let i=1, ni=a.length; i < ni; i++ ){
 					if( a[i] == e.note ){
@@ -303,9 +303,7 @@ class Manche {
 						}
 					}
 				}
-			eParent.onmouseover = function( evt ){
-					playSound( Events.element( evt ))
-					}
+			eParent.onmouseover = evt => playSound( evt )
 			eParent.appendChild( e )
 			}
 		else {
