@@ -49,13 +49,13 @@ var oConfig = Config({
 
 var oManche = new Manche( "eTarget", oConfig )
 
-var oHF = new HarmonieForm ( oConfig )
+var oHF = new Harmonie.Form ( oConfig )
 eTarget.appendChild( oHF.eHTML )
 
 var oIB = new IntervalBox( oConfig )
 eTarget.appendChild( oIB.eHTML )
 
-var oHT = new HarmonieTable ( oConfig )
+var oHT = new Harmonie.Table ( oConfig )
 eTarget.appendChild( oHT.eHTML )
 oHT.displayChords()
 

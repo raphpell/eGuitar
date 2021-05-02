@@ -41,7 +41,7 @@ Events ={
 	}
 
 /*=== eGuitare =======*/
-Config =( function (){
+let Config =( function (){
 	// Pattern Publishers/Subscribers
 	function Publishers (){
 		let o = {}
@@ -610,17 +610,17 @@ class Manche {
 	}
 
 class IntervalBox {
-	constructor ( Config ){
+	constructor ( oConfig ){
 		let that = this
-		this.Config = Config
+		this.Config = oConfig
 
 		this.createHTML()
 		this.setNotes()
-		this.setValue( Config.mask.value )
+		this.setValue( oConfig.mask.value )
 
-		Config.tonic.addSubscriber( 'IntervalBox.setNotes', ()=> that.setNotes())
-		Config.notation.addSubscriber( 'IntervalBox.setNotes', ()=> that.setNotes())
-		Config.mask.addSubscriber( 'IntervalBox.setValue', sMask => that.setValue( sMask ))
+		oConfig.tonic.addSubscriber( 'IntervalBox.setNotes', ()=> that.setNotes())
+		oConfig.notation.addSubscriber( 'IntervalBox.setNotes', ()=> that.setNotes())
+		oConfig.mask.addSubscriber( 'IntervalBox.setValue', sMask => that.setValue( sMask ))
 		}
 	createHTML (){
 		let that = this
@@ -686,7 +686,7 @@ class IntervalBox {
 		}
 	}
 
-Harmonie ={
+let Harmonie ={
 	cache:{},
 	getSimilarity :function( sChordOrScaleMask1, sChordMask2, sType ){
 		var countTons = function ( sMask ){ return sMask.split("1").length - 1 }
@@ -718,228 +718,225 @@ Harmonie ={
 				return this.cache[sMask] = a[i]
 			}
 		return null
-		}
-	}
+		},
+	Form : class {
+		constructor( oConfig ){
+			this.ID = ++Config.ID
+			this.Config = oConfig
+			this.createHTML()
+			}
+		createHTML(){
+			let Config = this.Config
+			, that = this
+			, eTable = this.eHTML = Tag( 'TABLE', 'harmonieForm' )
+			, selectbox =function( sId, sLabel, a, sSelected, fOnChange ){
+				let eTH, eTD, eTR = Tag( 'TR' )
 
-class HarmonieForm {
-	constructor( Config ){
-		this.ID = ++Config.ID
-		this.Config = Config
-		this.createHTML()
-		}
-	createHTML(){
-		let Config = this.Config
-		, that = this
-		, eTable = this.eHTML = Tag( 'TABLE', 'harmonieForm' )
-		, selectbox =function( sId, sLabel, a, sSelected, fOnChange ){
-			let eTH, eTD, eTR = Tag( 'TR' )
+				eTH = Tag( 'TH' )
+				eTH.align="right"
 
-			eTH = Tag( 'TH' )
-			eTH.align="right"
+				let eLabel = eTH.appendChild( Tag( 'LABEL' ))
+				eLabel.innerHTML = sLabel +':'
+				eTR.appendChild( eTH )
 
-			let eLabel = eTH.appendChild( Tag( 'LABEL' ))
-			eLabel.innerHTML = sLabel +':'
-			eTR.appendChild( eTH )
+				eTD = Tag( 'TD' )
+				let eSelect = eTD.appendChild( Tag( 'SELECT' )), eOption
+				a.forEach( m => {
+					eOption = Tag( 'OPTION' )
+					if( m.constructor == String )
+							eOption.innerHTML = eOption.value = m
+						else {
+							eOption.innerHTML = m[1]
+							eOption.value = m[0]
+							}
+					if( eOption.value == sSelected ) eOption.selected = true 
+					eSelect.appendChild( eOption ) 
+					})
 
-			eTD = Tag( 'TD' )
-			let eSelect = eTD.appendChild( Tag( 'SELECT' )), eOption
-			a.forEach( m => {
-				eOption = Tag( 'OPTION' )
-				if( m.constructor == String )
-						eOption.innerHTML = eOption.value = m
-					else {
-						eOption.innerHTML = m[1]
-						eOption.value = m[0]
-						}
-				if( eOption.value == sSelected ) eOption.selected = true 
-				eSelect.appendChild( eOption ) 
+				eSelect.value =  sSelected
+				eSelect.onkeyup = eSelect.onchange = fOnChange
+				eTR.appendChild( eTD )
+
+				eLabel.htmlFor = eSelect.id =  sId + that.ID
+				eTable.appendChild( eTR )
+				return eSelect
+				}
+			, eTonique = this.eTonique = selectbox(
+				'eTonique',
+				L10n('TONIQUE'),
+				Config.notation.getSequence(),
+				Config.notation.getNoteName( Config.tonic.value || 'A' ),
+				() => Config.tonic.value = eTonique.value
+				)
+			, eScale = this.eScale = selectbox(
+				'eScales',
+				L10n('GAMME'),
+				Scales,
+				Config.mask.value,
+				() => Config.mask.value = eScale.value
+				)
+			, eChords = this.eChords = selectbox(
+				'eChords',
+				L10n('ARPEGE'),
+				Arpeggio,
+				Config.mask.value,
+				() => Config.mask.value = eChords.value
+				)
+
+			eScale.className = 'scale'
+
+			Config.tonic.addSubscriber( 'HarmonieForm selectBox tonic value', sTonic => eTonique.value = sTonic )
+			Config.mask.addSubscriber( 'HarmonieForm selectBox chords et scales values + publish scale', sMask =>{
+				eChords.value = eScale.value = sMask
+				if( eScale.value ) Config.scale.value = [ sMask, eScale.selectedOptions[0].innerHTML ]
+				else if( eChords.value ) Config.scale.value = [ sMask, eChords.selectedOptions[0].innerHTML ]
+				})
+			Config.scale.addSubscriber( 'HarmonieForm values', a => eScale.value = a[0] )
+			Config.notation.addSubscriber( 'HarmonieForm selectBox tonic choix', function(){
+				var a = Config.notation.getSequence()
+				var e = eTonique.firstChild
+				var i = 0
+				while( e ){
+					e.innerHTML = e.value = a[i++]
+					e = e.nextSibling
+					}
+				Config.tonic.value = eTonique.value
+				})
+			}
+		},
+	Table : class {
+		constructor( oConfig ){
+			this.ID = ++Config.ID
+			this.Config = oConfig
+			this.locked = false
+			this.createHTML()
+			}
+		createHTML(){
+			let Config = this.Config
+			, that = this
+			, eSUGG = this.eHTML = Tag( 'TABLE', 'suggestion', 'eSuggestion'+ this.ID )
+			eSUGG.cellSpacing = 0
+			eSUGG.onclick =function( evt ){
+				var e = Events.element( evt )
+				if( e.nodeName != 'DIV' && e.nodeName != 'CAPTION' ) e = e.parentNode
+				var sTonique = e.attributes.tonique && e.attributes.tonique.value
+				var sMask = e.attributes && e.attributes.arpege && e.attributes.arpege.value
+				if( sMask ){
+					that.locked = true
+					Config.tonic.value = sTonique
+					Config.mask.value = sMask
+					that.locked = false
+					}
+				var sScale = e.scale
+				if( sScale ){
+					Config.tonic.value = e.tonique
+					Config.scale.value = [ sScale, that.sScaleName ]
+					Config.mask.value = sScale
+					}
+				}
+			Config.mask.addSubscriber( 'HarmonieTable.displayChords', () => that.displayChords())
+			Config.notation.addSubscriber( 'HarmonieTable.displayChords', () => that.displayChords())
+			}
+		displayChords ( sTonique, sMask, sName ){
+			if( this.locked ) return ;
+			var sTonique = sTonique || this.Config.tonic.value
+			var sScaleMask = sMask || this.Config.scale.value[0]
+			this.sScaleName = sName || this.Config.scale.value[1]
+			this.setChords( sTonique, sScaleMask )
+			}
+		// Retourne un tableau des accords présent dans une gamme
+		getChordsSuggestion ( sTonique, sScaleMask ){
+			var aNotesTmp = this.Config.notation.getSequence( sTonique )
+			var aResult = []
+			
+			// Cherche la position des degrés et la tonique, créé un masque et cherche les accords possibles
+			var nPos = sScaleMask.indexOf('1');
+			var sDegreMask = ''
+			while( nPos !== -1 ){
+				sDegreMask = sScaleMask.substr( nPos ) + sScaleMask.substr( 0, nPos )
+				aResult.push([ 
+					aNotesTmp[ nPos ], 
+					this.searchChords( sDegreMask ),
+					nPos,
+					sDegreMask
+					])
+				nPos = sScaleMask.indexOf('1', nPos + 1 );
+				}
+
+			return aResult
+			}
+		// Recherche des accords dans un mask
+		searchChords ( sMask ){
+			sMask = sMask || this.Config.scale.value[0]
+			var aResult = []
+			Arpeggio.forEach( a => {
+				if( ( parseInt(sMask,2) & parseInt(a[0],2) ).toString(2) == a[0])
+					aResult.push( a.concat( Harmonie.getSimilarity( sMask, a[0], 'scale' )))
+				})
+			return aResult
+			}
+		// Ajout des accords dans une gamme
+		setChords ( sTonique, sScaleMask ){
+			let aResult = this.getChordsSuggestion( sTonique, sScaleMask )
+			var o = {}
+			Arpeggio.forEach( a => {
+				var sChordName =  a[1]
+				o[ sChordName ] = []
+				o[ sChordName ][12] = 0
+				// Compte le nombre de "1"
+				var sMask = a[0]
+				var count = 0
+				var pos = sMask.indexOf('1');
+				while (pos !== -1) {
+					count++;
+					pos = sMask.indexOf('1', pos + 1 );
+					}
+				o[ sChordName ][13] = count
 				})
 
-			eSelect.value =  sSelected
-			eSelect.onkeyup = eSelect.onchange = fOnChange
-			eTR.appendChild( eTD )
-
-			eLabel.htmlFor = eSelect.id =  sId + that.ID
-			eTable.appendChild( eTR )
-			return eSelect
-			}
-		, eTonique = this.eTonique = selectbox(
-			'eTonique',
-			L10n('TONIQUE'),
-			Config.notation.getSequence(),
-			Config.notation.getNoteName( Config.tonic.value || 'A' ),
-			() => Config.tonic.value = eTonique.value
-			)
-		, eScale = this.eScale = selectbox(
-			'eScales',
-			L10n('GAMME'),
-			Scales,
-			Config.mask.value,
-			() => Config.mask.value = eScale.value
-			)
-		, eChords = this.eChords = selectbox(
-			'eChords',
-			L10n('ARPEGE'),
-			Arpeggio,
-			Config.mask.value,
-			() => Config.mask.value = eChords.value
-			)
-
-		eScale.className = 'scale'
-
-		Config.tonic.addSubscriber( 'HarmonieForm selectBox tonic value', sTonic => eTonique.value = sTonic )
-		Config.mask.addSubscriber( 'HarmonieForm selectBox chords et scales values + publish scale', sMask =>{
-			eChords.value = eScale.value = sMask
-			if( eScale.value ) Config.scale.value = [ sMask, eScale.selectedOptions[0].innerHTML ]
-			else if( eChords.value ) Config.scale.value = [ sMask, eChords.selectedOptions[0].innerHTML ]
-			})
-		Config.scale.addSubscriber( 'HarmonieForm values', a => eScale.value = a[0] )
-		Config.notation.addSubscriber( 'HarmonieForm selectBox tonic choix', function(){
-			var a = Config.notation.getSequence()
-			var e = eTonique.firstChild
-			var i = 0
-			while( e ){
-				e.innerHTML = e.value = a[i++]
-				e = e.nextSibling
-				}
-			Config.tonic.value = eTonique.value
-			})
-		}
-	}
-
-class HarmonieTable {
-	constructor( Config ){
-		this.ID = ++Config.ID
-		this.Config = Config
-		this.locked = false
-		this.createHTML()
-		}
-	createHTML(){
-		let Config = this.Config
-		, that = this
-		, eSUGG = this.eHTML = Tag( 'TABLE', 'suggestion', 'eSuggestion'+ this.ID )
-		eSUGG.cellSpacing = 0
-		eSUGG.onclick =function( evt ){
-			var e = Events.element( evt )
-			if( e.nodeName != 'DIV' && e.nodeName != 'CAPTION' ) e = e.parentNode
-			var sTonique = e.attributes.tonique && e.attributes.tonique.value
-			var sMask = e.attributes && e.attributes.arpege && e.attributes.arpege.value
-			if( sMask ){
-				that.locked = true
-				Config.tonic.value = sTonique
-				Config.mask.value = sMask
-				that.locked = false
-				}
-			var sScale = e.scale
-			if( sScale ){
-				Config.tonic.value = e.tonique
-				Config.scale.value = [ sScale, that.sScaleName ]
-				Config.mask.value = sScale
-				}
-			}
-		Config.mask.addSubscriber( 'HarmonieTable.displayChords', () => that.displayChords())
-		Config.notation.addSubscriber( 'HarmonieTable.displayChords', () => that.displayChords())
-		}
-	displayChords ( sTonique, sMask, sName ){
-		if( this.locked ) return ;
-		var sTonique = sTonique || this.Config.tonic.value
-		var sScaleMask = sMask || this.Config.scale.value[0]
-		this.sScaleName = sName || this.Config.scale.value[1]
-		this.setChords( sTonique, sScaleMask )
-		}
-	// Retourne un tableau des accords présent dans une gamme
-	getChordsSuggestion ( sTonique, sScaleMask ){
-		var aNotesTmp = this.Config.notation.getSequence( sTonique )
-		var aResult = []
-		
-		// Cherche la position des degrés et la tonique, créé un masque et cherche les accords possibles
-		var nPos = sScaleMask.indexOf('1');
-		var sDegreMask = ''
-		while( nPos !== -1 ){
-			sDegreMask = sScaleMask.substr( nPos ) + sScaleMask.substr( 0, nPos )
-			aResult.push([ 
-				aNotesTmp[ nPos ], 
-				this.searchChords( sDegreMask ),
-				nPos,
-				sDegreMask
-				])
-			nPos = sScaleMask.indexOf('1', nPos + 1 );
-			}
-
-		return aResult
-		}
-	// Recherche des accords dans un mask
-	searchChords ( sMask ){
-		sMask = sMask || this.Config.scale.value[0]
-		var aResult = []
-		Arpeggio.forEach( a => {
-			if( ( parseInt(sMask,2) & parseInt(a[0],2) ).toString(2) == a[0])
-				aResult.push( a.concat( Harmonie.getSimilarity( sMask, a[0], 'scale' )))
-			})
-		return aResult
-		}
-	// Ajout des accords dans une gamme
-	setChords ( sTonique, sScaleMask ){
-		let aResult = this.getChordsSuggestion( sTonique, sScaleMask )
-		var o = {}
-
-		Arpeggio.forEach( a => {
-			var sChordName =  a[1]
-			o[ sChordName ] = []
-			o[ sChordName ][12] = 0
-			// Compte le nombre de "1"
-			var sMask = a[0]
-			var count = 0
-			var pos = sMask.indexOf('1');
-			while (pos !== -1) {
-				count++;
-				pos = sMask.indexOf('1', pos + 1 );
-				}
-			o[ sChordName ][13] = count
-			})
-
-		aResult.forEach( ([sTonic,aChords,nTon,sMask1]) => {
-			aChords.forEach( ([sMask2,sName,sOpacity,sProb]) => {
-				var sOpacity = ( sOpacity != undefined ? 'opacity:'+ (1-sOpacity+.3).toFixed(2) +' !important;' : '' )
-				var sTitle = ( sProb != undefined ? sProb : '' )
-				o[ sName ][ nTon ] =
-					'<div class="ton'+ nTon +'" tonique="'+ sTonic +'" arpege="'+ sMask2 +'" style="'+ sOpacity +'" title="'+ sTitle +'">'
-					+'<b>'+ sTonic +'</b><i>'+ sName +'</i></div>'
-				o[ sName ][12]++
+			aResult.forEach( ([sTonic,aChords,nTon,sMask1]) => {
+				aChords.forEach( ([sMask2,sName,sOpacity,sProb]) => {
+					var sOpacity = ( sOpacity != undefined ? 'opacity:'+ (1-sOpacity+.3).toFixed(2) +' !important;' : '' )
+					var sTitle = ( sProb != undefined ? sProb : '' )
+					o[ sName ][ nTon ] =
+						'<div class="ton'+ nTon +'" tonique="'+ sTonic +'" arpege="'+ sMask2 +'" style="'+ sOpacity +'" title="'+ sTitle +'">'
+						+'<b>'+ sTonic +'</b><i>'+ sName +'</i></div>'
+					o[ sName ][12]++
+					})
 				})
-			})
 
-		var aTR = []
-		for(var i=0, ni=Arpeggio.length; i<ni; i++ ){
-			var sChordName = Arpeggio[i][1]
-			if( o[ sChordName ][12] > 0 )
-				aTR[i] = '<tr><td>'+ o[ sChordName ].join('</td><td>' ) +'</td></tr>'
+			var aTR = []
+			for(var i=0, ni=Arpeggio.length; i<ni; i++ ){
+				var sChordName = Arpeggio[i][1]
+				if( o[ sChordName ][12] > 0 )
+					aTR[i] = '<tr><td>'+ o[ sChordName ].join('</td><td>' ) +'</td></tr>'
+				}
+
+			var sTHEAD = '<thead><tr>'
+
+			var aNotesTmp = this.Config.notation.getSequence( sTonique )
+			
+			var aRoman = 'I?II?III?IV?V?VI?VII?VIII?IX?X?XI?XII'.split('?')
+			for(var i=0, j=0, ni=aNotesTmp.length; i<ni; i++ ){
+				sTHEAD += sScaleMask.charAt(i) == '1'
+					? '<th abbr="arpege">'+aRoman[j++]+'</th>'
+					: '<th abbr=""></th>'
+				}
+			sTHEAD += '<th abbr="number"><label>'+ L10n('ACCORDS') +'</label></th><th abbr="number"><label>'+ L10n('NOTES') +'</label></th></tr></thead>'
+
+			this.eHTML.innerHTML = sTHEAD +'<tbody>'+ aTR.join("\n") +'</tbody>'
+
+			var aSort = [13,'DESC']
+			if( this.TableSorter ) aSort = this.TableSorter.getSort()
+			this.TableSorter = new TSorter
+			this.TableSorter.init( this.eHTML.id )
+			if( aSort ) this.TableSorter.sort( aSort[0], aSort[1] )
+
+			var e = Tag( 'CAPTION' )
+			e.innerHTML = '<h2>'+ sTonique +" " + this.sScaleName +'</h2>'
+			e.tonique = sTonique
+			e.scale = sScaleMask
+			this.eHTML.insertBefore( e, this.eHTML.firstChild )
 			}
-
-		var sTHEAD = '<thead><tr>'
-
-		var aNotesTmp = this.Config.notation.getSequence( sTonique )
-		
-		var aRoman = 'I?II?III?IV?V?VI?VII?VIII?IX?X?XI?XII'.split('?')
-		for(var i=0, j=0, ni=aNotesTmp.length; i<ni; i++ ){
-			sTHEAD += sScaleMask.charAt(i) == '1'
-				? '<th abbr="arpege">'+aRoman[j++]+'</th>'
-				: '<th abbr=""></th>'
-			}
-		sTHEAD += '<th abbr="number"><label>'+ L10n('ACCORDS') +'</label></th><th abbr="number"><label>'+ L10n('NOTES') +'</label></th></tr></thead>'
-
-		this.eHTML.innerHTML = sTHEAD +'<tbody>'+ aTR.join("\n") +'</tbody>'
-
-		var aSort = [13,'DESC']
-		if( this.TableSorter ) aSort = this.TableSorter.getSort()
-		this.TableSorter = new TSorter
-		this.TableSorter.init( this.eHTML.id )
-		if( aSort ) this.TableSorter.sort( aSort[0], aSort[1] )
-
-		var e = Tag( 'CAPTION' )
-		e.innerHTML = '<h2>'+ sTonique +" " + this.sScaleName +'</h2>'
-		e.tonique = sTonique
-		e.scale = sScaleMask
-		this.eHTML.insertBefore( e, this.eHTML.firstChild )
 		}
 	}
