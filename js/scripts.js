@@ -1,8 +1,6 @@
 window.onselectstart =function(){ return false }	// empêche la sélection de texte
 
-/*====================*/
 /*=== Utilitaires ====*/
-/*====================*/
 // Mémorise les choix utilisateurs d'une session à une autre
 Memoire =(function( sBase ){
 	let o = JSON.parse( localStorage.getItem( sBase )) || {}
@@ -42,9 +40,7 @@ Events ={
 		}
 	}
 
-/*====================*/
 /*=== eGuitare =======*/
-/*====================*/
 Config =( function (){
 	// Pattern Publishers/Subscribers
 	function Publishers (){
