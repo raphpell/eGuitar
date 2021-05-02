@@ -43,9 +43,8 @@ Events ={
 	}
 
 /*============================*/
-/*=== VARIABLES SPECIALES ====*/
+/*======== eGuitare ==========*/
 /*============================*/
-// Décision de rendre une var local ou global si elle est définie ou non
 Config =( function (){
 	// Pattern Publishers/Subscribers
 	function Publishers (){
@@ -311,7 +310,7 @@ class Manche {
 			eParent.removeChild( eParent.firstChild )
 			eParent.insertBefore( e, eParent.firstChild )
 			}
-		
+
 		eParent.style.width = 30+ (nCases+1)*70 +'px'
 		eParent.style.height = nCordes*30 +'px'
 		return eParent
@@ -319,7 +318,7 @@ class Manche {
 	createMenuHTML (){
 		let that = this
 		let o = this.Config
-		
+
 		/* MENU HAUT */
 		let eUL = Tag( 'UL', 'mancheForm' )
 		let eLI = Tag( 'LI' )
@@ -613,7 +612,6 @@ class Manche {
 	}
 Manche.ID = 0
 
-/* Affichage d'intervalles */
 class IntervalBox {
 	constructor ( Config ){
 		let that = this
@@ -692,10 +690,9 @@ class IntervalBox {
 	}
 
 /* Recherche des accords présent dans des intervalles */
-// Exploser cette objet en deux : HarmonieForm et HarmonieTable. voir trois pour les calcules
 Harmonie ={
 	cache:{},
-	getSimilarity :function( sChordOrScaleMask1 , sChordMask2 , sType ){
+	getSimilarity :function( sChordOrScaleMask1, sChordMask2, sType ){
 		var countTons = function ( sMask ){ return sMask.split("1").length - 1 }
 		var nTons1 = countTons( sChordOrScaleMask1 )
 		var nTons2 = countTons( sChordMask2 )
@@ -728,7 +725,6 @@ Harmonie ={
 		}
 	}
 
-/* Affichage formulaire harmonie */
 class HarmonieForm {
 	constructor( Config ){
 		this.Config = Config
@@ -814,7 +810,6 @@ class HarmonieForm {
 		}
 	}
 
-/* Affichage des accords trouvé dans des intervalles */
 class HarmonieTable {
 	constructor( Config ){
 		this.Config = Config
