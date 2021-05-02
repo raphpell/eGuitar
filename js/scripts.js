@@ -199,7 +199,7 @@ Config =( function (){
 		tuning: null
 		}
 
-	return function ( oConfig ){
+	let f = function ( oConfig ){
 		oConfig = oConfig || {}
 		let o = {}, oPublisher = Publishers()
 		for( const s in DefaultSettings ){
@@ -212,12 +212,14 @@ Config =( function (){
 			}
 		return o
 		}
+	f.ID = 0
+	return f
 	})()
 
 class Manche {
 	constructor ( sNodeID, oConfig ){
+		this.ID = ++Config.ID
 		this.stringsMax = 10
-		this.ID = ++Manche.ID
 		let that = this
 		, o = this.Config = oConfig || Config()
 		, eParent = document.getElementById( sNodeID )
@@ -606,7 +608,6 @@ class Manche {
 		o.tuning.value = eSelect.value
 		}
 	}
-Manche.ID = 0
 
 class IntervalBox {
 	constructor ( Config ){
@@ -685,7 +686,6 @@ class IntervalBox {
 		}
 	}
 
-/* Recherche des accords présent dans des intervalles */
 Harmonie ={
 	cache:{},
 	getSimilarity :function( sChordOrScaleMask1, sChordMask2, sType ){
@@ -723,12 +723,13 @@ Harmonie ={
 
 class HarmonieForm {
 	constructor( Config ){
+		this.ID = ++Config.ID
 		this.Config = Config
 		this.createHTML()
 		}
 	createHTML(){
-		HarmonieForm.ID = HarmonieForm.ID ? ++HarmonieForm.ID : 0
 		let Config = this.Config
+		, that = this
 		, eTable = this.eHTML = Tag( 'TABLE', 'harmonieForm' )
 		, selectbox =function( sId, sLabel, a, sSelected, fOnChange ){
 			let eTH, eTD, eTR = Tag( 'TR' )
@@ -758,7 +759,7 @@ class HarmonieForm {
 			eSelect.onkeyup = eSelect.onchange = fOnChange
 			eTR.appendChild( eTD )
 
-			eLabel.htmlFor = eSelect.id =  sId + HarmonieForm.ID
+			eLabel.htmlFor = eSelect.id =  sId + that.ID
 			eTable.appendChild( eTR )
 			return eSelect
 			}
@@ -808,6 +809,7 @@ class HarmonieForm {
 
 class HarmonieTable {
 	constructor( Config ){
+		this.ID = ++Config.ID
 		this.Config = Config
 		this.locked = false
 		this.createHTML()
@@ -815,7 +817,7 @@ class HarmonieTable {
 	createHTML(){
 		let Config = this.Config
 		, that = this
-		, eSUGG = this.eHTML = Tag( 'TABLE', 'suggestion', 'eSuggestion'+ oManche.ID )
+		, eSUGG = this.eHTML = Tag( 'TABLE', 'suggestion', 'eSuggestion'+ this.ID )
 		eSUGG.cellSpacing = 0
 		eSUGG.onclick =function( evt ){
 			var e = Events.element( evt )
