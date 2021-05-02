@@ -291,10 +291,8 @@ class Manche {
 		let o = this.Config
 		function playSound ( e ){
 			if( e.nodeName != 'SPAN' ) return ;
-			if( /ton/.test( e.className )){
-				let sNote = e.innerHTML, sOctave = e.octave
-				if( o.sound.getValue()) playTone( sNote+sOctave, o.la3.getValue() )
-				}
+			if( o.sound.getValue() && /ton/.test( e.className ))
+				playTone( e.note + e.octave, o.la3.getValue())
 			}
 			
 		eParent.onclick = function( evt ){
@@ -448,7 +446,7 @@ class Manche {
 		var a = this.e.getElementsByClassName('corde')
 		for(var i=0, ni=a.length; i<ni; i++ ){
 			var e = a[i].firstChild
-			if( e.innerHTML == sNote ) aElts.push( e )
+			if( e.note == sNote ) aElts.push( e )
 			}
 		return aElts
 		}
@@ -465,6 +463,11 @@ class Manche {
 			e.classList.add( sClassName )
 			})
 		}
+	map ( fFunction ){
+		for(var i=0; i<this.nCordes; i++ )
+			for(var j=0; j<=this.nCases; j++ )
+				fFunction( this.aCordes[i][j].firstChild, i, j )
+		}
 	removeNote ( sNote ){
 		this.getNotes( sNote ).forEach( e => {
 			e.className = e.className.replace( /ton\d+[^\s]*/gim, '' )
@@ -473,13 +476,14 @@ class Manche {
 		}
 	renameNotes	(){
 		let a = this.Config.notation.getSequence('E')
-		// Renomme les cordes
-		for(let i=0; i<this.nCordes; i++ ){
-			let nBase = this.aFrequences[i] || 0
-			for(let j=0; j<=this.nCases; j++ ){
-				this.aCordes[i][j].firstChild.innerHTML = a[ (nBase+j)%12 ]
-				}
-			}
+		let b = this.Config.octaves.getValue()
+		let that = this
+		this.map((e,i,j)=>{
+			let nBase = that.aFrequences[i] || 0
+			let sNote = a[ (nBase+j)%12 ]
+			e.note = sNote
+			e.innerHTML = b ? sNote + '<sup>'+e.octave+'</sup>' : sNote
+			})
 		}
 	reset (){
 		var a = this.e.getElementsByClassName('corde')
@@ -491,13 +495,14 @@ class Manche {
 			}
 		}
 	setFlip ( bFlipH, bFlipV ){
-		this.e.classList.remove( 'gaucher' )
-		this.e.classList.remove( 'droitier' )
-		this.e.classList.remove( 'gaucher_flipped' )
-		this.e.classList.remove( 'droitier_flipped' )
+		let o = this.e.classList
+		o.remove( 'gaucher' )
+		o.remove( 'droitier' )
+		o.remove( 'gaucher_flipped' )
+		o.remove( 'droitier_flipped' )
 		this.eFlipH.checked = bFlipH
 		this.eFlipV.checked = bFlipV
-		this.e.classList.add( bFlipH
+		o.add( bFlipH
 			?( bFlipV ? 'gaucher_flipped' : 'gaucher' )
 			:( bFlipV ? 'droitier_flipped' : 'droitier' )
 			)
@@ -527,6 +532,7 @@ class Manche {
 	setOctave ( b ){
 		this.eOctave.checked = b
 		this.e.classList[ b ? 'add' : 'remove' ]( 'octaves' )
+		this.map( e => e.innerHTML = b ? e.note + '<sup>'+e.octave+'</sup>' : e.note )
 		}
 	setScale ( sNote, sScaleMask ){
 		if( sNote ){
@@ -560,25 +566,23 @@ class Manche {
 		var aFrequences = aAccordage[1].split(',') // écarts tons de base accordage
 		var aBase = [12,17,22,27,31,36] // tons selon les cordes
 		var aNotation = this.Config.notation.getSequence( 'E' ) // liste des 12 notes commencant par E
-		for(var i=0; i<this.nCordes; i++ ){
+		for(var i=0; i<this.nCordes; i++ )
 			this.aFrequences[i] = aBase[i] += 2*aFrequences[i] // bouge les écarts de case : 2*ton
-			}
-		for(var i=0; i<this.nCordes; i++ ){
-			var nBase = aBase[i]
-			for(var j=0; j<=this.nCases; j++ ){
-				/* Test octave */
-				let nOctave = parseInt( (nBase+4)/12 ) + 3 // +4 pour aller à DO
-				
-				var e = this.aCordes[i][j].firstChild
-				e.innerHTML = aNotation[ nBase%12 ] // note
-				e.octave = nOctave
-				if( -1 == e.className.indexOf('octave'))
-					e.className += ' octave' + nOctave
-				else
-					e.className = e.className.replace( /octave\d/, ' octave' + nOctave )
-				nBase++
-				}
-			}
+
+		let b = this.Config.octaves.getValue()
+		this.map((e,i,j)=>{
+			let nBase = aBase[i]+j
+			let nOctave = parseInt( (nBase+4)/12 ) + 1 // +4 pour aller à DO
+			let sNote = aNotation[ nBase%12 ] // note
+			e.innerHTML = b ? sNote + '<sup>'+nOctave+'</sup>' : sNote
+			e.note = sNote
+			e.octave = nOctave
+			if( -1 == e.className.indexOf('octave'))
+				e.className += ' octave' + nOctave
+			else
+				e.className = e.className.replace( /octave\d/, ' octave' + nOctave )
+			})
+
 		this.Config.mask.refresh()
 		}
 	}

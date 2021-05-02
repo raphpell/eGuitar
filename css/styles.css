@@ -157,10 +157,12 @@
 	z-index: 2;
 	transition:width 200ms, left 200ms, margin 200ms, border 200ms, line-height 200ms;
 	}
-
 .case .corde SPAN:hover {
 	border-color: #FFF;
 	box-shadow: 0 0 1em #000, 0 0 1em #FFF, inset 0 0 .2em #FFF;
+	}
+.case .corde SPAN SUP {
+	position: absolute;
 	}
 .hideNotes .corde SPAN {
 	border: 4px solid #000;
@@ -243,12 +245,12 @@
 	}
 
 /* Octaves */
-.octaves .octave8 { border-width: 1px 9px !important; }
-.octaves .octave7 { border-width: 1px 7px !important; }
-.octaves .octave6 { border-width: 1px 5px !important; }
-.octaves .octave5 { border-width: 1px 3px !important; }
-.octaves .octave4 { border-width: 1px 1px !important; }
-.octaves .octave3 { border-width: 0px !important; }
+.octaves .octave6 { border-width: 1px 9px !important; }
+.octaves .octave5 { border-width: 1px 7px !important; }
+.octaves .octave4 { border-width: 1px 5px !important; }
+.octaves .octave3 { border-width: 1px 3px !important; }
+.octaves .octave2 { border-width: 1px 1px !important; }
+.octaves .octave1 { border-width: 0px !important; }
 
 /* Configuration */
 .default  {
