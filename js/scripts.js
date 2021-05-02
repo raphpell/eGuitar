@@ -42,9 +42,9 @@ Events ={
 		}
 	}
 
-/*============================*/
-/*======== eGuitare ==========*/
-/*============================*/
+/*====================*/
+/*=== eGuitare =======*/
+/*====================*/
 Config =( function (){
 	// Pattern Publishers/Subscribers
 	function Publishers (){
