@@ -116,45 +116,48 @@ Config =( function (){
 
 	// Etend les variables spéciales 'notation'
 	// -> notationCreator.call( AugmentedObject )
-	function notationCreator (){
+	notationCreator = ( function (){
+		const cache = {}
 		const Notations ={
 			'♯':{	FR:['La',	'La♯',	'Si',	'Do',	'Do♯',	'Ré',	'Ré♯',	'Mi',	'Fa',	'Fa♯',	'Sol',	'Sol♯'],
 					EN:['A',	'A♯',	'B',	'C',	'C♯',	'D',	'D♯',	'E',	'F',	'F♯',	'G',	'G♯']},
 			'♭':{	FR:['La',	'Si♭',	'Si',	'Do',	'Ré♭',	'Ré',	'Mi♭',	'Mi',	'Fa',	'Sol♭',	'Sol',	'La♭'],
 					EN:['A',	'B♭',	'B',	'C',	'D♭',	'D',	'E♭',	'E',	'F',	'G♭',	'G',	'A♭']}
 			}
-		this.getSequence =function( sNote ){
-			var a = this.getValue()
-			if( ! sNote ){
-				return Notations[ a[0]?'♭':'♯' ][ a[1]]
-			} else {
-				sNote = this.getNoteName( sNote )
-				var a = this.getSequence()
-				var nIndex = a.indexOf( sNote )
-				return a.slice( nIndex ).concat( a.slice( 0, nIndex))
+		return function (){
+			this.getSequence =function( sNote ){
+				var a = this.getValue()
+				if( ! sNote ){
+					return Notations[ a[0]?'♭':'♯' ][ a[1]]
+				} else {
+					sNote = this.getNoteName( sNote )
+					var a = this.getSequence()
+					var nIndex = a.indexOf( sNote )
+					return a.slice( nIndex ).concat( a.slice( 0, nIndex))
+					}
+				}
+			this.getNoteName =function( sNote ){
+				let sIndex1
+				if( ~sNote.indexOf('b')) sNote = sNote.replace( /b/, '♭' )
+				if( ~sNote.indexOf('♭')) sIndex1 = "♭"
+				if( ~sNote.indexOf('#')) sNote = sNote.replace( /#/, '♯' )
+				if( ~sNote.indexOf('♯')) sIndex1 = "♯"
+
+				let sIndex2 = 
+					! sIndex1 && sNote.length == 1 || sIndex1 && sNote.length == 2 
+					? 'EN'
+					: 'FR'
+				if( ! sIndex1 ) sIndex1 = this.getValue()[0]?'♭':'♯'
+
+				let a = Notations[sIndex1][sIndex2]
+				for(let i=0; i<12; i++ )
+					if( a[i]== sNote )
+						return this.getSequence()[i]
+
+				throw Error ( 'Invalid note name. '+ sNote )
 				}
 			}
-		this.getNoteName =function( sNote ){
-			var sIndex1
-			if( ~sNote.indexOf('b')) sNote = sNote.replace( /b/, '♭' )
-			if( ~sNote.indexOf('♭')) sIndex1 = "♭"
-			if( ~sNote.indexOf('#')) sNote = sNote.replace( /#/, '♯' )
-			if( ~sNote.indexOf('♯')) sIndex1 = "♯"
-
-			var sIndex2 = 
-				! sIndex1 && sNote.length == 1 || sIndex1 && sNote.length == 2 
-				? 'EN'
-				: 'FR'
-			if( ! sIndex1 ) sIndex1 = this.getValue()[0]?'♭':'♯'
-
-			var a = Notations[sIndex1][sIndex2]
-			for(var i=0; i<12; i++ )
-				if( a[i]== sNote )
-					return this.getSequence()[i]
-
-			throw Error ( 'Invalid note name. '+ sNote )
-			}
-		}
+		})()
 
 	// Créé les variables globales pouvant être partagées les composants par défaut
 	// Leur valeur est stocké dans le localStorage
@@ -178,7 +181,7 @@ Config =( function (){
 		[ "scale", ['100101010010', L10n('mPenta')]], // gamme par défaut mPenta
 		[ "sound", 0 ],
 		[ "tonic", 'A' ],
-		[ "tuning", 0 ] // Accordage - defaut Accordage standard E ( voir Tunings )
+		[ "tuning", 'E2,A2,D3,G3,B3,E4' ] // Accordage Guitare standard E
 		])
 
 	const DefaultSettings ={ // Doit contenir tous les attributs possibles
@@ -221,7 +224,6 @@ class Manche {
 		let that = this
 		let o = this.Config = oConfig || Config()
 
-		this.aFrequences = [0,0,0,0,0,0] // Ecarts accordage standard E en ton (+grave à +aigue)
 		var eParent = document.getElementById( sNodeID )
 		var nCases = o.cases
 		var nStrings = o.strings
@@ -247,14 +249,12 @@ class Manche {
 		o.numbers.addSubscriber( 'oManche.setFretsNumber', b => that.setFretsNumber(b))
 		o.octaves.addSubscriber( 'oManche.setOctave', b => that.setOctave(b))
 		o.sound.addSubscriber( 'oManche.setSound', b => that.setSound(b))
-		o.tuning.addSubscriber( 'oManche.setTuning', nId => that.setTuning( nId ))
+		o.tuning.addSubscriber( 'oManche.setTuning', sTuning => that.setTuning( sTuning ))
 		o.mask.addSubscriber( 'oManche.setScale', sMask => that.setScale())
 		o.tonic.addSubscriber( 'oManche.setScale', sMask => that.setScale())
 
 		// Rafraichissement de la valeur des options
 		o.lefthanded.refresh()
-		o.mirror.refresh()
-		o.notation.refresh()
 		o.notes.refresh()
 		o.numbers.refresh()
 		o.octaves.refresh()
@@ -287,21 +287,20 @@ class Manche {
 		eParent.appendChild( e )
 		eParent.style.width = 30+ (nCases+1)*70 +'px'
 		eParent.style.height = nCordes*30 +'px'
-		
+
 		let o = this.Config
 		function playSound ( e ){
 			if( e.nodeName != 'SPAN' ) return ;
 			if( o.sound.getValue() && /ton/.test( e.className ))
 				playTone( e.note + e.octave, o.la3.getValue())
 			}
-			
 		eParent.onclick = function( evt ){
 			let e = Events.element( evt )
 			if( o.sound.getValue()) return playSound ( e )
 			if( e.nodeName != 'SPAN' ) return ;
 			let a = o.notation.getSequence( o.tonic.getValue())
 			for( let i=1, ni=a.length; i < ni; i++ ){
-				if( a[i] ==  e.innerHTML ){
+				if( a[i] == e.note ){
 					let sMask = o.mask.getValue()
 					let sToggle = sMask[i] == '0' ? '1' : '0'
 					sMask = sMask.substring( 0, i ) + sToggle + sMask.substring( i+1 )
@@ -328,11 +327,14 @@ class Manche {
 		eAccordage.onkeyup = eAccordage.onchange = function(){ o.tuning.setValue( eAccordage.value )}
 		let eOption
 		for(let a=Tunings, i=0, ni=a.length; i<ni; i++ ){
-			eOption = Tag( 'OPTION' )
-			eOption.value = i
-			eOption.selected = i == o.tuning.getValue()
-			eOption.innerHTML = a[i][1]
-			eAccordage.appendChild( eOption ) 
+			let sTuning = a[i][0]
+			if( sTuning.split(",").length == o.strings ){
+				eOption = Tag( 'OPTION' )
+				eOption.value = sTuning
+				eOption.selected = sTuning == o.tuning.getValue()
+				eOption.innerHTML = a[i][1]
+				eAccordage.appendChild( eOption )
+				}
 			}
 		eLabel.htmlFor = eAccordage.id =  'eAccordage'+ this.ID
 		eUL.appendChild( eLI )
@@ -436,7 +438,7 @@ class Manche {
 			e5.checked = a[1] == 'EN'
 			e6.checked = a[0]
 			})
-		o.tuning.addSubscriber( 'màj valeur selectBox Accordage', function( nId ){ eAccordage.value = nId })
+		o.tuning.addSubscriber( 'màj valeur selectBox Accordage', function( sTuning ){ eAccordage.value = sTuning })
 
 		this.e.appendChild( eUL2 )
 		}
@@ -478,10 +480,8 @@ class Manche {
 		let b = this.Config.octaves.getValue()
 		let that = this
 		this.map((e,i,j)=>{
-			let nBase = that.aFrequences[i] || 0
-			let sNote = a[ (nBase+j)%12 ]
-			e.note = sNote
-			e.innerHTML = b ? sNote + '<sup>'+e.octave+'</sup>' : sNote
+			e.note = that.Config.notation.getNoteName( e.note )
+			e.innerHTML = b ? e.note + '<sup>'+e.octave+'</sup>' : e.note
 			})
 		}
 	reset (){
@@ -557,30 +557,27 @@ class Manche {
 	setSound ( b ){
 		this.eSound.checked = this.Config.sound.getValue()
 		}
-	setTuning ( nId ){
-		var sAccordage = Tunings[ nId ][0]
-		var aAccordage = sAccordage.split('|')
-		var aNotes = aAccordage[0].split(',')
-		var aFrequences = aAccordage[1].split(',') // écarts tons de base accordage
-		var aBase = [12,17,22,27,31,36] // tons selon les cordes
-		var aNotation = this.Config.notation.getSequence( 'E' ) // liste des 12 notes commencant par E
-		for(var i=0; i<this.nCordes; i++ )
-			this.aFrequences[i] = aBase[i] += 2*aFrequences[i] // bouge les écarts de case : 2*ton
-
+	setTuning ( sTuning ){
+		let o = this.Config.notation
+		let sNoteC = o.getNoteName('C')
 		let b = this.Config.octaves.getValue()
-		this.map((e,i,j)=>{
-			let nBase = aBase[i]+j
-			let nOctave = parseInt( (nBase+4)/12 ) + 1 // +4 pour aller à DO
-			let sNote = aNotation[ nBase%12 ] // note
-			e.innerHTML = b ? sNote + '<sup>'+nOctave+'</sup>' : sNote
-			e.note = sNote
-			e.octave = nOctave
-			if( -1 == e.className.indexOf('octave'))
-				e.className += ' octave' + nOctave
-			else
-				e.className = e.className.replace( /octave\d/, ' octave' + nOctave )
-			})
-
+		let aTuning = sTuning.split(',')
+		for(let i=0; i<this.nCordes; i++ ){
+			aTuning[i] = { note:aTuning[i].slice(0,-1), octave:aTuning[i].slice(-1) }
+			let aNotes = o.getSequence( aTuning[i].note )
+			for(let j=0; j<=this.nCases; j++ ){
+				let sNote = aNotes[j%12]
+				let nOctave = ( sNote == sNoteC ) ? ++aTuning[i].octave : aTuning[i].octave
+				let e = this.aCordes[i][j].firstChild
+				e.innerHTML = b ? sNote + '<sup>'+nOctave+'</sup>' : sNote
+				e.note = sNote
+				e.octave = nOctave
+				if( -1 == e.className.indexOf('octave'))
+					e.className += ' octave' + nOctave
+				else
+					e.className = e.className.replace( /octave\d/, ' octave' + nOctave )
+				}
+			}
 		this.Config.mask.refresh()
 		}
 	}

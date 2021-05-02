@@ -1,20 +1,28 @@
 const Tunings =[
-	["Mi,La,Ré,Sol,Si,Mi|0,0,0,0,0,0",'E'],
-	["Ré,La,Ré,Sol,Si,Mi|-1,0,0,0,0,0",'Dropped D'],
-	["Mi,La,Ré,Fa?Sol?,Si,Ré|0,0,0,-.5,0,-1",'Open de Luth'],
-	["Ré,La,Ré,Fa?Sol?,La,Ré|-1,0,0,-.5,-1,-1",'Open de Ré'],
-	["Ré,La,Ré,Sol,La,Ré|-1,0,0,0,-1,-1",'Open de Ré alternatif'],
-	["Ré,Sol,Ré,Sol,Si,Ré|-1,-1,0,0,0,-1",'Open de Sol'],
-	["Do,Sol,Do,Sol,Do,Mi|-2,-1,-1,0,0.5,0",'Open de Do'],
-	["Do,La,Do,Sol,Do,Mi|-2,0,-1,0,.5,0",'Open de La m7'],
-	["Do,Sol,Do,Sol,La,Mi|-2,-1,-1,0,-1,0",'Open de Do 6'],
-	["Mi,Si,Mi,Sol,Si,Mi|0,1,1,0,0,0",'Open de Mi mineur'],
-	["Mi,Si,Mi,Sol?La?,Si,Mi|0,1,1,.5,0,0",'Open de Mi'],
-	["Fa,Sol?La?,Do,Fa,Sol?La?,Fa|1,-.5,-1,-1,1,1",'Open de Fa mineur'],
-	["Ré,Sol,Ré,Sol,La?Si?,Ré|-1,-1,0,0,-.5,-1",'Open de Sol mineur'],
-	["Ré,Sol,Ré,Sol,Si,Mi|-1,-1,0,0,0,0",'Open de Sol 6'],
-	["Mi,La,Mi,La,Do?Ré?,Mi|0,0,1,1,1,0",'Open de La ("Spanish Tuning")'],
-	["Ré,La,Ré,Fa?Sol?,La,Do?Ré?|-1,0,0,-.5,-1,-1.5",'Open de Ré 7M']
+	/* Guitare */
+	// 6 cordes
+	['E2,A2,D3,G3,B3,E4','Guitare Standard'],
+	['D2,A2,D3,G3,B3,E4','Guitare Dropped D'],
+	['E2,A2,E3,A3,C#4,E4','Guitare Open Tuning A'],
+	// 7 cordes
+	['B1,E2,A2,D3,G3,B3,E4','Guitare Standard'],
+	['A1,E2,A2,D3,G3,B3,E4','Guitare Van Eps'],
+	// 8 cordes
+	['B1,E2,A2,D3,G3,B3,E4,A4','Guitare Galbraith'],
+	['B1,D2,E2,A2,D3,G3,B3,E4','Guitare Accordage alternatif'],
+	// 9 cordes
+	['E3,E2,A3,A2,D4,D3,G3,B3,E4','Guitare Standard'],
+	['E2,A2,D3,G4,G3,B3,B3,E4,E4','Guitare Accordage alternatif'],
+	// 10 cordes
+	['F#1,G#1,A#1,C2,E3,A2,D3,G3,B3,E4','Guitare Standard'],
+
+	/* Guitare Basse */
+	// 4 cordes
+	['E1,A1,D2,G2','Basse Standard'],
+	// 5 cordes
+	['B0,E1,A1,D2,G2','Basse 5 cordes Standard'],
+	// 6 cordes
+	['B0,E1,A1,D2,G2,C3','Basse 6 cordes Standard']
 	]
 const Arpeggio =[
 	['100100010000','m'],

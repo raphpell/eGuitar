@@ -61,25 +61,23 @@
 <script>
 
 var oManche1 = new Manche( "eDefault" )
-var oManche2 = new Manche( "eDefault" )
+var oManche2 = new Manche( "eDefault", Config({ cases: 10, lefthanded: 1 }))
 var oHF = new HarmonieForm ( oManche1.Config )
 eDefault.appendChild( oHF.eHTML )
 
 var oManche3 = new Manche( "eTarget", Config({
 	config: 1,
 	strings: 4,
-	cases: 10,
 	tonic:'Ré',
 	mask:'101011010101',
 	la3: 432,
-	lefthanded: 1,
 	mirror: 1,
 	notation: [1,'FR'],
 	notes: 1,
 	numbers: 1,
 	octaves: 1,
 	sound: 1,
-	tuning: 1
+	tuning: 'E1,A1,D2,G2'
 	}))
 </script>
 

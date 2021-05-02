@@ -259,6 +259,7 @@
 .gaucher .manche,
 .gaucher .case DIV SPAN {
 	transform: scaleX(-1);
+	right: 30px;
 	}
 .droitier_flipped  .manche,
 .droitier_flipped .case DIV SPAN{
