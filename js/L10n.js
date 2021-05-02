@@ -12,6 +12,7 @@ L10n.sLanguage = navigator.language.substring(0,2).toUpperCase() || 'FR'
 
 L10n.FR ={
 	DELETE_PREF: "Effacer vos préférences",
+	CORDES:		'Cordes',
 	ACCORDAGE:	'Accordage',
 	ABCDEFG:	'ABCDEFG',
 	BEMOL:		'Bémol',
@@ -55,6 +56,7 @@ L10n.FR ={
 	}
 L10n.EN ={
 	DELETE_PREF: "Delete your preferences",
+	CORDES:		'Strings',
 	ACCORDAGE:	'Tuning',
 	ABCDEFG:	'ABCDEFG',
 	BEMOL:		'Flat',

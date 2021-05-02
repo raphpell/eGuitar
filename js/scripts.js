@@ -180,13 +180,13 @@ Config =( function (){
 		[ "mask", '100101010010' ], // gamme par défaut mPenta
 		[ "scale", ['100101010010', L10n('mPenta')]], // gamme par défaut mPenta
 		[ "sound", 0 ],
+		[ "strings", 6 ],
 		[ "tonic", 'A' ],
 		[ "tuning", 'E2,A2,D3,G3,B3,E4' ] // Accordage Guitare standard E
 		])
 
 	const DefaultSettings ={ // Doit contenir tous les attributs possibles
 		config: 0,
-		strings: 6,
 		cases: 12,
 		// Défaut : SpecialVars avec répercution localStorage
 		la3: null,
@@ -199,6 +199,7 @@ Config =( function (){
 		octaves: null,
 		scale: null,
 		sound: null,
+		strings: null,
 		tonic: null,
 		tuning: null
 		}
@@ -220,24 +221,12 @@ Config =( function (){
 
 class Manche {
 	constructor ( sNodeID, oConfig ){
+		this.stringsMax = 6
 		this.ID = ++Manche.ID
 		let that = this
-		let o = this.Config = oConfig || Config()
-
-		var eParent = document.getElementById( sNodeID )
-		var nCases = o.cases
-		var nStrings = o.strings
-		this.e = eParent.appendChild( this.createHTML( nStrings, nCases ))
-		this.nCordes = nStrings
-		this.nCases = nCases
-		this.aCordes =[
-			this.e.getElementsByClassName('corde1'),
-			this.e.getElementsByClassName('corde2'),
-			this.e.getElementsByClassName('corde3'),
-			this.e.getElementsByClassName('corde4'),
-			this.e.getElementsByClassName('corde5'),
-			this.e.getElementsByClassName('corde6')
-			]
+		, o = this.Config = oConfig || Config()
+		, eParent = document.getElementById( sNodeID )
+		, e = this.eHTML = eParent.appendChild( this.createHTML( o.strings.getValue(), o.cases ))
 		this.createMenuHTML()
 		this.hideForm( o.config )
 
@@ -252,6 +241,7 @@ class Manche {
 		o.tuning.addSubscriber( 'oManche.setTuning', sTuning => that.setTuning( sTuning ))
 		o.mask.addSubscriber( 'oManche.setScale', sMask => that.setScale())
 		o.tonic.addSubscriber( 'oManche.setScale', sMask => that.setScale())
+		o.strings.addSubscriber( 'oManche.setStrings', n => that.setStrings( n ))
 
 		// Rafraichissement de la valeur des options
 		o.lefthanded.refresh()
@@ -262,14 +252,17 @@ class Manche {
 		o.tonic.refresh()
 		}
 	createHTML ( nCordes, nCases ){
-		var eParent = Tag( 'DIV', 'eGuitar' )
-		var e = Tag( 'DIV', 'manche' ), eCase, eCorde, eFrette
-		
+		let o = this.Config
+		let e = Tag( 'DIV', 'manche' ), eCase, eCorde, eFrette
+		, nStrings = o.strings.getValue()
+		, aStrings = Array( nStrings )
+		for(let i=0;i<nStrings; i++) aStrings[i]=[]
 		// manche
 		for(var i=0, ni=nCases+1; i<ni; i++ ){
 			eCase = Tag( 'DIV', 'case case'+ i )
 			for(var j=nCordes; j>0; j-- ){
 				eCorde = Tag( 'DIV', 'corde corde'+ j )
+				aStrings[j-1][i] = eCorde
 				eCorde.appendChild( Tag( 'SPAN' ))
 				eCase.appendChild( eCorde )
 				}
@@ -282,36 +275,45 @@ class Manche {
 				eFrette = Tag( 'DIV', 'incrustation' )
 				eCase.appendChild( eFrette )
 				}
+			this.aCordes = aStrings
 			e.appendChild( eCase )
 			}
-		eParent.appendChild( e )
-		eParent.style.width = 30+ (nCases+1)*70 +'px'
-		eParent.style.height = nCordes*30 +'px'
-
-		let o = this.Config
-		function playSound ( e ){
-			if( e.nodeName != 'SPAN' ) return ;
-			if( o.sound.getValue() && /ton/.test( e.className ))
-				playTone( e.note + e.octave, o.la3.getValue())
-			}
-		eParent.onclick = function( evt ){
-			let e = Events.element( evt )
-			if( o.sound.getValue()) return playSound ( e )
-			if( e.nodeName != 'SPAN' ) return ;
-			let a = o.notation.getSequence( o.tonic.getValue())
-			for( let i=1, ni=a.length; i < ni; i++ ){
-				if( a[i] == e.note ){
-					let sMask = o.mask.getValue()
-					let sToggle = sMask[i] == '0' ? '1' : '0'
-					sMask = sMask.substring( 0, i ) + sToggle + sMask.substring( i+1 )
-					o.mask.setValue( sMask )
-					break;
+		let eParent
+		if( ! this.eHTML ){
+			eParent = Tag( 'DIV', 'eGuitar' )
+			function playSound ( e ){
+				if( e.nodeName != 'SPAN' ) return ;
+				if( o.sound.getValue() && /ton/.test( e.className ))
+					playTone( e.note + e.octave, o.la3.getValue())
+				}
+			eParent.onclick = function( evt ){
+				let e = Events.element( evt )
+				if( o.sound.getValue()) return playSound ( e )
+				if( e.nodeName != 'SPAN' ) return ;
+				let a = o.notation.getSequence( o.tonic.getValue())
+				for( let i=1, ni=a.length; i < ni; i++ ){
+					if( a[i] == e.note ){
+						let sMask = o.mask.getValue()
+						, sToggle = sMask[i] == '0' ? '1' : '0'
+						sMask = sMask.substring( 0, i ) + sToggle + sMask.substring( i+1 )
+						o.mask.setValue( sMask )
+						break;
+						}
 					}
 				}
+			eParent.onmouseover = function( evt ){
+					playSound( Events.element( evt ))
+					}
+			eParent.appendChild( e )
 			}
-		eParent.onmouseover = function( evt ){
-			playSound( Events.element( evt ))
+		else {
+			eParent = this.eHTML
+			eParent.removeChild( eParent.firstChild )
+			eParent.insertBefore( e, eParent.firstChild )
 			}
+		
+		eParent.style.width = 30+ (nCases+1)*70 +'px'
+		eParent.style.height = nCordes*30 +'px'
 		return eParent
 		}
 	createMenuHTML (){
@@ -321,21 +323,25 @@ class Manche {
 		/* MENU HAUT */
 		let eUL = Tag( 'UL', 'mancheForm' )
 		let eLI = Tag( 'LI' )
-		let eLabel = eUL.appendChild( Tag( 'LABEL' ))
-		eLabel.innerHTML = L10n('ACCORDAGE') +' : '
-		let eAccordage = eUL.appendChild( Tag( 'SELECT' ))
-		eAccordage.onkeyup = eAccordage.onchange = function(){ o.tuning.setValue( eAccordage.value )}
+		let eLabel = eLI.appendChild( Tag( 'LABEL' ))
 		let eOption
-		for(let a=Tunings, i=0, ni=a.length; i<ni; i++ ){
-			let sTuning = a[i][0]
-			if( sTuning.split(",").length == o.strings ){
-				eOption = Tag( 'OPTION' )
-				eOption.value = sTuning
-				eOption.selected = sTuning == o.tuning.getValue()
-				eOption.innerHTML = a[i][1]
-				eAccordage.appendChild( eOption )
-				}
+		eLabel.innerHTML = L10n('CORDES') +' : '
+		let eStrings = eLI.appendChild( Tag( 'SELECT' ))
+		eStrings.onkeyup = eStrings.onchange = function(){ o.strings.setValue( eStrings.value )}
+		for(let i=4, ni=this.stringsMax+1; i<ni; i++ ){
+			eOption = Tag( 'OPTION' )
+			eOption.value = eOption.innerHTML = i
+			eOption.selected = i == o.strings.getValue()
+			eStrings.appendChild( eOption )
 			}
+		eUL.appendChild( eLI )
+
+		eLI = Tag( 'LI' )
+		eLabel = eLI.appendChild( Tag( 'LABEL' ))
+		eLabel.innerHTML = L10n('ACCORDAGE') +' : '
+		let eAccordage = this.eTunings = eLI.appendChild( Tag( 'SELECT' ))
+		eAccordage.onkeyup = eAccordage.onchange = function(){ o.tuning.setValue( eAccordage.value )}
+		this.setTunings()
 		eLabel.htmlFor = eAccordage.id =  'eAccordage'+ this.ID
 		eUL.appendChild( eLI )
 
@@ -378,7 +384,7 @@ class Manche {
 
 		eLI = Tag('LI')
 		eLabel = Tag('LABEL')
-		eLabel.innerHTML = "LA3 "
+		eLabel.innerHTML = o.notation.getNoteName('La')+"3 "
 		let eINPUT = Tag('INPUT')
 		eINPUT.className = "range"
 		eINPUT.type = "range"
@@ -387,13 +393,6 @@ class Manche {
 		eINPUT.max = 500
 		eINPUT.value = o.la3.getValue()
 		eINPUT.oninput=function(){ o.la3.setValue( this.value )}
-		o.la3.addSubscriber( 'màj Input range La3', function( n ){
-			eINPUT.value = n
-			eINPUT.nextSibling.value = n+'Hz' 
-			})
-		o.notation.addSubscriber( 'màj Label La3', function( a ){
-			eLabel.innerHTML = a[1]=='FR' ? 'La3' : 'A3'
-			})
 		let eOUTPUT = Tag('OUTPUT')
 		eOUTPUT.innerHTML = eINPUT.value+'Hz'
 
@@ -402,7 +401,7 @@ class Manche {
 		eLI.appendChild( eOUTPUT )
 		eUL.appendChild( eLI )
 
-		this.e.appendChild( eUL )
+		this.eHTML.appendChild( eUL )
 
 		/* MENU DROIT */
 		let eUL2 = Tag( 'UL', 'mancheMenu' )
@@ -434,18 +433,26 @@ class Manche {
 			)
 		
 		/* Observateurs */
+		o.strings.addSubscriber( 'màj valeur checkbox Cordes', n => eStrings.value = n )
+		o.la3.addSubscriber( 'màj Input range La3', function( n ){
+			eINPUT.value = n
+			eINPUT.nextSibling.value = n+'Hz' 
+			})
+		o.notation.addSubscriber( 'màj Label La3', function( a ){
+			eLabel.innerHTML = a[1]=='FR' ? 'La3' : 'A3'
+			})
 		o.notation.addSubscriber( 'màj valeur checkbox ABCD et Bémol', function( a ){
 			e5.checked = a[1] == 'EN'
 			e6.checked = a[0]
 			})
 		o.tuning.addSubscriber( 'màj valeur selectBox Accordage', function( sTuning ){ eAccordage.value = sTuning })
 
-		this.e.appendChild( eUL2 )
+		this.eHTML.appendChild( eUL2 )
 		}
 	getNotes ( sNote ){
 		sNote = this.Config.notation.getNoteName( sNote )
 		var aElts = []
-		var a = this.e.getElementsByClassName('corde')
+		var a = this.eHTML.getElementsByClassName('corde')
 		for(var i=0, ni=a.length; i<ni; i++ ){
 			var e = a[i].firstChild
 			if( e.note == sNote ) aElts.push( e )
@@ -453,7 +460,7 @@ class Manche {
 		return aElts
 		}
 	hideForm ( b ){
-		this.e.classList[ ! b ? 'add' : 'remove' ]( 'hideForm' )
+		this.eHTML.classList[ ! b ? 'add' : 'remove' ]( 'hideForm' )
 		}
 	highlightNote ( nCorde, nCase, sClassName ){
 		var e = this.aCordes[ nCorde-1 ][ nCase ]
@@ -466,8 +473,9 @@ class Manche {
 			})
 		}
 	map ( fFunction ){
-		for(var i=0; i<this.nCordes; i++ )
-			for(var j=0; j<=this.nCases; j++ )
+		let o = this.Config
+		for(let i=0, ni=o.strings.getValue(); i<ni; i++ )
+			for(let j=0, nj=o.cases; j<nj; j++ )
 				fFunction( this.aCordes[i][j].firstChild, i, j )
 		}
 	removeNote ( sNote ){
@@ -485,7 +493,7 @@ class Manche {
 			})
 		}
 	reset (){
-		var a = this.e.getElementsByClassName('corde')
+		var a = this.eHTML.getElementsByClassName('corde')
 		for(var i=0, ni=a.length; i<ni; i++ ){
 			var e = a[i]
 			e.firstChild.className = e.firstChild.className.replace( /ton\d[^\s]*/gim, '' )
@@ -493,7 +501,7 @@ class Manche {
 			}
 		}
 	setFlip ( bFlipH, bFlipV ){
-		let o = this.e.classList
+		let o = this.eHTML.classList
 		o.remove( 'gaucher' )
 		o.remove( 'droitier' )
 		o.remove( 'gaucher_flipped' )
@@ -507,7 +515,7 @@ class Manche {
 		}
 	setFretsNumber ( b ){
 		this.eFretsNumber.checked = b
-		this.e.classList[ ! b ? 'add' : 'remove' ]( 'hideFretsNumber' )
+		this.eHTML.classList[ ! b ? 'add' : 'remove' ]( 'hideFretsNumber' )
 		}
 	setLeftHanded ( b ){
 		this.setFlip( b, this.Config.mirror.getValue())
@@ -525,11 +533,11 @@ class Manche {
 		}
 	setNotesName ( b ){
 		this.eNotesName.checked = b
-		this.e.classList[ ! b ? 'add' : 'remove' ]( 'hideNotes' )
+		this.eHTML.classList[ ! b ? 'add' : 'remove' ]( 'hideNotes' )
 		}
 	setOctave ( b ){
 		this.eOctave.checked = b
-		this.e.classList[ b ? 'add' : 'remove' ]( 'octaves' )
+		this.eHTML.classList[ b ? 'add' : 'remove' ]( 'octaves' )
 		this.map( e => e.innerHTML = b ? e.note + '<sup>'+e.octave+'</sup>' : e.note )
 		}
 	setScale ( sNote, sScaleMask ){
@@ -557,15 +565,20 @@ class Manche {
 	setSound ( b ){
 		this.eSound.checked = this.Config.sound.getValue()
 		}
+	setStrings ( n ){
+		let o = this.Config
+		this.createHTML( n, o.cases )
+		this.setTunings ()
+		}
 	setTuning ( sTuning ){
-		let o = this.Config.notation
-		let sNoteC = o.getNoteName('C')
-		let b = this.Config.octaves.getValue()
+		let o = this.Config
+		let sNoteC = o.notation.getNoteName('C')
+		let b = o.octaves.getValue()
 		let aTuning = sTuning.split(',')
-		for(let i=0; i<this.nCordes; i++ ){
+		for(let i=0, ni=o.strings.getValue(); i<ni; i++ ){
 			aTuning[i] = { note:aTuning[i].slice(0,-1), octave:aTuning[i].slice(-1) }
-			let aNotes = o.getSequence( aTuning[i].note )
-			for(let j=0; j<=this.nCases; j++ ){
+			let aNotes = o.notation.getSequence( aTuning[i].note )
+			for(let j=0, nj=o.cases; j<=nj; j++ ){
 				let sNote = aNotes[j%12]
 				let nOctave = ( sNote == sNoteC ) ? ++aTuning[i].octave : aTuning[i].octave
 				let e = this.aCordes[i][j].firstChild
@@ -579,6 +592,23 @@ class Manche {
 				}
 			}
 		this.Config.mask.refresh()
+		}
+	setTunings (){
+		let o = this.Config
+		let e
+		let eSelect = this.eTunings
+		eSelect.innerHTML = ''
+		for(let a=Tunings, i=0, ni=a.length; i<ni; i++ ){
+			let sTuning = a[i][0]
+			if( sTuning.split(",").length == o.strings.getValue()){
+				e = Tag( 'OPTION' )
+				e.value = sTuning
+				e.selected = sTuning == o.tuning.getValue()
+				e.innerHTML = a[i][1]
+				eSelect.appendChild( e )
+				}
+			}
+		o.tuning.setValue( eSelect.value )
 		}
 	}
 Manche.ID = 0

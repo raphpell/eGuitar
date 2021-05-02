@@ -61,7 +61,7 @@ var tone =(function(){
 playTone =(function(){
 	//Create Audio Context
 	var AudioContext = window.AudioContext || window.webkitAudioContext
-	let context = new AudioContext()
+	let context
 	
 
 	function genererCourbeDistortion(amount) {
@@ -79,6 +79,7 @@ playTone =(function(){
 	}
 
 	return ( sNoteOctave, nFreqLa ) => {
+		if( ! context ) context = new AudioContext()
 		let o = context.createOscillator()
 		let g = context.createGain()
 		let d = context.createWaveShaper()

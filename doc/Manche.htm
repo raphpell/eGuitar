@@ -45,13 +45,11 @@
 <p>
 	On partage les préférences d'affichage d'un utilisateur entre toutes les instances.<br> 
 	Le reste doit appartenir à une et une seule instance.<br> 
-	On peut cela dit rendre indépendant chaque configuration.
+	On peut cela dit rendre indépendant chaque configuration :
 </p>
 
 <div id="eTarget"></div>
 
-
-<p>Une fonction inutile nombre de case 10 et nombre de corde 4. Le but sera de faire un manche de basse : il faudra modifié les octaves !</p>
 
 <script type="text/javascript" src="../js/L10n.js"></script>
 <script type="text/javascript" src="../js/scripts.js"></script>
@@ -61,16 +59,18 @@
 <script>
 
 var oManche1 = new Manche( "eDefault" )
-var oManche2 = new Manche( "eDefault", Config({ cases: 10, lefthanded: 1 }))
+var oManche2 = new Manche( "eDefault", Config({ }))
 var oHF = new HarmonieForm ( oManche1.Config )
 eDefault.appendChild( oHF.eHTML )
 
 var oManche3 = new Manche( "eTarget", Config({
 	config: 1,
 	strings: 4,
+	cases: 10,
 	tonic:'Ré',
 	mask:'101011010101',
 	la3: 432,
+	lefthanded: 1,
 	mirror: 1,
 	notation: [1,'FR'],
 	notes: 1,
