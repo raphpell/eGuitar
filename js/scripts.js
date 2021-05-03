@@ -26,14 +26,11 @@ Tag =function( sName, sClasses, sId ){
 	return e
 	}
 Events ={
-	get :function( evt ){
-		return evt?evt:(window.event?window.event:null)
-		},
 	element :function( m ){
 		if(!m)return null
 		if(m.nodeName)return m
 		if(m.type){
-			m=Events.get(m)
+			m=m?m:(window.event?window.event:null)
 			return m.target?(m.target.nodeType==3?m.target.parentNode:m.target):m.srcElement
 			}
 		return false
