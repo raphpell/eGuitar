@@ -164,12 +164,12 @@ let Config =( function (){
 	GlobalVars([
 		[ "la3", 440 ],
 		[ "lefthanded", 0 ],
+		[ "mask", '100101010010' ], // gamme par défaut mPenta
 		[ "mirror", 0  ],
 		[ "notation", [0,'EN'] ], // Notation courante utilisé dans l'application [true,'FR'] = bBemol sLang
 		[ "notes", 0 ],
 		[ "numbers", 0 ],
 		[ "octaves", 0 ],
-		[ "mask", '100101010010' ], // gamme par défaut mPenta
 		[ "scale", ['100101010010', L10n('mPenta')]], // gamme par défaut mPenta
 		[ "sound", 0 ],
 		[ "strings", 6 ],
