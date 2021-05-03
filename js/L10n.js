@@ -10,7 +10,8 @@ L10n.sForceLanguage = '' // Debug purpose
 L10n.sDefaultLanguage = 'FR'
 L10n.sLanguage = navigator.language.substring(0,2).toUpperCase() || 'FR'
 
-L10n.FR ={
+L10n.FR = {
+	// App
 	DELETE_PREF: "Effacer vos préférences",
 	CORDES:		'Cordes',
 	ACCORDAGE:	'Accordage',
@@ -25,9 +26,17 @@ L10n.FR ={
 	ARPEGE:		'Arpège',
 	ACCORDS:	'Accords',
 	NOTES:		'Notes',
+	
+	// Tunings
+	Guitare:	'Guitare',
+	Basse:		'Basse',
+	AccAlt:		'Accordage alternatif',
+	
+	// Gammes
 	mBlues:		'Blues Mineur',
 	MPenta:		'Pentatonique majeure',
 	mPenta:		'Pentatonique mineure',
+	MNat:		'Majeure naturelle',
 	MNat1:		'Majeure naturelle - I Ionien',
 	MNat2:		'Majeure naturelle - ii Dorien',
 	MNat3:		'Majeure naturelle - iii Phrygien',
@@ -55,6 +64,7 @@ L10n.FR ={
 	Chrom:		'Chromatique',
 	}
 L10n.EN ={
+	// App
 	DELETE_PREF: "Delete your preferences",
 	CORDES:		'Strings',
 	ACCORDAGE:	'Tuning',
@@ -69,6 +79,13 @@ L10n.EN ={
 	ARPEGE:		'Arpeggio',
 	ACCORDS:	'Chords',
 	NOTES:		'Notes',
+	
+	// Tunings
+	Guitare:	'Guitar',
+	Basse:		'Bass',
+	AccAlt:		'Alternative tuning',
+	
+	// Scales
 	mBlues:		'Minor blues',
 	MPenta:		'Major pentatonic',
 	mPenta:		'Minor pentatonic',

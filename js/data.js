@@ -1,8 +1,9 @@
 const Tunings =[
 	/* Guitare */
 	// 6 cordes
-	['E2,A2,D3,G3,B3,E4','Standard'],
+	['E2,A2,D3,G3,B3,E4','('+L10n('Guitare')+') Standard'],
 	['D2,A2,D3,G3,B3,E4','Drop D'],
+	['E2,A2,E3,A3,C#4,E4','Open Tuning A'],
 	['D#2,G#2,C#3,F#3,A#3,D#4','Half Step Down'],
 	['D2,G2,C3,F3,A3,D4','Full Step Down'],
 	['C#2,F#2,B2,E3,G#3,C#4','2 and 2/3 Steps Down'],
@@ -61,24 +62,34 @@ const Tunings =[
 	['C2,G2,D3,A3,E4,B4','Mandoguitar'],
 	['B0,A2,D3,G3,B3,E4','Rusty Cage'],
 	// 7 cordes
-	['B1,E2,A2,D3,G3,B3,E4','Guitare Standard'],
-	['A1,E2,A2,D3,G3,B3,E4','Guitare Van Eps'],
+	['B1,E2,A2,D3,G3,B3,E4','('+L10n('Guitare')+') Standard'],
+	['A1,E2,A2,D3,G3,B3,E4','('+L10n('Guitare')+') Van Eps'],
 	// 8 cordes
-	['B1,E2,A2,D3,G3,B3,E4,A4','Guitare Galbraith'],
-	['B1,D2,E2,A2,D3,G3,B3,E4','Guitare Accordage alternatif'],
+	['B1,E2,A2,D3,G3,B3,E4,A4','('+L10n('Guitare')+') Galbraith'],
+	['B1,D2,E2,A2,D3,G3,B3,E4','('+L10n('Guitare')+') '+L10n('AccAlt')],
 	// 9 cordes
-	['E3,E2,A3,A2,D4,D3,G3,B3,E4','Guitare Standard'],
-	['E2,A2,D3,G4,G3,B3,B3,E4,E4','Guitare Accordage alternatif'],
+	['E3,E2,A3,A2,D4,D3,G3,B3,E4','('+L10n('Guitare')+') Standard'],
+	['E2,A2,D3,G4,G3,B3,B3,E4,E4','('+L10n('Guitare')+') '+L10n('AccAlt')],
 	// 10 cordes
-	['F#1,G#1,A#1,C2,E3,A2,D3,G3,B3,E4','Guitare Standard'],
+	['F#1,G#1,A#1,C2,E3,A2,D3,G3,B3,E4','('+L10n('Guitare')+') Standard'],
+	// 12 cordes
+	['E3,E2,A3,A2,D4,D3,G4,G3,B3,B3,E4,E4','('+L10n('Guitare')+') Standard'],
 
 	/* Guitare Basse */
 	// 4 cordes
-	['E1,A1,D2,G2','Basse Standard'],
+	['E1,A1,D2,G2','('+L10n('Basse')+') Standard'],
 	// 5 cordes
-	['B0,E1,A1,D2,G2','Basse 5 cordes Standard'],
+	['B0,E1,A1,D2,G2','('+L10n('Basse')+') Standard'],
 	// 6 cordes
-	['B0,E1,A1,D2,G2,C3','Basse 6 cordes Standard']
+	['B0,E1,A1,D2,G2,C3','('+L10n('Basse')+') Standard'],
+
+	/* Banjo */
+	// 4 cordes
+	['C2,G3,D3,A4','Banjo Tenor'],
+	// 5 cordes
+	['G4,D3,G3,B3,D4','Banjo Bluegrass G'],
+	['G4,C3,G3,B3,D4','Banjo C'],
+	['G4,B2,E3,G#3,B3','Banjo Diapson Long']
 	]
 const Arpeggio =[
 	['100100010000','m'],
