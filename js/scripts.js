@@ -279,8 +279,10 @@ class Manche {
 				let e = Events.element( evt )
 				if( e.nodeName == 'SUP' ) e = e.parentNode
 				if( e.nodeName != 'SPAN' ) return ;
-				if( o.sound.value && /ton/.test( e.className ))
+				if( o.sound.value && /ton/.test( e.className )){
 					playTone( e.note + e.octave, o.la3.value)
+					return false
+					}
 				return e
 				}
 			eParent.onclick = function( evt ){
