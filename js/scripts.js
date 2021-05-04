@@ -341,26 +341,6 @@ class Manche {
 		eLabel.htmlFor = eAccordage.id =  'eAccordage'+ this.ID
 		eUL.appendChild( eLI )
 
-		let checkbox =function( sTag, sId, sLabel, sClass, fFunction ){
-			let eTAG = Tag( sTag )
-			if( sClass ) eTAG.className = sClass
-			let eCheckBox = eTAG.appendChild( Tag( 'INPUT' ))
-			let eLabel = eTAG.appendChild( Tag( 'LABEL' ))
-			eCheckBox.type = 'checkbox'
-			if( fFunction ) eCheckBox.onclick = fFunction
-			eLabel.htmlFor = eCheckBox.id = sId + that.ID
-			eLabel.innerHTML = sLabel
-			return eTAG
-			}
-		, cb =function( sId, sLabel, bChecked, fFunction, sClassName ){
-			let eLI = checkbox( 'LI', sId, sLabel, sClassName||'', fFunction )
-			let eCB = eLI.firstChild
-			eCB.checked = bChecked
-			cb.eUL.appendChild( eLI )
-			return eCB
-			}
-		cb.eUL = eUL
-
 		eLI = Tag('LI')
 		eLabel = Tag('LABEL')
 		eLabel.innerHTML = o.notation.getNoteName('La')+"3 "
@@ -380,11 +360,21 @@ class Manche {
 		eLI.appendChild( eOUTPUT )
 		eUL.appendChild( eLI )
 
-		this.eHTML.appendChild( eUL )
-
 		/* MENU DROIT */
 		let eUL2 = Tag( 'UL', 'menu' )
-		cb.eUL = eUL2
+		let cb =function( sId, sLabel, bChecked, fFunction, sClass ){
+			let eLI = Tag( 'LI' )
+			if( sClass ) eLI.className = sClass
+			let eCB = eLI.appendChild( Tag( 'INPUT' ))
+			let eLabel = eLI.appendChild( Tag( 'LABEL' ))
+			eCB.type = 'checkbox'
+			if( fFunction ) eCB.onclick = fFunction
+			eLabel.htmlFor = eCB.id = sId + that.ID
+			eLabel.innerHTML = sLabel
+			eCB.checked = bChecked
+			eUL2.appendChild( eLI )
+			return eCB
+			}
 		cb( 'eConfig', '' ,
 			o.config,
 			function(){ that.hideForm( this.checked )},
@@ -432,10 +422,9 @@ class Manche {
 			'sound'
 			)
 
-
 		eUL.appendChild( eUL2 )
-		
-		
+		this.eHTML.appendChild( eUL )
+
 		/* Observateurs */
 		o.strings.addSubscriber( 'màj valeur checkbox Cordes', n => eStrings.value = n )
 		o.la3.addSubscriber( 'màj Input range La3', function( n ){

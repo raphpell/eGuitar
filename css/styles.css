@@ -36,6 +36,33 @@
 	top: 1px;
 	}
 
+/* Menu Haut */
+.mancheForm {
+	box-sizing: border-box;
+	font: normal 0.8em Verdana;
+	margin: 0;
+	position: absolute;
+	padding: 4px 0 4px 8px;
+	top: 0px;
+	left: 0;
+	width: 100%;
+ 	height: 30px;
+	z-index: 1;
+	/* line-height: 30px; */
+	}
+.mancheForm LI {
+	display: inline-block;
+	margin: 0 12px 0 0;
+	padding: 0;
+	}
+.mancheForm LI LABEL,
+.mancheForm LI INPUT,
+.mancheForm LI SELECT {
+	vertical-align: middle;
+	}
+.mancheForm .range { width: 50px; }
+.mancheForm .scale { width: 200px; }
+
 /* Menu  */
 .menu {
 	float: right;
@@ -77,34 +104,6 @@
 .menu .hFlip LABEL { background-position: -215px -5px; }
 .menu .vFlip LABEL { background-position: -245px -5px; }
 .menu .abcdefg LABEL { background-position: -275px -5px; }
-
-/* Menu Haut */
-.mancheForm {
-	box-sizing: border-box;
-	font: normal 0.8em Verdana;
-	margin: 0;
-	position: absolute;
-	padding: 4px 0 4px 8px;
-	top: 0px;
-	left: 0;
-	width: 100%;
- 	height: 30px;
-	z-index: 1;
-	/* line-height: 30px; */
-	}
-.mancheForm LI {
-	display: inline-block;
-	margin: 0 12px 0 0;
-	padding: 0;
-	}
-.mancheForm LI LABEL,
-
-.mancheForm LI INPUT,
-.mancheForm LI SELECT {
-	vertical-align: middle;
-	}
-.mancheForm .range { width: 50px; }
-.mancheForm .scale { width: 200px; }
 
 /* cases du manche */
 .case {
