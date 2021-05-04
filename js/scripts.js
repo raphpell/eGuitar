@@ -360,23 +360,6 @@ class Manche {
 			return eCB
 			}
 		cb.eUL = eUL
-		let e5 = this.eNotationI = cb( 'eNotationI',
-			L10n('ABCDEFG'),
-			o.notation.value[1] == 'EN',
-			function(){ that.setNotation( e5.checked?'EN':'FR', e6.checked )}
-			)
-		, e6 = this.eBemol = cb( 'eBemol', L10n('BEMOL'),
-			o.notation.value[0],
-			function(){ that.setNotation( e5.checked?'EN':'FR', e6.checked )}
-			)
-		, e2 = this.eFlipV = cb( 'eFlipV', L10n('MIROIR'),
-			false,
-			function(){ o.mirror.value = this.checked }
-			)
-		, e3 = this.eOctave = cb( 'eOctaves', L10n('OCTAVES'),
-			false,
-			function(){ o.octaves.value = this.checked }
-			)
 
 		eLI = Tag('LI')
 		eLabel = Tag('LABEL')
@@ -400,17 +383,43 @@ class Manche {
 		this.eHTML.appendChild( eUL )
 
 		/* MENU DROIT */
-		let eUL2 = Tag( 'UL', 'mancheMenu' )
+		let eUL2 = Tag( 'UL', 'menu' )
 		cb.eUL = eUL2
 		cb( 'eConfig', '' ,
 			o.config,
 			function(){ that.hideForm( this.checked )},
-			'reglage'
+			'config'
 			)
 		this.eNotesName = cb( 'eNotesName', '', // L10n('NOTES'),
 			false,
 			function(){ o.notes.value = this.checked },
 			'notes'
+			)
+		let e5 = this.eNotationI = cb( 'eNotationI',
+			'',
+			o.notation.value[1] == 'EN',
+			function(){ that.setNotation( e5.checked?'EN':'FR', e6.checked )},
+			'abcdefg'
+			)
+		let e6 = this.eBemol = cb( 'eBemol', '',
+			o.notation.value[0],
+			function(){ that.setNotation( e5.checked?'EN':'FR', e6.checked )},
+			'bemol'
+			)
+		let e3 = this.eOctave = cb( 'eOctaves', '',
+			false,
+			function(){ o.octaves.value = this.checked },
+			'octaves'
+			)
+		let e2 = this.eFlipV = cb( 'eFlipV', '',
+			false,
+			function(){ o.mirror.value = this.checked },
+			'vFlip'
+			)
+		this.eFlipH = cb( 'eFlipH', '', //L10n('GAUCHER'),
+			false,
+			function(){ o.lefthanded.value = this.checked },
+			'hFlip'
 			)
 		this.eFretsNumber = cb( 'eFretsNumber', '', // L10n('NUMEROS'),
 			false,
@@ -422,11 +431,10 @@ class Manche {
 			function(){ o.sound.value = this.checked },
 			'sound'
 			)
-		this.eFlipH = cb( 'eFlipH', '', //L10n('GAUCHER'),
-			false,
-			function(){ o.lefthanded.value = this.checked },
-			'lefthanded'
-			)
+
+
+		eUL.appendChild( eUL2 )
+		
 		
 		/* Observateurs */
 		o.strings.addSubscriber( 'màj valeur checkbox Cordes', n => eStrings.value = n )
@@ -442,8 +450,6 @@ class Manche {
 			e6.checked = a[0]
 			})
 		o.tuning.addSubscriber( 'màj valeur selectBox Accordage', function( sTuning ){ eAccordage.value = sTuning })
-
-		this.eHTML.appendChild( eUL2 )
 		}
 	getNotes ( sNote ){
 		sNote = this.Config.notation.getNoteName( sNote )

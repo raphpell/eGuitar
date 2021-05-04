@@ -37,16 +37,21 @@
 	}
 
 /* Menu  */
-.menu LI {
-	display: inline-block;
-	float: left;
-	height: 20px;
-	width: 20px;
-	margin: 5px;
+.menu {
+	float: right;
+	margin: 0;
 	padding: 0;
 	}
-.menu LI INPUT:checked + LABEL {
-	box-shadow: inset 0 0 10px #FFF, inset 0 0 4px #FFF;
+.menu LI {
+	display: inline-block;
+	float: right;
+	height: 20px;
+	width: 20px;
+	margin: 0 5px 5px ! important;
+	padding: 0;
+	}
+.menu LI INPUT {
+	display: none;
 	}
 .menu LI LABEL {
 	background-image: url(../sprites/menu.png);
@@ -59,15 +64,19 @@
 	overflow: hidden;
 	transition:all 200ms;
 	}
-.menu .config LABEL { background-position: -2px -2px; }
-.menu .lefthanded LABEL { background-position: -32px -2px; }
-.menu .notes LABEL { background-position: -62px -2px; }
-.menu .numbers LABEL { background-position: -92px -2px; }
-.menu .octave LABEL { background-position: -122px -2px; }
-.menu .bemol LABEL { background-position: -152px -2px; }
-.menu .sound LABEL { background-position: -182px -2px; }
-.menu .hFlip LABEL { background-position: -212px -2px; }
-.menu .vFlip LABEL { background-position: -242px -2px; }
+.menu LI INPUT:checked + LABEL {
+	box-shadow: inset 0 0 10px #FFF, inset 0 0 4px #FFF;
+	}
+.menu .config LABEL { background-position: -5px -5px; }
+.menu .lefthanded LABEL { background-position: -35px -5px; }
+.menu .notes LABEL { background-position: -65px -5px; }
+.menu .numbers LABEL { background-position: -95px -5px; }
+.menu .octaves LABEL { background-position: -125px -5px; }
+.menu .bemol LABEL { background-position: -155px -5px; }
+.menu .sound LABEL { background-position: -185px -5px; }
+.menu .hFlip LABEL { background-position: -215px -5px; }
+.menu .vFlip LABEL { background-position: -245px -5px; }
+.menu .abcdefg LABEL { background-position: -275px -5px; }
 
 /* Menu Haut */
 .mancheForm {
@@ -75,7 +84,7 @@
 	font: normal 0.8em Verdana;
 	margin: 0;
 	position: absolute;
-	padding: 4px 8px;
+	padding: 4px 0 4px 8px;
 	top: 0px;
 	left: 0;
 	width: 100%;
@@ -89,62 +98,13 @@
 	padding: 0;
 	}
 .mancheForm LI LABEL,
+
 .mancheForm LI INPUT,
 .mancheForm LI SELECT {
 	vertical-align: middle;
 	}
-.range {
-	width: 50px;
-	}
-
-/* Menu droit */
-.mancheMenu {
-	top: 30px;
-	right: 0;
-	margin: 0;
-	padding: 0;
-	height: 120px;
-	width: 30px;
-	position: absolute;
-	z-index: 10;
-	transition: all 200ms;
-	}
-.hideForm .mancheMenu {
-	top: 0;
-	}
-.mancheMenu LI {
-	cursor: hand;
-	display: inline-block;
-	float:right;
-	height: 20px;
-	width: 20px;
-	margin: 5px;
-	padding: 0;
-	}
-.mancheMenu LI INPUT:checked + LABEL {
-	box-shadow: inset 0 0 10px #FFF, inset 0 0 4px #FFF;
-	}
-.mancheMenu LI INPUT {
-	display: none;
-	}
-.mancheMenu LI LABEL {
-	background-color:rgba(255,255,255,.5) !important;;
-	border-radius: 5px;
-	display: block;
-	height: 20px;
-	width: 20px;
-	overflow: hidden;
-	transition:all 200ms;
-	}
-.mancheMenu .reglage LABEL { background: url(../sprites/gear.png) -5px -5px; }
-.mancheMenu .sound LABEL { background: url(../sprites/sound.png) -5px -5px;}
-.mancheMenu .notes LABEL { background: url(../sprites/notes.png) -5px -5px;}
-.mancheMenu .numbers LABEL { background: url(../sprites/numbers.png) -5px -5px;}
-.mancheMenu .lefthanded LABEL { background: url(../sprites/lefthanded.png) -5px -5px;}
-
-.scale {
-	width: 200px;
-	}
+.mancheForm .range { width: 50px; }
+.mancheForm .scale { width: 200px; }
 
 /* cases du manche */
 .case {
