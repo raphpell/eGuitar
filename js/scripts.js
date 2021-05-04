@@ -370,7 +370,7 @@ class Manche {
 			eCB.type = 'checkbox'
 			if( fFunction ) eCB.onclick = fFunction
 			eLabel.htmlFor = eCB.id = sId + that.ID
-			eLabel.innerHTML = sLabel
+			eLabel.title = sLabel
 			eCB.checked = bChecked
 			eUL2.appendChild( eLI )
 			return eCB
@@ -380,43 +380,42 @@ class Manche {
 			function(){ that.hideForm( this.checked )},
 			'config'
 			)
-		this.eNotesName = cb( 'eNotesName', '', // L10n('NOTES'),
+		this.eNotesName = cb( 'eNotesName', L10n('NOTES'),
 			false,
 			function(){ o.notes.value = this.checked },
 			'notes'
 			)
-		let e5 = this.eNotationI = cb( 'eNotationI',
-			'',
+		let e5 = this.eNotationI = cb( 'eNotationI', L10n('ABCDEFG'),
 			o.notation.value[1] == 'EN',
 			function(){ that.setNotation( e5.checked?'EN':'FR', e6.checked )},
 			'abcdefg'
 			)
-		let e6 = this.eBemol = cb( 'eBemol', '',
+		let e6 = this.eBemol = cb( 'eBemol', L10n('BEMOL'),
 			o.notation.value[0],
 			function(){ that.setNotation( e5.checked?'EN':'FR', e6.checked )},
 			'bemol'
 			)
-		let e3 = this.eOctave = cb( 'eOctaves', '',
+		let e3 = this.eOctave = cb( 'eOctaves', L10n('OCTAVES'),
 			false,
 			function(){ o.octaves.value = this.checked },
 			'octaves'
 			)
-		let e2 = this.eFlipV = cb( 'eFlipV', '',
+		let e2 = this.eFlipV = cb( 'eFlipV', L10n('MIROIR'),
 			false,
 			function(){ o.mirror.value = this.checked },
 			'vFlip'
 			)
-		this.eFlipH = cb( 'eFlipH', '', //L10n('GAUCHER'),
+		this.eFlipH = cb( 'eFlipH', L10n('GAUCHER'),
 			false,
 			function(){ o.lefthanded.value = this.checked },
 			'hFlip'
 			)
-		this.eFretsNumber = cb( 'eFretsNumber', '', // L10n('NUMEROS'),
+		this.eFretsNumber = cb( 'eFretsNumber', L10n('NUMEROS'),
 			false,
 			function(){ o.numbers.value = this.checked },
 			'numbers'
 			)
-		this.eSound = cb( 'eSound', '' ,
+		this.eSound = cb( 'eSound',  L10n('AUDIO'),
 			o.sound.value,
 			function(){ o.sound.value = this.checked },
 			'sound'

@@ -15,17 +15,18 @@ L10n.FR = {
 	DELETE_PREF: "Effacer vos préférences",
 	CORDES:		'Cordes',
 	ACCORDAGE:	'Accordage',
-	ABCDEFG:	'ABCDEFG',
+	ABCDEFG:	'Notation anglaise',
 	BEMOL:		'Bémol',
-	GAUCHER:	'Gaucher',
-	MIROIR:		'Miroir',
+	GAUCHER:	'Miroir horizontal',
+	MIROIR:		'Miroir vertical',
 	OCTAVES:	'Octaves',
-	NUMEROS:	'Numéros',
+	NUMEROS:	'Numéros des cases',
 	TONIQUE:	'Tonique',
 	GAMME:		'Gamme',
 	ARPEGE:		'Arpège',
 	ACCORDS:	'Accords',
 	NOTES:		'Notes',
+	AUDIO:		'Audio',
 	
 	// Tunings
 	Guitare:	'Guitare',
@@ -79,6 +80,7 @@ L10n.EN ={
 	ARPEGE:		'Arpeggio',
 	ACCORDS:	'Chords',
 	NOTES:		'Notes',
+	AUDIO:		'Audio',
 	
 	// Tunings
 	Guitare:	'Guitar',
