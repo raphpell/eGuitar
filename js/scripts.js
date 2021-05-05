@@ -1,7 +1,6 @@
-window.onselectstart =function(){ return false }	// empêche la sélection de texte
+window.onselectstart =function(){ return false } // empêche la sélection de texte
 
 /*=== Utilitaires ====*/
-// Mémorise les choix utilisateurs d'une session à une autre
 Memoire =(function( sBase ){
 	let o = JSON.parse( localStorage.getItem( sBase )) || {}
 	return {
@@ -385,22 +384,15 @@ class Manche {
 			function(){ o.notes.value = this.checked },
 			'notes'
 			)
-		let e5 = this.eNotationI = cb( 'eNotationI', L10n('ABCDEFG'),
-			o.notation.value[1] == 'EN',
-			function(){ that.setNotation( e5.checked?'EN':'FR', e6.checked )},
-			'abcdefg'
-			)
-		let e6 = this.eBemol = cb( 'eBemol', L10n('BEMOL'),
-			o.notation.value[0],
-			function(){ that.setNotation( e5.checked?'EN':'FR', e6.checked )},
-			'bemol'
-			)
-		let e3 = this.eOctave = cb( 'eOctaves', L10n('OCTAVES'),
+		let f = function(){ that.setNotation( that.eNotationI.checked?'EN':'FR', that.eBemol.checked )}
+		this.eNotationI = cb( 'eNotationI', L10n('ABCDEFG'), o.notation.value[1] == 'EN', f, 'abcdefg' )
+		this.eBemol = cb( 'eBemol', L10n('BEMOL'), o.notation.value[0], f, 'bemol' )
+		this.eOctaves = cb( 'eOctaves', L10n('OCTAVES'),
 			false,
 			function(){ o.octaves.value = this.checked },
 			'octaves'
 			)
-		let e2 = this.eFlipV = cb( 'eFlipV', L10n('MIROIR'),
+		this.eFlipV = cb( 'eFlipV', L10n('MIROIR'),
 			false,
 			function(){ o.mirror.value = this.checked },
 			'vFlip'
@@ -526,7 +518,7 @@ class Manche {
 		this.eHTML.classList[ ! b ? 'add' : 'remove' ]( 'hideNotes' )
 		}
 	setOctave ( b ){
-		this.eOctave.checked = b
+		this.eOctaves.checked = b
 		this.eHTML.classList[ b ? 'add' : 'remove' ]( 'octaves' )
 		this.map( e => e.innerHTML = b ? e.note + '<sup>'+e.octave+'</sup>' : e.note )
 		}
