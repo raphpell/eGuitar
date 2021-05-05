@@ -230,11 +230,9 @@ class Manche {
 		o.notes.addSubscriber( 'oManche.setNotesName', b => that.setNotesName(b) )
 		o.numbers.addSubscriber( 'oManche.setFretsNumber', b => that.setFretsNumber(b))
 		o.octaves.addSubscriber( 'oManche.setOctave', b => that.setOctave(b))
-		o.sound.addSubscriber( 'oManche.setSound', b => that.setSound(b))
 		o.tuning.addSubscriber( 'oManche.setTuning', sTuning => that.setTuning( sTuning ))
 		o.mask.addSubscriber( 'oManche.setScale', sMask => that.setScale())
 		o.tonic.addSubscriber( 'oManche.setScale', sMask => that.setScale())
-		o.strings.addSubscriber( 'oManche.setStrings', n => that.setStrings( n ))
 
 		// Rafraichissement de la valeur des options
 		o.lefthanded.refresh()
@@ -247,15 +245,13 @@ class Manche {
 	createHTML ( nCordes, nCases ){
 		let o = this.Config
 		let e = Tag( 'DIV', 'manche' ), eCase, eCorde, eFrette
-		, nStrings = o.strings.value
-		, aStrings = Array( nStrings )
-		for(let i=0;i<nStrings; i++) aStrings[i]=[]
+		, aStrings = Array( nCordes )
+		for(let i=0;i<nCordes; i++) aStrings[i]=[]
 		// manche
 		for(var i=0, ni=nCases+1; i<ni; i++ ){
 			eCase = Tag( 'DIV', 'case case'+ i )
 			for(var j=nCordes; j>0; j-- ){
-				eCorde = Tag( 'DIV', 'corde corde'+ j )
-				aStrings[j-1][i] = eCorde
+				aStrings[j-1][i] = eCorde = Tag( 'DIV', 'corde corde'+ j )
 				eCorde.appendChild( Tag( 'SPAN' ))
 				eCase.appendChild( eCorde )
 				}
@@ -323,6 +319,7 @@ class Manche {
 		eLabel.innerHTML = L10n('CORDES') +' : '
 		let eStrings = eLI.appendChild( Tag( 'SELECT' ))
 		eStrings.onkeyup = eStrings.onchange = function(){ o.strings.value = eStrings.value }
+		this.eStrings = eStrings
 		for(let i=4, ni=this.stringsMax+1; i<ni; i++ ){
 			eOption = Tag( 'OPTION' )
 			eOption.value = eOption.innerHTML = i
@@ -384,7 +381,10 @@ class Manche {
 			function(){ o.notes.value = this.checked },
 			'notes'
 			)
-		let f = function(){ that.setNotation( that.eNotationI.checked?'EN':'FR', that.eBemol.checked )}
+		let f = function(){
+			that.setNotation( that.eNotationI.checked?'EN':'FR', that.eBemol.checked )
+			
+			}
 		this.eNotationI = cb( 'eNotationI', L10n('ABCDEFG'), o.notation.value[1] == 'EN', f, 'abcdefg' )
 		this.eBemol = cb( 'eBemol', L10n('BEMOL'), o.notation.value[0], f, 'bemol' )
 		this.eOctaves = cb( 'eOctaves', L10n('OCTAVES'),
@@ -417,17 +417,20 @@ class Manche {
 		this.eHTML.appendChild( eUL )
 
 		/* Observateurs */
-		o.strings.addSubscriber( 'màj valeur checkbox Cordes', n => eStrings.value = n )
+		o.sound.addSubscriber( 'oManche.eSound.checked = b', b => that.eSound.checked = b )
+		o.strings.addSubscriber( 'màj valeur checkbox Cordes',function ( n ){
+			that.eStrings.value = n
+			that.createHTML( n, that.Config.cases )
+			that.setTunings ()
+			})
 		o.la3.addSubscriber( 'màj Input range La3', function( n ){
 			eINPUT.value = n
 			eINPUT.nextSibling.value = n+'Hz' 
 			})
 		o.notation.addSubscriber( 'màj Label La3', function( a ){
 			eLabel.innerHTML = a[1]=='FR' ? 'La3' : 'A3'
-			})
-		o.notation.addSubscriber( 'màj valeur checkbox ABCD et Bémol', function( a ){
-			e5.checked = a[1] == 'EN'
-			e6.checked = a[0]
+			that.eNotationI.checked = a[1] == 'EN'
+			that.eBemol.checked = a[0]
 			})
 		o.tuning.addSubscriber( 'màj valeur selectBox Accordage', function( sTuning ){ eAccordage.value = sTuning })
 		}
@@ -505,7 +508,7 @@ class Manche {
 	setMirror ( b ){
 		this.setFlip( this.Config.lefthanded.value, b )
 		}
-	setNotation	( sLang, bBemol ){
+	setNotation ( sLang, bBemol ){
 		var a = this.Config.notation.value
 		bBemol = bBemol || false
 		if( a[0]==bBemol && a[1]==sLang ) return ;
@@ -544,14 +547,8 @@ class Manche {
 			pos = sScaleMask.indexOf('1', pos + 1 )
 			}
 		}
-	setSound ( b ){
-		this.eSound.checked = this.Config.sound.value
-		}
-	setStrings ( n ){
-		let o = this.Config
-		this.createHTML( n, o.cases )
-		this.setTunings ()
-		}
+	setSound ( b ){ this.Config.sound.value = b } // ok
+	setStrings ( n ){ this.Config.strings.value = n } // ok
 	setTuning ( sTuning ){
 		let o = this.Config
 		let sNoteC = o.notation.getNoteName('C')
