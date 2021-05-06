@@ -459,6 +459,14 @@ class Manche {
 			o.mask.refresh()
 			})
 		}
+	eraseNotes (){
+		var a = this.eHTML.getElementsByClassName('corde')
+		for(var i=0, ni=a.length; i<ni; i++ ){
+			var e = a[i]
+			e.firstChild.className = e.firstChild.className.replace( /ton\d[^\s]*/gim, '' )
+			e.className = e.className.replace( /position\d[^\s]*/gim, '' )
+			}
+		}
 	getNotes ( sNote ){
 		sNote = this.Config.notation.getNoteName( sNote )
 		var aElts = []
@@ -499,14 +507,6 @@ class Manche {
 			e.innerHTML = b ? e.note + '<sup>'+e.octave+'</sup>' : e.note
 			})
 		}
-	reset (){
-		var a = this.eHTML.getElementsByClassName('corde')
-		for(var i=0, ni=a.length; i<ni; i++ ){
-			var e = a[i]
-			e.firstChild.className = e.firstChild.className.replace( /ton\d[^\s]*/gim, '' )
-			e.className = e.className.replace( /position\d[^\s]*/gim, '' )
-			}
-		}
 	setScale ( sNote, sScaleMask ){
 		if( sNote ){
 			this.Config.tonic.value = sNote
@@ -515,7 +515,7 @@ class Manche {
 			sNote = this.Config.tonic.value
 			sScaleMask = this.Config.mask.value
 			}
-		this.reset()
+		this.eraseNotes()
 		var a = this.Config.notation.getSequence( sNote )
 		var aNotes = []
 		
