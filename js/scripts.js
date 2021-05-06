@@ -160,7 +160,8 @@ let Config =( function (){
 			})
 		}
 	// Variables globales
-	GlobalVars([
+	GlobalVars([ // Attention: un soucis avec les valeurs booléenne à 1 !!!
+		[ "config", 0 ],
 		[ "la3", 440 ],
 		[ "lefthanded", 0 ],
 		[ "mask", '100101010010' ], // gamme par défaut mPenta
@@ -177,9 +178,9 @@ let Config =( function (){
 		])
 
 	const DefaultSettings ={ // Doit contenir tous les attributs possibles
-		config: 0,
 		cases: 12,
 		// Défaut : SpecialVars avec répercution localStorage
+		config: null,
 		la3: null,
 		lefthanded: null,
 		mask: null,
@@ -221,20 +222,13 @@ class Manche {
 		, eParent = document.getElementById( sNodeID )
 		, e = this.eHTML = eParent.appendChild( this.createHTML( o.strings.value, o.cases ))
 		this.createMenuHTML()
-		this.hideForm( o.config )
 
 		// Ajoute les observateurs des options
-		o.lefthanded.addSubscriber( 'oManche.setLeftHanded', b => that.setLeftHanded(b))
-		o.mirror.addSubscriber( 'oManche.setMirror', b => that.setMirror(b))
-		o.notation.addSubscriber( 'oManche.renameNotes', () => that.renameNotes())
-		o.notes.addSubscriber( 'oManche.setNotesName', b => that.setNotesName(b) )
-		o.numbers.addSubscriber( 'oManche.setFretsNumber', b => that.setFretsNumber(b))
-		o.octaves.addSubscriber( 'oManche.setOctave', b => that.setOctave(b))
-		o.tuning.addSubscriber( 'oManche.setTuning', sTuning => that.setTuning( sTuning ))
 		o.mask.addSubscriber( 'oManche.setScale', sMask => that.setScale())
 		o.tonic.addSubscriber( 'oManche.setScale', sMask => that.setScale())
 
 		// Rafraichissement de la valeur des options
+		o.config.refresh()
 		o.lefthanded.refresh()
 		o.notes.refresh()
 		o.numbers.refresh()
@@ -317,24 +311,24 @@ class Manche {
 		let eLabel = eLI.appendChild( Tag( 'LABEL' ))
 		let eOption
 		eLabel.innerHTML = L10n('CORDES') +' : '
-		let eStrings = eLI.appendChild( Tag( 'SELECT' ))
-		eStrings.onkeyup = eStrings.onchange = function(){ o.strings.value = eStrings.value }
-		this.eStrings = eStrings
+		let e = eLI.appendChild( Tag( 'SELECT' ))
+		e.onkeyup = e.onchange = ()=> o.strings.value = that.eStrings.value
+		this.eStrings = e
 		for(let i=4, ni=this.stringsMax+1; i<ni; i++ ){
 			eOption = Tag( 'OPTION' )
 			eOption.value = eOption.innerHTML = i
 			eOption.selected = i == o.strings.value
-			eStrings.appendChild( eOption )
+			e.appendChild( eOption )
 			}
 		eUL.appendChild( eLI )
 
 		eLI = Tag( 'LI' )
 		eLabel = eLI.appendChild( Tag( 'LABEL' ))
 		eLabel.innerHTML = L10n('ACCORDAGE') +' : '
-		let eAccordage = this.eTunings = eLI.appendChild( Tag( 'SELECT' ))
-		eAccordage.onkeyup = eAccordage.onchange = function(){ o.tuning.value = eAccordage.value }
+		e = this.eTunings = eLI.appendChild( Tag( 'SELECT' ))
+		e.onkeyup = e.onchange = ()=> o.tuning.value = that.eTunings.value
 		this.setTunings()
-		eLabel.htmlFor = eAccordage.id =  'eAccordage'+ this.ID
+		eLabel.htmlFor = e.id =  'eAccordage'+ this.ID
 		eUL.appendChild( eLI )
 
 		eLI = Tag('LI')
@@ -369,70 +363,101 @@ class Manche {
 			eLabel.title = sLabel
 			eCB.checked = bChecked
 			eUL2.appendChild( eLI )
-			return eCB
+			that[ sId ] = eCB
+			return cb
 			}
-		cb( 'eConfig', '' ,
-			o.config,
-			function(){ that.hideForm( this.checked )},
-			'config'
-			)
-		this.eNotesName = cb( 'eNotesName', L10n('NOTES'),
-			false,
-			function(){ o.notes.value = this.checked },
-			'notes'
-			)
-		let f = function(){
-			that.setNotation( that.eNotationI.checked?'EN':'FR', that.eBemol.checked )
-			
-			}
-		this.eNotationI = cb( 'eNotationI', L10n('ABCDEFG'), o.notation.value[1] == 'EN', f, 'abcdefg' )
-		this.eBemol = cb( 'eBemol', L10n('BEMOL'), o.notation.value[0], f, 'bemol' )
-		this.eOctaves = cb( 'eOctaves', L10n('OCTAVES'),
-			false,
-			function(){ o.octaves.value = this.checked },
-			'octaves'
-			)
-		this.eFlipV = cb( 'eFlipV', L10n('MIROIR'),
-			false,
-			function(){ o.mirror.value = this.checked },
-			'vFlip'
-			)
-		this.eFlipH = cb( 'eFlipH', L10n('GAUCHER'),
-			false,
-			function(){ o.lefthanded.value = this.checked },
-			'hFlip'
-			)
-		this.eFretsNumber = cb( 'eFretsNumber', L10n('NUMEROS'),
-			false,
-			function(){ o.numbers.value = this.checked },
-			'numbers'
-			)
-		this.eSound = cb( 'eSound',  L10n('AUDIO'),
-			o.sound.value,
-			function(){ o.sound.value = this.checked },
-			'sound'
-			)
+		let f1 = function(){ o.notation.value = [ that.eBemol.checked, that.eNotationI.checked?'EN':'FR' ]}
+		cb
+		( 'eConfig',		'',				o.config.value,		function(){ o.config.value = this.checked },	'config' )
+		( 'eNotesName',		L10n('NOTES'),	o.notes.value,		function(){ o.notes.value = this.checked },		'notes' )
+		( 'eNotationI',		L10n('ABCDEFG'),o.notation.value[1] == 'EN',	f1,									'abcdefg' )
+		( 'eBemol',			L10n('BEMOL'),	o.notation.value[0], 			f1,									'bemol' )
+		( 'eOctaves',		L10n('OCTAVES'),o.octaves.value,	function(){ o.octaves.value = this.checked },	'octaves' )
+		( 'eFlipV',			L10n('MIROIR'),	o.mirror.value,		function(){ o.mirror.value = this.checked },	'vFlip' )
+		( 'eFlipH',			L10n('GAUCHER'),o.lefthanded.value,	function(){ o.lefthanded.value = this.checked },'hFlip' )
+		( 'eFretsNumber',	L10n('NUMEROS'),o.numbers.value,	function(){ o.numbers.value = this.checked },	'numbers' )
+		( 'eSound',			L10n('AUDIO'),	o.sound.value,		function(){ o.sound.value = this.checked },		'sound' )
 
 		eUL.appendChild( eUL2 )
 		this.eHTML.appendChild( eUL )
 
 		/* Observateurs */
-		o.sound.addSubscriber( 'oManche.eSound.checked = b', b => that.eSound.checked = b )
-		o.strings.addSubscriber( 'màj valeur checkbox Cordes',function ( n ){
+		let setFlip = function( bFlipH, bFlipV ){
+			let o = that.eHTML.classList
+			o.remove( 'gaucher' )
+			o.remove( 'droitier' )
+			o.remove( 'gaucher_flipped' )
+			o.remove( 'droitier_flipped' )
+			that.eFlipH.checked = bFlipH
+			that.eFlipV.checked = bFlipV
+			o.add( bFlipH
+				?( bFlipV ? 'gaucher_flipped' : 'gaucher' )
+				:( bFlipV ? 'droitier_flipped' : 'droitier' )
+				)
+			}
+		o.config.addSubscriber( 'hide/show manche Form.', function( b ){ 
+			that.eConfig.checked = b
+			that.eHTML.classList[ ! b ? 'add' : 'remove' ]( 'hideForm' )
+			})
+		o.la3.addSubscriber( 'RangeBox La3 + Output', function( n ){
+			eINPUT.value = n
+			eINPUT.nextSibling.value = n+'Hz' 
+			})
+		o.lefthanded.addSubscriber( 'oManche.setLeftHanded', function( b ){
+			setFlip( b, o.mirror.value )
+			})
+		o.mirror.addSubscriber( 'oManche.setMirror', function( b ){
+			setFlip( o.lefthanded.value, b )
+			})
+		o.notation.addSubscriber( 'Checkbox eNotationI/eBemol values + Label La3 +...', function( a ){
+			eLabel.innerHTML = a[1]=='FR' ? 'La3' : 'A3'
+			that.eNotationI.checked = a[1] == 'EN'
+			that.eBemol.checked = a[0]
+			that.renameNotes()
+			})
+		o.notes.addSubscriber( 'Checkbox eNotesName value +...', function( b ){
+			that.eNotesName.checked = b
+			that.eHTML.classList[ ! b ? 'add' : 'remove' ]( 'hideNotes' )
+			})
+		o.numbers.addSubscriber( 'Checkbox eFretsNumber value +...', function( b ){
+			that.eFretsNumber.checked = b
+			that.eHTML.classList[ ! b ? 'add' : 'remove' ]( 'hideFretsNumber' )
+			})
+		o.octaves.addSubscriber( 'Checkbox eOctaves value +...', function( b ){ 
+			that.eOctaves.checked = b
+			that.eHTML.classList[ b ? 'add' : 'remove' ]( 'octaves' )
+			that.map( e => e.innerHTML = b ? e.note + '<sup>'+e.octave+'</sup>' : e.note )
+			})
+		o.sound.addSubscriber( 'Checkbox eSound value', b => that.eSound.checked = b )
+		o.strings.addSubscriber( 'Checkbox eStrings value +...',function ( n ){
 			that.eStrings.value = n
 			that.createHTML( n, that.Config.cases )
 			that.setTunings ()
 			})
-		o.la3.addSubscriber( 'màj Input range La3', function( n ){
-			eINPUT.value = n
-			eINPUT.nextSibling.value = n+'Hz' 
+		o.tuning.addSubscriber( 'Selectbox eTunings value +...', function( sTuning ){
+			that.eTunings.value = sTuning
+			// màj des notes
+			let sNoteC = o.notation.getNoteName('C')
+			let b = o.octaves.value
+			let aTuning = sTuning.split(',')
+			for(let i=0, ni=o.strings.value; i<ni; i++ ){
+				aTuning[i] = { note:aTuning[i].slice(0,-1), octave:aTuning[i].slice(-1) }
+				let aNotes = o.notation.getSequence( aTuning[i].note )
+				for(let j=0, nj=o.cases; j<=nj; j++ ){
+					let sNote = aNotes[j%12]
+					let nOctave = ( sNote == sNoteC ) ? ++aTuning[i].octave : aTuning[i].octave
+					let e = that.aCordes[i][j].firstChild
+					e.innerHTML = b ? sNote + '<sup>'+nOctave+'</sup>' : sNote
+					e.note = sNote
+					e.octave = nOctave
+					if( -1 == e.className.indexOf('octave'))
+						e.className += ' octave' + nOctave
+					else
+						e.className = e.className.replace( /octave\d/, ' octave' + nOctave )
+					}
+				}
+			o.mask.refresh()
 			})
-		o.notation.addSubscriber( 'màj Label La3', function( a ){
-			eLabel.innerHTML = a[1]=='FR' ? 'La3' : 'A3'
-			that.eNotationI.checked = a[1] == 'EN'
-			that.eBemol.checked = a[0]
-			})
-		o.tuning.addSubscriber( 'màj valeur selectBox Accordage', function( sTuning ){ eAccordage.value = sTuning })
 		}
 	getNotes ( sNote ){
 		sNote = this.Config.notation.getNoteName( sNote )
@@ -443,9 +468,6 @@ class Manche {
 			if( e.note == sNote ) aElts.push( e )
 			}
 		return aElts
-		}
-	hideForm ( b ){
-		this.eHTML.classList[ ! b ? 'add' : 'remove' ]( 'hideForm' )
 		}
 	highlightNote ( nCorde, nCase, sClassName ){
 		var e = this.aCordes[ nCorde-1 ][ nCase ]
@@ -485,46 +507,6 @@ class Manche {
 			e.className = e.className.replace( /position\d[^\s]*/gim, '' )
 			}
 		}
-	setFlip ( bFlipH, bFlipV ){
-		let o = this.eHTML.classList
-		o.remove( 'gaucher' )
-		o.remove( 'droitier' )
-		o.remove( 'gaucher_flipped' )
-		o.remove( 'droitier_flipped' )
-		this.eFlipH.checked = bFlipH
-		this.eFlipV.checked = bFlipV
-		o.add( bFlipH
-			?( bFlipV ? 'gaucher_flipped' : 'gaucher' )
-			:( bFlipV ? 'droitier_flipped' : 'droitier' )
-			)
-		}
-	setFretsNumber ( b ){
-		this.eFretsNumber.checked = b
-		this.eHTML.classList[ ! b ? 'add' : 'remove' ]( 'hideFretsNumber' )
-		}
-	setLeftHanded ( b ){
-		this.setFlip( b, this.Config.mirror.value)
-		}
-	setMirror ( b ){
-		this.setFlip( this.Config.lefthanded.value, b )
-		}
-	setNotation ( sLang, bBemol ){
-		var a = this.Config.notation.value
-		bBemol = bBemol || false
-		if( a[0]==bBemol && a[1]==sLang ) return ;
-		this.eNotationI.checked = sLang == 'EN'
-		this.eBemol.checked = bBemol
-		this.Config.notation.value = [bBemol,sLang]
-		}
-	setNotesName ( b ){
-		this.eNotesName.checked = b
-		this.eHTML.classList[ ! b ? 'add' : 'remove' ]( 'hideNotes' )
-		}
-	setOctave ( b ){
-		this.eOctaves.checked = b
-		this.eHTML.classList[ b ? 'add' : 'remove' ]( 'octaves' )
-		this.map( e => e.innerHTML = b ? e.note + '<sup>'+e.octave+'</sup>' : e.note )
-		}
 	setScale ( sNote, sScaleMask ){
 		if( sNote ){
 			this.Config.tonic.value = sNote
@@ -547,31 +529,6 @@ class Manche {
 			pos = sScaleMask.indexOf('1', pos + 1 )
 			}
 		}
-	setSound ( b ){ this.Config.sound.value = b } // ok
-	setStrings ( n ){ this.Config.strings.value = n } // ok
-	setTuning ( sTuning ){
-		let o = this.Config
-		let sNoteC = o.notation.getNoteName('C')
-		let b = o.octaves.value
-		let aTuning = sTuning.split(',')
-		for(let i=0, ni=o.strings.value; i<ni; i++ ){
-			aTuning[i] = { note:aTuning[i].slice(0,-1), octave:aTuning[i].slice(-1) }
-			let aNotes = o.notation.getSequence( aTuning[i].note )
-			for(let j=0, nj=o.cases; j<=nj; j++ ){
-				let sNote = aNotes[j%12]
-				let nOctave = ( sNote == sNoteC ) ? ++aTuning[i].octave : aTuning[i].octave
-				let e = this.aCordes[i][j].firstChild
-				e.innerHTML = b ? sNote + '<sup>'+nOctave+'</sup>' : sNote
-				e.note = sNote
-				e.octave = nOctave
-				if( -1 == e.className.indexOf('octave'))
-					e.className += ' octave' + nOctave
-				else
-					e.className = e.className.replace( /octave\d/, ' octave' + nOctave )
-				}
-			}
-		this.Config.mask.refresh()
-		}
 	setTunings (){
 		let o = this.Config
 		let e
@@ -589,6 +546,24 @@ class Manche {
 			}
 		o.tuning.value = eSelect.value
 		}
+	
+	// Config handlers
+	hideForm ( b ){ return this.Config.config.value = b }
+	setFretsNumber ( b ){ return this.Config.numbers.value = b }
+	setLa3 ( nFreq ){ return this.Config.la3.value = nFreq }
+	setLeftHanded ( b ){ return this.Config.lefthanded.value = b }
+	setMirror ( b ){ return this.Config.mirror.value = b }
+	setNotation ( sLang, bBemol ){
+		let o = this.Config.notation
+		let a = o.value
+		if( a[0]==bBemol && a[1]==sLang ) return null;
+		return o.value = [bBemol,sLang]
+		}
+	setNotesName ( b ){ return this.Config.notes.value = b }
+	setOctaves ( b ){ return this.Config.octaves.value = b }
+	setSound ( b ){ return this.Config.sound.value = b }
+	setStrings ( n ){ return this.Config.strings.value = n }
+	setTuning ( sTuning ){ return this.Config.tuning.value = sTuning }
 	}
 
 class IntervalBox {
