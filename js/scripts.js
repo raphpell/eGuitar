@@ -546,7 +546,7 @@ class Manche {
 			}
 		o.tuning.value = eSelect.value
 		}
-	
+
 	// Config handlers
 	hideForm ( b ){ return this.Config.config.value = b }
 	setFretsNumber ( b ){ return this.Config.numbers.value = b }

@@ -41,11 +41,7 @@ eHead.firstChild.onclick = function(){
 	if( confirm( L10n('DELETE_PREF'))) Memoire.clear()
 	}
 
-var oConfig = Config({
-//	config: 1,
-//	tonic:'Ré',
-//	mask:'101011010101'
-	})
+var oConfig = Config()
 
 var oManche = new Manche( "eTarget", oConfig )
 
