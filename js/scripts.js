@@ -783,6 +783,7 @@ let Harmonie ={
 					Config.tonic.value = sTonique
 					Config.mask.value = sMask
 					that.locked = false
+					window.scrollTo(0, 0);
 					}
 				var sScale = e.scale
 				if( sScale ){
@@ -822,7 +823,7 @@ let Harmonie ={
 
 			return aResult
 			}
-		// Recherche des accords dans un mask
+		// Recherche des accords respectant un mask
 		searchChords ( sMask ){
 			sMask = sMask || this.Config.scale.value[0]
 			var aResult = []
@@ -832,7 +833,7 @@ let Harmonie ={
 				})
 			return aResult
 			}
-		// Ajout des accords dans une gamme
+		// Ajoute les accords d'une gamme
 		setChords ( sTonique, sScaleMask ){
 			let aResult = this.getChordsSuggestion( sTonique, sScaleMask )
 			var o = {}
@@ -856,8 +857,7 @@ let Harmonie ={
 					var sOpacity = ( sOpacity != undefined ? 'opacity:'+ (1-sOpacity+.3).toFixed(2) +' !important;' : '' )
 					var sTitle = ( sProb != undefined ? sProb : '' )
 					o[ sName ][ nTon ] =
-						'<div class="ton'+ nTon +'" tonique="'+ sTonic +'" arpege="'+ sMask2 +'" style="'+ sOpacity +'" title="'+ sTitle +'">'
-						+'<b>'+ sTonic +'</b><i>'+ sName +'</i></div>'
+						'<div class="ton'+ nTon +'" tonique="'+ sTonic +'" arpege="'+ sMask2 +'" style="'+ sOpacity +'" title="'+ sTonic+sName +'">X</div>'
 					o[ sName ][12]++
 					})
 				})
@@ -866,24 +866,24 @@ let Harmonie ={
 			for(var i=0, ni=Arpeggio.length; i<ni; i++ ){
 				var sChordName = Arpeggio[i][1]
 				if( o[ sChordName ][12] > 0 )
-					aTR[i] = '<tr><td>'+ o[ sChordName ].join('</td><td>' ) +'</td></tr>'
+					aTR[i] = '<tr><td>'+ sChordName +'</td><td>'+ o[ sChordName ].join('</td><td>' ) +'</td></tr>'
 				}
 
-			var sTHEAD = '<thead><tr>'
+			var sTHEAD = '<thead><tr><th>'+ L10n('ACCORDS') +'</th>'
 
 			var aNotesTmp = this.Config.notation.getSequence( sTonique )
 			
-			var aRoman = 'I?II?III?IV?V?VI?VII?VIII?IX?X?XI?XII'.split('?')
+			var aRoman = 'I,II,III,IV,V,VI,VII,VIII,IX,X,XI,XII'.split(',')
 			for(var i=0, j=0, ni=aNotesTmp.length; i<ni; i++ ){
 				sTHEAD += sScaleMask.charAt(i) == '1'
-					? '<th abbr="arpege">'+aRoman[j++]+'</th>'
+					? '<th abbr="arpege" class="ton'+ i +'">'+aNotesTmp[i]+'<br><small>'+aRoman[j++]+'</small></th>'
 					: '<th abbr=""></th>'
 				}
-			sTHEAD += '<th abbr="number"><label>'+ L10n('ACCORDS') +'</label></th><th abbr="number"><label>'+ L10n('NOTES') +'</label></th></tr></thead>'
+			sTHEAD += '<th abbr="number"><label>'+ L10n('QUANTITE') +'</label></th><th abbr="number"><label>'+ L10n('NOTES') +'</label></th></tr></thead>'
 
 			this.eHTML.innerHTML = sTHEAD +'<tbody>'+ aTR.join("\n") +'</tbody>'
 
-			var aSort = [13,'DESC']
+			var aSort = [14,'DESC']
 			if( this.TableSorter ) aSort = this.TableSorter.getSort()
 			this.TableSorter = new TSorter
 			this.TableSorter.init( this.eHTML.id )

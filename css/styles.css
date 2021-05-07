@@ -331,6 +331,8 @@
 	cursor: pointer; cursor: hand;
 	background: #3A1912;
 	color: #FFF;
+	width:40px;
+	font-size:10px;
 	}
 .suggestion TH LABEL {
 	padding: 0 .5em;

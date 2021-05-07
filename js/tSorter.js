@@ -51,6 +51,7 @@ function TSorter(){
 		if( oTH == undefined ) return;
 		nCurSortCol = oTH.cellIndex;
 		sortType = oTH.abbr;
+		if( ! oTH.innerHTML ) return;
 		
 		trs = table.tBodies[0].getElementsByTagName("tr");
 
@@ -58,15 +59,18 @@ function TSorter(){
 		setGet(sortType)
 
 		// if already sorted just reverse
+		let o = oTH.classList
 		if( nPrevSortCol == nCurSortCol ){
-			if( sOrder && sOrder==oTH.className ) return ;
-			if( ! oTH.className ) oTH.className = ( sOrder != 'ASC' ? 'ASC' : 'DESC' )
-			sortDirection = oTH.className = ( oTH.className != 'ASC' ? 'ASC' : 'DESC' );
+			if( sOrder && o.contains( sOrder )) return ;
+			if( ! o.contains('ASC') && ! o.contains('DESC')) o.add( sOrder != 'ASC' ? 'ASC' : 'DESC' )
+			sortDirection = o.contains('DESC') ? 'ASC' : 'DESC'
+			o.replace( sortDirection=='ASC'?'DESC':'ASC', sortDirection )
 			reverseTable();
 			}
 		// not sorted - call quicksort
 		else{
-			sortDirection = oTH.className = sOrder || 'ASC';
+			sortDirection = sOrder || 'ASC'
+			o.add( sortDirection )
 			quicksort(0, trs.length);
 			if( sOrder && sOrder == "DESC" ) reverseTable();
 			}

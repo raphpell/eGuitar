@@ -27,6 +27,7 @@ L10n.FR = {
 	ACCORDS:	'Accords',
 	NOTES:		'Notes',
 	AUDIO:		'Audio',
+	QUANTITE:	'Quantité',
 	
 	// Tunings
 	Guitare:	'Guitare',
@@ -81,6 +82,7 @@ L10n.EN ={
 	ACCORDS:	'Chords',
 	NOTES:		'Notes',
 	AUDIO:		'Audio',
+	QUANTITE:	'Amount',
 	
 	// Tunings
 	Guitare:	'Guitar',
