@@ -39,6 +39,7 @@ L10n.FR = {
 	AccAlt:		'Accordage alternatif',
 	
 	// Gammes
+	Penta:		'Pentatonique',
 	mBlues:		'Blues Mineur',
 	MPenta:		'Pentatonique majeure',
 	mPenta:		'Pentatonique mineure',
@@ -98,6 +99,7 @@ L10n.EN ={
 	AccAlt:		'Alternative tuning',
 	
 	// Scales
+	Penta:		'Pentatonic',
 	mBlues:		'Minor blues',
 	MPenta:		'Major pentatonic',
 	mPenta:		'Minor pentatonic',
