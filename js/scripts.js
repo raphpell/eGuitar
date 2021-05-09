@@ -918,12 +918,12 @@ let Harmonie ={
 			this.eHTML = eTABLE = Tag('TABLE','mask')
 			eTABLE.innerHTML = sTHEAD
 			eBODY = Tag('TBODY')
-			aList.forEach( ([sMask,sName])=>{
+			aList.forEach( ([sMask,sName,sOtherName])=>{
 				if( ! sName ) return;
 				eTR = Tag('TR')
 				eTR.mask = sMask
 				eTD = Tag('TD','name')
-				eTD.innerHTML = sName
+				eTD.innerHTML = sName + (sOtherName?' <small>'+sOtherName.replace(/\|/gi,', ')+'</small>':'')
 				eTR.appendChild( TDs( sMask ) )
 				eTR.appendChild( eTD )
 				eBODY.appendChild( eTR )

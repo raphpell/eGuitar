@@ -432,17 +432,17 @@ UL.interval {
 	}
 
 /* Scales & Arpeggio */
-TABLE.mask {
+.mask {
 	clear: both;
 	list-style-type: none;
 	margin:0;
 	padding:0;
 	width: 100%;
 	}
-TABLE.mask THEAD {
+.mask THEAD {
 	filter: sepia(1);
 	}
-TABLE.mask TR {
+.mask TR {
 	cursor: pointer;
 	height:22px;
 	line-height:22px;
@@ -450,11 +450,11 @@ TABLE.mask TR {
 	vertical-align: top;
 	margin:2px;
 	}
-TABLE.mask TBODY TR:hover {
+.mask TBODY TR:hover {
 	background: #FFF;
 	color: #000;
 	}
-TABLE.mask TD {
+.mask TD {
 	font-size:.6em;
 	line-height:20px;
 	height:20px;
@@ -462,15 +462,23 @@ TABLE.mask TD {
 	border-radius: 10px;
 	text-align: center;
 	}
-TABLE.mask TD.none {
+.mask TD.none {
 	filter: sepia(1);
 	background: rgba(125,125,125,.5);
 	}
-TABLE.mask TD.name {
+.mask TD.name {
 	padding-left: 20px;
 	font-size:1em;
 	width: auto;
 	text-align: left;
+	}
+.mask SMALL {
+	filter: sepia(1);
+	background: #444;
+	border: 1px solid #AAA;
+	border-radius: 5px;
+	color: #AAA;
+	padding:0 4px;
 	}
 
 /* TabMenu */
@@ -522,6 +530,9 @@ TABLE.mask TD.name {
 	}
 
 /* Tunings list */
+.tunings {
+	font-size: 0.8em;
+	}
 .tunings DT {
 	filter: sepia(1);
 	font-weight: bold;
@@ -544,11 +555,11 @@ TABLE.mask TD.name {
 	width: 33%;
 	}
 .tunings DD B {
+	font-weight: normal;
 	filter: sepia(1);
 	border: 1px solid #999;
 	border-radius: 10px;
 	display: inline-block;
-	height: 20px;
 	padding: 0 4px;
 	margin: 2px;
 	}
