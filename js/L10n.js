@@ -6,7 +6,7 @@ let L10n =function( sId ){
 	}
 	
 
-L10n.sForceLanguage = 'EN' // Debug purpose
+L10n.sForceLanguage = '' // Debug purpose
 L10n.sDefaultLanguage = 'FR'
 L10n.sLanguage = navigator.language.substring(0,2).toUpperCase() || 'FR'
 
