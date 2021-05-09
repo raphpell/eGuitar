@@ -242,6 +242,21 @@
 .octaves .octave2 { border-width: 1px 1px !important; }
 .octaves .octave1 { border-width: 0px !important; }
 
+/* Tons */
+.ton12,
+.ton0	{ background: #F00 !important; opacity:1 !important; color:#FFF !important; text-shadow: none !important; }
+.ton1	{ background: #F90 !important; opacity:1 !important; color:#009 !important; text-shadow: none !important; }
+.ton2	{ background: #FF0 !important; opacity:1 !important; color:#000 !important; text-shadow: none !important; }
+.ton3	{ background: #9F0 !important; opacity:1 !important; color:#009 !important; text-shadow: none !important; }
+.ton4	{ background: #0F0 !important; opacity:1 !important; color:#000 !important; text-shadow: none !important; }
+.ton5	{ background: #0F9 !important; opacity:1 !important; color:#000 !important; text-shadow: none !important; }
+.ton6	{ background: #0FF !important; opacity:1 !important; color:#330 !important; text-shadow: none !important; }
+.ton7	{ background: #09F !important; opacity:1 !important; color:#FF6 !important; text-shadow: none !important; }
+.ton8	{ background: #00F !important; opacity:1 !important; color:#FFF !important; text-shadow: none !important; }
+.ton9	{ background: #90F !important; opacity:1 !important; color:#FF6 !important; text-shadow: none !important; }
+.ton10	{ background: #F0F !important; opacity:1 !important; color:#FFF !important; text-shadow: none !important; }
+.ton11	{ background: #F09 !important; opacity:1 !important; color:#FF0 !important; text-shadow: none !important; }
+
 /* Configuration */
 .default  {
 	transform: scaleX(1) scaleY(1);
@@ -266,7 +281,6 @@
 .gaucher_flipped .frette SPAN {
 	top: -30px;
 	}
-	
 
 /* Position accords */
 .position1 {
@@ -294,38 +308,34 @@
 	font: normal .8em Verdana;
 	letter-spacing: 2px;
 	}
-	
+
 /* Tableau d'accords */
 .suggestion {
 	border: 1px solid rgba(0,0,0,.5);
 	border-radius: 3px;
 	box-shadow: 0 0 .5em rgba(0,0,0,.5);
 	box-sizing: border-box;
-	clear: left;
 	cursor: default;
-	float: left;
 	margin: .5em 0;
 	padding: .25em;
-	position: relative;
 	width: 100%;
 	}
 .suggestion H2 {
 	background: #3A1912;
 	color: #fff;
+	border-radius: 10px;
 	box-shadow: 0 0 2px #000, inset 0 0 2px #000;
-	border-radius: .5em .5em 0 0;
 	cursor: hand; cursor: pointer;
-	text-align: center;
+	text-align: left;
 	padding: 0 1em;
 	margin: 0;
 	line-height: 1.2em;
 	transition: filter,border-color 200ms ease;
 	}
-.suggestion H2:hover,
-.suggestion TH:hover {
-	background: #000;
-	color: #FFF;
-	box-shadow: 0 0 2px #ddd, inset 0 0 1em #FFF;
+.suggestion H2:hover {
+	color: #3A1912;
+	background: #FFF;
+	box-shadow: 0 0 2px #ddd, inset 0 0 .5em #FFF;
 	}
 .suggestion TH {
 	cursor: pointer; cursor: hand;
@@ -333,6 +343,9 @@
 	color: #FFF;
 	width:40px;
 	font-size:10px;
+	}
+.suggestion TH.chordNames {
+	width: 150px;
 	}
 .suggestion TH LABEL {
 	padding: 0 .5em;
@@ -417,20 +430,126 @@ UL.interval {
 	font-size: 0.5em;
 	}
 
-/*  */
-.ton12,
-.ton0	{ background: #F00 !important; opacity:1 !important; color:#FFF !important; text-shadow: none !important; }
-.ton1	{ background: #F90 !important; opacity:1 !important; color:#009 !important; text-shadow: none !important; }
-.ton2	{ background: #FF0 !important; opacity:1 !important; color:#000 !important; text-shadow: none !important; }
-.ton3	{ background: #9F0 !important; opacity:1 !important; color:#009 !important; text-shadow: none !important; }
-.ton4	{ background: #0F0 !important; opacity:1 !important; color:#000 !important; text-shadow: none !important; }
-.ton5	{ background: #0F9 !important; opacity:1 !important; color:#000 !important; text-shadow: none !important; }
-.ton6	{ background: #0FF !important; opacity:1 !important; color:#330 !important; text-shadow: none !important; }
-.ton7	{ background: #09F !important; opacity:1 !important; color:#FF6 !important; text-shadow: none !important; }
-.ton8	{ background: #00F !important; opacity:1 !important; color:#FFF !important; text-shadow: none !important; }
-.ton9	{ background: #90F !important; opacity:1 !important; color:#FF6 !important; text-shadow: none !important; }
-.ton10	{ background: #F0F !important; opacity:1 !important; color:#FFF !important; text-shadow: none !important; }
-.ton11	{ background: #F09 !important; opacity:1 !important; color:#FF0 !important; text-shadow: none !important; }
+/* Mini Intervalles */
+UL.mininterval {
+	border:1px solid #999;
+	border-radius: 10px;
+	display: inline-block;
+	list-style-type: none;
+	padding:0;
+	text-align: center;
+	}
+UL.mininterval LI {
+	display: inline-block;
+	float: left;
+	font-size:.8em;
+	line-height:20px;
+	height:20px;
+	width:40px;
+	border-radius: 10px;
+	}
+UL.mininterval LI.none {
+	background: rgba(0,0,0,.1);
+	}
+
+/* Scales & Arpeggio */
+TABLE.mask {
+	clear: both;
+	list-style-type: none;
+	margin:0;
+	padding:0;
+	width: 100%;
+	}
+TABLE.mask TR {
+	cursor: pointer;
+	height:22px;
+	line-height:22px;
+	border-radius: 11px;
+	vertical-align: top;
+	margin:2px;
+	}
+TABLE.mask TBODY TR:hover {
+	background: #FFF;
+	color: #000;
+	}
+TABLE.mask TD {
+	font-size:.6em;
+	line-height:20px;
+	height:20px;
+	width:40px;
+	border-radius: 10px;
+	text-align: center;
+	}
+TABLE.mask TD.none {
+	background: rgba(0,0,0,.5);
+	}
+TABLE.mask TD.name {
+	padding-left: 20px;
+	font-size:1em;
+	width: auto;
+	text-align: left;
+	}
+
+/* TabMenu */
+.layout {
+	display: grid;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+	grid-template-rows: 40px 1fr;
+	grid-template-columns: 1fr 1fr 1fr;
+	}
+.layout label {
+	cursor: pointer;
+	display: inline-block;
+	color: #000;
+	}
+.layout input[type=radio] {
+	display: none;
+	}
+.layout label.nav {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	border: 1px solid #3A1912;
+	border-bottom: 4px solid #3A1912;
+	border-radius: 20px 20px 0 0;
+	background: #ecf0f1;
+	transition: background 0.4s;
+	padding-left: 0;
+	}
+.layout input[type=radio]:checked + .page + label.nav {
+	background: #3A1912;
+	color: #FFF;
+	}
+.layout label.nav span {
+	padding-left: 0px;
+	position: relative;
+	}
+.layout .page {
+	grid-row-start: 2;
+	grid-column-start: 1;
+	grid-column-end: span 3;
+	max-width: 100%;
+	}
+.layout .page > * {
+	opacity: 0;
+	transform: translateY(20px);
+	transition: opacity 0.2s, transform 0.2s;
+	transition-delay: 0.4s;
+	}
+.layout input[type=radio] + .page {
+	transition: transform 0.2s;
+	transform: translateX(100%);
+	}
+.layout input[type=radio]:checked + .page {
+	transform: translateX(0%);
+	}
+.layout input[type=radio]:checked + .page > * {
+	opacity: 1;
+	transform: translateY(0px);
+	}
 
 /* Accords */
 .chords {

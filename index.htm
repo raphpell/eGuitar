@@ -31,6 +31,12 @@
 <div id="eTarget"></div>
 <div id="eTarget2"></div>
 
+<div class="layout">
+	<input name="nav" type="radio" id="tab1" checked><div class="page" id="eChords"></div><label class="nav" for="tab1"></label>
+	<input name="nav" type="radio" id="tab2"><div class="page" id="eScales"></div><label class="nav" for="tab2"></label>
+	<input name="nav" type="radio" id="tab3"><div class="page" id="eArpeggio"></div><label class="nav" for="tab3"></label>
+</div>
+
 <script type="text/javascript" src="js/L10n.js"></script>
 <script type="text/javascript" src="js/scripts.js"></script>
 <script type="text/javascript" src="js/data.js"></script>
@@ -45,15 +51,25 @@ var oConfig = Config()
 
 var oManche = new Manche( "eTarget", oConfig )
 
-var oHF = new Harmonie.Form ( oConfig )
-eTarget.appendChild( oHF.eHTML )
-
 var oIB = new IntervalBox( oConfig )
 eTarget.appendChild( oIB.eHTML )
 
+var oHF = new Harmonie.Form ( oConfig )
+eTarget.appendChild( oHF.eHTML )
+
+eChords.nextSibling.innerHTML = L10n('ACCORDS')
+eScales.nextSibling.innerHTML = L10n('GAMMES')
+eArpeggio.nextSibling.innerHTML = L10n('ARPEGES')
+
 var oHT = new Harmonie.Table ( oConfig )
-eTarget.appendChild( oHT.eHTML )
+eChords.appendChild( oHT.eHTML )
 oHT.displayChords()
+
+var oMasks1 = new Harmonie.Mask ( Scales, oConfig )
+oMasks1.appendTo( eScales )
+
+var oMasks2 = new Harmonie.Mask ( Arpeggio, oConfig )
+oMasks2.appendTo( eArpeggio )
 
 </script>
 

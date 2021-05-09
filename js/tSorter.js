@@ -25,7 +25,7 @@ function TSorter(){
 	// @param tableName - the name of the table to be sorted
 	/*--------------------------------------------------------------*/
 	this.init =function( tableName ){
-		table = document.getElementById(tableName);
+		table = tableName.constructor === 'String' ? document.getElementById(tableName): tableName ;
 		ths = table.getElementsByTagName("th");
 		for(var i = 0; i < ths.length ; i++)
 			ths[i].onclick = function(){ sort(this); }

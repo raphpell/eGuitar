@@ -118,14 +118,11 @@ let Config =( function (){
 		return function (){
 			this.getSequence =function( sNote ){
 				var a = this.value
-				if( ! sNote ){
-					return Notations[ a[0]?'♭':'♯' ][ a[1]]
-				} else {
-					sNote = this.getNoteName( sNote )
-					var a = this.getSequence()
-					var nIndex = a.indexOf( sNote )
-					return a.slice( nIndex ).concat( a.slice( 0, nIndex))
-					}
+				if( ! sNote ) return Notations[ a[0]?'♭':'♯' ][ a[1]]
+				sNote = this.getNoteName( sNote )
+				var a = this.getSequence()
+				var nIndex = a.indexOf( sNote )
+				return a.slice( nIndex ).concat( a.slice( 0, nIndex))
 				}
 			this.getNoteName =function( sNote ){
 				let sIndex1
@@ -581,7 +578,7 @@ class IntervalBox {
 		}
 	createHTML (){
 		let that = this
-		, DT = ['1','b2','2','b3','3','4','b5','5','b6','6','b7','7','8']
+		, DT = ['1','♭2','2','♭3','3','4','♭5','5','♭6','6','♭7','7','8']
 		, DD = ['0','&half;','1','1&half;','2','2&half;','3','3&half;','4','4&half;','5','5&half;','6']
 		, eUL = this.eHTML = Tag('UL','interval')
 		, eLI, eDIV, eDL, eDT, eDD
@@ -676,7 +673,7 @@ let Harmonie ={
 			}
 		return null
 		},
-	Form : class {
+	Form:class{
 		constructor( oConfig ){
 			this.ID = ++Config.ID
 			this.Config = oConfig
@@ -761,7 +758,7 @@ let Harmonie ={
 				})
 			}
 		},
-	Table : class {
+	Table:class{
 		constructor( oConfig ){
 			this.ID = ++Config.ID
 			this.Config = oConfig
@@ -869,7 +866,7 @@ let Harmonie ={
 					aTR[i] = '<tr><td>'+ sChordName +'</td><td>'+ o[ sChordName ].join('</td><td>' ) +'</td></tr>'
 				}
 
-			var sTHEAD = '<thead><tr><th>'+ L10n('ACCORDS') +'</th>'
+			var sTHEAD = '<thead><tr><th class="chordNames">'+ L10n('ACCORDS') +'</th>'
 
 			var aNotesTmp = this.Config.notation.getSequence( sTonique )
 			
@@ -886,7 +883,7 @@ let Harmonie ={
 			var aSort = [14,'DESC']
 			if( this.TableSorter ) aSort = this.TableSorter.getSort()
 			this.TableSorter = new TSorter
-			this.TableSorter.init( this.eHTML.id )
+			this.TableSorter.init( this.eHTML )
 			if( aSort ) this.TableSorter.sort( aSort[0], aSort[1] )
 
 			var e = Tag( 'CAPTION' )
@@ -894,6 +891,78 @@ let Harmonie ={
 			e.tonique = sTonique
 			e.scale = sScaleMask
 			this.eHTML.insertBefore( e, this.eHTML.firstChild )
+			}
+		},
+	Mask:class{
+		constructor( aList, oConfig ){
+			let a = ['1','♭2','2','♭3','3','4','♭5','5','♭6','6','♭7','7']
+			let TDs = function( sMask ){
+				let eFragment, eTD, nChar
+				eFragment = new DocumentFragment
+				for(var i=0, ni=12; i<ni; i++ ){
+					nChar = sMask.charAt(i)
+					eTD = Tag('TD')
+					if( nChar=='1' ){
+						eTD.className = 'ton'+i
+						eTD.innerHTML = a[i]
+						}
+					else{
+						eTD.className = 'none'
+						eTD.innerHTML = "&nbsp;"
+						}
+					eFragment.appendChild( eTD )
+					}
+				return eFragment
+				}
+
+			var sTHEAD = '<thead><tr><th>'+ a.join( '</th><th>' ) +'</th><th>' + 'Intervalles' + '</th></thead>'
+
+			let eTABLE, eBODY, eTR, eTD
+			this.eHTML = eTABLE = Tag('TABLE','mask')
+			eTABLE.innerHTML = sTHEAD
+			eBODY = Tag('TBODY')
+			aList.forEach( ([sMask,sName])=>{
+				if( ! sName ) return;
+				eTR = Tag('TR')
+				eTR.mask = sMask
+				eTD = Tag('TD','name')
+				eTD.innerHTML = sName
+				eTR.appendChild( TDs( sMask ) )
+				eTR.appendChild( eTD )
+				eBODY.appendChild( eTR )
+				})
+			eBODY.onclick =function( evt ){
+				var e = Events.element( evt )
+				if( e.className == 'mask' ) return false
+				while( e && ! e.mask ) e = e.parentNode
+				if( e ) oConfig.mask.value = e.mask
+				}
+			eTABLE.appendChild( eBODY )
+			}
+		appendTo ( e ){
+			e.appendChild( this.eHTML )
+			this.TableSorter = new TSorter
+			this.TableSorter.init( this.eHTML )
+			}
+		}
+	}
+MiniInterval =class{
+	constructor( sMask ){
+		let eUL, eLI, nChar
+		, a = ['1','♭2','2','♭3','3','4','♭5','5','♭6','6','♭7','7','8']
+		this.eHTML = eUL = Tag('UL', 'mininterval')
+		for(var i=0, ni=12; i<ni; i++ ){
+			nChar = sMask.charAt(i)
+			eLI = Tag('LI')
+			if( nChar=='1' ){
+				eLI.className = 'ton'+i
+				eLI.innerHTML = a[i]
+				}
+			else{
+				eLI.className = 'none'
+				eLI.innerHTML = "&nbsp;"
+				}
+			eUL.appendChild( eLI )
 			}
 		}
 	}
