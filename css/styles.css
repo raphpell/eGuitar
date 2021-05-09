@@ -333,6 +333,7 @@
 	transition: filter,border-color 200ms ease;
 	}
 .suggestion H2:hover {
+	filter: sepia(1);
 	color: #3A1912;
 	background: #FFF;
 	box-shadow: 0 0 2px #ddd, inset 0 0 .5em #FFF;
@@ -481,7 +482,8 @@ TABLE.mask TD {
 	text-align: center;
 	}
 TABLE.mask TD.none {
-	background: rgba(0,0,0,.5);
+	filter: sepia(1);
+	background: rgba(125,125,125,.5);
 	}
 TABLE.mask TD.name {
 	padding-left: 20px;
@@ -499,15 +501,13 @@ TABLE.mask TD.name {
 	grid-template-rows: 40px 1fr;
 	grid-template-columns: 1fr 1fr 1fr;
 	}
-.layout label {
-	cursor: pointer;
-	display: inline-block;
-	color: #000;
-	}
 .layout input[type=radio] {
 	display: none;
 	}
 .layout label.nav {
+	background: #3A1912;
+	color: #FFF;
+	filter: sepia(1) opacity(.75);
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -515,17 +515,12 @@ TABLE.mask TD.name {
 	border: 1px solid #3A1912;
 	border-bottom: 4px solid #3A1912;
 	border-radius: 20px 20px 0 0;
-	background: #ecf0f1;
 	transition: background 0.4s;
 	padding-left: 0;
 	}
 .layout input[type=radio]:checked + .page + label.nav {
-	background: #3A1912;
-	color: #FFF;
-	}
-.layout label.nav span {
-	padding-left: 0px;
-	position: relative;
+	background: #ecf0f1;
+	color: #000;
 	}
 .layout .page {
 	grid-row-start: 2;
