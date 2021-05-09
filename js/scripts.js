@@ -894,7 +894,7 @@ let Harmonie ={
 			}
 		},
 	Mask:class{
-		constructor( aList, oConfig ){
+		constructor( aList, oConfig, eParent ){
 			let a = ['1','♭2','2','♭3','3','4','♭5','5','♭6','6','♭7','7']
 			let TDs = function( sMask ){
 				let eFragment, eTD, nChar
@@ -914,9 +914,7 @@ let Harmonie ={
 					}
 				return eFragment
 				}
-
-			var sTHEAD = '<thead><tr><th>'+ a.join( '</th><th>' ) +'</th><th>' + 'Intervalles' + '</th></thead>'
-
+			let sTHEAD = '<thead><tr><th>'+ a.join( '</th><th>' ) +'</th><th>' + L10n( 'INTERVALLES' ) + '</th></thead>'
 			let eTABLE, eBODY, eTR, eTD
 			this.eHTML = eTABLE = Tag('TABLE','mask')
 			eTABLE.innerHTML = sTHEAD
@@ -938,31 +936,9 @@ let Harmonie ={
 				if( e ) oConfig.mask.value = e.mask
 				}
 			eTABLE.appendChild( eBODY )
-			}
-		appendTo ( e ){
-			e.appendChild( this.eHTML )
 			this.TableSorter = new TSorter
 			this.TableSorter.init( this.eHTML )
-			}
-		}
-	}
-MiniInterval =class{
-	constructor( sMask ){
-		let eUL, eLI, nChar
-		, a = ['1','♭2','2','♭3','3','4','♭5','5','♭6','6','♭7','7','8']
-		this.eHTML = eUL = Tag('UL', 'mininterval')
-		for(var i=0, ni=12; i<ni; i++ ){
-			nChar = sMask.charAt(i)
-			eLI = Tag('LI')
-			if( nChar=='1' ){
-				eLI.className = 'ton'+i
-				eLI.innerHTML = a[i]
-				}
-			else{
-				eLI.className = 'none'
-				eLI.innerHTML = "&nbsp;"
-				}
-			eUL.appendChild( eLI )
+			if( eParent ) eParent.appendChild( this.eHTML )
 			}
 		}
 	}

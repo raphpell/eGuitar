@@ -431,28 +431,6 @@ UL.interval {
 	font-size: 0.5em;
 	}
 
-/* Mini Intervalles */
-UL.mininterval {
-	border:1px solid #999;
-	border-radius: 10px;
-	display: inline-block;
-	list-style-type: none;
-	padding:0;
-	text-align: center;
-	}
-UL.mininterval LI {
-	display: inline-block;
-	float: left;
-	font-size:.8em;
-	line-height:20px;
-	height:20px;
-	width:40px;
-	border-radius: 10px;
-	}
-UL.mininterval LI.none {
-	background: rgba(0,0,0,.1);
-	}
-
 /* Scales & Arpeggio */
 TABLE.mask {
 	clear: both;
@@ -460,6 +438,9 @@ TABLE.mask {
 	margin:0;
 	padding:0;
 	width: 100%;
+	}
+TABLE.mask THEAD {
+	filter: sepia(1);
 	}
 TABLE.mask TR {
 	cursor: pointer;
