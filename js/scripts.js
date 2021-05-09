@@ -896,7 +896,7 @@ let Harmonie ={
 		constructor( aList, oConfig, eParent ){
 			let a = ['1','♭2','2','♭3','3','4','♭5','5','♭6','6','♭7','7']
 			let TDs = function( sMask ){
-				let eFragment, eTD, nChar
+				let eFragment, eTD, nChar, nNotes = 0
 				eFragment = new DocumentFragment
 				for(var i=0, ni=12; i<ni; i++ ){
 					nChar = sMask.charAt(i)
@@ -904,6 +904,7 @@ let Harmonie ={
 					if( nChar=='1' ){
 						eTD.className = 'ton'+i
 						eTD.innerHTML = a[i]
+						nNotes++
 						}
 					else{
 						eTD.className = 'none'
@@ -911,9 +912,12 @@ let Harmonie ={
 						}
 					eFragment.appendChild( eTD )
 					}
+				eTD = Tag('TD')
+				eTD.innerHTML = nNotes
+				eFragment.appendChild( eTD )
 				return eFragment
 				}
-			let sTHEAD = '<thead><tr><th>'+ a.join( '</th><th>' ) +'</th><th>' + L10n( 'INTERVALLES' ) + '</th></thead>'
+			let sTHEAD = '<thead><tr><th>'+ a.join( '</th><th>' ) +'</th><th abbr="number">' + L10n('NOTES') +'</th><th>' + L10n('INTERVALLES') + '</th></thead>'
 			let eTABLE, eBODY, eTR, eTD
 			this.eHTML = eTABLE = Tag('TABLE','mask')
 			eTABLE.innerHTML = sTHEAD

@@ -311,6 +311,7 @@
 
 /* Tableau d'accords */
 .suggestion {
+	font-size:.8em;
 	border: 1px solid rgba(0,0,0,.5);
 	border-radius: 3px;
 	box-shadow: 0 0 .5em rgba(0,0,0,.5);
@@ -343,7 +344,6 @@
 	background: #3A1912;
 	color: #FFF;
 	width:40px;
-	font-size:10px;
 	}
 .suggestion TH.chordNames {
 	width: 150px;
@@ -359,7 +359,6 @@
 	background: yellow;
 	border: 2px solid #000;
 	border-radius: .5em;
-	font: normal .8em Verdana;
 	cursor: hand; cursor: pointer;
 	line-height: 1.4em;
 	padding: 0 .5em;
@@ -433,6 +432,7 @@ UL.interval {
 
 /* Scales & Arpeggio */
 .mask {
+	font-size:.8em;
 	clear: both;
 	list-style-type: none;
 	margin:0;
@@ -455,7 +455,6 @@ UL.interval {
 	color: #000;
 	}
 .mask TD {
-	font-size:.6em;
 	line-height:20px;
 	height:20px;
 	width:40px;
@@ -468,7 +467,6 @@ UL.interval {
 	}
 .mask TD.name {
 	padding-left: 20px;
-	font-size:1em;
 	width: auto;
 	text-align: left;
 	}
