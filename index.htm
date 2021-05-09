@@ -25,18 +25,9 @@
 			- Sons de guitare....
 			- Suggestion de doigter d'accords...
 			- Accordeur
-			- resoudre le soucis des menus...
 -->
 
 <div id="eTarget"></div>
-<div id="eTarget2"></div>
-
-<div class="layout">
-	<input name="nav" type="radio" id="tab1" checked><div class="page" id="eChords"></div><label class="nav" for="tab1"></label>
-	<input name="nav" type="radio" id="tab2"><div class="page" id="eScales"></div><label class="nav" for="tab2"></label>
-	<input name="nav" type="radio" id="tab3"><div class="page" id="eArpeggios"></div><label class="nav" for="tab3"></label>
-	<input name="nav" type="radio" id="tab4"><div class="page" id="eTunings"></div><label class="nav" for="tab4"></label>
-</div>
 
 <script type="text/javascript" src="js/L10n.js"></script>
 <script type="text/javascript" src="js/scripts.js"></script>
@@ -58,6 +49,18 @@ eTarget.appendChild( oIB.eHTML )
 var oHF = new Harmonie.Form ( oConfig )
 eTarget.appendChild( oHF.eHTML )
 
+</script>
+
+<div class="layout">
+	<input name="nav" type="radio" id="tab1" checked><div class="page" id="eChords"></div><label class="nav" for="tab1"></label>
+	<input name="nav" type="radio" id="tab2"><div class="page" id="eScales"></div><label class="nav" for="tab2"></label>
+	<input name="nav" type="radio" id="tab3"><div class="page" id="eArpeggios"></div><label class="nav" for="tab3"></label>
+	<input name="nav" type="radio" id="tab4"><div class="page" id="eTunings"></div><label class="nav" for="tab4"></label>
+</div>
+
+<a href="#" class="top">&#9650;</a>
+
+<script>
 eChords.nextSibling.innerHTML = L10n('ACCORDS')
 eScales.nextSibling.innerHTML = L10n('GAMMES')
 eArpeggios.nextSibling.innerHTML = L10n('ARPEGES')
@@ -69,6 +72,7 @@ oHT.displayChords()
 
 var oMasks1 = new Harmonie.Mask ( Scales, oConfig, eScales )
 var oMasks2 = new Harmonie.Mask ( Arpeggio, oConfig, eArpeggios )
+var oTunings = new TuningsList ( eTunings )
 
 </script>
 

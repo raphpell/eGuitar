@@ -307,7 +307,7 @@ class Manche {
 		let eLI = Tag( 'LI' )
 		let eLabel = eLI.appendChild( Tag( 'LABEL' ))
 		let eOption
-		eLabel.innerHTML = L10n('CORDES') +' : '
+		eLabel.innerHTML = L10n('CORDES') +': '
 		let e = eLI.appendChild( Tag( 'SELECT' ))
 		e.onkeyup = e.onchange = ()=> o.strings.value = that.eStrings.value
 		this.eStrings = e
@@ -321,7 +321,7 @@ class Manche {
 
 		eLI = Tag( 'LI' )
 		eLabel = eLI.appendChild( Tag( 'LABEL' ))
-		eLabel.innerHTML = L10n('ACCORDAGE') +' : '
+		eLabel.innerHTML = L10n('ACCORDAGE') +': '
 		e = this.eTunings = eLI.appendChild( Tag( 'SELECT' ))
 		e.onkeyup = e.onchange = ()=> o.tuning.value = that.eTunings.value
 		this.setTunings()
@@ -690,7 +690,7 @@ let Harmonie ={
 				eTH.align="right"
 
 				let eLabel = eTH.appendChild( Tag( 'LABEL' ))
-				eLabel.innerHTML = sLabel +':'
+				eLabel.innerHTML = sLabel +': '
 				eTR.appendChild( eTH )
 
 				eTD = Tag( 'TD' )
@@ -780,7 +780,6 @@ let Harmonie ={
 					Config.tonic.value = sTonique
 					Config.mask.value = sMask
 					that.locked = false
-					window.scrollTo(0, 0);
 					}
 				var sScale = e.scale
 				if( sScale ){
@@ -939,6 +938,42 @@ let Harmonie ={
 			this.TableSorter = new TSorter
 			this.TableSorter.init( this.eHTML )
 			if( eParent ) eParent.appendChild( this.eHTML )
+			}
+		}
+	}
+	
+class TuningsList {
+	constructor( eParent ){
+		for(let a=Tunings, i=0, ni=a.length; i<ni; i++ ){
+			let sTuning = a[i][0]
+			a[i].notes = sTuning.split(",").length
+			}
+		Tunings.sort( (a,b)=>{ return a.notes-b.notes })
+			
+		let eDL = this.eHTML = Tag('DL','tunings'), eDD, eDT, nNotes = null
+		Tunings.forEach( a =>{
+			if( nNotes != a.notes ){
+				nNotes = a.notes
+				eDT = Tag('DT')
+				eDT.innerHTML = nNotes + ' '+ L10n('CORDES')
+				eDL.appendChild( eDT )
+				}
+			
+			eDD = Tag('DD')
+			eDD.strings = nNotes
+			eDD.tuning = a[0]
+			eDD.innerHTML = '<span class="name">' + a[1] +'</span><b>'+ a[0].replace( /\,/gi, '</b><b>' ) + '</b>'
+			eDL.appendChild( eDD )
+			})
+		if( eParent ) eParent.appendChild( this.eHTML )
+		eDL.onclick =function( evt ){
+			var e = Events.element( evt )
+			if( e.className == 'tunings' ) return false
+			while( e && ! e.tuning ) e = e.parentNode
+			if( e ){
+				oConfig.strings.value = e.strings
+				oConfig.tuning.value = e.tuning
+				}
 			}
 		}
 	}

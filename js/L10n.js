@@ -6,7 +6,7 @@ let L10n =function( sId ){
 	}
 	
 
-L10n.sForceLanguage = '' // Debug purpose
+L10n.sForceLanguage = 'EN' // Debug purpose
 L10n.sDefaultLanguage = 'FR'
 L10n.sLanguage = navigator.language.substring(0,2).toUpperCase() || 'FR'
 
@@ -15,6 +15,7 @@ L10n.FR = {
 	DELETE_PREF: "Effacer vos préférences",
 	CORDES:		'Cordes',
 	ACCORDAGE:	'Accordage',
+	ACCORDAGES:	'Accordages',
 	ABCDEFG:	'Notation anglaise',
 	BEMOL:		'Bémol',
 	GAUCHER:	'Miroir vertical',
@@ -73,6 +74,7 @@ L10n.EN ={
 	DELETE_PREF: "Delete your preferences",
 	CORDES:		'Strings',
 	ACCORDAGE:	'Tuning',
+	ACCORDAGES:	'Tunings',
 	ABCDEFG:	'ABCDEFG',
 	BEMOL:		'Flat',
 	GAUCHER:	'left handed',

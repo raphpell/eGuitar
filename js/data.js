@@ -1,7 +1,7 @@
 const Tunings =[
 	/* Guitare */
 	// 6 cordes
-	['E2,A2,D3,G3,B3,E4','('+L10n('Guitare')+') Standard'],
+	['E2,A2,D3,G3,B3,E4','Standard ('+L10n('Guitare')+')' ],
 	['D2,A2,D3,G3,B3,E4','Drop D'],
 	['E2,A2,E3,A3,C#4,E4','Open Tuning A'],
 	['D#2,G#2,C#3,F#3,A#3,D#4','Half Step Down'],
@@ -30,7 +30,6 @@ const Tunings =[
 	['C2,F2,A#2,D#3,G3,C4','C Tuning'],
 	['C#2,F#2,B2,E3,G#3,C#4','C# Tuning'],
 	['A#0,D#2,G#2,C#3,F3,A#3','Bb Tuning'],
-	['A0,D2,G2,C3,E3,A3','A to A (Baritone)'],
 	['D2,A2,D3,D3,D4,D4','D A D D D D'],
 	['C2,G2,D3,G3,B3,D4','C G D G B D'],
 	['C2,G2,D3,G3,B3,E4','C G D G B E'],
@@ -54,42 +53,42 @@ const Tunings =[
 	['D2,D3,D3,D3,D4,D4','Ostrich'],
 	['C2,G2,D3,D#3,D4,D#4','Capo 300'],
 	['E2,A2,D3,E3,E3,A3','Balalaika'],
-	[',G2,C3,E3,A3,E4','Charango'],
 	['C2,F2,C3,G3,C4,D4','Cittern One'],
 	['C2,G2,C3,G3,C4,G4','Cittern Two'],
 	['G2,B2,D3,G3,B3,D4','Dobro'],
 	['E4,B3,G3,D3,A2,E2','Lefty'],
 	['C2,G2,D3,A3,E4,B4','Mandoguitar'],
+	['A0,D2,G2,C3,E3,A3','A to A (Baritone)'],
 	['B0,A2,D3,G3,B3,E4','Rusty Cage'],
 	// 7 cordes
-	['B1,E2,A2,D3,G3,B3,E4','('+L10n('Guitare')+') Standard'],
-	['A1,E2,A2,D3,G3,B3,E4','('+L10n('Guitare')+') Van Eps'],
+	['B1,E2,A2,D3,G3,B3,E4','Standard ('+L10n('Guitare')+')'],
+	['A1,E2,A2,D3,G3,B3,E4','Van Eps ('+L10n('Guitare')+')'],
 	// 8 cordes
-	['B1,E2,A2,D3,G3,B3,E4,A4','('+L10n('Guitare')+') Galbraith'],
-	['B1,D2,E2,A2,D3,G3,B3,E4','('+L10n('Guitare')+') '+L10n('AccAlt')],
+	['B1,E2,A2,D3,G3,B3,E4,A4','Galbraith ('+L10n('Guitare')+')'],
+	['B1,D2,E2,A2,D3,G3,B3,E4', L10n('AccAlt') +' ('+L10n('Guitare')+')'],
 	// 9 cordes
-	['E3,E2,A3,A2,D4,D3,G3,B3,E4','('+L10n('Guitare')+') Standard'],
-	['E2,A2,D3,G4,G3,B3,B3,E4,E4','('+L10n('Guitare')+') '+L10n('AccAlt')],
+	['E3,E2,A3,A2,D4,D3,G3,B3,E4','Standard ('+L10n('Guitare')+')'],
+	['E2,A2,D3,G4,G3,B3,B3,E4,E4', L10n('AccAlt') +' ('+L10n('Guitare')+')'],
 	// 10 cordes
-	['F#1,G#1,A#1,C2,E3,A2,D3,G3,B3,E4','('+L10n('Guitare')+') Standard'],
+	['F#1,G#1,A#1,C2,E3,A2,D3,G3,B3,E4','Standard ('+L10n('Guitare')+')'],
 	// 12 cordes
-	['E3,E2,A3,A2,D4,D3,G4,G3,B3,B3,E4,E4','('+L10n('Guitare')+') Standard'],
+	['E3,E2,A3,A2,D4,D3,G4,G3,B3,B3,E4,E4','Standard ('+L10n('Guitare')+')'],
 
 	/* Guitare Basse */
 	// 4 cordes
-	['E1,A1,D2,G2','('+L10n('Basse')+') Standard'],
+	['E1,A1,D2,G2','Standard ('+L10n('Basse')+')'],
 	// 5 cordes
-	['B0,E1,A1,D2,G2','('+L10n('Basse')+') Standard'],
+	['B0,E1,A1,D2,G2','Standard ('+L10n('Basse')+')'],
 	// 6 cordes
-	['B0,E1,A1,D2,G2,C3','('+L10n('Basse')+') Standard'],
+	['B0,E1,A1,D2,G2,C3','Standard ('+L10n('Basse')+')'],
 
 	/* Banjo */
 	// 4 cordes
-	['C2,G3,D3,A4','Banjo Tenor'],
+	['C2,G3,D3,A4','Tenor (Banjo)'],
 	// 5 cordes
-	['G4,D3,G3,B3,D4','Banjo Bluegrass G'],
-	['G4,C3,G3,B3,D4','Banjo C'],
-	['G4,B2,E3,G#3,B3','Banjo Diapson Long']
+	['G4,D3,G3,B3,D4','Bluegrass G (Banjo)'],
+	['G4,C3,G3,B3,D4','C (Banjo)'],
+	['G4,B2,E3,G#3,B3','Diapson Long (Banjo)']
 	]
 const Arpeggio =[
 	['100100010000','m'],
@@ -106,7 +105,6 @@ const Arpeggio =[
 	['100001010000','(sus4)'],
 	['100001100000','(sus4 b5)'],
 	['100011010000','(add4)'],
-	['100101010000','m(add4)'],
 	['100000110000','(sus#4)'],
 	['100000101000','(sus#4 #5)'],
 	['100000010000','5'],
