@@ -894,6 +894,8 @@ let Harmonie ={
 		},
 	Mask:class{
 		constructor( aList, oConfig, eParent ){
+			let that = this
+			this.eSelected = null
 			let a = ['1','♭2','2','♭3','3','4','♭5','5','♭6','6','♭7','7']
 			let TDs = function( sMask ){
 				let eFragment, eTD, nChar, nNotes = 0
@@ -918,7 +920,7 @@ let Harmonie ={
 				return eFragment
 				}
 			let sTHEAD = '<thead><tr><th>'+ a.join( '</th><th>' ) +'</th><th abbr="number">' + L10n('NOTES') +'</th><th>' + L10n('INTERVALLES') + '</th></thead>'
-			let eTABLE, eBODY, eTR, eTD
+			let eTABLE, eBODY, eTR, eTD, bSelected
 			this.eHTML = eTABLE = Tag('TABLE','mask')
 			eTABLE.innerHTML = sTHEAD
 			eBODY = Tag('TBODY')
@@ -926,6 +928,13 @@ let Harmonie ={
 				if( ! sName ) return;
 				eTR = Tag('TR')
 				eTR.mask = sMask
+				if( ! bSelected ){
+					bSelected = oConfig.mask.value == sMask
+					if( bSelected ){
+						that.eSelected = eTR
+						eTR.className = 'selected'
+						}
+					}
 				eTD = Tag('TD','name')
 				eTD.innerHTML = sName + (sOtherName?' <small>'+sOtherName.replace(/\|/gi,', ')+'</small>':'')
 				eTR.appendChild( TDs( sMask ) )
@@ -942,19 +951,33 @@ let Harmonie ={
 			this.TableSorter = new TSorter
 			this.TableSorter.init( this.eHTML )
 			if( eParent ) eParent.appendChild( this.eHTML )
+				
+			oConfig.mask.addSubscriber( 'Harmonie.Mask selection', s =>{
+				if( that.eSelected ) that.eSelected.className = ''
+				var aTR = that.eHTML.getElementsByTagName('TR')
+				for(let e, i=0, ni=aTR.length; i<ni; i++ ){
+					e = aTR[i]
+					if( e.mask == s ){
+						e.className = 'selected'
+						that.eSelected = e
+						}
+					}
+				})
 			}
 		}
 	}
 	
 class TuningsList {
-	constructor( eParent ){
+	constructor( oConfig, eParent ){
+		let that = this
+		this.eSelected = null
 		for(let a=Tunings, i=0, ni=a.length; i<ni; i++ ){
 			let sTuning = a[i][0]
 			a[i].notes = sTuning.split(",").length
 			}
 		Tunings.sort( (a,b)=>{ return a.notes-b.notes })
-			
-		let eDL = this.eHTML = Tag('DL','tunings'), eDD, eDT, nNotes = null
+
+		let eDL = this.eHTML = Tag('DL','tunings'), eDD, eDT, nNotes = null, bSelected = false
 		Tunings.forEach( a =>{
 			if( nNotes != a.notes ){
 				nNotes = a.notes
@@ -962,8 +985,14 @@ class TuningsList {
 				eDT.innerHTML = nNotes + ' '+ L10n('CORDES')
 				eDL.appendChild( eDT )
 				}
-			
 			eDD = Tag('DD')
+			if( ! bSelected ){
+				bSelected = oConfig.tuning.value == a[0]
+				if( bSelected ){
+					that.eSelected = eDD
+					eDD.className = 'selected'
+					}
+				}
 			eDD.strings = nNotes
 			eDD.tuning = a[0]
 			eDD.innerHTML = '<span class="name">' + a[1] +'</span><b>'+ a[0].replace( /\,/gi, '</b><b>' ) + '</b>'
@@ -979,5 +1008,16 @@ class TuningsList {
 				oConfig.tuning.value = e.tuning
 				}
 			}
+		oConfig.tuning.addSubscriber( 'TuningsList selection', s =>{
+			if( that.eSelected ) that.eSelected.className = ''
+			var aDD = that.eHTML.getElementsByTagName('DD')
+			for(let e, i=0, ni=aDD.length; i<ni; i++ ){
+				e = aDD[i]
+				if( e.tuning == s ){
+					e.className = 'selected'
+					that.eSelected = e
+					}
+				}
+			})
 		}
 	}

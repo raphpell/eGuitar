@@ -450,6 +450,9 @@ UL.interval {
 	vertical-align: top;
 	margin:2px;
 	}
+.mask TR.selected {
+	background: #585041;
+	}
 .mask TBODY TR:hover {
 	background: #FFF;
 	color: #000;
@@ -539,6 +542,9 @@ UL.interval {
 	}
 .tunings DD {
 	border-radius: 10px;
+	}
+.tunings DD.selected {
+	background: #585041;
 	}
 .tunings DD:hover {
 	background: #FFF;
