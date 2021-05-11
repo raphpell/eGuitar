@@ -159,7 +159,7 @@ let Config =( function (){
 	// Variables globales
 	GlobalVars([ // Attention: un soucis avec les valeurs booléenne à 1 !!!
 		[ "config", 0 ],
-		[ "fx", 0 ],
+		[ "fx", 1 ],
 		[ "la3", 440 ],
 		[ "lefthanded", 0 ],
 		[ "mask", '100101010010' ], // gamme par défaut mPenta
