@@ -272,7 +272,7 @@ class Manche {
 					playTone( e.note + e.octave, o.la3.value)
 					return false
 					}
-				return e
+				return o.sound.value ? false : e
 				}
 			eParent.onclick = function( evt ){
 				let e = playSound( evt )
