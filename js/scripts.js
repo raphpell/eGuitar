@@ -159,6 +159,7 @@ let Config =( function (){
 	// Variables globales
 	GlobalVars([ // Attention: un soucis avec les valeurs booléenne à 1 !!!
 		[ "config", 0 ],
+		[ "fx", 0 ],
 		[ "la3", 440 ],
 		[ "lefthanded", 0 ],
 		[ "mask", '100101010010' ], // gamme par défaut mPenta
@@ -178,6 +179,7 @@ let Config =( function (){
 		cases: 12,
 		// Défaut : SpecialVars avec répercution localStorage
 		config: null,
+		fx: null,
 		la3: null,
 		lefthanded: null,
 		mask: null,
@@ -226,6 +228,7 @@ class Manche {
 
 		// Rafraichissement de la valeur des options
 		o.config.refresh()
+		o.fx.refresh()
 		o.lefthanded.refresh()
 		o.notes.refresh()
 		o.numbers.refresh()
@@ -374,6 +377,7 @@ class Manche {
 		( 'eFlipH',			L10n('GAUCHER'),o.lefthanded.value,	function(){ o.lefthanded.value = this.checked },'hFlip' )
 		( 'eFretsNumber',	L10n('NUMEROS'),o.numbers.value,	function(){ o.numbers.value = this.checked },	'numbers' )
 		( 'eSound',			L10n('AUDIO'),	o.sound.value,		function(){ o.sound.value = this.checked },		'sound' )
+		( 'eFx',			L10n('FX'),		o.fx.value,			function(){ o.fx.value = this.checked },		'fx' )
 
 		eUL.appendChild( eUL2 )
 		this.eHTML.appendChild( eUL )
@@ -392,6 +396,10 @@ class Manche {
 				:( bFlipV ? 'droitier_flipped' : 'droitier' )
 				)
 			}
+		o.fx.addSubscriber( 'hide/show manche Form.', function( b ){ 
+			that.eFx.checked = b
+			document.body.classList[ ! b ? 'add' : 'remove' ]( 'fx' )
+			})
 		o.config.addSubscriber( 'hide/show manche Form.', function( b ){ 
 			that.eConfig.checked = b
 			that.eHTML.classList[ ! b ? 'add' : 'remove' ]( 'hideForm' )
@@ -547,6 +555,7 @@ class Manche {
 	// Config handlers
 	hideForm ( b ){ return this.Config.config.value = b }
 	setFretsNumber ( b ){ return this.Config.numbers.value = b }
+	setFx ( b ){ return this.Config.fx.value = b }
 	setLa3 ( nFreq ){ return this.Config.la3.value = nFreq }
 	setLeftHanded ( b ){ return this.Config.lefthanded.value = b }
 	setMirror ( b ){ return this.Config.mirror.value = b }

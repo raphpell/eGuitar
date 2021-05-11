@@ -1,3 +1,5 @@
+.fx * { transition: none !important; }
+
 /* Manche */
 .eGuitar {
 	border: 1px solid rgba(0,0,0,.5);
@@ -104,6 +106,7 @@
 .menu .hFlip LABEL { background-position: -215px -5px; }
 .menu .vFlip LABEL { background-position: -245px -5px; }
 .menu .abcdefg LABEL { background-position: -275px -5px; }
+.menu .fx LABEL { background-position: -305px -5px; }
 
 /* cases du manche */
 .case {
