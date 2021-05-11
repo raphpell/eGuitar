@@ -1,7 +1,5 @@
 @media only screen and (max-width: 959px) {
-	* {
-		transition: none !important;
-		}
+	* { transition: none !important; }
 	}
 
 BODY {
