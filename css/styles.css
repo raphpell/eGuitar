@@ -491,7 +491,7 @@ UL.interval {
 	grid-template-rows: 40px 1fr;
 	grid-template-columns: 1fr 1fr 1fr 1fr;
 	overflow: hidden;
-	margin; 0 0 1em;
+	margin: 0 0 1em;
 	}
 .layout .page {
 	grid-row: 2;
