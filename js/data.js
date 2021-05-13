@@ -231,7 +231,7 @@ const Scales =[
 	['100110011001', 'Augmented'],
 	['101010100110', 'Prometheus'],
 	['100011011010', 'Hindu'],
-	['101101010010', 'Bahar'],
+	['101101010010', 'Minor Hexatonic - Bahar'],
 	['101010110100', 'Hexa. lydian'],
 	['101101010100', 'Hexa. melodic'],
 	['110101011000', 'Hexa. phrygian'],
@@ -263,48 +263,7 @@ const Scales =[
 	['110110110101','Half diminished' ],
 	['101100110001','Semi-tonal chromatic minor' ],
 	['100110110001','Semi-tonal chromatic major' ],
-	['111111111111', L10n('Chrom')],
-/* 	
-	['100000000000',''],
-	['101011010111',"Mixolydien+Ionien"],
-	['101011110101',"Lydien+Ionien"],
-	['101101011110',"Eolien+Dorien"],
-	['101111010110',"Mixolydien+Dorien"],
-	['110101111010',"Locrien+Phrygien"],
-	['111101011010',"Eolien+Phrygien"],
-	
-	['101011110111',"Mixolydien+Lydien"],
-	['101111010111',"Dorien+Ionien"],
-	['101111011110',"Eolien+Mixolydien"],
-	['111101011110',"Phrygien+Dorien"],
-	['111101111010',"Locrien+Eolien"],
-	
-	['101111011111',"Eolien+Ionien"],
-	['101111110111',"Lydien+Dorien"],
-	['111101111110',"Locrien+Dorien"],
-	['111111011110',"Mixolydien+Phrygien"],
-	
-	['101111111111',"Eolien+Lydien"],
-	['111111011111',"Phrygien+Ionien"],
-	['111111111110',"Locrien+Mixolydien"],
-	
-	['111111111111',"Locrien+Lydien"],
-	
-	['100000000000',''],
-	
-	['101101010010','Minor Hexatonic'],
-	['101010111001','Pelog'],
-	['110010110010','Raga Indupriya (India)'],
-	
-	['110100011000','Balinaise'],
-	['110100010010','Pelog(Balinaise)'],
-	['110001011000','Japonaise'],
-	['110001100010','Iwato(Japonaise)'],
-	['101001010010','Egyptienne'],
-	['100010110001','Chinoise'],
-	['110110011010','Indien'],
-	['101011011010','Hindou']
-*/
+	['111111111111', L10n('Chrom')]
 	]
 /* 
 Harmonie.aChords =[
