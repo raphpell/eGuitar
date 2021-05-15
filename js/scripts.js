@@ -718,6 +718,7 @@ let Harmonie ={
 				eChords.value = eScale.value = sMask
 				if( eScale.value ) Config.scale.value = [ sMask, eScale.selectedOptions[0].innerHTML ]
 				else if( eChords.value ) Config.scale.value = [ sMask, eChords.selectedOptions[0].innerHTML ]
+				else Config.scale.value = [ sMask, '...' ]
 				})
 			Config.scale.addSubscriber( 'HarmonieForm values', a => eScale.value = a[0] )
 			Config.notation.addSubscriber( 'HarmonieForm selectBox tonic choix', function(){
