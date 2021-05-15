@@ -308,9 +308,6 @@
 /* Tableau d'accords */
 .suggestion {
 	font-size:.8em;
-	border: 1px solid rgba(0,0,0,.5);
-	border-radius: 3px;
-	box-shadow: 0 0 .5em rgba(0,0,0,.5);
 	box-sizing: border-box;
 	cursor: default;
 	margin: .5em 0;
@@ -338,11 +335,8 @@
 	}
 .suggestion TH {
 	cursor: pointer;
-	font-size:.8em;
 	width:40px;
 	padding: 1em;
-	}
-.suggestion THEAD {
 	}
 .suggestion TH.chordNames {
 	width: 150px;

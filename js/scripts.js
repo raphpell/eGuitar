@@ -841,10 +841,9 @@ let Harmonie ={
 
 			let sTHEAD = '<thead><tr><th class="chordNames">'+ L10n('ACCORDS') +'</th>'
 			, aNotesTmp = this.Config.notation.getSequence( sTonique )
-			, aRoman = 'I,II,III,IV,V,VI,VII,VIII,IX,X,XI,XII'.split(',')
 			for(let i=0, j=0, ni=aNotesTmp.length; i<ni; i++ ){
 				sTHEAD += sScaleMask.charAt(i) == '1'
-					? '<th abbr="arpege">'+aRoman[j++]+'</th>' //  class="ton'+ i +'"
+					? '<th abbr="arpege">&#85'+(44+j++)+';</th>' //  class="ton'+ i +'" // Chiffres romains
 					: '<th abbr=""></th>'
 				}
 			sTHEAD += '<th abbr="number"><label>'+ L10n('QUANTITE') +'</label></th><th abbr="number"><label>'+ L10n('NOTES') +'</label></th></tr></thead>'
