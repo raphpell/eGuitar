@@ -22,9 +22,9 @@
 		<li><a href="https://github.com/raphpell/eGuitar/">eGuitar sur Github</a></li>
 	</ul>
 			ToDo List v2.2 ?
-			- Sons de guitare....
+			- Vrai sons de guitare....
 			- Suggestion de doigter d'accords...
-			- Accordeur
+			- Accordeur...
 -->
 
 <div id="eTarget"></div>
@@ -58,13 +58,19 @@ eTarget.appendChild( oHF.eHTML )
 	<input name="nav" type="radio" id="tab4"><div class="page" id="eTunings"></div><label class="nav" for="tab4"></label>
 </div>
 
-<a href="#" class="top">&#9650;</a>
-
 <script>
-eChords.nextSibling.innerHTML = L10n('ACCORDS')
-eScales.nextSibling.innerHTML = L10n('GAMMES')
-eArpeggios.nextSibling.innerHTML = L10n('ARPEGES')
-eTunings.nextSibling.innerHTML = L10n('ACCORDAGES')
+let f = function( e, sL10n ){
+	e.nextSibling.innerHTML = L10n(sL10n)
+	e.previousSibling.onclick = function(){ Memoire.set( 'tab', this.id )}
+	return f
+	}
+f
+( eChords, 'ACCORDS' )
+( eScales, 'GAMMES' )
+( eArpeggios, 'ARPEGES' )
+( eTunings, 'ACCORDAGES' )
+let sId = Memoire.get( 'tab')
+if( sId ) window[ sId ].checked = true
 
 var oHT = new Harmonie.Table ( oConfig )
 eChords.appendChild( oHT.eHTML )
@@ -75,6 +81,10 @@ var oMasks2 = new Harmonie.Mask ( Arpeggio, oConfig, eArpeggios )
 var oTunings = new TuningsList ( oConfig, eTunings )
 
 </script>
+
+
+<a href="#" class="top">&#9650;</a>
+<center><small>15/05/2021</small></center>
 
 </body>
 </html>
