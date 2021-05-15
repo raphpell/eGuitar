@@ -844,7 +844,7 @@ let Harmonie ={
 			, aRoman = 'I,II,III,IV,V,VI,VII,VIII,IX,X,XI,XII'.split(',')
 			for(let i=0, j=0, ni=aNotesTmp.length; i<ni; i++ ){
 				sTHEAD += sScaleMask.charAt(i) == '1'
-					? '<th abbr="arpege" class="ton'+ i +'">'+aNotesTmp[i]+'<br><small>'+aRoman[j++]+'</small></th>'
+					? '<th abbr="arpege" class="ton'+ i +'">'+aRoman[j++]+'</th>'
 					: '<th abbr=""></th>'
 				}
 			sTHEAD += '<th abbr="number"><label>'+ L10n('QUANTITE') +'</label></th><th abbr="number"><label>'+ L10n('NOTES') +'</label></th></tr></thead>'

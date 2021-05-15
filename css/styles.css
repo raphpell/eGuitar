@@ -67,6 +67,7 @@
 
 /* Menu  */
 .menu {
+	filter: sepia(1);
 	float: right;
 	margin: 0;
 	padding: 0;
@@ -188,6 +189,8 @@
 
 /* frettes + numéros des cases */
 .frette {
+	cursor: default;
+	filter: sepia(1);
 	background: url(../sprites/default.png) repeat-y -10px 0;
 	height: inherit;
 	left: 65px;
@@ -200,12 +203,10 @@
 	border-radius: 1em;
 	box-shadow: 0 0 3px #888;
 	font: normal 1.1em 'Times New Roman';
-	height: 26px;
-	line-height: 26px;
 	left: -65px;
 	margin: 2px;
 	overflow: hidden;
-	opacity: .5;
+	opacity: .6;
 	position: absolute;
 	text-align: center;
 	transition:opacity 500ms;
@@ -285,14 +286,6 @@
 	top: -30px;
 	}
 
-/* Position accords */
-.position1 {
-	box-shadow: inset 0 0 1em lime;
-	}
-.position2 {
-	box-shadow: inset 0 0 1em red;
-	}
-
 /* Harmonie Form */
 .harmonieForm {
 	border: 1px solid rgba(0,0,0,.5);
@@ -327,12 +320,13 @@
 .suggestion H2 {
 	background: #3A1912;
 	color: #fff;
+	filter: sepia(1);
 	border-radius: 10px;
 	box-shadow: 0 0 2px #000, inset 0 0 2px #000;
 	cursor: hand; cursor: pointer;
 	text-align: left;
-	padding: 0 1em;
-	margin: 0;
+	padding: .25em 1em;
+	margin: 5px 0 10px;
 	line-height: 1.2em;
 	transition: filter,border-color 200ms ease;
 	}
@@ -344,8 +338,7 @@
 	}
 .suggestion TH {
 	cursor: pointer; cursor: hand;
-	background: #3A1912;
-	color: #FFF;
+	font-size:.8em;
 	width:40px;
 	}
 .suggestion TH.chordNames {
@@ -564,7 +557,6 @@ UL.interval {
 	padding: 0 4px;
 	margin: 2px;
 	}
-
 
 /* Top */
 .top {
