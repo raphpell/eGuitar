@@ -1,16 +1,47 @@
 let L10n =function( sId ){
-	var o = L10n.sForceLanguage
-		? L10n[ L10n.sForceLanguage ]
-		: L10n[ L10n.sLanguage ] || L10n[ L10n.sDefaultLanguage ]
+	var o = L10n[ L10n.sSelectedLanguage ]
 	return o && o[sId] || '<code>'+sId+'</code>'
 	}
-	
+Object.assign( L10n, {
+	ID: 0,
+	aAvailableLanguages: ['FR','EN'],
+	sDefaultLanguage: 'FR',
+	sLanguage: navigator.language.substring(0,2).toUpperCase() || 'FR',
+	sForceLanguage: Memoire.get('lang'),
+	sSelectedLanguage: null,
+	getLanguage :function(){
+		if( L10n.sSelectedLanguage ) return L10n.sSelectedLanguage
+		let s = L10n.sForceLanguage
+		if( s && L10n[s]) return s
+		s = L10n.sLanguage
+		if( s && L10n[s]) return s
+		return L10n.sDefaultLanguage
+		},
+	createMenu :function( e ){
+		++L10n.ID
+		let a = L10n.aAvailableLanguages
+		e.classList.add('lang')
+		for(var i=0, ni=a.length; i<ni; i++ ){
+			let e1 = Tag('input')
+			let e2 = Tag( 'label')
+			e1.type = 'radio'
+			e1.name = 'lang'+ L10n.ID
+			e1.checked = a[i]==L10n.sSelectedLanguage
+			e1.id = e2.htmlFor ='lang' +L10n.ID +'-'+ i
+			e2.innerHTML = a[i]
+			e.appendChild( e1 )
+			e.appendChild( e2 )
+			e1.onchange =function(){
+				if( e1.checked ){
+					Memoire.set('lang',e2.innerHTML)
+					document.location.reload()
+					}
+				}
+			}
+		}
+	})
 
-L10n.sForceLanguage = '' // Debug purpose
-L10n.sDefaultLanguage = 'FR'
-L10n.sLanguage = navigator.language.substring(0,2).toUpperCase() || 'FR'
-
-L10n.FR = {
+L10n.FR ={
 	// App
 	DELETE_PREF: "Effacer vos préférences",
 	CORDES:		'Cordes',
@@ -131,3 +162,6 @@ L10n.EN ={
 	dBB:		'Dominant bebop',
 	Chrom:		'Chromatic',
 	}
+
+// placé à la fin, obligé !
+L10n.sSelectedLanguage = L10n.getLanguage()

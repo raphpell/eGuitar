@@ -17,6 +17,9 @@
 <body>
 
 <div id="eHead"><img src="logo.png"><h1>eGuitar </h1></div>
+
+<div id="eLang"></div>
+
 <!--
 	<ul>
 		<li><a href="https://github.com/raphpell/eGuitar/">eGuitar sur Github</a></li>
@@ -29,12 +32,14 @@
 
 <div id="eTarget"></div>
 
+<script type="text/javascript" src="js/utils.js"></script>
 <script type="text/javascript" src="js/L10n.js"></script>
 <script type="text/javascript" src="js/scripts.js"></script>
 <script type="text/javascript" src="js/data.js"></script>
 <script type="text/javascript" src="js/tSorter.js"></script>
 <script type="text/javascript" src="js/audio.js"></script>
 <script>
+L10n.createMenu( eLang )
 eHead.firstChild.onclick = function(){
 	if( confirm( L10n('DELETE_PREF'))) Memoire.clear()
 	}
@@ -84,7 +89,7 @@ var oTunings = new TuningsList ( oConfig, eTunings )
 
 
 <a href="#" class="top">&#9650;</a>
-<center><small>15/05/2021</small></center>
+<center><small>Dernière modification: 15/05/2021</small></center>
 
 </body>
 </html>

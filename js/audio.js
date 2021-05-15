@@ -106,9 +106,10 @@ let playChord
 			createSignal( sNoteOctave, nFreqLa, o ).start(0)
 			}
 
-	playChord =( sNotes, nFreqLa ) => {
+	playChord =( sNotes, nFreqLa, n ) => {
+		n = n !== undefined ? n : .025
 		if( ! context ) context = new AudioContext()
-		let a = sNotes.split(','), o = createEffect(), n = .025
+		let a = sNotes.split(','), o = createEffect()
 		for(var i=0, ni=a.length; i<ni; i++ )
 			createSignal( a[i], nFreqLa, o ).start(i*n)
 		}

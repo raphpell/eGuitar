@@ -16,6 +16,27 @@ TD {
 	text-align: right;
 	}
 
+/* Lang */
+.lang {
+	float: right;
+	filter: sepia(1);
+	}
+.lang label {
+	border: 1px solid #fff;
+	font: normal 10px Verdana;
+	border-radius: 4px;
+	height: 20px;
+	width: 20px;
+	margin: 2px;
+	}
+.lang input {
+	display: none;
+	}
+.lang input:checked + label {
+	background:#fff;
+	color:#000;
+	}
+	
 /* L10n */
 code {
 	animation-duration: 2s;
