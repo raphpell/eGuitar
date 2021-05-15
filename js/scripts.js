@@ -1,6 +1,5 @@
 window.onselectstart =function(){ return false } // empêche la sélection de texte
 
-/*=== eGuitare =======*/
 let Config =( function (){
 	// Pattern Publishers/Subscribers
 	function Publishers (){
@@ -652,6 +651,7 @@ let Harmonie ={
 			this.ID = ++Config.ID
 			this.Config = oConfig
 			this.createHTML()
+			this.Config.mask.refresh()
 			}
 		createHTML(){
 			let Config = this.Config
@@ -718,7 +718,7 @@ let Harmonie ={
 				eChords.value = eScale.value = sMask
 				if( eScale.value ) Config.scale.value = [ sMask, eScale.selectedOptions[0].innerHTML ]
 				else if( eChords.value ) Config.scale.value = [ sMask, eChords.selectedOptions[0].innerHTML ]
-				else Config.scale.value = [ sMask, '...' ]
+				else Config.scale.value = [ sMask, 'noname' ]
 				})
 			Config.scale.addSubscriber( 'HarmonieForm values', a => eScale.value = a[0] )
 			Config.notation.addSubscriber( 'HarmonieForm selectBox tonic choix', function(){
@@ -861,7 +861,11 @@ let Harmonie ={
 			if( aSort ) this.TableSorter.sort( aSort[0], aSort[1] )
 
 			var e = Tag( 'CAPTION' )
-			e.innerHTML = '<h2>'+ sTonique +" " + this.sScaleName +'</h2>'
+			if( this.sScaleName != 'noname' )
+				e.innerHTML = '<h2>'+ sTonique +" " + this.sScaleName +'</h2>'
+			else{
+				e.innerHTML = '<h2>'+ sTonique +'...</h2>'
+				}
 			e.tonique = sTonique
 			e.scale = sScaleMask
 			this.eHTML.insertBefore( e, this.eHTML.firstChild )
@@ -941,7 +945,7 @@ let Harmonie ={
 			}
 		}
 	}
-	
+
 class TuningsList {
 	constructor( oConfig, eParent ){
 		let that = this
