@@ -827,7 +827,7 @@ let Harmonie ={
 					var sOpacity = ( sOpacity != undefined ? 'opacity:'+ (1-sOpacity+.3).toFixed(2) +' !important;' : '' )
 					var sTitle = ( sProb != undefined ? sProb : '' )
 					o[ sName ][ nTon ] =
-						'<div class="ton'+ nTon +'" tonique="'+ sTonic +'" arpege="'+ sMask2 +'" style="'+ sOpacity +'" title="'+ sTonic+sName +'">X</div>'
+						'<div class="ton'+ nTon +'" tonique="'+ sTonic +'" arpege="'+ sMask2 +'" style="'+ sOpacity +'" title="'+ sTonic+sName +'">&#10005;</div>'
 					o[ sName ][12]++
 					})
 				})
@@ -844,7 +844,7 @@ let Harmonie ={
 			, aRoman = 'I,II,III,IV,V,VI,VII,VIII,IX,X,XI,XII'.split(',')
 			for(let i=0, j=0, ni=aNotesTmp.length; i<ni; i++ ){
 				sTHEAD += sScaleMask.charAt(i) == '1'
-					? '<th abbr="arpege" class="ton'+ i +'">'+aRoman[j++]+'</th>'
+					? '<th abbr="arpege">'+aRoman[j++]+'</th>' //  class="ton'+ i +'"
 					: '<th abbr=""></th>'
 				}
 			sTHEAD += '<th abbr="number"><label>'+ L10n('QUANTITE') +'</label></th><th abbr="number"><label>'+ L10n('NOTES') +'</label></th></tr></thead>'
@@ -947,7 +947,7 @@ let Harmonie ={
 class TuningsList {
 	constructor( oConfig, eParent ){
 		let that = this
-		this.eSelected = null
+		this.aSelected = []
 		for(let a=Tunings, i=0, ni=a.length; i<ni; i++ ){
 			let sTuning = a[i][0]
 			a[i].notes = sTuning.split(",").length
@@ -963,13 +963,13 @@ class TuningsList {
 				eDL.appendChild( eDT )
 				}
 			eDD = Tag('DD')
-			if( ! bSelected ){
+		//	if( ! bSelected ){
 				bSelected = oConfig.tuning.value == a[0]
 				if( bSelected ){
-					that.eSelected = eDD
+					that.aSelected.push( eDD )
 					eDD.className = 'selected'
 					}
-				}
+		//		}
 			eDD.strings = nNotes
 			eDD.tuning = a[0]
 			eDD.innerHTML = '<span class="name">' + a[1] +'</span><b>'+ a[0].replace( /\,/gi, '</b><b>' ) + '</b>'
@@ -986,13 +986,15 @@ class TuningsList {
 				}
 			}
 		oConfig.tuning.addSubscriber( 'TuningsList selection', s =>{
-			if( that.eSelected ) that.eSelected.className = ''
+			let a = that.aSelected
+			if( a.length ) a.forEach( e => { e.className = '' })
+			that.aSelected = []
 			var aDD = that.eHTML.getElementsByTagName('DD')
 			for(let e, i=0, ni=aDD.length; i<ni; i++ ){
 				e = aDD[i]
 				if( e.tuning == s ){
 					e.className = 'selected'
-					that.eSelected = e
+					that.aSelected.push( e )
 					}
 				}
 			})

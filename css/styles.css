@@ -337,9 +337,12 @@
 	box-shadow: 0 0 2px #ddd, inset 0 0 .5em #FFF;
 	}
 .suggestion TH {
-	cursor: pointer; cursor: hand;
+	cursor: pointer;
 	font-size:.8em;
 	width:40px;
+	padding: 1em;
+	}
+.suggestion THEAD {
 	}
 .suggestion TH.chordNames {
 	width: 150px;
