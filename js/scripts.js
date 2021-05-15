@@ -14,7 +14,7 @@ Memoire =(function( sBase ){
 			return true
 			},
 		get:function( sName ){
-			return o[ sName ] || null
+			return o[ sName ]
 			}
 		}
 	})( 'eGuitar' )
@@ -152,12 +152,13 @@ let Config =( function (){
 	function GlobalVars ( aVars ){
 		let oPublisher = Publishers()
 		aVars.forEach( ([sName, mDefaultValue ]) => {
-			let o = GlobalVars[ sName ] = new SpecialVar ( sName, Memoire.get( sName ) || mDefaultValue, oPublisher )
+			let mValue = Memoire.get( sName )
+			let o = GlobalVars[ sName ] = new SpecialVar ( sName, mValue !== undefined ? mValue : mDefaultValue, oPublisher )
 			oPublisher.subscribe( sName, m => Memoire.set( sName, m ), `Memoire.set-${sName}` )
 			})
 		}
 	// Variables globales
-	GlobalVars([ // Attention: un soucis avec les valeurs booléenne à 1 !!!
+	GlobalVars([
 		[ "config", 0 ],
 		[ "fx", 1 ],
 		[ "la3", 440 ],
@@ -396,11 +397,11 @@ class Manche {
 				:( bFlipV ? 'droitier_flipped' : 'droitier' )
 				)
 			}
-		o.fx.addSubscriber( 'hide/show manche Form.', function( b ){ 
+		o.fx.addSubscriber( 'add/remove css class fx.', function( b ){ 
 			that.eFx.checked = b
 			document.body.classList[ ! b ? 'add' : 'remove' ]( 'fx' )
 			})
-		o.config.addSubscriber( 'hide/show manche Form.', function( b ){ 
+		o.config.addSubscriber( 'add/remove css class hideForm.', function( b ){ 
 			that.eConfig.checked = b
 			that.eHTML.classList[ ! b ? 'add' : 'remove' ]( 'hideForm' )
 			})
