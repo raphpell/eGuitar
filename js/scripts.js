@@ -822,7 +822,6 @@ let Harmonie ={
 					}
 				o[ sChordName ][13] = count
 				})
-
 			aResult.forEach( ([sTonic,aChords,nTon,sMask1]) => {
 				aChords.forEach( ([sMask2,sName,sOpacity,sProb]) => {
 					var sOpacity = ( sOpacity != undefined ? 'opacity:'+ (1-sOpacity+.3).toFixed(2) +' !important;' : '' )
@@ -840,12 +839,10 @@ let Harmonie ={
 					aTR[i] = '<tr><td>'+ sChordName +'</td><td>'+ o[ sChordName ].join('</td><td>' ) +'</td></tr>'
 				}
 
-			var sTHEAD = '<thead><tr><th class="chordNames">'+ L10n('ACCORDS') +'</th>'
-
-			var aNotesTmp = this.Config.notation.getSequence( sTonique )
-			
-			var aRoman = 'I,II,III,IV,V,VI,VII,VIII,IX,X,XI,XII'.split(',')
-			for(var i=0, j=0, ni=aNotesTmp.length; i<ni; i++ ){
+			let sTHEAD = '<thead><tr><th class="chordNames">'+ L10n('ACCORDS') +'</th>'
+			, aNotesTmp = this.Config.notation.getSequence( sTonique )
+			, aRoman = 'I,II,III,IV,V,VI,VII,VIII,IX,X,XI,XII'.split(',')
+			for(let i=0, j=0, ni=aNotesTmp.length; i<ni; i++ ){
 				sTHEAD += sScaleMask.charAt(i) == '1'
 					? '<th abbr="arpege" class="ton'+ i +'">'+aNotesTmp[i]+'<br><small>'+aRoman[j++]+'</small></th>'
 					: '<th abbr=""></th>'
@@ -864,6 +861,7 @@ let Harmonie ={
 			if( this.sScaleName != 'noname' )
 				e.innerHTML = '<h2>'+ sTonique +" " + this.sScaleName +'</h2>'
 			else{
+				// ajouter la possibilité d'ajouter un nom à cet intervalle
 				e.innerHTML = '<h2>'+ sTonique +'...</h2>'
 				}
 			e.tonique = sTonique
