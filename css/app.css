@@ -1,6 +1,27 @@
 @media only screen and (max-width: 959px) {
 	* { transition: none !important; }
 	}
+	
+@media print {
+	.mask TR.selected {
+		background: #585041 !important;
+		color: #FFF !important;
+		}
+	* {
+		background-color: #fff !important;
+		color: #000 !important;
+		}
+	.top,
+	.mancheForm,
+	.harmonieForm,
+	.lang,
+	.layout label {
+		display:none !important;
+		}
+	.interval .selected {
+		border: 2px solid #000 !important;
+		}
+	}
 
 BODY {
 	font: normal 1em Verdana;
@@ -71,29 +92,3 @@ code {
 	padding: 0;
 	text-shadow: 0 0 3px rgba(255,255,255,50%);
  	}
-
-#eHead UL {
-	float: right;
-	list-style-type: none;
-	margin: 0 1em 0 0; padding: 0;
-	}
-#eHead UL LI {
-	float: left;
-	margin: 0; padding: 0;
-	}
-#eHead UL LI A {
-	background: #eee;
-	color: #000;
-	text-decoration: none;
-	border-radius: .5em;
-	height: 30px;
-	line-height: 30px;
-	display: block;
-	margin: 0 .25em;
-	padding: 0 1em;
-	}
-#eHead UL LI A:hover {
-	background: #000;
-	box-shadow: 0 0 1em #ccc;
-	color: #fff;
-	}

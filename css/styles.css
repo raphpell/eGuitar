@@ -110,14 +110,14 @@
 
 /* cases du manche */
 .case {
-	background: url(../sprites/default.png) repeat-y -270px 0;
+	background: #000 url(../sprites/default.png) repeat-y -270px 0;
 	display: inline-block;
 	height: inherit;
 	position: relative;
 	width: 70px;
 	}
 .case0 {
-	background: url(../sprites/default.png) repeat-y -190px 0;
+	background: #000 url(../sprites/default.png) repeat-y -190px 0;
 	display: inline-block;
 	height: inherit;
 	position: relative;
