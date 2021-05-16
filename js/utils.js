@@ -1,4 +1,5 @@
 /*=== Utilitaires ====*/
+// LocalStorage
 Memoire =(function( sBase ){
 	let o = JSON.parse( localStorage.getItem( sBase )) || {}
 	return {
@@ -16,6 +17,50 @@ Memoire =(function( sBase ){
 			}
 		}
 	})( 'eGuitar' )
+
+// Pattern Publishers/Subscribers
+function Publishers (){
+	let o = {}
+	let oTopics = {}
+	let nID = -1
+	o.publish =function( sTopic, mArg ){
+		if ( ! oTopics[ sTopic ]) return false
+		let aSubscribers = oTopics[ sTopic ]
+		, n = aSubscribers ? aSubscribers.length : 0
+		let b = Publishers.bConsole
+		if( b ) console.groupCollapsed( `%cpublish "${sTopic}" : %O` , 'color:yellow;', mArg )
+		while( n-- ){
+			if( b ) console.info( `${aSubscribers[n].title}` )
+			aSubscribers[ n ].func( mArg )
+			}
+		if( b ) console.groupEnd()
+		return this
+		}
+	o.subscribe =function( sTopic, fFunc, sTitle ){
+		if( ! oTopics[ sTopic ]) oTopics[ sTopic ] = []
+		let sToken = ( ++nID ).toString()
+		if( Publishers.bConsole ) console.log( `%cPublisher "${sTopic}" new subscriber\n\t "${sTitle||''}" %O` , 'color:lightskyblue', fFunc, sToken )
+		oTopics[ sTopic ].unshift({ token: sToken, func: fFunc, title:sTitle||'' })
+		return sToken
+		}
+	o.unsubscribe =function( sToken ){
+		for( let m in oTopics ){
+			if( oTopics[ m ]){
+				for( let i=0, ni=oTopics[m].length; i < ni; i++ ){
+					if( oTopics[m][i].token === sToken ){
+						oTopics[m].splice( i, 1 )
+						return sToken
+						}
+					}
+				}
+			}
+		return null
+		}
+	return o
+	}
+Publishers.bConsole = 0
+
+// HTML 
 Tag =function( sName, m, sId ){ // m: object (augmentation) or css class
 	let e = document.createElement( sName )
 	if( m && m.constructor === String ){

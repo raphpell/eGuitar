@@ -1,63 +1,19 @@
 window.onselectstart =function(){ return false } // empêche la sélection de texte
 
 let Config =( function (){
-	// Pattern Publishers/Subscribers
-	function Publishers (){
-		let o = {}
-		let oTopics = {}
-		let nID = -1
-		o.publish =function( sTopic, mArg ){
-			if ( ! oTopics[ sTopic ]) return false
-			let aSubscribers = oTopics[ sTopic ]
-			, n = aSubscribers ? aSubscribers.length : 0
-			let b = Publishers.bConsole
-			if( b ) console.groupCollapsed( `%cpublish "${sTopic}" : %O` , 'color:yellow;', mArg )
-			//	console.trace() 
-			while( n-- ){
-				if( b ) console.info( `${aSubscribers[n].title}` )
-				aSubscribers[ n ].func( mArg )
-				}
-			if( b ) console.groupEnd()
-			return this
-			}
-		o.subscribe =function( sTopic, fFunc, sTitle ){
-			if( ! oTopics[ sTopic ]) oTopics[ sTopic ] = []
-			let sToken = ( ++nID ).toString()
-			if( Publishers.bConsole ) console.log( `%cPublisher "${sTopic}" new subscriber\n\t "${sTitle||''}" %O` , 'color:lightskyblue', fFunc, sToken )
-			oTopics[ sTopic ].unshift({ token: sToken, func: fFunc, title:sTitle||'' })
-			return sToken
-			}
-		o.unsubscribe =function( sToken ){
-			for( let m in oTopics ){
-				if( oTopics[ m ]){
-					for( let i=0, ni=oTopics[m].length; i < ni; i++ ){
-						if( oTopics[m][i].token === sToken ){
-							oTopics[m].splice( i, 1 )
-							return sToken
-							}
-						}
-					}
-				}
-			return null
-			}
-		return o
-		}
-	Publishers.bConsole = 0
-
 	// Objet wrapper : il sert à déclencher des fonctions quand sa valeur change
 	class SpecialVar {
 		constructor ( sName, mValue, oPublisher ){
 			this.id = sName
 			this.mValue = mValue
 			this.publisher = oPublisher
-			if( sName == 'notation' ) notationCreator.call( this )
+			if( Ext[ sName ]) Ext[ sName ].call( this )
 			}
 		get value (){
 			return this.mValue
 			}
 		set value ( mValue ){
-			this.mValue = mValue
-			this.publisher.publish( this.id, mValue )
+			this.publisher.publish( this.id, this.mValue = mValue )
 			return mValue
 			}
 		refresh (){
@@ -68,47 +24,49 @@ let Config =( function (){
 			}
 		}
 
-	// Etend les variables spéciales 'notation'
-	// -> notationCreator.call( AugmentedObject )
-	let notationCreator = ( function (){
-		const cache = {}
-		const Notations ={
-			'♯':{	FR:['La',	'La♯',	'Si',	'Do',	'Do♯',	'Ré',	'Ré♯',	'Mi',	'Fa',	'Fa♯',	'Sol',	'Sol♯'],
-					EN:['A',	'A♯',	'B',	'C',	'C♯',	'D',	'D♯',	'E',	'F',	'F♯',	'G',	'G♯']},
-			'♭':{	FR:['La',	'Si♭',	'Si',	'Do',	'Ré♭',	'Ré',	'Mi♭',	'Mi',	'Fa',	'Sol♭',	'Sol',	'La♭'],
-					EN:['A',	'B♭',	'B',	'C',	'D♭',	'D',	'E♭',	'E',	'F',	'G♭',	'G',	'A♭']}
-			}
-		return function (){
-			this.getSequence =function( sNote ){
-				var a = this.value
-				if( ! sNote ) return Notations[ a[0]?'♭':'♯' ][ a[1]]
-				sNote = this.getNoteName( sNote )
-				var a = this.getSequence()
-				var nIndex = a.indexOf( sNote )
-				return a.slice( nIndex ).concat( a.slice( 0, nIndex))
+	// Etend les variables spéciales
+	// -> Ext.notation.call( ExtendedObject )
+	let Ext ={
+		notation:( function (){
+			const cache = {}
+			const Notations ={
+				'♯':{	FR:['La',	'La♯',	'Si',	'Do',	'Do♯',	'Ré',	'Ré♯',	'Mi',	'Fa',	'Fa♯',	'Sol',	'Sol♯'],
+						EN:['A',	'A♯',	'B',	'C',	'C♯',	'D',	'D♯',	'E',	'F',	'F♯',	'G',	'G♯']},
+				'♭':{	FR:['La',	'Si♭',	'Si',	'Do',	'Ré♭',	'Ré',	'Mi♭',	'Mi',	'Fa',	'Sol♭',	'Sol',	'La♭'],
+						EN:['A',	'B♭',	'B',	'C',	'D♭',	'D',	'E♭',	'E',	'F',	'G♭',	'G',	'A♭']}
 				}
-			this.getNoteName =function( sNote ){
-				let sIndex1
-				if( ~sNote.indexOf('b')) sNote = sNote.replace( /b/, '♭' )
-				if( ~sNote.indexOf('♭')) sIndex1 = "♭"
-				if( ~sNote.indexOf('#')) sNote = sNote.replace( /#/, '♯' )
-				if( ~sNote.indexOf('♯')) sIndex1 = "♯"
+			return function (){
+				this.getSequence =function( sNote ){
+					var a = this.value
+					if( ! sNote ) return Notations[ a[0]?'♭':'♯' ][ a[1]]
+					sNote = this.getNoteName( sNote )
+					var a = this.getSequence()
+					var nIndex = a.indexOf( sNote )
+					return a.slice( nIndex ).concat( a.slice( 0, nIndex))
+					}
+				this.getNoteName =function( sNote ){
+					let sIndex1
+					if( ~sNote.indexOf('b')) sNote = sNote.replace( /b/, '♭' )
+					if( ~sNote.indexOf('♭')) sIndex1 = "♭"
+					if( ~sNote.indexOf('#')) sNote = sNote.replace( /#/, '♯' )
+					if( ~sNote.indexOf('♯')) sIndex1 = "♯"
 
-				let sIndex2 = 
-					! sIndex1 && sNote.length == 1 || sIndex1 && sNote.length == 2 
-					? 'EN'
-					: 'FR'
-				if( ! sIndex1 ) sIndex1 = this.value[0]?'♭':'♯'
+					let sIndex2 = 
+						! sIndex1 && sNote.length == 1 || sIndex1 && sNote.length == 2 
+						? 'EN'
+						: 'FR'
+					if( ! sIndex1 ) sIndex1 = this.value[0]?'♭':'♯'
 
-				let a = Notations[sIndex1][sIndex2]
-				for(let i=0; i<12; i++ )
-					if( a[i]== sNote )
-						return this.getSequence()[i]
+					let a = Notations[sIndex1][sIndex2]
+					for(let i=0; i<12; i++ )
+						if( a[i]== sNote )
+							return this.getSequence()[i]
 
-				throw Error ( 'Invalid note name. '+ sNote )
+					throw Error ( 'Invalid note name. '+ sNote )
+					}
 				}
-			}
-		})()
+			})()
+		}
 
 	// Créé les variables globales pouvant être partagées les composants par défaut
 	// Leur valeur est stocké dans le localStorage
@@ -452,24 +410,25 @@ class Manche {
 			})
 		}
 	renameNotes (){
-		let a = this.Config.notation.getSequence('E')
-		let b = this.Config.octaves.value
-		let that = this
+		let o = this.Config
+		let a = o.notation.getSequence('E')
+		let b = o.octaves.value
 		this.map((e,i,j)=>{
-			e.note = that.Config.notation.getNoteName( e.note )
+			e.note = o.notation.getNoteName( e.note )
 			e.innerHTML = b ? e.note + '<sup>'+e.octave+'</sup>' : e.note
 			})
 		}
 	setScale ( sNote, sScaleMask ){
+		let o = this.Config
 		if( sNote ){
-			this.Config.tonic.value = sNote
-			this.Config.mask.value = sScaleMask
+			o.tonic.value = sNote
+			o.mask.value = sScaleMask
 		} else {
-			sNote = this.Config.tonic.value
-			sScaleMask = this.Config.mask.value
+			sNote = o.tonic.value
+			sScaleMask = o.mask.value
 			}
 		this.eraseNotes()
-		var a = this.Config.notation.getSequence( sNote )
+		var a = o.notation.getSequence( sNote )
 		var aNotes = []
 		
 		// Compte le nombre de "1"
@@ -487,11 +446,11 @@ class Manche {
 		let eSelect = this.eTunings
 		eSelect.innerHTML = ''
 		for(let a=Tunings, i=0, ni=a.length; i<ni; i++ ){
-			let sTuning = a[i][0]
-			if( sTuning.split(",").length == o.strings.value )
+			let s = a[i][0]
+			if( s.split(",").length == o.strings.value )
 				Append( eSelect, Tag('OPTION',{
-					value:sTuning,
-					selected: sTuning == o.tuning.value,
+					value:s,
+					selected: s == o.tuning.value,
 					innerHTML: a[i][1]
 					}))
 			}
