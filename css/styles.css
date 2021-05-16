@@ -203,7 +203,7 @@
 	border-radius: 1em;
 	box-shadow: 0 0 3px #888;
 	font: normal 1.1em 'Times New Roman';
-	height: 26px;
+	height: 26px; /* do not delete */
 	line-height: 26px;
 	left: -65px;
 	margin: 2px;
