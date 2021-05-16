@@ -28,6 +28,7 @@
 			- Vrai sons de guitare....
 			- Suggestion de doigter d'accords...
 			- Accordeur...
+			- Ajout d'intervalle et d'accordage
 -->
 
 <div id="eTarget"></div>
@@ -53,7 +54,6 @@ Append( eTarget, oIB.eHTML )
 
 var oHF = new Harmonie.Form ( oConfig )
 Append( eTarget, oHF.eHTML )
-
 </script>
 
 <div class="layout">
@@ -84,9 +84,7 @@ oHT.displayChords()
 var oMasks1 = new Harmonie.Mask ( Scales, oConfig, eScales )
 var oMasks2 = new Harmonie.Mask ( Arpeggio, oConfig, eArpeggios )
 var oTunings = new TuningsList ( oConfig, eTunings )
-
 </script>
-
 
 <a href="#" class="top">&#9650;</a>
 <center><small>Dernière modification: 16/05/2021</small></center>
