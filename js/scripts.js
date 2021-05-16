@@ -183,7 +183,8 @@ class Manche {
 		let that = this
 		, o = this.Config = oConfig || Config()
 		, eParent = document.getElementById( sNodeID )
-		, e = this.eHTML = eParent.appendChild( this.createHTML( o.strings.value, o.cases ))
+		this.eHTML = this.createHTML( o.strings.value, o.cases )
+		Append( eParent, this.eHTML )
 		this.createMenuHTML()
 
 		// Ajoute les observateurs des options
@@ -202,26 +203,26 @@ class Manche {
 		}
 	createHTML ( nCordes, nCases ){
 		let o = this.Config
-		let e = Tag( 'DIV', 'manche' ), eCase, eCorde, eFrette
+		let e = Tag( 'DIV', 'manche' ), eCase
 		, aStrings = Array( nCordes )
 		for(let i=0;i<nCordes; i++) aStrings[i]=[]
 		// manche
 		for(var i=0, ni=nCases+1; i<ni; i++ ){
 			eCase = Tag( 'DIV', 'case case'+ i )
-			for(var j=nCordes; j>0; j-- ){
-				aStrings[j-1][i] = eCorde = Tag( 'DIV', 'corde corde'+ j )
-				eCorde.appendChild( Tag('SPAN'))
-				eCase.appendChild( eCorde )
-				}
-			if( i!=0 ){
-				eFrette = Tag('DIV','frette')
-				eFrette.appendChild( Tag('SPAN',{innerHTML:i}))
-				eCase.appendChild( eFrette )
-				}
+			for(var j=nCordes; j>0; j-- )
+				Append( eCase,
+					aStrings[j-1][i] = Tag( 'DIV', 'corde corde'+ j ),
+					Tag('SPAN')
+					)
+			if( i!=0 )
+				Append( eCase,
+					Tag('DIV','frette'),
+					Tag('SPAN',{innerHTML:i})
+					)
 			if( i==3 || i==5 || i==7 || i==9 || i==12 || i==15 || i==17 || i==19 || i==21 || i==24 )
-				eCase.appendChild( Tag('DIV','incrustation'))
+				Append( eCase, Tag('DIV','incrustation'))
 			this.aCordes = aStrings
-			e.appendChild( eCase )
+			Append( e, eCase )
 			}
 		let eParent
 		if( ! this.eHTML ){
@@ -251,7 +252,7 @@ class Manche {
 					}
 				}
 			eParent.onmouseover = evt => playSound( evt )
-			eParent.appendChild( e )
+			Append( eParent, e )
 			}
 		else {
 			eParent = this.eHTML
@@ -277,12 +278,12 @@ class Manche {
 		e.onkeyup = e.onchange = ()=> o.strings.value = that.eStrings.value
 		this.eStrings = e
 		for(let i=4, ni=this.stringsMax+1; i<ni; i++ )
-			e.appendChild( Tag( 'OPTION', {
+			Append( e, Tag( 'OPTION', {
 				value: i,
 				innerHTML: i,
 				selected: i == o.strings.value
 				}))
-		eUL.appendChild( eLI )
+		Append( eUL, eLI )
 
 		eLI = Tag('LI')
 		sId = 'eAccordage'+ this.ID
@@ -292,20 +293,20 @@ class Manche {
 		this.setTunings()
 		eUL.appendChild( eLI )
 
-		eLI = Tag('LI')
-		let eFREQ = Tag('INPUT',{
-			className: "range",
-			type: "range",
-			step: 1,
-			min: 400,
-			max: 500,
-			value: o.la3.value,
-			oninput: function(){ o.la3.value = this.value }
-			})
-		eLI.appendChild( Tag('LABEL', { innerHTML: o.notation.getNoteName('La')+"3 " }))
-		eLI.appendChild( eFREQ )
-		eLI.appendChild( Tag('OUTPUT', { innerHTML: o.la3.value +'Hz' }))
-		eUL.appendChild( eLI )
+		let eFREQ
+		Append( eUL, Tag('LI'), [
+			Tag('LABEL', { innerHTML: o.notation.getNoteName('La')+"3 " }),
+			eFREQ = Tag('INPUT',{
+				className: "range",
+				type: "range",
+				step: 1,
+				min: 400,
+				max: 500,
+				value: o.la3.value,
+				oninput: function(){ o.la3.value = this.value }
+				}),
+			Tag('OUTPUT', { innerHTML: o.la3.value +'Hz' })
+			])
 
 		/* MENU DROIT */
 		let eUL2 = Tag( 'UL', 'menu' )

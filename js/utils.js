@@ -17,13 +17,25 @@ Memoire =(function( sBase ){
 		}
 	})( 'eGuitar' )
 Tag =function( sName, m, sId ){ // m: object (augmentation) or css class
-	var e = document.createElement( sName )
+	let e = document.createElement( sName )
 	if( m && m.constructor === String ){
 		e.className = m
 		if( sId ) e.id = sId
 		return e
 		}
 	return m ? Object.assign( e, m ) : e
+	}
+Append =function(){
+	let e, m 
+	for(let i=arguments.length-1; i>0; i-- ){
+		e = arguments[i-1]
+		m = arguments[i]
+		if( m.constructor === Array )
+			for(let j=0, nj=m.length; j<nj; j++ )
+				e.appendChild( m[j])
+		else e.appendChild( m )
+		}
+	return arguments[0]
 	}
 Events ={
 	element :function( m ){
