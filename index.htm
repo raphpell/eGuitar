@@ -78,7 +78,7 @@ let sId = Memoire.get( 'tab')
 if( sId ) window[ sId ].checked = true
 
 var oHT = new Harmonie.Table ( oConfig )
-eChords.appendChild( oHT.eHTML )
+Append( eChords, oHT.eHTML )
 oHT.displayChords()
 
 var oMasks1 = new Harmonie.Mask ( Scales, oConfig, eScales )
