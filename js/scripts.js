@@ -210,18 +210,16 @@ class Manche {
 			eCase = Tag( 'DIV', 'case case'+ i )
 			for(var j=nCordes; j>0; j-- ){
 				aStrings[j-1][i] = eCorde = Tag( 'DIV', 'corde corde'+ j )
-				eCorde.appendChild( Tag( 'SPAN' ))
+				eCorde.appendChild( Tag('SPAN'))
 				eCase.appendChild( eCorde )
 				}
 			if( i!=0 ){
-				eFrette = Tag( 'DIV', 'frette' )
-				eFrette.appendChild( Tag( 'SPAN' )).innerHTML = i
+				eFrette = Tag('DIV','frette')
+				eFrette.appendChild( Tag('SPAN',{innerHTML:i}))
 				eCase.appendChild( eFrette )
 				}
-			if( i==3 || i==5 || i==7 || i==9 || i==12 || i==15 || i==17 || i==19 || i==21 || i==24 ){
-				eFrette = Tag( 'DIV', 'incrustation' )
-				eCase.appendChild( eFrette )
-				}
+			if( i==3 || i==5 || i==7 || i==9 || i==12 || i==15 || i==17 || i==19 || i==21 || i==24 )
+				eCase.appendChild( Tag('DIV','incrustation'))
 			this.aCordes = aStrings
 			e.appendChild( eCase )
 			}
@@ -270,48 +268,43 @@ class Manche {
 		let o = this.Config
 
 		/* MENU HAUT */
+		let sId
 		let eUL = Tag( 'UL', 'mancheForm' )
-		let eLI = Tag( 'LI' )
-		let eLabel = eLI.appendChild( Tag( 'LABEL', { innerHTML: L10n('CORDES') +': '}))
-		let eOption
-		let e = eLI.appendChild( Tag( 'SELECT' ))
+		let eLI = Tag('LI')
+		sId = 'eCordes'+ this.ID
+		let eLabel = eLI.appendChild( Tag( 'LABEL', { innerHTML: L10n('CORDES') +': ', htmlFor:sId }))
+		let e = eLI.appendChild( Tag( 'SELECT', { id:sId }))
 		e.onkeyup = e.onchange = ()=> o.strings.value = that.eStrings.value
 		this.eStrings = e
-		for(let i=4, ni=this.stringsMax+1; i<ni; i++ ){
-			eOption = Tag( 'OPTION', {
+		for(let i=4, ni=this.stringsMax+1; i<ni; i++ )
+			e.appendChild( Tag( 'OPTION', {
 				value: i,
 				innerHTML: i,
 				selected: i == o.strings.value
-				})
-			e.appendChild( eOption )
-			}
-		eUL.appendChild( eLI )
-
-		eLI = Tag( 'LI' )
-		eLabel = eLI.appendChild( Tag( 'LABEL', { innerHTML: L10n('ACCORDAGE') +': '}))
-		e = this.eTunings = eLI.appendChild( Tag( 'SELECT' ))
-		e.onkeyup = e.onchange = ()=> o.tuning.value = that.eTunings.value
-		this.setTunings()
-		eLabel.htmlFor = e.id =  'eAccordage'+ this.ID
+				}))
 		eUL.appendChild( eLI )
 
 		eLI = Tag('LI')
-		eLabel = Tag('LABEL')
-		eLabel.innerHTML = o.notation.getNoteName('La')+"3 "
-		let eINPUT = Tag('INPUT')
-		eINPUT.className = "range"
-		eINPUT.type = "range"
-		eINPUT.step = 1
-		eINPUT.min = 400
-		eINPUT.max = 500
-		eINPUT.value = o.la3.value
-		eINPUT.oninput=function(){ o.la3.value = this.value }
-		let eOUTPUT = Tag('OUTPUT')
-		eOUTPUT.innerHTML = eINPUT.value+'Hz'
+		sId = 'eAccordage'+ this.ID
+		eLabel = eLI.appendChild( Tag( 'LABEL', { innerHTML: L10n('ACCORDAGE') +': ', htmlFor:sId }))
+		e = this.eTunings = eLI.appendChild( Tag( 'SELECT', { id:sId }))
+		e.onkeyup = e.onchange = ()=> o.tuning.value = that.eTunings.value
+		this.setTunings()
+		eUL.appendChild( eLI )
 
-		eLI.appendChild( eLabel )
-		eLI.appendChild( eINPUT )
-		eLI.appendChild( eOUTPUT )
+		eLI = Tag('LI')
+		let eFREQ = Tag('INPUT',{
+			className: "range",
+			type: "range",
+			step: 1,
+			min: 400,
+			max: 500,
+			value: o.la3.value,
+			oninput: function(){ o.la3.value = this.value }
+			})
+		eLI.appendChild( Tag('LABEL', { innerHTML: o.notation.getNoteName('La')+"3 " }))
+		eLI.appendChild( eFREQ )
+		eLI.appendChild( Tag('OUTPUT', { innerHTML: o.la3.value +'Hz' }))
 		eUL.appendChild( eLI )
 
 		/* MENU DROIT */
@@ -363,8 +356,8 @@ class Manche {
 			that.eHTML.classList[ ! b ? 'add' : 'remove' ]( 'hideForm' )
 			})
 		o.la3.addSubscriber( 'RangeBox La3 + Output', function( n ){
-			eINPUT.value = n
-			eINPUT.nextSibling.value = n+'Hz' 
+			eFREQ.value = n
+			eFREQ.nextSibling.value = n+'Hz' 
 			})
 		o.lefthanded.addSubscriber( 'oManche.setLeftHanded', function( b ){
 			setFlip( b, o.mirror.value )
@@ -373,7 +366,7 @@ class Manche {
 			setFlip( o.lefthanded.value, b )
 			})
 		o.notation.addSubscriber( 'Checkbox eNotationI/eBemol values + Label La3 +...', function( a ){
-			eLabel.innerHTML = a[1]=='FR' ? 'La3' : 'A3'
+			eFREQ.previousSibling.innerHTML = a[1]=='FR' ? 'La3' : 'A3'
 			that.eNotationI.checked = a[1] == 'EN'
 			that.eBemol.checked = a[0]
 			that.renameNotes()
