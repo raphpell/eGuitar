@@ -3,7 +3,7 @@
 eGuitar est une aide pour visualiser :
 - une gamme
 - un arpège
-- les accords présent dans des intervalles précis !
+- les accords inclus dans des intervalles précis !
 
 Et tout cela selon l'orientation du manche de votre choix.
 
