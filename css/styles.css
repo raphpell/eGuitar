@@ -221,14 +221,7 @@
 	}
 
 /* incrustations */
-.case3 .incrustation,
-.case5 .incrustation,
-.case7 .incrustation,
-.case9 .incrustation,
-.case15 .incrustation,
-.case17 .incrustation,
-.case19 .incrustation,
-.case21 .incrustation {
+.incrustation {
 	background: url(../sprites/default.png) no-repeat -30px center;
 	height: inherit;
 	width: 70px;
