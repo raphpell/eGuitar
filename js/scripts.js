@@ -480,22 +480,19 @@ class Manche {
 class IntervalBox {
 	constructor ( oConfig ){
 		let that = this
-		this.Config = oConfig
-
+		let o = this.Config = oConfig
 		this.createHTML()
 		this.setNotes()
-		this.setValue( oConfig.mask.value )
-
-		oConfig.tonic.addSubscriber( 'IntervalBox.setNotes', ()=> that.setNotes())
-		oConfig.notation.addSubscriber( 'IntervalBox.setNotes', ()=> that.setNotes())
-		oConfig.mask.addSubscriber( 'IntervalBox.setValue', sMask => that.setValue( sMask ))
+		this.setValue( o.mask.value )
+		o.tonic.addSubscriber( 'IntervalBox.setNotes', ()=> that.setNotes())
+		o.notation.addSubscriber( 'IntervalBox.setNotes', ()=> that.setNotes())
+		o.mask.addSubscriber( 'IntervalBox.setValue', sMask => that.setValue( sMask ))
 		}
 	createHTML (){
 		let that = this
 		, DT = ['1','♭2','2','♭3','3','4','♭5','5','♭6','6','♭7','7','8']
 		, DD = ['0','&half;','1','1&half;','2','2&half;','3','3&half;','4','4&half;','5','5&half;','6']
 		, eUL = this.eHTML = Tag('UL','interval')
-		, eLI, eDL
 		for(let i=0; i<12; i++ )
 			Append( eUL, Tag('LI','ton'+i),[
 				Tag('DIV'),
@@ -504,7 +501,7 @@ class IntervalBox {
 					Tag('DD' ,{ innerHTML:DD[i] })
 					])
 				])
-		this.eHTML.onclick= function( evt ){
+		eUL.onclick =function( evt ){
 			let e = Events.element( evt )
 			if( e.nodeName == 'UL' ) return null
 			while( e.nodeName != 'LI' ) e = e.parentNode
@@ -517,9 +514,8 @@ class IntervalBox {
 			aNotes = o.notation.getSequence( o.tonic.value)
 			}
 		let aDIVs = this.eHTML.getElementsByTagName('DIV')
-		for(let i=0; i<12; i++ ){
+		for(let i=0; i<12; i++ )
 			aDIVs[i].innerHTML = aDIVs[i].parentNode.sNoteName = aNotes[i]
-			}
 		}
 	setValue ( sMask ){
 		let aLIs = this.eHTML.getElementsByTagName('LI')
@@ -593,19 +589,19 @@ let Harmonie ={
 			, eTable = this.eHTML = Tag( 'TABLE', 'harmonieForm' )
 			, selectbox =function( sId, sLabel, a, sSelected, fOnChange ){
 				sId = sId + that.ID
-				let eSelect = Tag( 'SELECT', { value:sSelected, id:sId })
+				let e = Tag( 'SELECT', { value:sSelected, id:sId })
 				a.forEach( m => {
-					Append( eSelect, Tag( 'OPTION', m.constructor == String
+					Append( e, Tag( 'OPTION', m.constructor == String
 						? { innerHTML:m, value:m }
 						: { innerHTML:m[1], value:m[0] }
 						))
 					})
-				eSelect.onkeyup = eSelect.onchange = fOnChange
+				e.onkeyup = e.onchange = fOnChange
 				Append( eTable, Tag('TR'), [
 					Append( Tag('TH', { align:"right" }), Tag( 'LABEL', { innerHTML:sLabel+': ', htmlFor: sId })),
-					Append( Tag('TD'), eSelect )
+					Append( Tag('TD'), e )
 					])
-				return eSelect
+				return e
 				}
 			, eTonique = this.eTonique = selectbox(
 				'eTonique',
@@ -659,7 +655,7 @@ let Harmonie ={
 			this.createHTML()
 			}
 		createHTML(){
-			let Config = this.Config
+			let o = this.Config
 			, that = this
 			, eSUGG = this.eHTML = Tag( 'TABLE', 'suggestion', 'eSuggestion'+ this.ID )
 			eSUGG.cellSpacing = 0
@@ -670,29 +666,30 @@ let Harmonie ={
 				var sMask = e.attributes && e.attributes.arpege && e.attributes.arpege.value
 				if( sMask ){
 					that.locked = true
-					Config.tonic.value = sTonique
-					Config.mask.value = sMask
+					o.tonic.value = sTonique
+					o.mask.value = sMask
 					that.locked = false
 					}
 				var sScale = e.scale
 				if( sScale ){
-					Config.tonic.value = e.tonique
-					Config.scale.value = [ sScale, that.sScaleName ]
-					Config.mask.value = sScale
+					o.tonic.value = e.tonique
+					o.scale.value = [ sScale, that.sScaleName ]
+					o.mask.value = sScale
 					}
 				}
-			Config.mask.addSubscriber( 'HarmonieTable.displayChords', () => that.displayChords())
-			Config.notation.addSubscriber( 'HarmonieTable.displayChords', () => that.displayChords())
+			o.mask.addSubscriber( 'HarmonieTable.displayChords', () => that.displayChords())
+			o.notation.addSubscriber( 'HarmonieTable.displayChords', () => that.displayChords())
 			}
 		createHTMLForm(){
-			let e1, e2, e3, o = new DocumentFragment
-			e1 = Tag('INPUT', { type:'checkbox', id: 'eNewCB' })
-			e2 = Tag('INPUT', { type:'text', placeholder:"Nom d'intervalle" })
-			e3 = Tag('LABEL', { htmlFor:'eNewCB', innerHTML:'&#10133;' })
-			e3.onclick = function(){
+			let e1, e2
+			let fOnClick = function(){
 				if( e1.checked ) alert( e2.value )
 				}
-			return Append( o, [e1,e2,e3])
+			return Append( new DocumentFragment, [
+				e1 = Tag('INPUT', { type:'checkbox', id: 'eNewCB' }),
+				e2 = Tag('INPUT', { type:'text', placeholder:"Nom d'intervalle" }),
+				Tag('LABEL', { htmlFor:'eNewCB', innerHTML:'&#10133;', onclick:fOnClick })
+				])
 			}
 		displayChords ( sTonique, sMask, sName ){
 			if( this.locked ) return ;
