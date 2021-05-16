@@ -272,23 +272,23 @@ class Manche {
 		/* MENU HAUT */
 		let eUL = Tag( 'UL', 'mancheForm' )
 		let eLI = Tag( 'LI' )
-		let eLabel = eLI.appendChild( Tag( 'LABEL' ))
+		let eLabel = eLI.appendChild( Tag( 'LABEL', { innerHTML: L10n('CORDES') +': '}))
 		let eOption
-		eLabel.innerHTML = L10n('CORDES') +': '
 		let e = eLI.appendChild( Tag( 'SELECT' ))
 		e.onkeyup = e.onchange = ()=> o.strings.value = that.eStrings.value
 		this.eStrings = e
 		for(let i=4, ni=this.stringsMax+1; i<ni; i++ ){
-			eOption = Tag( 'OPTION' )
-			eOption.value = eOption.innerHTML = i
-			eOption.selected = i == o.strings.value
+			eOption = Tag( 'OPTION', {
+				value: i,
+				innerHTML: i,
+				selected: i == o.strings.value
+				})
 			e.appendChild( eOption )
 			}
 		eUL.appendChild( eLI )
 
 		eLI = Tag( 'LI' )
-		eLabel = eLI.appendChild( Tag( 'LABEL' ))
-		eLabel.innerHTML = L10n('ACCORDAGE') +': '
+		eLabel = eLI.appendChild( Tag( 'LABEL', { innerHTML: L10n('ACCORDAGE') +': '}))
 		e = this.eTunings = eLI.appendChild( Tag( 'SELECT' ))
 		e.onkeyup = e.onchange = ()=> o.tuning.value = that.eTunings.value
 		this.setTunings()
@@ -317,17 +317,11 @@ class Manche {
 		/* MENU DROIT */
 		let eUL2 = Tag( 'UL', 'menu' )
 		let cb =function( sId, sLabel, bChecked, fFunction, sClass ){
-			let eLI = Tag( 'LI' )
-			if( sClass ) eLI.className = sClass
-			let eCB = eLI.appendChild( Tag( 'INPUT' ))
-			let eLabel = eLI.appendChild( Tag( 'LABEL' ))
-			eCB.type = 'checkbox'
-			if( fFunction ) eCB.onclick = fFunction
-			eLabel.htmlFor = eCB.id = sId + that.ID
-			eLabel.title = sLabel
-			eCB.checked = bChecked
+			let sId2 = sId + that.ID
+			let eLI = Tag('LI', { className:sClass||'' })
+			that[ sId ] = eLI.appendChild( Tag( 'INPUT', { type:'checkbox', checked:bChecked, id:sId2, onclick:fFunction||null }))
+			eLI.appendChild( Tag( 'LABEL', { htmlFor:sId2, title:sLabel }))
 			eUL2.appendChild( eLI )
-			that[ sId ] = eCB
 			return cb
 			}
 		let f1 = function(){ o.notation.value = [ that.eBemol.checked, that.eNotationI.checked?'EN':'FR' ]}
@@ -500,18 +494,16 @@ class Manche {
 		}
 	setTunings (){
 		let o = this.Config
-		let e
 		let eSelect = this.eTunings
 		eSelect.innerHTML = ''
 		for(let a=Tunings, i=0, ni=a.length; i<ni; i++ ){
 			let sTuning = a[i][0]
-			if( sTuning.split(",").length == o.strings.value){
-				e = Tag( 'OPTION' )
-				e.value = sTuning
-				e.selected = sTuning == o.tuning.value
-				e.innerHTML = a[i][1]
-				eSelect.appendChild( e )
-				}
+			if( sTuning.split(",").length == o.strings.value )
+				eSelect.appendChild( Tag('OPTION',{
+					value:sTuning,
+					selected: sTuning == o.tuning.value,
+					innerHTML: a[i][1]
+					}))
 			}
 		o.tuning.value = eSelect.value
 		}
@@ -554,19 +546,13 @@ class IntervalBox {
 		, DT = ['1','♭2','2','♭3','3','4','♭5','5','♭6','6','♭7','7','8']
 		, DD = ['0','&half;','1','1&half;','2','2&half;','3','3&half;','4','4&half;','5','5&half;','6']
 		, eUL = this.eHTML = Tag('UL','interval')
-		, eLI, eDIV, eDL, eDT, eDD
+		, eLI, eDL
 		for(let i=0; i<12; i++ ){
 			eLI = Tag('LI','ton'+i)
-			eDIV = Tag('DIV')
-			eLI.appendChild( eDIV )
-			eDIV.innerHTML = eDIV.parentNode.sNoteName = '-'
+			eLI.appendChild( Tag('DIV'))
 			eDL = Tag('DL')
-			eDT = Tag('DT')
-			eDT.innerHTML = DT[i]
-			eDD = Tag('DD')
-			eDD.innerHTML = DD[i]
-			eDL.appendChild( eDT )
-			eDL.appendChild( eDD )
+			eDL.appendChild( Tag('DT' ,{ innerHTML:DT[i] }))
+			eDL.appendChild( Tag('DD' ,{ innerHTML:DD[i] }))
 			eLI.appendChild( eDL )
 			eUL.appendChild( eLI )
 			}
@@ -658,17 +644,16 @@ let Harmonie ={
 			, that = this
 			, eTable = this.eHTML = Tag( 'TABLE', 'harmonieForm' )
 			, selectbox =function( sId, sLabel, a, sSelected, fOnChange ){
+				sId = sId + that.ID
 				let eTH, eTD, eTR = Tag( 'TR' )
 
-				eTH = Tag( 'TH' )
-				eTH.align="right"
+				eTH = Tag( 'TH', { align:"right" })
 
-				let eLabel = eTH.appendChild( Tag( 'LABEL' ))
-				eLabel.innerHTML = sLabel +': '
+				let eLabel = eTH.appendChild( Tag( 'LABEL', { innerHTML:sLabel+': ', htmlFor: sId }))
 				eTR.appendChild( eTH )
 
 				eTD = Tag( 'TD' )
-				let eSelect = eTD.appendChild( Tag( 'SELECT' )), eOption
+				let eOption, eSelect = Tag( 'SELECT', { value:sSelected, id:sId })
 				a.forEach( m => {
 					eOption = Tag( 'OPTION' )
 					if( m.constructor == String )
@@ -680,12 +665,10 @@ let Harmonie ={
 					if( eOption.value == sSelected ) eOption.selected = true 
 					eSelect.appendChild( eOption ) 
 					})
-
-				eSelect.value =  sSelected
 				eSelect.onkeyup = eSelect.onchange = fOnChange
+				eTD.appendChild( eSelect )
 				eTR.appendChild( eTD )
 
-				eLabel.htmlFor = eSelect.id =  sId + that.ID
 				eTable.appendChild( eTR )
 				return eSelect
 				}
@@ -765,6 +748,20 @@ let Harmonie ={
 				}
 			Config.mask.addSubscriber( 'HarmonieTable.displayChords', () => that.displayChords())
 			Config.notation.addSubscriber( 'HarmonieTable.displayChords', () => that.displayChords())
+			}
+		createHTMLForm(){
+			let e1, e2, e3, o = new DocumentFragment
+			e1 = Tag('INPUT', { type:'checkbox', id: 'eNewCB' })
+			e2 = Tag('INPUT', { type:'text', placeholder:"Nom d'intervalle" })
+			e3 = Tag('LABEL', { htmlFor:'eNewCB', innerHTML:'&#10133;' })
+			e3.onclick = function(){
+				if( e1.checked ) alert( e2.value )
+				}
+			o.appendChild( e1 )
+			o.appendChild( e2 )
+			o.appendChild( e3 )
+			return o
+		//	'<input type="checkbox" id="eNewCB"><input type="text"><label for="eNewCB">&plus;</label>'
 			}
 		displayChords ( sTonique, sMask, sName ){
 			if( this.locked ) return ;
@@ -856,15 +853,17 @@ let Harmonie ={
 			this.TableSorter.init( this.eHTML )
 			if( aSort ) this.TableSorter.sort( aSort[0], aSort[1] )
 
-			var e = Tag( 'CAPTION' )
+			var e = Tag( 'CAPTION', { tonique:sTonique, scale:sScaleMask })
 			if( this.sScaleName != 'noname' )
 				e.innerHTML = '<h2>'+ sTonique +" " + this.sScaleName +'</h2>'
 			else{
 				// ajouter la possibilité d'ajouter un nom à cet intervalle
 				e.innerHTML = '<h2>'+ sTonique +'...</h2>'
+/*
+				e.innerHTML = '<h2>'+ sTonique +'</h2>'
+				e.firstChild.appendChild( this.createHTMLForm())
+*/
 				}
-			e.tonique = sTonique
-			e.scale = sScaleMask
 			this.eHTML.insertBefore( e, this.eHTML.firstChild )
 			}
 		},
@@ -874,25 +873,18 @@ let Harmonie ={
 			this.eSelected = null
 			let a = ['1','♭2','2','♭3','3','4','♭5','5','♭6','6','♭7','7']
 			let TDs = function( sMask ){
-				let eFragment, eTD, nChar, nNotes = 0
+				let eFragment, nChar, nNotes = 0
 				eFragment = new DocumentFragment
 				for(var i=0, ni=12; i<ni; i++ ){
 					nChar = sMask.charAt(i)
-					eTD = Tag('TD')
-					if( nChar=='1' ){
-						eTD.className = 'ton'+i
-						eTD.innerHTML = a[i]
-						nNotes++
-						}
-					else{
-						eTD.className = 'none'
-						eTD.innerHTML = "&nbsp;"
-						}
-					eFragment.appendChild( eTD )
+					eFragment.appendChild(
+						nChar=='1'
+							? Tag('TD', { className:'ton'+i, innerHTML:a[i] })
+							: Tag('TD', { className:'none', innerHTML:"&nbsp;" })
+						)
+					if( nChar=='1' ) nNotes++
 					}
-				eTD = Tag('TD')
-				eTD.innerHTML = nNotes
-				eFragment.appendChild( eTD )
+				eFragment.appendChild( Tag('TD',{ innerHTML: nNotes }))
 				return eFragment
 				}
 			let sTHEAD = '<thead><tr><th>'+ a.join( '</th><th>' ) +'</th><th abbr="number">' + L10n('NOTES') +'</th><th>' + L10n('INTERVALLES') + '</th></thead>'
@@ -953,25 +945,22 @@ class TuningsList {
 			}
 		Tunings.sort( (a,b)=>{ return a.notes-b.notes })
 
-		let eDL = this.eHTML = Tag('DL','tunings'), eDD, eDT, nNotes = null, bSelected = false
+		let eDL = this.eHTML = Tag('DL','tunings'), eDD, nNotes = null, bSelected = false
 		Tunings.forEach( a =>{
 			if( nNotes != a.notes ){
 				nNotes = a.notes
-				eDT = Tag('DT')
-				eDT.innerHTML = nNotes + ' '+ L10n('CORDES')
-				eDL.appendChild( eDT )
+				eDL.appendChild( Tag('DT', { innerHTML: nNotes + ' '+ L10n('CORDES')}))
 				}
-			eDD = Tag('DD')
-		//	if( ! bSelected ){
-				bSelected = oConfig.tuning.value == a[0]
-				if( bSelected ){
-					that.aSelected.push( eDD )
-					eDD.className = 'selected'
-					}
-		//		}
-			eDD.strings = nNotes
-			eDD.tuning = a[0]
-			eDD.innerHTML = '<span class="name">' + a[1] +'</span><b>'+ a[0].replace( /\,/gi, '</b><b>' ) + '</b>'
+			eDD = Tag('DD', {
+				strings: nNotes,
+				tuning: a[0],
+				innerHTML: '<span class="name">' + a[1] +'</span><b>'+ a[0].replace( /\,/gi, '</b><b>' ) + '</b>'
+				})
+			bSelected = oConfig.tuning.value == a[0]
+			if( bSelected ){
+				that.aSelected.push( eDD )
+				eDD.className = 'selected'
+				}
 			eDL.appendChild( eDD )
 			})
 		if( eParent ) eParent.appendChild( this.eHTML )

@@ -16,11 +16,14 @@ Memoire =(function( sBase ){
 			}
 		}
 	})( 'eGuitar' )
-Tag =function( sName, sClasses, sId ){
+Tag =function( sName, m, sId ){ // m: object (augmentation) or css class
 	var e = document.createElement( sName )
-	if( sClasses ) e.className = sClasses
-	if( sId ) e.id = sId
-	return e
+	if( m && m.constructor === String ){
+		e.className = m
+		if( sId ) e.id = sId
+		return e
+		}
+	return m ? Object.assign( e, m ) : e
 	}
 Events ={
 	element :function( m ){

@@ -37,41 +37,6 @@ TD {
 	text-align: right;
 	}
 
-/* Lang */
-.lang {
-	float: right;
-	filter: sepia(1);
-	opacity:.75;
-	}
-.lang label {
-	border: 1px solid #fff;
-	font: normal 10px Verdana;
-	border-radius: 4px;
-	margin: 2px;
-	padding: 2px;
-	}
-.lang input {
-	display: none;
-	}
-.lang input:checked + label {
-	background:#fff;
-	color:#000;
-	}
-	
-/* L10n */
-code {
-	animation-duration: 2s;
-	animation-name: clignoter;
-	animation-iteration-count: infinite;
-	transition: none;
-	color:red; 
-	}
-@keyframes clignoter {
-	0%	{ color:red; }
-	50%	{ color:orange; }
-	100%	{ color:red; }
-	}
-
 /* LOGO et checkbox réglage manche */
 #eHead {
 	margin:.25em;
@@ -92,3 +57,57 @@ code {
 	padding: 0;
 	text-shadow: 0 0 3px rgba(255,255,255,50%);
  	}
+
+/* Lang */
+.lang {
+	float: right;
+	filter: sepia(1);
+	opacity:.75;
+	}
+.lang label {
+	border: 1px solid #fff;
+	font: normal 10px Verdana;
+	border-radius: 4px;
+	margin: 2px;
+	padding: 2px;
+	}
+.lang input {
+	display: none;
+	}
+.lang input:checked + label {
+	background:#fff;
+	color:#000;
+	}
+
+/* Top */
+.top {
+	filter: sepia(1);
+	color: #FFF;
+	border-radius:15px;
+	text-decoration: none;
+	line-height: 27px;
+	text-align: center;
+	position: fixed;
+	right: 20px;
+	bottom: 20px;
+	height:30px;
+	width:30px;
+	}
+.top:hover {
+	color: #000;
+	background: #FFF;
+	}
+
+/* L10n */
+code {
+	animation-duration: 2s;
+	animation-name: clignoter;
+	animation-iteration-count: infinite;
+	transition: none;
+	color:red; 
+	}
+@keyframes clignoter {
+	0%	{ color:red; }
+	50%	{ color:orange; }
+	100%	{ color:red; }
+	}
