@@ -306,7 +306,7 @@ class Manche {
 			}
 		o.fx.addSubscriber( 'add/remove css class fx.', function( b ){ 
 			that.eFx.checked = b
-			document.body.classList[ ! b ? 'add' : 'remove' ]( 'fx' )
+			document.body.parentNode.classList[ ! b ? 'add' : 'remove' ]( 'nofx' )
 			})
 		o.config.addSubscriber( 'add/remove css class hideForm.', function( b ){ 
 			that.eConfig.checked = b
@@ -588,21 +588,6 @@ let Harmonie ={
 		createHTML(){
 			let Config = this.Config
 			, that = this
-/* 			, eTable = this.eHTML = Tag( 'TABLE', 'harmonieForm' )
-			, selectbox =function( sId, sLabel, a, sSelected, fOnChange ){
-				sId = sId + that.ID
-				let e = Tag( 'SELECT', { value:sSelected, id:sId })
-				a.forEach( m => {
-					Append( e, Tag( 'OPTION', m.constructor == String
-						? { innerHTML:m, value:m }
-						: { innerHTML:m[1], value:m[0] }
-						))
-					})
-				e.onkeyup = e.onchange = fOnChange
-				Append( eTable, Tag('TR'), [
-					Append( Tag('TH', { align:"right" }), Tag( 'LABEL', { innerHTML:sLabel+': ', htmlFor: sId })),
-					Append( Tag('TD'), e )
-					]) */
 			, eDIV
 			this.eHTML = Append( Tag( 'DIV', 'harmonieForm' ), eDIV = Tag( 'DIV')) 
 			let selectbox =function( sId, sLabel, a, sSelected, fOnChange ){

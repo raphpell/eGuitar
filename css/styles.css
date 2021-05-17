@@ -1,4 +1,3 @@
-.fx * { transition: none !important; }
 
 /* Manche */
 .eGuitar {
@@ -362,7 +361,7 @@ UL.interval {
 	}
 .harmonieForm DIV SELECT {
 	grid-column: 2;
-	margin: .25em;
+	margin: .25em 0;
 	width: fit-content;
 	max-width: 257px;
 	}

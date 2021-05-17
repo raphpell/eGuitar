@@ -1,7 +1,7 @@
 @media only screen and (max-width: 959px) {
 	* { transition: none !important; }
 	}
-	
+
 @media print {
 	.mask TR.selected {
 		background: #585041 !important;
@@ -29,6 +29,7 @@ BODY {
 	color: #FFF;
 	}
 HTML, BODY {
+	scroll-behavior: smooth;
 	width: 944px;
 	margin: 0 auto;
 	}
@@ -36,6 +37,13 @@ TD {
 	font-family: Verdana;
 	text-align: right;
 	}
+LABEL:hover {
+	text-shadow: 0 0 .5em #FFF;
+	}
+
+/* Fx comme son nom l'indique pa'effet css */
+.nofx { scroll-behavior: auto; }
+.nofx * { transition: none !important; }
 
 /* LOGO et checkbox réglage manche */
 #eHead {
