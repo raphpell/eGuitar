@@ -42,6 +42,8 @@ Object.assign( L10n, {
 	})
 
 L10n.FR ={
+	DATEM:		'Dernière modification le ',
+	
 	// App
 	DELETE_PREF: "Effacer vos préférences",
 	CORDES:		'Cordes',
@@ -103,6 +105,8 @@ L10n.FR ={
 	Chrom:		'Chromatique',
 	}
 L10n.EN ={
+	DATEM:		'Last update ',
+	
 	// App
 	DELETE_PREF: "Delete your preferences",
 	CORDES:		'Strings',

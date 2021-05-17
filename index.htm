@@ -63,6 +63,10 @@ Append( eTarget, oHF.eHTML )
 	<input name="nav" type="radio" id="tab4"><div class="page" id="eTunings"></div><label class="nav" for="tab4"></label>
 </div>
 
+<a href="#" class="top">&#9650;</a>
+
+<footer><span id="eDateM">Dernière modification le</span> 17/05/2021.</footer>
+
 <script>
 let f = function( e, sL10n ){
 	e.nextSibling.innerHTML = L10n(sL10n)
@@ -84,10 +88,9 @@ oHT.displayChords()
 var oMasks1 = new Harmonie.Mask ( Scales, oConfig, eScales )
 var oMasks2 = new Harmonie.Mask ( Arpeggio, oConfig, eArpeggios )
 var oTunings = new TuningsList ( oConfig, eTunings )
+
+eDateM.innerHTML = L10n('DATEM')
 </script>
 
-<a href="#" class="top">&#9650;</a>
-
-<footer>Dernière modification le 17/05/2021.</footer>
 </body>
 </html>

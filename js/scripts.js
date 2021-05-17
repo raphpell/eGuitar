@@ -686,7 +686,7 @@ let Harmonie ={
 		createHTMLForm(){
 			let e1, e2
 			let fOnClick = function(){
-				if( e1.checked ) alert( e2.value )
+				if( e1.checked ) alert( 'Not implemented yet... '+e2.value )
 				}
 			return Append( new DocumentFragment, [
 				e1 = Tag('INPUT', { type:'checkbox', id: 'eNewCB' }),
@@ -788,12 +788,9 @@ let Harmonie ={
 			if( this.sScaleName != 'noname' )
 				e.innerHTML = '<h2>'+ sTonique +" " + this.sScaleName +'</h2>'
 			else{
-				// ajouter la possibilité d'ajouter un nom à cet intervalle
-				e.innerHTML = '<h2>'+ sTonique +'...</h2>'
-/*
-				e.innerHTML = '<h2>'+ sTonique +'</h2>'
-				Append( e.firstChild, this.createHTMLForm())
-*/
+				e.innerHTML = '<h2>'+ sTonique +' ...?!?</h2>'
+				// e.innerHTML = '<h2>'+ sTonique +'</h2>'
+				// Append( e.firstChild, this.createHTMLForm())
 				}
 			this.eHTML.insertBefore( e, this.eHTML.firstChild )
 			}
