@@ -121,7 +121,7 @@ TD {
 	color: #000;
 	}
 
-/* Top */
+/* Top Button */
 .top {
 	filter: sepia(1);
 	color: #FFF;
@@ -134,14 +134,15 @@ TD {
 	bottom: 20px;
 	height:30px;
 	width:30px;
+	transition: all .5s;
 	}
 .top:hover {
 	color: #000;
 	background: #FFF;
 	}
 
-/* Top */
-footer {
+/* Foot */
+.footer {
 	text-align: center;
 	letter-spacing: 2px;
 	font-size: .6em;
