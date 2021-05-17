@@ -153,3 +153,8 @@ code {
 	50%	{ color:orange; }
 	100%	{ color:red; }
 	}
+
+/* layout */
+.interval { float: left; }
+.harmonieForm { float: right; }
+.layout { clear: both; }

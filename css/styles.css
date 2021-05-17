@@ -324,9 +324,9 @@ UL.interval {
 	box-shadow: inset 0 0 .5em #FFF, 0 0 1em #FFF;
 	}
 .interval DIV {
-	height: 2.2em;
-	line-height: 2em;
-	width: 2.25em;
+	height: 36px;
+	line-height: 36px;
+	width: 36px;
 	}
 .interval DT {
 	font-size: 0.75em;
@@ -338,7 +338,7 @@ UL.interval {
 	}
 
 /* Harmonie Form */
-.harmonieForm {
+TABLE.harmonieForm {
 	border: 1px solid rgba(0,0,0,.5);
 	border-radius: 3px;
 	box-shadow: 0 0 .5em rgba(0,0,0,.5);
@@ -348,12 +348,40 @@ UL.interval {
 	width: 368px;
 	height: 93px;
 	}
-.harmonieForm TD {
+TABLE.harmonieForm TD {
 	text-align: left;
 	}
-.harmonieForm TH LABEL {
+TABLE.harmonieForm TH LABEL {
 	font: normal .8em Verdana;
 	letter-spacing: 2px;
+	}
+.harmonieForm {
+	border: 1px solid rgba(0,0,0,.5);
+	border-radius: 3px;
+	box-shadow: 0 0 .5em rgba(0,0,0,.5);
+	display: inline-block;
+	margin: .5em;
+	padding: 0;
+	height: 92px;
+	width: 368px;
+	}
+.harmonieForm DIV {
+	display: grid;
+	grid-template-columns: .5fr 1.5fr;
+	margin: .5em;
+	}
+.harmonieForm DIV LABEL {
+	grid-column: 1;
+	font: normal .8em Verdana;
+	letter-spacing: 2px;
+	text-align: right;
+	margin: .25em;
+	}
+.harmonieForm DIV SELECT {
+	grid-column: 2;
+	margin: .25em;
+	width: fit-content;
+	max-width: 257px;
 	}
 
 /* Tableau d'accords */
