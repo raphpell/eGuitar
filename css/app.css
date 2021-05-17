@@ -140,6 +140,14 @@ TD {
 	background: #FFF;
 	}
 
+/* Top */
+footer {
+	text-align: center;
+	letter-spacing: 2px;
+	font-size: .6em;
+	margin: 2em;
+	}
+
 /* L10n */
 code {
 	animation-duration: 2s;
