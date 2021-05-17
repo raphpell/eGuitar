@@ -338,23 +338,6 @@ UL.interval {
 	}
 
 /* Harmonie Form */
-TABLE.harmonieForm {
-	border: 1px solid rgba(0,0,0,.5);
-	border-radius: 3px;
-	box-shadow: 0 0 .5em rgba(0,0,0,.5);
-	display: inline-block;
-	margin: .5em;
-	padding: .25em;
-	width: 368px;
-	height: 93px;
-	}
-TABLE.harmonieForm TD {
-	text-align: left;
-	}
-TABLE.harmonieForm TH LABEL {
-	font: normal .8em Verdana;
-	letter-spacing: 2px;
-	}
 .harmonieForm {
 	border: 1px solid rgba(0,0,0,.5);
 	border-radius: 3px;
