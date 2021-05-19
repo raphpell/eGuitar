@@ -17,7 +17,9 @@ function TSorter(){
 	function get(){}
 
 	function getCell(index){
-		return trs[index].cells[nCurSortCol] 
+		let e = trs[index].cells[nCurSortCol] 
+		e = ( e && e.firstChild ) || e
+		return e
 		}
 
 	/*----------------------INIT------------------------------------*/
@@ -87,7 +89,10 @@ function TSorter(){
 	function setGet(sortType){
 		switch(sortType){   
 			case "number":
-				get = function(index){ return new Number( getCell(index).firstChild.nodeValue ); };
+				get = function(index){
+					let e = getCell(index)
+					return new Number( e.nodeValue );
+					};
 				break;
 			case "link_column":
 				get = function(index){ return getCell(index).firstChild.firstChild.nodeValue; };
@@ -95,7 +100,7 @@ function TSorter(){
 			case 'arpege':
 				get = function(index){
 					var e = getCell(index)
-					e = e && e.firstChild
+					if( ! e.getAttribute ) e = e.parentNode
 					var s = e && e.getAttribute('arpege') 
 					return s || '' 
 					};
@@ -103,7 +108,6 @@ function TSorter(){
 			default:
 				get = function(index){
 					var e = getCell(index)
-					e = e && e.firstChild
 					return e ? e.nodeValue : null ;
 					};
 				break;

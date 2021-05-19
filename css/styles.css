@@ -387,7 +387,7 @@ UL.interval {
 	cursor: hand; cursor: pointer;
 	text-align: left;
 	padding: .25em 1em;
-	margin: 5px 0 10px;
+	margin: 0;
 	line-height: 1.2em;
 	transition: filter,border-color 200ms ease;
 	display:flex;
@@ -417,37 +417,67 @@ UL.interval {
 	}
 .suggestion TH {
 	cursor: pointer;
-	width:40px;
-	padding: 1em;
+	height:20px;
+	width:30px;
 	}
-.suggestion TH.chordNames {
-	width: 150px;
+.suggestion .name {
+	cursor: hand; cursor: pointer;
+	text-align: left;
+	text-indent: 1em;
+	width: 200px;
 	}
 .suggestion TH LABEL {
 	padding: 0 .5em;
 	cursor: hand; cursor: pointer;
 	}
-.suggestion TD {
-	text-align: center;
+.suggestion TBODY TR {
+	height:22px;
+	line-height:22px;
+	margin: 2px;
+	vertical-align: middle;
 	}
-.suggestion DIV {
-	background: yellow;
-	border: 2px solid #000;
-	border-radius: .5em;
-	cursor: hand; cursor: pointer;
-	line-height: 1.4em;
-	padding: 0 .5em;
+.suggestion TBODY TR:hover {
+	background: #FFF;
+	color: #000;
+	}
+.suggestion TD {
+	border-radius: 10px;
+	text-align: center;
+	line-height: 20px;
+	height:20px;
+	width:30px;
 	transition: box-shadow 200ms ease;
-	z-index: 1;
-	position: relative;
+	}
+.suggestion TD.hover {
+	font-weight: bold;
+	box-shadow: inset 0 0 .25em rgba(0,0,0,.5);
+	cursor: hand; cursor: pointer;
+	}
+.suggestion TD.hover:hover {
+	box-shadow: 0 0 1em rgba(0,0,0,.5), inset 0 0 .5em #FFF, 0 0 2em #FFF;
+	}
+.suggestion TD.none {
+	filter: sepia(1);
+	background: rgba(125,125,125,.5);
 	}
 .suggestion B {} /* note */
 .suggestion I {} /* accord */
-.suggestion DIV:hover {
-	border: 2px solid #FFF;
-	box-shadow: 0 0 1em rgba(0,0,0,.5), 0 0 1em #FFF;
-	z-index: 2;
+.suggestion SMALL {
+	filter: sepia(1);
+	background: #444;
+	border: 1px solid #AAA;
+	border-radius: 5px;
+	color: #AAA;
+	padding:0 4px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
 	}
+.suggestion sup {
+	position: relative;
+	top: 3px;
+	}
+
 
 /* Scales & Arpeggio */
 .mask {
@@ -499,6 +529,11 @@ UL.interval {
 	border-radius: 5px;
 	color: #AAA;
 	padding:0 4px;
+	white-space: nowrap;
+	}
+.mask sup {
+	position: relative;
+	top: 3px;
 	}
 
 /* Tunings list */

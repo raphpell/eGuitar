@@ -548,7 +548,7 @@ class IntervalBox {
 let Harmonie ={
 	cache:{},
 	getSimilarity :function( sChordOrScaleMask1, sChordMask2, sType ){
-		var countTons = function ( sMask ){ return sMask.split("1").length - 1 }
+		var countTons = function ( sMask ){ return ( sMask.match(/(10*)/g)||[]).length }
 		var nTons1 = countTons( sChordOrScaleMask1 )
 		var nTons2 = countTons( sChordMask2 )
 		var nCommonTons = countTons( ( parseInt( sChordOrScaleMask1, 2 ) & parseInt( sChordMask2, 2 ) ).toString(2) )
@@ -661,10 +661,9 @@ let Harmonie ={
 			let o = this.Config
 			, that = this
 			, eSUGG = this.eHTML = Tag( 'TABLE', 'suggestion', 'eSuggestion'+ this.ID )
-			eSUGG.cellSpacing = 0
 			eSUGG.onclick =function( evt ){
 				var e = Events.element( evt )
-				if( e.nodeName != 'DIV' && e.nodeName != 'CAPTION' ) e = e.parentNode
+				if( e.nodeName != 'TD' && e.nodeName != 'CAPTION' ) e = e.parentNode
 				var sTonique = e.attributes.tonique && e.attributes.tonique.value
 				var sMask = e.attributes && e.attributes.arpege && e.attributes.arpege.value
 				if( sMask ){
@@ -727,19 +726,28 @@ let Harmonie ={
 			sMask = sMask || this.Config.scale.value[0]
 			var aResult = []
 			Arpeggio.forEach( a => {
-				if( ( parseInt(sMask,2) & parseInt(a[0],2) ).toString(2) == a[0])
+				if( ( parseInt(sMask,2) & parseInt(a[0],2) ).toString(2) == a[0]){
+					a.length=3
 					aResult.push( a.concat( Harmonie.getSimilarity( sMask, a[0], 'scale' )))
+					}
 				})
 			return aResult
 			}
 		// Ajoute les accords d'une gamme
 		setChords ( sTonique, sScaleMask ){
 			let aResult = this.getChordsSuggestion( sTonique, sScaleMask )
-			var o = {}
+			var o = {}, sOtherName
+
+			let nIndexName = 12
+			let nIndexNotes = 13
+			let nIndexAmount = 14
 			Arpeggio.forEach( a => {
 				var sChordName =  a[1]
+				sOtherName = a[2]
+				sOtherName = (sOtherName?' <small>'+sOtherName.replace(/\|/gi,', ')+'</small>':'')
 				o[ sChordName ] = []
-				o[ sChordName ][12] = 0
+				o[ sChordName ][nIndexName] = sChordName + sOtherName
+				o[ sChordName ][nIndexAmount] = 0
 				// Compte le nombre de "1"
 				var sMask = a[0]
 				var count = 0
@@ -748,37 +756,55 @@ let Harmonie ={
 					count++;
 					pos = sMask.indexOf('1', pos + 1 );
 					}
-				o[ sChordName ][13] = count
+				o[ sChordName ][nIndexNotes] = count
 				})
 			aResult.forEach( ([sTonic,aChords,nTon,sMask1]) => {
-				aChords.forEach( ([sMask2,sName,sOpacity,sProb]) => {
-					var sOpacity = ( sOpacity != undefined ? 'opacity:'+ (1-sOpacity+.3).toFixed(2) +' !important;' : '' )
-					var sTitle = ( sProb != undefined ? sProb : '' )
+				aChords.forEach( ([sMask2,sName,sOtherNames,sOpacity,sProb]) => {
+					let nOpacity = (1-sOpacity+.2).toFixed(2)
 					o[ sName ][ nTon ] =
-						'<div class="ton'+ nTon +'" tonique="'+ sTonic +'" arpege="'+ sMask2 +'" style="'+ sOpacity +'" title="'+ sTonic+sName +'">&#10005;</div>'
-					o[ sName ][12]++
+						' class="hover ton'+ nTon +'" tonique="'+ sTonic +'" arpege="'+ sMask2 +'" title="'+ sTonic+sName +'">&#10005;'
+					o[ sName ][nIndexAmount]++
 					})
 				})
 
 			var aTR = []
 			for(var i=0, ni=Arpeggio.length; i<ni; i++ ){
 				var sChordName = Arpeggio[i][1]
-				if( o[ sChordName ][12] > 0 )
-					aTR[i] = '<tr><td>'+ sChordName +'</td><td>'+ o[ sChordName ].join('</td><td>' ) +'</td></tr>'
+				if( o[ sChordName ][nIndexAmount] > 0 ){
+					let a = o[ sChordName ]
+					for(var j=0, nj=a.length; j<nj; j++ ){
+						if( j == nIndexName ) a[j] = '<td class="name">'+ a[j] +'</td>'
+						if( j == nIndexAmount || j == nIndexNotes ) a[j] = '<td>'+ a[j] +'</td>'
+						else{
+							a[j] = a[j] === undefined
+								? '<td class="none"></td>'
+								: '<td '+ a[j] +'</td>'
+							}
+						}
+					aTR[i] = '<tr>'+ a.join('' ) +'</tr>'
+					}
 				}
+		//	let sCOLGROUP = '<colgroup><col span="12"><col><col class="name"><col></colgroup>'
 
-			let sTHEAD = '<thead><tr><th class="chordNames">'+ L10n('ACCORDS') +'</th>'
+			let sTHEAD = '<thead><tr>'
 			, aNotesTmp = this.Config.notation.getSequence( sTonique )
 			for(let i=0, j=0, ni=aNotesTmp.length; i<ni; i++ ){
 				sTHEAD += sScaleMask.charAt(i) == '1'
 					? '<th abbr="arpege">&#85'+(44+j++)+';</th>' //  class="ton'+ i +'" // Chiffres romains
-					: '<th abbr=""></th>'
+					: '<th abbr="">-</th>'
 				}
-			sTHEAD += '<th abbr="number"><label>'+ L10n('QUANTITE') +'</label></th><th abbr="number"><label>'+ L10n('NOTES') +'</label></th></tr></thead>'
+			let oTH= {}
+			oTH[nIndexName] = '<th class="name">'+ L10n('ACCORDS') +'</th>'
+			oTH[nIndexAmount] = '<th abbr="number"><label>'+ L10n('QUANTITE') +'</label></th>'
+			oTH[nIndexNotes] = '<th abbr="number"><label>'+ L10n('NOTES') +'</label></th>'
+			sTHEAD += oTH[12]
+					+ oTH[13]
+					+ oTH[14]
+					+'</tr></thead>'
 
 			this.eHTML.innerHTML = sTHEAD +'<tbody>'+ aTR.join("\n") +'</tbody>'
 
-			var aSort = [14,'DESC']
+			var aSort = [nIndexAmount,'ASC']
 			if( this.TableSorter ) aSort = this.TableSorter.getSort()
 			this.TableSorter = new TSorter
 			this.TableSorter.init( this.eHTML )
@@ -832,7 +858,7 @@ let Harmonie ={
 						}
 					}
 				eTD = Tag('TD','name')
-				eTD.innerHTML = sName + (sOtherName?' <small>'+sOtherName.replace(/\|/gi,', ')+'</small>':'')
+				eTD.innerHTML = sName + (sOtherName?' <small>'+sOtherName.replace(/\|/gi,'</small><small>')+'</small>':'')
 				Append( eBODY, eTR, [ TDs( sMask ), eTD ])
 				})
 			eBODY.onclick =function( evt ){
