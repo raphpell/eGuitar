@@ -547,24 +547,6 @@ class IntervalBox {
 
 let Harmonie ={
 	cache:{},
-	getSimilarity :function( sChordOrScaleMask1, sChordMask2, sType ){
-		var countTons = function ( sMask ){ return ( sMask.match(/(10*)/g)||[]).length }
-		var nTons1 = countTons( sChordOrScaleMask1 )
-		var nTons2 = countTons( sChordMask2 )
-		var nCommonTons = countTons( ( parseInt( sChordOrScaleMask1, 2 ) & parseInt( sChordMask2, 2 ) ).toString(2) )
-		var nOpacity = nCommonTons / nTons1
-		var getLabel = function(){
-			switch( sType ){
-				case 'scale': return parseInt( nOpacity * 100 ) + "%";
-				case 'chord': return "Accord à "+ nTons1 + " tons, "+ nCommonTons + "/" + nTons2 + " ton(s) en commun - " + parseInt( nOpacity * 100 ) + "%";
-				default: return ''
-				}
-			}
-		return [
-			( Number( nOpacity )).toFixed(2),
-			getLabel()
-			]
-		},
 	searchMask :function( sMask ){
 		if( this.cache[sMask] ) return this.cache[sMask]
 		var sName = this.Config.tonic.value, sFound
@@ -679,8 +661,10 @@ let Harmonie ={
 					o.mask.value = sScale
 					}
 				}
-			o.mask.addSubscriber( 'HarmonieTable.displayChords', () => that.displayChords())
-			o.notation.addSubscriber( 'HarmonieTable.displayChords', () => that.displayChords())
+			let f = () => that.displayChords()
+			o.mask.addSubscriber( 'HarmonieTable.displayChords', f )
+			o.tonic.addSubscriber( 'HarmonieTable.displayChords', f )
+			o.notation.addSubscriber( 'HarmonieTable.displayChords', f )
 			}
 		createHTMLForm(){
 			let e1, e2
@@ -700,13 +684,17 @@ let Harmonie ={
 			this.sScaleName = sName || this.Config.scale.value[1]
 			this.setChords( sTonique, sScaleMask )
 			}
+		getChordName ( sChordTonic, aChord ){
+			var aNotes = this.Config.notation.getSequence( sChordTonic )
+			return sChordTonic + aChord[1]
+			}
 		// Retourne un tableau des accords présent dans une gamme
 		getChordsSuggestion ( sTonique, sScaleMask ){
 			var aNotesTmp = this.Config.notation.getSequence( sTonique )
 			var aResult = []
 			
 			// Cherche la position des degrés et la tonique, créé un masque et cherche les accords possibles
-			var nPos = sScaleMask.indexOf('1');
+			var nPos = sScaleMask.indexOf( '1' )
 			var sDegreMask = ''
 			while( nPos !== -1 ){
 				sDegreMask = sScaleMask.substr( nPos ) + sScaleMask.substr( 0, nPos )
@@ -716,26 +704,24 @@ let Harmonie ={
 					nPos,
 					sDegreMask
 					])
-				nPos = sScaleMask.indexOf('1', nPos + 1 );
+				nPos = sScaleMask.indexOf( '1', nPos+1 )
 				}
 
 			return aResult
 			}
-		// Recherche des accords respectant un mask
+		// Recherche des accords inclus dans un mask
 		searchChords ( sMask ){
 			sMask = sMask || this.Config.scale.value[0]
 			var aResult = []
 			Arpeggio.forEach( a => {
-				if( ( parseInt(sMask,2) & parseInt(a[0],2) ).toString(2) == a[0]){
-					a.length=3
-					aResult.push( a.concat( Harmonie.getSimilarity( sMask, a[0], 'scale' )))
-					}
+				if( ( parseInt(sMask,2) & parseInt(a[0],2) ).toString(2) == a[0])
+					aResult.push( a )
 				})
 			return aResult
 			}
 		// Ajoute les accords d'une gamme
-		setChords ( sTonique, sScaleMask ){
-			let aResult = this.getChordsSuggestion( sTonique, sScaleMask )
+		setChords ( sScaleTonic, sScaleMask ){
+			let aResult = this.getChordsSuggestion( sScaleTonic, sScaleMask )
 			var o = {}, sOtherName
 
 			let nIndexName = 12
@@ -758,11 +744,10 @@ let Harmonie ={
 					}
 				o[ sChordName ][nIndexNotes] = count
 				})
-			aResult.forEach( ([sTonic,aChords,nTon,sMask1]) => {
-				aChords.forEach( ([sMask2,sName,sOtherNames,sOpacity,sProb]) => {
-					let nOpacity = (1-sOpacity+.2).toFixed(2)
+			aResult.forEach( ([sChordTonic,aChords,nTon,sMask1]) => {
+				aChords.forEach( ([sMask2,sName]) => {
 					o[ sName ][ nTon ] =
-						' class="hover ton'+ nTon +'" tonique="'+ sTonic +'" arpege="'+ sMask2 +'" title="'+ sTonic+sName +'">&#10005;'
+						' class="hover ton'+ nTon +'" tonique="'+ sChordTonic +'" arpege="'+ sMask2 +'" title="'+ this.getChordName( sChordTonic , [sMask2,sName]) +'">&#10005;'
 					o[ sName ][nIndexAmount]++
 					})
 				})
@@ -787,7 +772,7 @@ let Harmonie ={
 		//	let sCOLGROUP = '<colgroup><col span="12"><col><col class="name"><col></colgroup>'
 
 			let sTHEAD = '<thead><tr>'
-			, aNotesTmp = this.Config.notation.getSequence( sTonique )
+			, aNotesTmp = this.Config.notation.getSequence( sScaleTonic )
 			for(let i=0, j=0, ni=aNotesTmp.length; i<ni; i++ ){
 				sTHEAD += sScaleMask.charAt(i) == '1'
 					? '<th abbr="arpege">&#85'+(44+j++)+';</th>' //  class="ton'+ i +'" // Chiffres romains
@@ -797,10 +782,7 @@ let Harmonie ={
 			oTH[nIndexName] = '<th class="name">'+ L10n('ACCORDS') +'</th>'
 			oTH[nIndexAmount] = '<th abbr="number"><label>'+ L10n('QUANTITE') +'</label></th>'
 			oTH[nIndexNotes] = '<th abbr="number"><label>'+ L10n('NOTES') +'</label></th>'
-			sTHEAD += oTH[12]
-					+ oTH[13]
-					+ oTH[14]
-					+'</tr></thead>'
+			sTHEAD += oTH[12]+oTH[13]+oTH[14]+'</tr></thead>'
 
 			this.eHTML.innerHTML = sTHEAD +'<tbody>'+ aTR.join("\n") +'</tbody>'
 
@@ -810,12 +792,12 @@ let Harmonie ={
 			this.TableSorter.init( this.eHTML )
 			if( aSort ) this.TableSorter.sort( aSort[0], aSort[1] )
 
-			var e = Tag( 'CAPTION', { tonique:sTonique, scale:sScaleMask })
+			var e = Tag( 'CAPTION', { tonique:sScaleTonic, scale:sScaleMask })
 			if( this.sScaleName != 'noname' )
-				e.innerHTML = '<h2>'+ sTonique +" " + this.sScaleName +'</h2>'
+				e.innerHTML = '<h2>'+ this.getChordName( sScaleTonic , [sScaleMask,this.sScaleName]) +'</h2>'
 			else{
-				e.innerHTML = '<h2>'+ sTonique +' ...?!?</h2>'
-				// e.innerHTML = '<h2>'+ sTonique +'</h2>'
+				e.innerHTML = '<h2>'+ sScaleTonic +' ...?!?</h2>'
+				// e.innerHTML = '<h2>'+ sScaleTonic +'</h2>'
 				// Append( e.firstChild, this.createHTMLForm())
 				}
 			this.eHTML.insertBefore( e, this.eHTML.firstChild )

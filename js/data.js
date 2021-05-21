@@ -149,7 +149,7 @@ const Arpeggio =[
 	['100100001000','m#5'],
 	['100100010100','m6','-6'],
 	['100100011000','m♭6'],
-	['100001001000','m6/4'],
+//	['100001001000','m6/4'],
 	['101100010100','m6/9'],
 	['100101011000','m6sus4'],
 	['100100010001','mM7','m(+7)|-(M7)|m7b8'],
@@ -265,7 +265,7 @@ const Scales =[
 	['100110110001','Semi-tonal chromatic major' ],
 	['111111111111', L10n('Chrom')]
 	]
-/* 
+/*
 ;(function(){
 	let o = {}
 	
@@ -274,7 +274,7 @@ const Scales =[
 		})
 
 	let n = 0
-	let aIdee = [' 1<sup>st</sup> Inv',' 2<sup>nd</sup> Inv',' 3<sup>rd</sup> Inv']
+	let aIdee = [' 1st Inv',' 2nd Inv',' 3rd Inv']
 	Arpeggio.forEach( ([ sMask, sName ]) => {
 		let a = sMask.match(/(10*)/g) || []
 		, tmp
