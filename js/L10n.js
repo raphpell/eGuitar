@@ -43,6 +43,11 @@ Object.assign( L10n, {
 
 L10n.FR ={
 	DATEM:		'Dernière modification le ',
+	INVERSION:'renv.',
+	PREMIER:'1er',
+	DEUXIEME:'2ème',
+	TROISIEME:'3ème',
+	QUATRIEME:'4ème',
 	
 	// App
 	DELETE_PREF: "Effacer vos préférences",
@@ -106,6 +111,11 @@ L10n.FR ={
 	}
 L10n.EN ={
 	DATEM:		'Last update ',
+	INVERSION:'inv.',
+	PREMIER:'1st',
+	DEUXIEME:'2nd',
+	TROISIEME:'3rd',
+	QUATRIEME:'4th',
 	
 	// App
 	DELETE_PREF: "Delete your preferences",

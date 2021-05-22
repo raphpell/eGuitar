@@ -547,6 +547,7 @@ class IntervalBox {
 
 let Harmonie ={
 	cache:{},
+	noname:'...',
 	searchMask :function( sMask ){
 		if( this.cache[sMask] ) return this.cache[sMask]
 		var sName = this.Config.tonic.value, sFound
@@ -566,6 +567,7 @@ let Harmonie ={
 			this.Config = oConfig
 			this.createHTML()
 			this.Config.mask.refresh()
+			this.Config.tonic.refresh()
 			}
 		createHTML(){
 			let Config = this.Config
@@ -617,7 +619,7 @@ let Harmonie ={
 				eChords.value = eScale.value = sMask
 				if( eScale.value ) Config.scale.value = [ sMask, eScale.selectedOptions[0].innerHTML ]
 				else if( eChords.value ) Config.scale.value = [ sMask, eChords.selectedOptions[0].innerHTML ]
-				else Config.scale.value = [ sMask, 'noname' ]
+				else Config.scale.value = [ sMask, Harmonie.noname ]
 				})
 			Config.scale.addSubscriber( 'HarmonieForm values', a => eScale.value = a[0] )
 			Config.notation.addSubscriber( 'HarmonieForm selectBox tonic choix', function(){
@@ -653,12 +655,14 @@ let Harmonie ={
 					o.tonic.value = sTonique
 					o.mask.value = sMask
 					that.locked = false
+					if( eTitle ) eTitle.innerHTML = e.title
 					}
 				var sScale = e.scale
 				if( sScale ){
 					o.tonic.value = e.tonique
 					o.scale.value = [ sScale, that.sScaleName ]
 					o.mask.value = sScale
+					if( eTitle ) eTitle.innerHTML = e.tonique +' '+ that.sScaleName
 					}
 				}
 			let f = () => that.displayChords()
@@ -684,9 +688,33 @@ let Harmonie ={
 			this.sScaleName = sName || this.Config.scale.value[1]
 			this.setChords( sTonique, sScaleMask )
 			}
-		getChordName ( sChordTonic, aChord ){
-			var aNotes = this.Config.notation.getSequence( sChordTonic )
-			return sChordTonic + aChord[1]
+		getChordName ( sChordTonic, sChordMask, sChordName ){
+			let aNotes = this.Config.notation.getSequence( sChordTonic )
+			// accord inversion
+			if( ~sChordName.indexOf( L10n('INVERSION'))){
+				let idx = sChordMask.indexOf('1')
+				let indices = []
+				while( idx != -1 ){
+					indices.push( idx )
+					idx = sChordMask.indexOf( '1', idx + 1 )
+					}
+				let sRealTonic = null
+				// 1er inversion - tonic dernier 1
+				if( ~sChordName.indexOf( L10n('PREMIER')))
+					sRealTonic = aNotes[ indices[ indices.length-1 ]]
+				// 2ème inversion - tonic avant dernier 1
+				if( ~sChordName.indexOf( L10n('DEUXIEME')))
+					sRealTonic = aNotes[ indices[ indices.length-2 ]]
+				// 3ème...
+				if( ~sChordName.indexOf( L10n('TROISIEME')))
+					sRealTonic = aNotes[ indices[ indices.length-3 ]]
+				// 4ème...
+				if( ~sChordName.indexOf( L10n('QUATRIEME')))
+					sRealTonic = aNotes[ indices[ indices.length-4 ]]
+				return sChordTonic +'/'+ sRealTonic + sChordName
+				}
+			// sinon
+			return sChordTonic +' '+ sChordName
 			}
 		// Retourne un tableau des accords présent dans une gamme
 		getChordsSuggestion ( sTonique, sScaleMask ){
@@ -747,7 +775,7 @@ let Harmonie ={
 			aResult.forEach( ([sChordTonic,aChords,nTon,sMask1]) => {
 				aChords.forEach( ([sMask2,sName]) => {
 					o[ sName ][ nTon ] =
-						' class="hover ton'+ nTon +'" tonique="'+ sChordTonic +'" arpege="'+ sMask2 +'" title="'+ this.getChordName( sChordTonic , [sMask2,sName]) +'">&#10005;'
+						' class="hover ton'+ nTon +'" tonique="'+ sChordTonic +'" arpege="'+ sMask2 +'" title="'+ this.getChordName( sChordTonic, sMask2, sName ) +'">&#10005;'
 					o[ sName ][nIndexAmount]++
 					})
 				})
@@ -775,7 +803,7 @@ let Harmonie ={
 			, aNotesTmp = this.Config.notation.getSequence( sScaleTonic )
 			for(let i=0, j=0, ni=aNotesTmp.length; i<ni; i++ ){
 				sTHEAD += sScaleMask.charAt(i) == '1'
-					? '<th abbr="arpege">&#85'+(44+j++)+';</th>' //  class="ton'+ i +'" // Chiffres romains
+					? '<th abbr="arpege" class="ton'+ i +'">&#85'+(44+j++)+';<br>'+aNotesTmp[i]+'</th>' // Chiffres romains
 					: '<th abbr="">-</th>'
 				}
 			let oTH= {}
@@ -792,14 +820,21 @@ let Harmonie ={
 			this.TableSorter.init( this.eHTML )
 			if( aSort ) this.TableSorter.sort( aSort[0], aSort[1] )
 
-			var e = Tag( 'CAPTION', { tonique:sScaleTonic, scale:sScaleMask })
-			if( this.sScaleName != 'noname' )
-				e.innerHTML = '<h2>'+ this.getChordName( sScaleTonic , [sScaleMask,this.sScaleName]) +'</h2>'
-			else{
-				e.innerHTML = '<h2>'+ sScaleTonic +' ...?!?</h2>'
-				// e.innerHTML = '<h2>'+ sScaleTonic +'</h2>'
-				// Append( e.firstChild, this.createHTMLForm())
-				}
+			let e = Tag( 'CAPTION', { tonique:sScaleTonic, scale:sScaleMask }), s
+
+//			if( this.sScaleName != Harmonie.noname ){
+				s = this.getChordName( sScaleTonic, sScaleMask, this.sScaleName )
+				if( s ){
+					e.innerHTML = '<h2>'+ s +'</h2>'
+					if( eTitle ) eTitle.innerHTML = s
+					}
+/*				}
+ 			else{
+				s = sScaleTonic +' '+ Harmonie.noname
+				e.innerHTML = '<h2>'+s+'</h2>'
+				if( eTitle ) eTitle.innerHTML = s
+				Append( e.firstChild, this.createHTMLForm())
+				} */
 			this.eHTML.insertBefore( e, this.eHTML.firstChild )
 			}
 		},

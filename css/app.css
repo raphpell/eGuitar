@@ -87,6 +87,14 @@ LABEL:hover {
 	color:#000;
 	}
 
+
+#eTitle {
+	float: left;
+	margin: 0 0 0 1em;
+	height: 1.8em;
+	line-height: 1.8em;
+	}
+
 /* TabMenu */
 .layout {
 	display: grid;
