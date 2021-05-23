@@ -848,17 +848,19 @@ let Harmonie ={
 			this.eHTML = eTABLE = Tag('TABLE','mask')
 			eTABLE.innerHTML = sTHEAD
 			eBODY = Tag('TBODY')
+			let s = oConfig.mask.value
 			aList.forEach( ([sMask,sName,sOtherName])=>{
 				if( ! sName ) return;
 				eTR = Tag('TR')
 				eTR.mask = sMask
 				if( ! bSelected ){
-					bSelected = oConfig.mask.value == sMask
+					bSelected = s == sMask
 					if( bSelected ){
 						that.eSelected = eTR
 						eTR.className = 'selected'
 						}
 					}
+				eTR.style.display = Harmonie.isMaskIn( s, sMask ) ? '' : 'none'
 				eTD = Tag('TD','name')
 				eTD.innerHTML = sName + (sOtherName?' <small>'+sOtherName.replace(/\|/gi,'</small><small>')+'</small>':'')
 				Append( eBODY, eTR, [ TDs( sMask ), eTD ])
@@ -885,7 +887,7 @@ let Harmonie ={
 						that.eSelected = e
 						}
 					// filtre
-					e.style.display = Harmonie.isMaskIn( s, e.mask ) ? '' : 'none'
+					if( e.mask ) e.style.display = Harmonie.isMaskIn( s, e.mask ) ? '' : 'none'
 					}
 				})
 			}
