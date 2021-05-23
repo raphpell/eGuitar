@@ -28,7 +28,6 @@ let Config =( function (){
 	// -> Ext.notation.call( ExtendedObject )
 	let Ext ={
 		notation:( function (){
-			const cache = {}
 			const Notations ={
 				'♯':{	FR:['La',	'La♯',	'Si',	'Do',	'Do♯',	'Ré',	'Ré♯',	'Mi',	'Fa',	'Fa♯',	'Sol',	'Sol♯'],
 						EN:['A',	'A♯',	'B',	'C',	'C♯',	'D',	'D♯',	'E',	'F',	'F♯',	'G',	'G♯']},
@@ -546,20 +545,9 @@ class IntervalBox {
 	}
 
 let Harmonie ={
-	cache:{},
 	noname:'...',
-	searchMask :function( sMask ){
-		if( this.cache[sMask] ) return this.cache[sMask]
-		var sName = this.Config.tonic.value, sFound
-		for(var i=0, a=Arpeggio, ni=a.length; i<ni ; i++ ){
-			if( a[i][0] == sMask )
-				return this.cache[sMask] = a[i]
-			}
-		for(var i=0, a=Scales, ni=a.length; i<ni ; i++ ){
-			if( a[i][0] == sMask )
-				return this.cache[sMask] = a[i]
-			}
-		return null
+	isMaskIn :function( sMask1, sMask2 ){
+		return ( parseInt(sMask2,2) & parseInt(sMask1,2) ).toString(2) == sMask1
 		},
 	Form:class{
 		constructor( oConfig ){
@@ -741,10 +729,7 @@ let Harmonie ={
 		searchChords ( sMask ){
 			sMask = sMask || this.Config.scale.value[0]
 			var aResult = []
-			Arpeggio.forEach( a => {
-				if( ( parseInt(sMask,2) & parseInt(a[0],2) ).toString(2) == a[0])
-					aResult.push( a )
-				})
+			Arpeggio.forEach( a => { if( Harmonie.isMaskIn( a[0] ,sMask )) aResult.push( a ) })
 			return aResult
 			}
 		// Ajoute les accords d'une gamme
@@ -889,15 +874,18 @@ let Harmonie ={
 			this.TableSorter.init( this.eHTML )
 			if( eParent ) Append( eParent, this.eHTML )
 				
-			oConfig.mask.addSubscriber( 'Harmonie.Mask selection', s =>{
+			oConfig.mask.addSubscriber( 'Harmonie.Mask selection+filter', s =>{
 				if( that.eSelected ) that.eSelected.className = ''
 				var aTR = that.eHTML.getElementsByTagName('TR')
 				for(let e, i=0, ni=aTR.length; i<ni; i++ ){
 					e = aTR[i]
+					// selection
 					if( e.mask == s ){
 						e.className = 'selected'
 						that.eSelected = e
 						}
+					// filtre
+					e.style.display = Harmonie.isMaskIn( s, e.mask ) ? '' : 'none'
 					}
 				})
 			}
