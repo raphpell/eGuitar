@@ -561,7 +561,7 @@ let Harmonie ={
 			let Config = this.Config
 			, that = this
 			, eDIV
-			this.eHTML = Append( Tag( 'DIV', 'harmonieForm' ), eDIV = Tag( 'DIV')) 
+			this.eHTML = Append( eDIV = Tag( 'DIV', 'harmonieForm' ))
 			let selectbox =function( sId, sLabel, a, sSelected, fOnChange ){
 				sId = sId + that.ID
 				let e = Tag( 'SELECT', { value:sSelected, id:sId })

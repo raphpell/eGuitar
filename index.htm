@@ -31,7 +31,8 @@
 			- Ajout d'intervalle et d'accordage
 -->
 
-<div id="eTarget"></div>
+<div id="eTarget1"></div>
+<div id="eTarget2"></div>
 
 <script type="text/javascript" src="js/utils.js"></script>
 <script type="text/javascript" src="js/L10n.js"></script>
@@ -47,13 +48,13 @@ eHead.firstChild.onclick = function(){
 
 var oConfig = Config()
 
-var oManche = new Manche( "eTarget", oConfig )
+var oManche = new Manche( "eTarget1", oConfig )
 
 var oIB = new IntervalBox( oConfig )
-Append( eTarget, oIB.eHTML )
+Append( eTarget2, oIB.eHTML )
 
 var oHF = new Harmonie.Form ( oConfig )
-Append( eTarget, oHF.eHTML )
+Append( eTarget2, oHF.eHTML )
 </script>
 
 <div class="layout">

@@ -1,5 +1,26 @@
 @media only screen and (max-width: 959px) {
 	* { transition: none !important; }
+	UL.interval {
+		width: 100% !important;
+		}
+	#eTarget2 {
+		flex-direction: column !important;
+		}
+	.harmonieForm {
+		display: flex !important;
+		flex-direction: row;
+		justify-content: space-around;
+		width: 100% !important;
+		align-items: center;
+		height: 50px !important;
+		}
+	.harmonieForm * {
+		line-height: 40px !important;
+		height: 40px !important;
+		}
+	}
+
+@media (orientation: portrait) {
 	}
 
 @media print {
@@ -98,6 +119,13 @@ LABEL:hover {
 	height: 1.8em;
 	line-height: 1.8em;
 	}
+#eTarget1 {
+	display:inline-block;
+	}
+#eTarget2 {
+	display: flex;
+	justify-content: space-around;
+	}
 
 /* TabMenu */
 .layout {
@@ -105,7 +133,7 @@ LABEL:hover {
 	grid-template-rows: 40px 1fr;
 	grid-template-columns: 1fr 1fr 1fr 1fr;
 	overflow: hidden;
-	margin: 0 0 1em;
+	margin: 0.5em 0 1em;
 	}
 .layout .page {
 	grid-row: 2;
