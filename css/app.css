@@ -50,9 +50,8 @@ BODY {
 	font: normal 1em Verdana;
 	background: #222;
 	color: #FFF;
-	min-width: 944px;
-	max-width: 944px;
-	width: 100%;
+	width: 944px;
+	height: auto;
 	}
 HTML, BODY {
 	scroll-behavior: smooth;
