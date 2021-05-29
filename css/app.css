@@ -3,6 +3,8 @@
 	}
 
 @media print {
+	#eHead,
+	footer { display: none; }
 	.mask TR.selected {
 		background: #585041 !important;
 		color: #FFF !important;
