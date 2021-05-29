@@ -27,10 +27,12 @@ BODY {
 	font: normal 1em Verdana;
 	background: #222;
 	color: #FFF;
+	min-width: 944px;
+	max-width: 944px;
+	width: 100%;
 	}
 HTML, BODY {
 	scroll-behavior: smooth;
-	width: 944px;
 	margin: 0 auto;
 	}
 TD {
