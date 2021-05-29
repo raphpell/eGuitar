@@ -30,7 +30,8 @@ BODY {
 	}
 HTML, BODY {
 	scroll-behavior: smooth;
-	width: 944px;
+	max-width: 944px;
+	width: 100%;
 	margin: 0 auto;
 	}
 TD {
