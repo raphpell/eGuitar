@@ -95,6 +95,8 @@ LABEL:hover {
 	float: right;
 	filter: sepia(1);
 	opacity:.75;
+	display: flex;
+	flex-direction: row;
 	}
 .lang label {
 	border: 1px solid #fff;
@@ -102,6 +104,11 @@ LABEL:hover {
 	border-radius: 4px;
 	margin: 2px;
 	padding: 2px;
+	height: 30px;
+	width: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	}
 .lang input {
 	display: none;

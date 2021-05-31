@@ -6,7 +6,7 @@
 	box-shadow: 0 0 .5em rgba(0,0,0,.5);
 	display: inline-block;
 	overflow: hidden;
-	padding: 30px 1px 30px 1px;
+	padding: 30px 1px 40px 1px;
 	position: relative;
 	transition:padding 200ms;
 	height: 180px; /* Changé dynamiquement */
@@ -16,7 +16,7 @@
 	border: 0 solid #333;
 	box-shadow: 0 0 .5em rgba(0,0,0,.5);
 	position: absolute;
-	top: 30px;
+	top: 40px;
 	white-space: nowrap;
 	width: 910px;
 	height: inherit;
@@ -28,7 +28,7 @@
 	}
 
 .hideFretsNumber {
-	padding-bottom: 1px;
+	padding-bottom: 11px;
 	}
 .hideForm {
 	padding-top: 1px;
@@ -47,19 +47,24 @@
 	top: 0px;
 	left: 0;
 	width: 100%;
- 	height: 30px;
+ 	height: 40px;
 	z-index: 1;
+	display: flex;
 	/* line-height: 30px; */
 	}
 .mancheForm LI {
-	display: inline-block;
 	margin: 0 12px 0 0;
 	padding: 0;
+	display: flex;
+	align-items: stretch;
+	justify-content: center;
 	}
 .mancheForm LI LABEL,
 .mancheForm LI INPUT,
-.mancheForm LI SELECT {
-	vertical-align: middle;
+.mancheForm LI SELECT,
+.mancheForm LI OUTPUT {
+	display: flex;
+	align-items: center;
 	}
 .mancheForm .range { width: 50px; }
 .mancheForm .scale { width: 200px; }
@@ -67,16 +72,17 @@
 /* Menu haut droite */
 .menu {
 	filter: sepia(1);
-	float: right;
 	margin: 0;
 	padding: 0;
+	margin-left: auto;
+	display: flex;
+	flex-direction: row-reverse;
 	}
 .menu LI {
 	display: inline-block;
-	float: right;
-	height: 20px;
-	width: 20px;
-	margin: 0 5px 5px ! important;
+	height: 30px;
+	width: 30px;
+	margin: 2px ! important;
 	padding: 0;
 	}
 .menu LI INPUT {
@@ -88,8 +94,8 @@
 	border-radius: 5px;
 	cursor: hand !important;
 	display: block;
-	height: 20px;
-	width: 20px;
+	height: 30px;
+	width: 30x;
 	overflow: hidden;
 	transition:all 200ms;
 	}
@@ -99,17 +105,18 @@
 .menu LI INPUT:checked + LABEL {
 	box-shadow: inset 0 0 10px #FFF, inset 0 0 4px #FFF;
 	}
-.menu .config LABEL { background-position: -5px -5px; }
-.menu .lefthanded LABEL { background-position: -35px -5px; }
-.menu .notes LABEL { background-position: -65px -5px; }
-.menu .numbers LABEL { background-position: -95px -5px; }
-.menu .octaves LABEL { background-position: -125px -5px; }
-.menu .bemol LABEL { background-position: -155px -5px; }
-.menu .sound LABEL { background-position: -185px -5px; }
-.menu .hFlip LABEL { background-position: -215px -5px; }
-.menu .vFlip LABEL { background-position: -245px -5px; }
-.menu .abcdefg LABEL { background-position: -275px -5px; }
-.menu .fx LABEL { background-position: -305px -5px; }
+.menu .config LABEL { background-position: 0 0; }
+.menu .lefthanded LABEL { background-position: -30px 0; }
+.menu .notes LABEL { background-position: -60px 0; }
+.menu .numbers LABEL { background-position: -90px 0; }
+.menu .octaves LABEL { background-position: -120px 0; }
+.menu .bemol LABEL { background-position: -150px 0; }
+.menu .sound LABEL { background-position: -180px 0; }
+.menu .hFlip LABEL { background-position: -210px 0; }
+.menu .vFlip LABEL { background-position: -240px 0; }
+.menu .abcdefg LABEL { background-position: -270px 0; }
+.menu .fx LABEL { background-position: -300px 0; }
+.menu .inversion LABEL { background-position: -330px 0; }
 
 /* Cases du manche */
 .case {

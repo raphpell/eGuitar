@@ -81,6 +81,7 @@ let Config =( function (){
 	GlobalVars([
 		[ "config", 0 ],
 		[ "fx", 1 ],
+		[ "inversion", 1 ],
 		[ "la3", 440 ],
 		[ "lefthanded", 0 ],
 		[ "mask", '100101010010' ], // gamme par défaut mPenta
@@ -101,6 +102,7 @@ let Config =( function (){
 		// Défaut : SpecialVars avec répercution localStorage
 		config: null,
 		fx: null,
+		inversion: null,
 		la3: null,
 		lefthanded: null,
 		mask: null,
@@ -217,7 +219,7 @@ class Manche {
 			eParent.insertBefore( e, eParent.firstChild )
 			}
 
-		eParent.style.width = 30+ (nCases+1)*70 +'px'
+		eParent.style.width = 30 + (nCases+1)*70 +'px'
 		eParent.style.height = nCordes*30 +'px'
 		return eParent
 		}
@@ -276,16 +278,17 @@ class Manche {
 			}
 		let f1 = function(){ o.notation.value = [ that.eBemol.checked, that.eNotationI.checked?'EN':'FR' ]}
 		cb
-		( 'eConfig',		'',				o.config.value,		function(){ o.config.value = this.checked },	'config' )
-		( 'eNotesName',		L10n('NOTES'),	o.notes.value,		function(){ o.notes.value = this.checked },		'notes' )
-		( 'eNotationI',		L10n('ABCDEFG'),o.notation.value[1] == 'EN',	f1,									'abcdefg' )
-		( 'eBemol',			L10n('BEMOL'),	o.notation.value[0], 			f1,									'bemol' )
-		( 'eOctaves',		L10n('OCTAVES'),o.octaves.value,	function(){ o.octaves.value = this.checked },	'octaves' )
-		( 'eFlipV',			L10n('MIROIR'),	o.mirror.value,		function(){ o.mirror.value = this.checked },	'vFlip' )
-		( 'eFlipH',			L10n('GAUCHER'),o.lefthanded.value,	function(){ o.lefthanded.value = this.checked },'hFlip' )
-		( 'eFretsNumber',	L10n('NUMEROS'),o.numbers.value,	function(){ o.numbers.value = this.checked },	'numbers' )
-		( 'eSound',			L10n('AUDIO'),	o.sound.value,		function(){ o.sound.value = this.checked },		'sound' )
-		( 'eFx',			L10n('FX'),		o.fx.value,			function(){ o.fx.value = this.checked },		'fx' )
+		( 'eConfig',		'',					o.config.value,		function(){ o.config.value = this.checked },	'config' )
+		( 'eNotesName',		L10n('NOTES'),		o.notes.value,		function(){ o.notes.value = this.checked },		'notes' )
+		( 'eNotationI',		L10n('ABCDEFG'),	o.notation.value[1] == 'EN',	f1,									'abcdefg' )
+		( 'eBemol',			L10n('BEMOL'),		o.notation.value[0], 			f1,									'bemol' )
+		( 'eOctaves',		L10n('OCTAVES'),	o.octaves.value,	function(){ o.octaves.value = this.checked },	'octaves' )
+		( 'eFlipV',			L10n('MIROIR'),		o.mirror.value,		function(){ o.mirror.value = this.checked },	'vFlip' )
+		( 'eFlipH',			L10n('GAUCHER'),	o.lefthanded.value,	function(){ o.lefthanded.value = this.checked },'hFlip' )
+		( 'eFretsNumber',	L10n('NUMEROS'),	o.numbers.value,	function(){ o.numbers.value = this.checked },	'numbers' )
+		( 'eSound',			L10n('AUDIO'),		o.sound.value,		function(){ o.sound.value = this.checked },		'sound' )
+		( 'eInversion',		L10n('INVERSION'),	o.inversion.value,	function(){ o.inversion.value = this.checked },	'inversion' )
+		( 'eFx',			L10n('FX'),			o.fx.value,			function(){ o.fx.value = this.checked },		'fx' )
 
 		Append( this.eHTML, eUL, eUL2 )
 
@@ -306,6 +309,9 @@ class Manche {
 		o.fx.addSubscriber( 'add/remove css class fx.', function( b ){ 
 			that.eFx.checked = b
 			document.body.parentNode.classList[ ! b ? 'add' : 'remove' ]( 'nofx' )
+			})
+		o.inversion.addSubscriber( 'refresh list', function( b ){ 
+			o.mask.refresh()
 			})
 		o.config.addSubscriber( 'add/remove css class hideForm.', function( b ){ 
 			that.eConfig.checked = b
@@ -462,6 +468,7 @@ class Manche {
 	hideForm ( b ){ return this.Config.config.value = b }
 	setFretsNumber ( b ){ return this.Config.numbers.value = b }
 	setFx ( b ){ return this.Config.fx.value = b }
+	setInversion ( b ){ return this.Config.inversion.value = b }
 	setLa3 ( nFreq ){ return this.Config.la3.value = nFreq }
 	setLeftHanded ( b ){ return this.Config.lefthanded.value = b }
 	setMirror ( b ){ return this.Config.mirror.value = b }
@@ -728,8 +735,11 @@ let Harmonie ={
 		// Recherche des accords inclus dans un mask
 		searchChords ( sMask ){
 			sMask = sMask || this.Config.scale.value[0]
-			var aResult = []
-			Arpeggio.forEach( a => { if( Harmonie.isMaskIn( a[0] ,sMask )) aResult.push( a ) })
+			let aResult = [], bInversion = this.Config.inversion.value
+			Arpeggio.forEach( a => {
+				if( bInversion || !~a[1].indexOf( L10n('INVERSION')) )
+					if( Harmonie.isMaskIn( a[0] ,sMask )) aResult.push( a )
+				})
 			return aResult
 			}
 		// Ajoute les accords d'une gamme
@@ -827,6 +837,7 @@ let Harmonie ={
 		constructor( aList, oConfig, eParent ){
 			let that = this
 			this.eSelected = null
+			this.Config = oConfig
 			let a = ['1','♭2','2','♭3','3','4','♭5','5','♭6','6','♭7','7']
 			let TDs = function( sMask ){
 				let eFragment, nChar, nNotes = 0
@@ -878,7 +889,8 @@ let Harmonie ={
 				
 			oConfig.mask.addSubscriber( 'Harmonie.Mask selection+filter', s =>{
 				if( that.eSelected ) that.eSelected.className = ''
-				var aTR = that.eHTML.getElementsByTagName('TR')
+				let aTR = that.eHTML.getElementsByTagName('TR')
+				, bInversion = this.Config.inversion.value
 				for(let e, i=0, ni=aTR.length; i<ni; i++ ){
 					e = aTR[i]
 					// selection
@@ -888,6 +900,8 @@ let Harmonie ={
 						}
 					// filtre
 					if( e.mask ) e.style.display = Harmonie.isMaskIn( s, e.mask ) ? '' : 'none'
+					if( ! bInversion && ~e.lastChild.innerHTML.indexOf( L10n('INVERSION')) )
+						e.style.display = 'none'
 					}
 				})
 			}
