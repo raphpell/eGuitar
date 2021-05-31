@@ -234,7 +234,7 @@ class Manche {
 
 		sId = 'eCordes'+ this.ID
 		Append( eUL, Tag('LI'),[
-			Tag( 'LABEL', { innerHTML: L10n('CORDES') +': ', htmlFor:sId }),
+			Tag( 'LABEL', { innerHTML: L10n('CORDES'), htmlFor:sId }),
 			that.eStrings = e = Tag( 'SELECT', { id:sId })
 			])
 		e.onkeyup = e.onchange = ()=> o.strings.value = that.eStrings.value
@@ -247,7 +247,7 @@ class Manche {
 
 		sId = 'eAccordage'+ this.ID
 		Append( eUL, Tag('LI'),[
-			Tag( 'LABEL', { innerHTML: L10n('ACCORDAGE') +': ', htmlFor:sId }),
+			Tag( 'LABEL', { innerHTML: L10n('ACCORDAGE'), htmlFor:sId }),
 			that.eTunings = e = Tag( 'SELECT', { id:sId })
 			])
 		e.onkeyup = e.onchange = ()=> o.tuning.value = that.eTunings.value
@@ -580,7 +580,7 @@ let Harmonie ={
 					})
 				e.onkeyup = e.onchange = fOnChange
 				Append( eDIV, [
-					Tag( 'LABEL', { innerHTML:sLabel+': ', htmlFor: sId }),
+					Tag( 'LABEL', { innerHTML:sLabel, htmlFor: sId }),
 					e
 					])
 				return e

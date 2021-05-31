@@ -9,14 +9,14 @@
 	.harmonieForm {
 		display: flex !important;
 		flex-direction: row;
-		justify-content: space-around;
+		justify-content: flex-start;
 		width: 100% !important;
 		align-items: center;
 		height: 50px !important;
 		}
 	.harmonieForm * {
-		line-height: 40px !important;
-		height: 40px !important;
+		line-height: 30px !important;
+		height: 30px !important;
 		}
 	}
 
@@ -71,6 +71,7 @@ LABEL:hover {
 
 /* LOGO et checkbox réglage manche */
 #eHead {
+	filter: sepia(.5);
 	margin:.25em;
 	}
 #eHead IMG {
@@ -221,8 +222,3 @@ code {
 	50%	{ color:orange; }
 	100%	{ color:red; }
 	}
-
-/* layout */
-.interval { float: left; }
-.harmonieForm { float: right; }
-.layout { clear: both; }
