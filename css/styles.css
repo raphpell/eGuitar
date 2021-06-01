@@ -6,39 +6,32 @@
 	box-shadow: 0 0 .5em rgba(0,0,0,.5);
 	display: inline-block;
 	overflow: hidden;
-	padding: 30px 1px 40px 1px;
+	padding: 0 1px 0 1px; /* Reserved : top = showMenu, bottom = showFretsNumber */
 	position: relative;
-	transition:padding 200ms;
-	height: 180px; /* Changé dynamiquement */
+	transition: padding 200ms;
+	/* height : Changé dynamiquement */
 	}
 
 .manche {
 	border: 0 solid #333;
 	box-shadow: 0 0 .5em rgba(0,0,0,.5);
 	position: absolute;
-	top: 40px;
 	white-space: nowrap;
 	width: 910px;
 	height: inherit;
 	transition:top 200ms;
 	z-index: 2;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(70px,1fr));
 	}
 .manche SPAN {
 	}
 
-.hideFretsNumber {
-	padding-bottom: 11px;
-	}
-.hideForm {
-	padding-top: 1px;
-	}
-.hideForm .manche {
-	top: 1px;
-	}
+.showFretsNumber { padding-bottom: 30px; }
+.showMenu { padding-top: 40px; }
 
 /* Menu haut gauche */
 .mancheForm {
-	filter: sepia(1);
 	box-sizing: border-box;
 	font: normal 0.8em Verdana;
 	margin: 0;
@@ -70,6 +63,7 @@
 	align-items: center;
 	}
 .mancheForm LI LABEL {
+	filter: sepia(1);
 	border-radius: 10px 0 0 10px;
 	background: #3A1912;
 	padding: 0 10px;
@@ -88,7 +82,6 @@
 
 /* Menu haut droite */
 .menu {
-	filter: sepia(.5);
 	margin: 0;
 	padding: 0;
 	margin-left: auto;
@@ -141,7 +134,8 @@
 	display: inline-block;
 	height: inherit;
 	position: relative;
-	width: 70px;
+	display: flex;
+	flex-direction: column;
 	}
 .case0 {
 	background: #000 url(../sprites/default.png) repeat-y -190px 0;
@@ -153,47 +147,39 @@
 
 /* Notes du manche */
 .case .corde SPAN {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	background: #eee;
-	border-color: #000;
-	border-style: solid;
-	border-width: 1px;
+	border: 1px #000 solid;
 	border-radius: 10px;
 	box-sizing: border-box;
 	/* box-shadow: 0 0 1em rgba(0,0,0,.5), 0 0 .25em #FFF; */
 	cursor: pointer;
-	display: block;
 	font: normal 14px Verdana;
-	line-height: 27px; 
 	height: 30px;
+	width: 75%;
 	overflow: hidden;
-	width: 55px;
 	opacity:0.1;
-	position: absolute;
-	left: 7px;
-	text-align: center;
 	text-shadow: 0 0 2px #000;
-	top: 0;
-	/* z-index: 2; */
 	transition:width 200ms, left 200ms, margin 200ms, border 200ms, line-height 200ms;
 	}
 .case .corde SPAN:hover {
 	border-color: #FFF;
-	/* box-shadow: 0 0 1em #000, 0 0 1em #FFF, inset 0 0 .2em #FFF; */
+	box-shadow: 0 0 1em #000, 0 0 1em #FFF, inset 0 0 .2em #FFF;
 	}
 .case .corde SPAN SUP {
-	position: absolute;
+	/* position: absolute; */
 	}
 .hideNotes .corde SPAN {
 	border: 4px solid #000;
 	border-radius: 12px;
 	box-sizing: border-box;
-	margin-left: 20px;
-	overflow: hidden;
-	display: block;
 	width: 30px;
-	text-align: left;
-	text-indent:-100em;
-}
+	}
+.hideNotes .corde SPAN B {
+	display: none;
+	}
 
 /* Cordes */
 .corde {
@@ -201,10 +187,11 @@
 	background-position: -350px -150px;
 	background-repeat: no-repeat;
 	height: 30px;
-	width: 70px;
-	float: left;
 	z-index: 3;
 	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	}
 .corde1 { background-position: -350px 0px; }
 .corde2 { background-position: -350px -30px; }
@@ -242,30 +229,29 @@
 	width: 66px;
 	z-index: 0;
 	}
-.hideFretsNumber .frette SPAN {
-	opacity: 0;
-	}
 
 /* Incrustations */
 .incrustation {
 	background: url(../sprites/default.png) no-repeat -30px center;
-	height: inherit;
-	width: 70px;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	top:0;
 	}
 .case12 .incrustation ,
 .case24 .incrustation {
 	background: url(../sprites/default.png) no-repeat -110px center;
-	height: inherit;
-	width: 70px;
 	}
 
 /* Octaves */
+/* 
 .octaves .octave1 { border-width: 0px !important; }
 .octaves .octave2 { border-width: 1px 1px !important; }
 .octaves .octave3 { border-width: 1px 3px !important; }
 .octaves .octave4 { border-width: 1px 5px !important; }
 .octaves .octave5 { border-width: 1px 7px !important; }
 .octaves .octave6 { border-width: 1px 9px !important; }
+ */
 
 /* Tons */
 .ton12,
@@ -374,7 +360,6 @@ UL.interval {
 
 /* Harmonie Form */
 .harmonieForm {
-	filter: sepia(1);
 	border: 1px solid rgba(0,0,0,.5);
 	border-radius: 10px;
 	box-shadow: 0 0 .5em rgba(0,0,0,.5);
@@ -386,6 +371,7 @@ UL.interval {
 	grid-template-columns: .5fr 1.5fr;
 	}
 .harmonieForm LABEL {
+	filter: sepia(1);
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;

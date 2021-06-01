@@ -188,7 +188,7 @@ class Manche {
 			eParent = Tag( 'DIV', 'eGuitar' )
 			function playSound ( evt ){
 				let e = Events.element( evt )
-				if( e.nodeName == 'SUP' ) e = e.parentNode
+				if( e.nodeName == 'octave' || e.nodeName == 'B' ) e = e.parentNode
 				if( e.nodeName != 'SPAN' ) return ;
 				if( o.sound.value && /ton/.test( e.className )){
 					playTone( e.note + e.octave, o.la3.value)
@@ -279,15 +279,15 @@ class Manche {
 		let f1 = function(){ o.notation.value = [ that.eBemol.checked, that.eNotationI.checked?'EN':'FR' ]}
 		cb
 		( 'eConfig',		'',					o.config.value,		function(){ o.config.value = this.checked },	'config' )
-		( 'eNotesName',		L10n('NOTES'),		o.notes.value,		function(){ o.notes.value = this.checked },		'notes' )
-		( 'eNotationI',		L10n('ABCDEFG'),	o.notation.value[1] == 'EN',	f1,									'abcdefg' )
-		( 'eBemol',			L10n('BEMOL'),		o.notation.value[0], 			f1,									'bemol' )
+		( 'eInversion',		L10n('INVERSION'),	o.inversion.value,	function(){ o.inversion.value = this.checked },	'inversion' )
 		( 'eOctaves',		L10n('OCTAVES'),	o.octaves.value,	function(){ o.octaves.value = this.checked },	'octaves' )
+		( 'eNotesName',		L10n('NOTES'),		o.notes.value,		function(){ o.notes.value = this.checked },		'notes' )
+		( 'eBemol',			L10n('BEMOL'),		o.notation.value[0], 			f1,									'bemol' )
+		( 'eNotationI',		L10n('ABCDEFG'),	o.notation.value[1] == 'EN',	f1,									'abcdefg' )
+		( 'eFretsNumber',	L10n('NUMEROS'),	o.numbers.value,	function(){ o.numbers.value = this.checked },	'numbers' )
 		( 'eFlipV',			L10n('MIROIR'),		o.mirror.value,		function(){ o.mirror.value = this.checked },	'vFlip' )
 		( 'eFlipH',			L10n('GAUCHER'),	o.lefthanded.value,	function(){ o.lefthanded.value = this.checked },'hFlip' )
-		( 'eFretsNumber',	L10n('NUMEROS'),	o.numbers.value,	function(){ o.numbers.value = this.checked },	'numbers' )
 		( 'eSound',			L10n('AUDIO'),		o.sound.value,		function(){ o.sound.value = this.checked },		'sound' )
-		( 'eInversion',		L10n('INVERSION'),	o.inversion.value,	function(){ o.inversion.value = this.checked },	'inversion' )
 		( 'eFx',			L10n('FX'),			o.fx.value,			function(){ o.fx.value = this.checked },		'fx' )
 
 		Append( this.eHTML, eUL, eUL2 )
@@ -315,7 +315,7 @@ class Manche {
 			})
 		o.config.addSubscriber( 'add/remove css class hideForm.', function( b ){ 
 			that.eConfig.checked = b
-			that.eHTML.classList[ ! b ? 'add' : 'remove' ]( 'hideForm' )
+			that.eHTML.classList[ b ? 'add' : 'remove' ]( 'showMenu' )
 			})
 		o.la3.addSubscriber( 'RangeBox La3 + Output', function( n ){
 			eFREQ.value = n
@@ -339,12 +339,12 @@ class Manche {
 			})
 		o.numbers.addSubscriber( 'Checkbox eFretsNumber value +...', function( b ){
 			that.eFretsNumber.checked = b
-			that.eHTML.classList[ ! b ? 'add' : 'remove' ]( 'hideFretsNumber' )
+			that.eHTML.classList[ b ? 'add' : 'remove' ]( 'showFretsNumber' )
 			})
 		o.octaves.addSubscriber( 'Checkbox eOctaves value +...', function( b ){ 
 			that.eOctaves.checked = b
 			that.eHTML.classList[ b ? 'add' : 'remove' ]( 'octaves' )
-			that.map( e => e.innerHTML = b ? e.note + '<sup>'+e.octave+'</sup>' : e.note )
+			that.map( e => that.setNoteName( e, b ))
 			})
 		o.sound.addSubscriber( 'Checkbox eSound value', b => that.eSound.checked = b )
 		o.strings.addSubscriber( 'Checkbox eStrings value +...',function ( n ){
@@ -365,9 +365,9 @@ class Manche {
 					let sNote = aNotes[j%12]
 					let nOctave = ( sNote == sNoteC ) ? ++aTuning[i].octave : aTuning[i].octave
 					let e = that.aCordes[i][j].firstChild
-					e.innerHTML = b ? sNote + '<sup>'+nOctave+'</sup>' : sNote
 					e.note = sNote
 					e.octave = nOctave
+					that.setNoteName( e, b )
 					if( -1 == e.className.indexOf('octave'))
 						e.className += ' octave' + nOctave
 					else
@@ -418,12 +418,16 @@ class Manche {
 		}
 	renameNotes (){
 		let o = this.Config
-		let a = o.notation.getSequence('E')
-		let b = o.octaves.value
+		, a = o.notation.getSequence('E')
+		, b = o.octaves.value
+		, that = this
 		this.map((e,i,j)=>{
 			e.note = o.notation.getNoteName( e.note )
-			e.innerHTML = b ? e.note + '<sup>'+e.octave+'</sup>' : e.note
+			that.setNoteName( e, b )
 			})
+		}
+	setNoteName ( e, bOctave ){
+		e.innerHTML = bOctave ? '<b>'+ e.note + '</b><octave>'+ e.octave +'</octave>' : '<b>'+ e.note +'</b>'
 		}
 	setScale ( sNote, sScaleMask ){
 		let o = this.Config
