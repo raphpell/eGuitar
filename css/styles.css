@@ -369,9 +369,10 @@ UL.interval {
 	box-sizing: border-box;
 	margin: .5em 0 0;
 	padding: 2px;
+	padding-right: 10px;
 	width: auto;
 	display: grid;
-	grid-template-columns: .5fr 1.5fr;
+	grid-template-columns: .5fr 2fr;
 	}
 .harmonieForm LABEL {
 	filter: sepia(1);
@@ -392,7 +393,6 @@ UL.interval {
 .harmonieForm SELECT {
 	grid-column: 2;
 	margin: .25em 0;
-	width: auto;
 	}
 
 /* Tableau d'accords */
