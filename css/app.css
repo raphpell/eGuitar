@@ -50,7 +50,7 @@ BODY {
 	font: normal 1em Verdana;
 	background: #222;
 	color: #FFF;
-	width: 944px;
+	width: 944px; /* 944px 100% */
 	height: auto;
 	}
 HTML, BODY {
@@ -128,10 +128,13 @@ LABEL:hover {
 	}
 #eTarget1 {
 	display:inline-block;
+	width: 100%;
 	}
 #eTarget2 {
 	display: flex;
-	justify-content: space-around;
+	align-items: stretch;
+	justify-content: space-evenly;
+	width: 100%;
 	}
 
 /* TabMenu */

@@ -15,10 +15,15 @@
 	<link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 <body>
+<!--[if IE]>
+<p>Désolé, je ne travaille plus avec Internet Explorer...</p>
+<p>Sorry, I'm not working with Internet Explorer anymore...</p>
+<![endif]-->
 
 <div id="eHead"><img src="logo.png"><h1>eGuitar </h1></div>
 <div id="eLang"></div>
 <h2 id="eTitle">...</h2>
+
 
 <!--
 	<ul>
@@ -46,7 +51,7 @@ eHead.firstChild.onclick = function(){
 	if( confirm( L10n('DELETE_PREF'))) Memoire.clear()
 	}
 
-var oConfig = Config()
+var oConfig = Config(/* { cases: 15 } */)
 
 var oManche = new Manche( "eTarget1", oConfig )
 
@@ -66,7 +71,7 @@ Append( eTarget2, oHF.eHTML )
 
 <a href="#" class="top">&#9650;</a>
 
-<footer><a href="https://github.com/raphpell/eGuitar" target="_blank">Github</a> - <span id="eDateM">Dernière modification le</span> 01/06/2021.</footer>
+<footer><a href="https://github.com/raphpell/eGuitar" target="_blank">Github</a> - <span id="eDateM">Dernière modification le</span> 02/06/2021.</footer>
 
 <script>
 let f = function( e, sL10n ){

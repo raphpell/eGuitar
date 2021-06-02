@@ -9,6 +9,7 @@
 	padding: 0 1px 0 1px; /* Reserved : top = showMenu, bottom = showFretsNumber */
 	position: relative;
 	transition: padding 200ms;
+	width: 100%;
 	/* height : Changé dynamiquement */
 	}
 
@@ -17,12 +18,15 @@
 	box-shadow: 0 0 .5em rgba(0,0,0,.5);
 	position: absolute;
 	white-space: nowrap;
-	width: 910px;
+	width: auto; /*910px;*/
+	right: 30px;
+	left: 0;
 	height: inherit;
 	transition:top 200ms;
 	z-index: 2;
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(70px,1fr));
+	display: flex;
+	justify-content: flex-end;
+	flex-direction: row;
 	}
 .manche SPAN {
 	}
@@ -130,19 +134,16 @@
 
 /* Cases du manche */
 .case {
-	background: #000 url(../sprites/default.png) repeat-y -270px 0;
+	background: #000 url(../img/default/bois.jpg);
 	display: inline-block;
 	height: inherit;
 	position: relative;
 	display: flex;
 	flex-direction: column;
+	width: 50%;
 	}
 .case0 {
-	background: #000 url(../sprites/default.png) repeat-y -190px 0;
-	display: inline-block;
-	height: inherit;
-	position: relative;
-	width: 70px;
+	background: #000;
 	}
 
 /* Notes du manche */
@@ -183,9 +184,7 @@
 
 /* Cordes */
 .corde {
-	background-image: url(../sprites/default.png);
-	background-position: -350px -150px;
-	background-repeat: no-repeat;
+	background: url(../img/default/cordes.png) repeat-x 0 -150px;
 	height: 30px;
 	z-index: 3;
 	position: relative;
@@ -193,46 +192,50 @@
 	justify-content: center;
 	align-items: center;
 	}
-.corde1 { background-position: -350px 0px; }
-.corde2 { background-position: -350px -30px; }
-.corde3 { background-position: -350px -60px; }
-.corde4 { background-position: -350px -90px; }
-.corde5 { background-position: -350px -120px; }
-.corde6 { background-position: -350px -150px; }
+.corde1 { background-position: 0 0; }
+.corde2 { background-position: 0 -30px; }
+.corde3 { background-position: 0 -60px; }
+.corde4 { background-position: 0 -90px; }
+.corde5 { background-position: 0 -120px; }
+.corde6 { background-position: 0 -150px; }
 
 /* Frettes + Numéros des cases */
 .frette {
 	cursor: default;
-	filter: sepia(1);
-	background: url(../sprites/default.png) repeat-y -10px 0;
+	background: url(../img/default/frettes.png) repeat-y -10px 0;
 	height: inherit;
-	left: 65px;
+	right: -5px;
 	position: absolute;
 	top:0px;
 	width: 10px;
 	z-index: 2;
 	}
-.frette SPAN {
+.fretteNum {
 	border-radius: 1em;
 	box-shadow: 0 0 3px #444;
 	font: normal 1.1em 'Times New Roman';
 	height: 26px; /* do not delete */
 	line-height: 26px;
-	left: -65px;
 	margin: 2px;
 	overflow: hidden;
 	opacity: .6;
 	position: absolute;
 	text-align: center;
 	transition:opacity 500ms;
+	left: -2px;
 	bottom: -30px;
-	width: 66px;
+	width: 100%;
 	z-index: 0;
+	}
+.case0 .frette {
+	filter: sepia(0);
+	background: #000 url(../img/default/frettes.png) repeat-y -30px 0;
+	width: 14px;
 	}
 
 /* Incrustations */
 .incrustation {
-	background: url(../sprites/default.png) no-repeat -30px center;
+	background: url(../img/default/incrustation1.png) no-repeat center center;
 	height: 100%;
 	width: 100%;
 	position: absolute;
@@ -240,7 +243,7 @@
 	}
 .case12 .incrustation ,
 .case24 .incrustation {
-	background: url(../sprites/default.png) no-repeat -110px center;
+	background: url(../img/default/incrustation2.png) no-repeat center center;
 	}
 
 /* Octaves */
@@ -306,7 +309,7 @@ UL.interval {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-	width: auto;
+	width: 62%;
 	}
 .interval * {
 	margin: 0;
@@ -366,7 +369,7 @@ UL.interval {
 	box-sizing: border-box;
 	margin: .5em 0 0;
 	padding: 2px;
-	width: 368px;
+	width: auto;
 	display: grid;
 	grid-template-columns: .5fr 1.5fr;
 	}
@@ -389,8 +392,7 @@ UL.interval {
 .harmonieForm SELECT {
 	grid-column: 2;
 	margin: .25em 0;
-	width: fit-content;
-	max-width: 257px;
+	width: auto;
 	}
 
 /* Tableau d'accords */

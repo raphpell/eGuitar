@@ -173,11 +173,10 @@ class Manche {
 					aStrings[j-1][i] = Tag( 'DIV', 'corde corde'+ j ),
 					Tag('SPAN')
 					)
-			if( i!=0 )
-				Append( eCase,
-					Tag('DIV','frette'),
-					Tag('SPAN',{innerHTML:i})
-					)
+			Append( eCase,[
+				Tag('DIV','frette'),
+				Tag('SPAN',{innerHTML:i,className:'fretteNum'})
+				])
 			if( i==3 || i==5 || i==7 || i==9 || i==12 || i==15 || i==17 || i==19 || i==21 || i==24 )
 				Append( eCase, Tag('DIV','incrustation'))
 			this.aCordes = aStrings
@@ -219,7 +218,6 @@ class Manche {
 			eParent.insertBefore( e, eParent.firstChild )
 			}
 
-		eParent.style.width = 30 + (nCases+1)*70 +'px'
 		eParent.style.height = nCordes*30 +'px'
 		return eParent
 		}
