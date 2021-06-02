@@ -563,7 +563,7 @@ UL.interval {
 	}
 
 /* Tunings list */
-.tunings {
+DL.tunings {
 	font-size: 0.8em;
 	}
 .tunings DT {

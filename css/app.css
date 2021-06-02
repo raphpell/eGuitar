@@ -1,5 +1,24 @@
+BODY {
+	font: normal 1em Verdana;
+	background: #222;
+	color: #FFF;
+	width: 944px; /* 944px 100% */
+	height: auto;
+	}
+
 @media only screen and (max-width: 959px) {
+	BODY {
+		width: 100%;
+		min-width: 560px;
+		}
 	* { transition: none !important; }
+	#eTitle {
+		clear:both;
+		}
+	LI.strings,
+	LI.tunings {
+		display: none !important;
+		}
 	UL.interval {
 		width: 100% !important;
 		}
@@ -12,11 +31,16 @@
 		justify-content: flex-start;
 		width: 100% !important;
 		align-items: center;
-		height: 50px !important;
 		}
 	.harmonieForm * {
 		line-height: 30px !important;
 		height: 30px !important;
+		}
+	}
+	
+@media only screen and (max-width: 733px) {
+	.harmonieForm {
+		display: grid !important;
 		}
 	}
 
@@ -46,13 +70,6 @@
 		}
 	}
 
-BODY {
-	font: normal 1em Verdana;
-	background: #222;
-	color: #FFF;
-	width: 944px; /* 944px 100% */
-	height: auto;
-	}
 HTML, BODY {
 	scroll-behavior: smooth;
 	margin: 0 auto;

@@ -231,7 +231,7 @@ class Manche {
 		let e
 
 		sId = 'eCordes'+ this.ID
-		Append( eUL, Tag('LI'),[
+		Append( eUL, Tag('LI','strings'),[
 			Tag( 'LABEL', { innerHTML: L10n('CORDES'), htmlFor:sId }),
 			that.eStrings = e = Tag( 'SELECT', { id:sId })
 			])
@@ -244,7 +244,7 @@ class Manche {
 				}))
 
 		sId = 'eAccordage'+ this.ID
-		Append( eUL, Tag('LI'),[
+		Append( eUL, Tag('LI','tunings'),[
 			Tag( 'LABEL', { innerHTML: L10n('ACCORDAGE'), htmlFor:sId }),
 			that.eTunings = e = Tag( 'SELECT', { id:sId })
 			])
