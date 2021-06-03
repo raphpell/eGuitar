@@ -52,6 +52,7 @@ L10n.FR ={
 	// App
 	DELETE_PREF: "Effacer vos préférences",
 	CORDES:		'Cordes',
+	CASES:		'Cases',
 	ACCORDAGE:	'Accordage',
 	ACCORDAGES:	'Accordages',
 	ABCDEFG:	'Notation anglaise',
@@ -120,6 +121,7 @@ L10n.EN ={
 	// App
 	DELETE_PREF: "Delete your preferences",
 	CORDES:		'Strings',
+	CASES:		'Cases',
 	ACCORDAGE:	'Tuning',
 	ACCORDAGES:	'Tunings',
 	ABCDEFG:	'ABCDEFG',

@@ -2,10 +2,19 @@ BODY {
 	font: normal 1em Verdana;
 	background: #222;
 	color: #FFF;
-	width: 944px; /* 944px 100% */
+	width: 100%; /* 944px 100% */
 	height: auto;
 	}
 
+
+@media only screen and (max-width: 1200px) {
+	BODY {
+		width: 944px; /* 944px 100% */
+		}
+	LI.tunings {
+		display: none !important;
+		}
+	}
 @media only screen and (max-width: 959px) {
 	BODY {
 		width: 100%;
@@ -39,6 +48,9 @@ BODY {
 	}
 	
 @media only screen and (max-width: 733px) {
+	LI.frequence {
+		display: none !important;
+		}
 	.harmonieForm {
 		display: grid !important;
 		}
@@ -55,15 +67,27 @@ BODY {
 		color: #FFF !important;
 		}
 	* {
+		box-shadow: none !important;
 		background-color: #fff !important;
 		color: #000 !important;
+		}
+		
+	.suggestion H2,
+	.suggestion TD.none {
+		filter: none !important;;
 		}
 	.top,
 	.mancheForm,
 	.harmonieForm,
 	.lang,
-	.layout label {
+	.layout > label {
 		display:none !important;
+		}
+	.corde { z-index: 1 !important; }
+	.frette { z-index: 2 !important; }
+	.eGuitar,
+	.interval {
+		border: none !important;
 		}
 	.interval .selected {
 		border: 2px solid #000 !important;

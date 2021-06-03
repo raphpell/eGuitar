@@ -79,6 +79,7 @@ let Config =( function (){
 		}
 	// Variables globales
 	GlobalVars([
+		[ "cases", 12 ],
 		[ "config", 0 ],
 		[ "fx", 1 ],
 		[ "inversion", 1 ],
@@ -98,8 +99,10 @@ let Config =( function (){
 		])
 
 	const DefaultSettings ={ // Doit contenir tous les attributs possibles
-		cases: 12,
+		stringsMax: 10,
+		casesMax: 24,
 		// Défaut : SpecialVars avec répercution localStorage
+		cases: null,
 		config: null,
 		fx: null,
 		inversion: null,
@@ -138,11 +141,10 @@ let Config =( function (){
 class Manche {
 	constructor ( sNodeID, oConfig ){
 		this.ID = ++Config.ID
-		this.stringsMax = 10
 		let that = this
 		, o = this.Config = oConfig || Config()
 		, eParent = document.getElementById( sNodeID )
-		this.eHTML = this.createHTML( o.strings.value, o.cases )
+		this.eHTML = this.createHTML( o.strings.value, o.cases.value )
 		Append( eParent, this.eHTML )
 		this.createMenuHTML()
 
@@ -230,18 +232,25 @@ class Manche {
 		let eUL = Tag( 'UL', 'mancheForm' )
 		let e
 
+		sId = 'eCases'+ this.ID
+		Append( eUL, Tag('LI','cases'),[
+			Tag( 'LABEL', { innerHTML: L10n('CASES'), htmlFor:sId }),
+			that.eCases = e = Tag( 'SELECT', { id:sId })
+			])
+		e.onkeyup = e.onchange = ()=> o.cases.value = parseInt( that.eCases.value )
+		for(let i=5, ni=o.casesMax+1; i<ni; i++ )
+			Append( e, Tag( 'OPTION', { value: i, innerHTML: i }))
+		e.value = o.cases.value
+
 		sId = 'eCordes'+ this.ID
 		Append( eUL, Tag('LI','strings'),[
 			Tag( 'LABEL', { innerHTML: L10n('CORDES'), htmlFor:sId }),
 			that.eStrings = e = Tag( 'SELECT', { id:sId })
 			])
-		e.onkeyup = e.onchange = ()=> o.strings.value = that.eStrings.value
-		for(let i=4, ni=this.stringsMax+1; i<ni; i++ )
-			Append( e, Tag( 'OPTION', {
-				value: i,
-				innerHTML: i,
-				selected: i == o.strings.value
-				}))
+		e.onkeyup = e.onchange = ()=> o.strings.value = parseInt( that.eStrings.value )
+		for(let i=4, ni=o.stringsMax+1; i<ni; i++ )
+			Append( e, Tag( 'OPTION', { value: i, innerHTML: i }))
+		e.value = o.strings.value
 
 		sId = 'eAccordage'+ this.ID
 		Append( eUL, Tag('LI','tunings'),[
@@ -253,7 +262,7 @@ class Manche {
 
 		let eFREQ
 		sId = 'eFREQ'+ this.ID
-		Append( eUL, Tag('LI'), [
+		Append( eUL, Tag('LI','frequence'), [
 			Tag('LABEL', { innerHTML: o.notation.getNoteName('La')+"3 ", htmlFor:sId }),
 			eFREQ = Tag('INPUT',{
 				id: sId,
@@ -304,16 +313,21 @@ class Manche {
 				:( bFlipV ? 'droitier_flipped' : 'droitier' )
 				)
 			}
+		o.cases.addSubscriber( 'Selectbox eCases value +...',function ( n ){
+			that.eCases.value = n
+			that.createHTML( that.Config.strings.value, n )
+			that.setTunings ()
+			})
+		o.config.addSubscriber( 'add/remove css class hideForm.', function( b ){ 
+			that.eConfig.checked = b
+			that.eHTML.classList[ b ? 'add' : 'remove' ]( 'showMenu' )
+			})
 		o.fx.addSubscriber( 'add/remove css class fx.', function( b ){ 
 			that.eFx.checked = b
 			document.body.parentNode.classList[ ! b ? 'add' : 'remove' ]( 'nofx' )
 			})
 		o.inversion.addSubscriber( 'refresh list', function( b ){ 
 			o.mask.refresh()
-			})
-		o.config.addSubscriber( 'add/remove css class hideForm.', function( b ){ 
-			that.eConfig.checked = b
-			that.eHTML.classList[ b ? 'add' : 'remove' ]( 'showMenu' )
 			})
 		o.la3.addSubscriber( 'RangeBox La3 + Output', function( n ){
 			eFREQ.value = n
@@ -345,9 +359,9 @@ class Manche {
 			that.map( e => that.setNoteName( e, b ))
 			})
 		o.sound.addSubscriber( 'Checkbox eSound value', b => that.eSound.checked = b )
-		o.strings.addSubscriber( 'Checkbox eStrings value +...',function ( n ){
+		o.strings.addSubscriber( 'Selectbox eStrings value +...',function ( n ){
 			that.eStrings.value = n
-			that.createHTML( n, that.Config.cases )
+			that.createHTML( n, that.Config.cases.value )
 			that.setTunings ()
 			})
 		o.tuning.addSubscriber( 'Selectbox eTunings value +...', function( sTuning ){
@@ -359,7 +373,7 @@ class Manche {
 			for(let i=0, ni=o.strings.value; i<ni; i++ ){
 				aTuning[i] = { note:aTuning[i].slice(0,-1), octave:aTuning[i].slice(-1) }
 				let aNotes = o.notation.getSequence( aTuning[i].note )
-				for(let j=0, nj=o.cases; j<=nj; j++ ){
+				for(let j=0, nj=o.cases.value; j<=nj; j++ ){
 					let sNote = aNotes[j%12]
 					let nOctave = ( sNote == sNoteC ) ? ++aTuning[i].octave : aTuning[i].octave
 					let e = that.aCordes[i][j].firstChild
@@ -406,7 +420,7 @@ class Manche {
 	map ( fFunction ){
 		let o = this.Config
 		for(let i=0, ni=o.strings.value; i<ni; i++ )
-			for(let j=0, nj=o.cases+1; j<nj; j++ )
+			for(let j=0, nj=o.cases.value+1; j<nj; j++ )
 				fFunction( this.aCordes[i][j].firstChild, i, j )
 		}
 	removeNote ( sNote ){
