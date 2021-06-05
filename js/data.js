@@ -89,14 +89,11 @@ const Tunings =[
 	['G4,B2,E3,G#3,B3','Diapson Long (Banjo)'],
 
 	/* Ukulélé */
-	['D5,G4,B4,E5','Sopranino/piccolo standard (Ukulélé )'],
-	['G4,C4,E4,A4','Sopranino/piccolo alternatif (Ukulélé)'],
-	['G4,C4,E4,A4','Soprano standard (Ukulélé )'],
+	['D5,G4,B4,E5','Sopranino/piccolo standard (Ukulélé)'],
+	['G4,C4,E4,A4','Soprano standard (Ukulélé)'],
 	['A4,D4,F♯4,B4','Soprano alternatif (Ukulélé)'],
-	['G4,C4,E4,A4','Concert standard (Ukulélé )'],
-	['G3,C4,E4,A4','Concert alternatif (Ukulélé)'],
-	['G3,C4,E4,A4','Ténor standard (Ukulélé )'],
-	['G4,C4,E4,A4','Ténor alternatif (Ukulélé)'],
+	['G4,C4,E4,A4','Concert standard (Ukulélé)'],
+	['G3,C4,E4,A4','Ténor standard (Ukulélé)'],
 	['D3,G3,B3,E4','Baryton (Ukulélé)'],
 	['E2,A2,D3,G3','Basse (Ukulélé)'],
 
