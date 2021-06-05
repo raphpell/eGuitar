@@ -2,16 +2,17 @@
 
 eGuitar permet de visualiser l'emplacement des notes sur le manche.
 
-Il est ainsi possible de voir facilement:
+Après sélection d'une tonique, il est ainsi possible de voir facilement:
 - une gamme
 - un arpège
-selon une tonique.
 
-Vous avez aussi la possibilité de connaître:
-- les accords inclus dans "l'intervalle sélectionné",
-- Les gammes incluant cet "intervalle".
+Vous pouvez aussi choisir vos propres notes en cliquant sur le "Manche" ou mon "IntervalBox".
 
-Vous pouvez aussi  :
+Les tableaux sous le manche afficherons:
+- les accords inclus dans la valeur de l'IntervalBox,
+- Les gammes et arpèges incluant cette valeur.
+
+Vous pouvez si vous le souhaitez:
 - définir l'orientation du manche,
 - afficher les octaves et/ou les noms des notes,
 - choisir la notation à utiliser,
@@ -22,4 +23,4 @@ Vous pouvez aussi  :
 
 [![Preview](https://github.com/raphpell/eGuitar/raw/gh-pages/preview1.png "allez y !")](http://raphpell.github.io/eGuitar/)
 
-Faites du bruit ! STOP PUB !
+Pratiqué tous les jours !
