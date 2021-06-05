@@ -92,7 +92,6 @@ const Tunings =[
 	['D5,G4,B4,E5','Sopranino/piccolo standard (Ukulélé)'],
 	['G4,C4,E4,A4','Soprano standard (Ukulélé)'],
 	['A4,D4,F♯4,B4','Soprano alternatif (Ukulélé)'],
-	['G4,C4,E4,A4','Concert standard (Ukulélé)'],
 	['G3,C4,E4,A4','Ténor standard (Ukulélé)'],
 	['D3,G3,B3,E4','Baryton (Ukulélé)'],
 	['E2,A2,D3,G3','Basse (Ukulélé)'],
