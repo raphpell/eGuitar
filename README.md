@@ -1,20 +1,25 @@
 # [eGuitar](http://raphpell.github.io/eGuitar/)
 
-eGuitar est une aide pour visualiser :
+eGuitar permet de visualiser l'emplacement des notes sur le manche.
+
+Il est ainsi possible de voir facilement:
 - une gamme
 - un arpège
-- les accords inclus dans une gamme
-- Les gammes incluant une autre gamme
+selon une tonique.
+
+Vous avez aussi la possibilité de connaître:
+- les accords inclus dans "l'intervalle sélectionné",
+- Les gammes incluant cet "intervalle".
 
 Vous pouvez aussi  :
-- définir l'orientation de votre manche.
-- mettre en avant les octaves.
-- choisir la notation à utiliser.
-- choisir un accordage prédéfini pour basse, banjo et guitares.
-- régler la fréquence du La et mettre du son (experimental)
+- définir l'orientation du manche,
+- afficher les octaves et/ou les noms des notes,
+- choisir la notation à utiliser,
+- choisir un accordage prédéfini: guitare, basse, banjo, ukulélé...,
+- (experimental) mettre du son et régler la fréquence du LA3.
 
 [Cette application est une page web alors consulter là !](http://raphpell.github.io/eGuitar/)
 
 [![Preview](https://github.com/raphpell/eGuitar/raw/gh-pages/preview1.png "allez y !")](http://raphpell.github.io/eGuitar/)
 
-Faites du bruit !
+Faites du bruit ! STOP PUB !
