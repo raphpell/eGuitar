@@ -1,6 +1,6 @@
 oChords ={
 	key: 'D',
-	suffix: 'major',
+	suffix: 'M',
 	positions: [
 		{
 			frets: 'xx0232',
