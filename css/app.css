@@ -19,7 +19,7 @@ BODY {
 		width: 100%;
 		min-width: 560px;
 		}
-	* { transition: none !important; }
+	/* * { transition: none !important; } */
 	#eTitle {
 		clear:both;
 		}
