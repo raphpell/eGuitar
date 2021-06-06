@@ -389,12 +389,11 @@ class Manche {
 			o.mask.refresh()
 			})
 		}
-	eraseNotes (){
+	eraseTones (){
 		var a = this.eHTML.getElementsByClassName('corde')
 		for(var i=0, ni=a.length; i<ni; i++ ){
 			var e = a[i]
 			e.firstChild.className = e.firstChild.className.replace( /ton\d[^\s]*/gim, '' )
-			e.className = e.className.replace( /position\d[^\s]*/gim, '' )
 			}
 		}
 	getNotes ( sNote ){
@@ -407,10 +406,6 @@ class Manche {
 			}
 		return aElts
 		}
-	highlightNote ( nCorde, nCase, sClassName ){
-		var e = this.aCordes[ nCorde-1 ][ nCase ]
-		if( e ) e.classList.add( sClassName )
-		}
 	highlightNotes ( sNote, sClassName ){
 		this.getNotes( sNote ).forEach( e => {
 			e.className = e.className.replace( /ton\d+[^\s]*/gim, '' )
@@ -422,11 +417,6 @@ class Manche {
 		for(let i=0, ni=o.strings.value; i<ni; i++ )
 			for(let j=0, nj=o.cases.value+1; j<nj; j++ )
 				fFunction( this.aCordes[i][j].firstChild, i, j )
-		}
-	removeNote ( sNote ){
-		this.getNotes( sNote ).forEach( e => {
-			e.className = e.className.replace( /ton\d+[^\s]*/gim, '' )
-			})
 		}
 	renameNotes (){
 		let o = this.Config
@@ -450,7 +440,7 @@ class Manche {
 			sNote = o.tonic.value
 			sScaleMask = o.mask.value
 			}
-		this.eraseNotes()
+		this.eraseTones()
 		var a = o.notation.getSequence( sNote )
 		var aNotes = []
 		
@@ -480,6 +470,18 @@ class Manche {
 		o.tuning.value = eSelect.value
 		}
 
+	// futur methods
+	cssCorde ( nCorde, sMethod, sClassName ){
+		var a = this.aCordes[ nCorde-1 ]
+		a.forEach( e => {
+			if( e ) e.classList[ sMethod ]( sClassName )
+			})
+		}
+	cssNote ( nCorde, nCase, sMethod, sClassName ){
+		var e = this.aCordes[ nCorde-1 ][ nCase ]
+		if( e ) e.classList[ sMethod ]( sClassName )
+		}
+	
 	// Config handlers
 	hideForm ( b ){ return this.Config.config.value = b }
 	setFretsNumber ( b ){ return this.Config.numbers.value = b }

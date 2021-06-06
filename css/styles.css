@@ -161,12 +161,12 @@
 	height: 30px;
 	width: 75%;
 	overflow: hidden;
-	opacity:0.1;
+	opacity: 0.1;
 	text-shadow: 0 0 2px #000;
-	transition:width 200ms, left 200ms, margin 200ms, border 200ms, line-height 200ms;
+	transition: width 200ms, left 200ms, margin 200ms, border 200ms, line-height 200ms;
 	}
 .case .corde SPAN:hover {
-	border-color: #FFF;
+	border-color: #FFF ;
 	box-shadow: 0 0 1em #000, 0 0 1em #FFF, inset 0 0 .2em #FFF;
 	}
 .case .corde SPAN SUP {
@@ -192,12 +192,20 @@
 	justify-content: center;
 	align-items: center;
 	}
+.corde:hover {
+	z-index: 4;
+	}
 .corde1 { background-position: 0 0; }
 .corde2 { background-position: 0 -30px; }
 .corde3 { background-position: 0 -60px; }
 .corde4 { background-position: 0 -90px; }
 .corde5 { background-position: 0 -120px; }
 .corde6 { background-position: 0 -150px; }
+
+/* highlight... */
+.contrast50 SPAN {
+	filter: contrast(50%) blur(4px);
+	}
 
 /* Frettes + Numéros des cases */
 .frette {
