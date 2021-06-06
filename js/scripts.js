@@ -34,6 +34,26 @@ let Config =( function (){
 				'♭':{	FR:['La',	'Si♭',	'Si',	'Do',	'Ré♭',	'Ré',	'Mi♭',	'Mi',	'Fa',	'Sol♭',	'Sol',	'La♭'],
 						EN:['A',	'B♭',	'B',	'C',	'D♭',	'D',	'E♭',	'E',	'F',	'G♭',	'G',	'A♭']}
 				}
+			function translateNote ( sNote ){
+				if( ~sNote.indexOf('b')) sNote = sNote.replace( /b/, '♭' )
+				if( ~sNote.indexOf('#')) sNote = sNote.replace( /#/, '♯' )
+				return sNote
+				}
+			function getNotation ( sNote ){
+				let sIndex1
+				if( ~sNote.indexOf('♯')) sIndex1 = "♯"
+				if( ~sNote.indexOf('♭')) sIndex1 = "♭"
+				let sIndex2 = 
+					! sIndex1 && sNote.length == 1 || sIndex1 && sNote.length == 2 
+					? 'EN'
+					: 'FR'
+				if( ! sIndex1 ) sIndex1 = '♭'
+				return Notations[ sIndex1 ][ sIndex2 ]
+				}
+			function throwError ( sNote ){
+				throw Error ( 'Invalid note name. '+ sNote )
+				}
+
 			return function (){
 				this.getSequence =function( sNote ){
 					var a = this.value
@@ -44,24 +64,23 @@ let Config =( function (){
 					return a.slice( nIndex ).concat( a.slice( 0, nIndex))
 					}
 				this.getNoteName =function( sNote ){
-					let sIndex1
-					if( ~sNote.indexOf('b')) sNote = sNote.replace( /b/, '♭' )
-					if( ~sNote.indexOf('♭')) sIndex1 = "♭"
-					if( ~sNote.indexOf('#')) sNote = sNote.replace( /#/, '♯' )
-					if( ~sNote.indexOf('♯')) sIndex1 = "♯"
-
-					let sIndex2 = 
-						! sIndex1 && sNote.length == 1 || sIndex1 && sNote.length == 2 
-						? 'EN'
-						: 'FR'
-					if( ! sIndex1 ) sIndex1 = this.value[0]?'♭':'♯'
-
-					let a = Notations[sIndex1][sIndex2]
+					sNote = translateNote( sNote )
+					let a = getNotation( sNote )
 					for(let i=0; i<12; i++ )
-						if( a[i]== sNote )
+						if( a[i] == sNote )
 							return this.getSequence()[i]
+					throwError( sNote )
+					}
+				this.getDefaultNoteName =function( sNote ){
+					sNote = translateNote( sNote )
+					let a = getNotation( sNote )
+					let n = 0
+					for(; n<12; n++ )
+						if( a[n] == sNote )
+							break;
 
-					throw Error ( 'Invalid note name. '+ sNote )
+					if( n < 12 ) return Notations['♭']['EN'][n]
+					throwError( sNote )
 					}
 				}
 			})()
@@ -568,11 +587,44 @@ class IntervalBox {
 		return null
 		}
 	}
+
+ChordsBox =(function(){
+	let oCache = {}
 	
-class ChordsBox {
-	constructor (){
+	class ChordsBox {
+		constructor ( oConfig ){
+			this.Config = oConfig
+			this.aChords = null
+			}
+		createHTML (){
+			}
+		defineChords (){
+			if( oChords ){
+				oCache[ oChords.key + oChords.suffix ] = oChords.positions
+				}
+			}
+		first (){}
+		getNote ( sNote ){
+			this.Config.notation
+			}
+		last (){}
+		next (){}
+		previous (){}
+		setChords ( sTonic, sChord ){
+			oChords = null // global
+			let o = this.Config
+			, that = this
+			, sTuning = o.tuning.value
+			Scripts.add(
+				'js/Chords/'+ sTuning.replace( ',','-') +'/'+ sTonic +'/'+ sChord +'.js',
+				()=>{
+					
+					}
+				)
+			}
 		}
-	}
+	return ChordsBox
+})();
 
 let Harmonie ={
 	noname:'...',
