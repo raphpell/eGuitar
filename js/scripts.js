@@ -635,9 +635,9 @@ let Harmonie ={
 			Config.tonic.addSubscriber( 'HarmonieForm selectBox tonic value', sTonic => eTonique.value = sTonic )
 			Config.mask.addSubscriber( 'HarmonieForm selectBox chords et scales values + publish scale', sMask =>{
 				eChords.value = eScale.value = sMask
-				if( eScale.value ) Config.scale.value = [ sMask, eScale.selectedOptions[0].innerHTML ]
-				else if( eChords.value ) Config.scale.value = [ sMask, eChords.selectedOptions[0].innerHTML ]
-				else Config.scale.value = [ sMask, Harmonie.noname ]
+				if( eScale.value ) Config.scale.value = [ sMask, eScale.selectedOptions[0].innerHTML, 'scale' ]
+				else if( eChords.value ) Config.scale.value = [ sMask, eChords.selectedOptions[0].innerHTML, 'chord' ]
+				else Config.scale.value = [ sMask, Harmonie.noname, 'noname' ]
 				})
 			Config.scale.addSubscriber( 'HarmonieForm values', a => eScale.value = a[0] )
 			Config.notation.addSubscriber( 'HarmonieForm selectBox tonic choix', function(){
@@ -704,9 +704,10 @@ let Harmonie ={
 			var sTonique = sTonique || this.Config.tonic.value
 			var sScaleMask = sMask || this.Config.scale.value[0]
 			this.sScaleName = sName || this.Config.scale.value[1]
+			this.sType = this.Config.scale.value[1] || 'scale'
 			this.setChords( sTonique, sScaleMask )
 			}
-		getChordName ( sChordTonic, sChordMask, sChordName ){
+		getChordName ( sChordTonic, sChordMask, sChordName, sType ){
 			let aNotes = this.Config.notation.getSequence( sChordTonic )
 			// accord inversion
 			if( ~sChordName.indexOf( L10n('INVERSION'))){
@@ -729,10 +730,10 @@ let Harmonie ={
 				// 4ème...
 				if( ~sChordName.indexOf( L10n('QUATRIEME')))
 					sRealTonic = aNotes[ indices[ indices.length-4 ]]
-				return sRealTonic + sChordName.replace( /( \(.*\))/gim, '/'+ sChordTonic+ ' $1' )
+				return sRealTonic + sChordName.replace( /( \(.*\))/gim, '/'+ sChordTonic )
 				}
 			// sinon
-			return sChordTonic + sChordName
+			return sChordTonic + ( sType=='scale' ? ' ' : '' ) + sChordName
 			}
 		// Retourne un tableau des accords présent dans une gamme
 		getChordsSuggestion ( sTonique, sScaleMask ){
@@ -841,7 +842,7 @@ let Harmonie ={
 			let e = Tag( 'CAPTION', { tonique:sScaleTonic, scale:sScaleMask }), s
 
 //			if( this.sScaleName != Harmonie.noname ){
-				s = this.getChordName( sScaleTonic, sScaleMask, this.sScaleName )
+				s = this.getChordName( sScaleTonic, sScaleMask, this.sScaleName, this.Config.scale.value[2] )
 				if( s ){
 					e.innerHTML = '<h2>'+ s +'</h2>'
 					if( eTitle ) eTitle.innerHTML = s
