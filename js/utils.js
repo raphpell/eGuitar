@@ -94,9 +94,9 @@ Events ={
 		}
 	}
 Scripts={
-	add :function( url, fOnload ){
+	add :function( url, fOnload, fOnError ){
 		document.head.appendChild( Tag('SCRIPT',{
-			onerror: Scripts.loadError,
+			onerror: fOnError || Scripts.loadError,
 			onload: fOnload,
 			src: url
 			}))

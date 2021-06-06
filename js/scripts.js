@@ -500,6 +500,14 @@ class Manche {
 		var e = this.aCordes[ nCorde-1 ][ nCase ]
 		if( e ) e.classList[ sMethod ]( sClassName )
 		}
+	lowlight (){
+		for(var i=1, ni=this.aCordes.length; i<=ni; i++ )
+			this.cssCorde( i, 'add', 'contrast50' )
+		}
+	highlight (){
+		for(var i=1, ni=this.aCordes.length; i<=ni; i++ )
+			this.cssCorde( i, 'remove', 'contrast50' )
+		}
 	
 	// Config handlers
 	hideForm ( b ){ return this.Config.config.value = b }
@@ -588,39 +596,95 @@ class IntervalBox {
 		}
 	}
 
+let oChords
 ChordsBox =(function(){
-	let oCache = {}
-	
-	class ChordsBox {
-		constructor ( oConfig ){
-			this.Config = oConfig
-			this.aChords = null
-			}
-		createHTML (){
-			}
-		defineChords (){
+	let sTuning
+	let oCache ={
+		refresh :function(){
 			if( oChords ){
-				oCache[ oChords.key + oChords.suffix ] = oChords.positions
+				if( ! oCache[ sTuning ]) oCache[ sTuning ] = {}
+				oCache[ sTuning ][ oChords.key + oChords.suffix ] = oChords.positions
 				}
 			}
-		first (){}
-		getNote ( sNote ){
-			this.Config.notation
+		}
+	function getFileName ( sChord ){
+		let o ={
+			m: "minor",
+			M: "major"
 			}
-		last (){}
-		next (){}
-		previous (){}
-		setChords ( sTonic, sChord ){
-			oChords = null // global
-			let o = this.Config
-			, that = this
-			, sTuning = o.tuning.value
-			Scripts.add(
-				'js/Chords/'+ sTuning.replace( ',','-') +'/'+ sTonic +'/'+ sChord +'.js',
-				()=>{
-					
+		return o[ sChord ] || sChord.replace( /\//, '_' )
+		}
+
+	class ChordsBox {
+		constructor ( oManche ){
+			this.oManche = oManche
+			this.createHTML()
+			}
+		createHTML (){
+			let that = this
+			, oManche = this.oManche
+			, o = oManche.Config
+			Append( this.eHTML = Tag('UL','chordsbox'))
+			this.eHTML.onclick =function( evt ){
+				var e = Events.element( evt )
+				if( e.nodeName == 'LI' ){
+					oManche.lowlight()
+					if( e.info ){
+						console.info( e.info )
+						let s = e.info.frets, sChar
+						for(let i=0, ni=s.length; i<ni; i++ ){
+							sChar = s.charAt(i)
+							if( sChar!='x' ) oManche.cssNote( i+1, parseInt( sChar, 16 ), 'remove', 'contrast50' )
+							}
+						}
 					}
-				)
+				}
+			sTuning = o.tuning.value.replace( /\,/g,'-')
+			o.tuning.addSubscriber( 'set cache info', s =>{
+				sTuning = s.replace( /\,/g,'-')
+				})
+			o.scale.addSubscriber( 'load chords', ()=>{
+				oManche.highlight()
+				if( o.scale.value[2] == 'chord' )
+					that.loadChords( o.tonic.value, o.scale.value[1])
+				})
+			}
+		defineChords (){
+			let a = oCache[ sTuning ][ this.sTonic + this.sChord ]
+			this.eHTML.innerHTML = ''
+			if( a && a.length ){
+				let aElts = []
+				for(var i=0, ni=a.length; i <ni; i++ ){
+					aElts.push( Tag('LI' ,{ innerHTML:i+1, info:a[i] }))
+					}
+				Append( this.eHTML, aElts )
+			}else{
+				this.eHTML.innerHTML = '...'
+				}
+			}
+		loadChords ( sTonic, sChord ){
+			oChords = null // global
+			let o = this.oManche.Config
+			, that = this
+			this.sTonic = sTonic = o.notation.getDefaultNoteName( sTonic )
+			this.sChord = sChord
+			
+			oCache[ sTuning ] = oCache[ sTuning ] || {}
+			if( oCache[ sTuning ][ sTonic+sChord ] !== undefined ){
+				// utilisation du cache
+				that.defineChords()
+			}else{
+				oCache[ sTuning ][ sTonic+sChord ] = null
+				// chargement du fichier
+				Scripts.add(
+					'js/Chords/'+ sTuning +'/'+ sTonic +'/'+ getFileName( sChord ) +'.js',
+					()=>{
+						oCache.refresh()
+						that.defineChords()
+						},
+					()=> that.defineChords()
+					)
+				}
 			}
 		}
 	return ChordsBox

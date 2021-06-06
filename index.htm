@@ -51,10 +51,13 @@ eHead.firstChild.onclick = function(){
 	if( confirm( L10n('DELETE_PREF'))) Memoire.clear()
 	}
 
-var oConfig = Config(/* { cases: 15 } */)
+var oConfig = Config()
 
 var oManche = new Manche( "eTarget1", oConfig )
-
+/* experimental
+var oCB = new ChordsBox( oManche )
+Append( eTarget1, oCB.eHTML )
+*/
 var oIB = new IntervalBox( oConfig )
 Append( eTarget2, oIB.eHTML )
 
