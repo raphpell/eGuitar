@@ -93,3 +93,16 @@ Events ={
 		return false
 		}
 	}
+Scripts={
+	add :function( url, fOnload ){
+		document.head.appendChild( Tag('SCRIPT',{
+			onerror: Scripts.loadError,
+			onload: fOnload,
+			src: url
+			}))
+		return this
+		},
+	loadError :function( oError ){
+		throw new URIError("The script " + oError.target.src + " didn't load correctly.");
+		}
+	}
