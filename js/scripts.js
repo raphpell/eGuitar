@@ -568,6 +568,11 @@ class IntervalBox {
 		return null
 		}
 	}
+	
+class ChordsBox {
+	constructor (){
+		}
+	}
 
 let Harmonie ={
 	noname:'...',
@@ -724,10 +729,10 @@ let Harmonie ={
 				// 4ème...
 				if( ~sChordName.indexOf( L10n('QUATRIEME')))
 					sRealTonic = aNotes[ indices[ indices.length-4 ]]
-				return sChordTonic +'/'+ sRealTonic + sChordName
+				return sRealTonic + sChordName.replace( /( \(.*\))/gim, '/'+ sChordTonic+ ' $1' )
 				}
 			// sinon
-			return sChordTonic +' '+ sChordName
+			return sChordTonic + sChordName
 			}
 		// Retourne un tableau des accords présent dans une gamme
 		getChordsSuggestion ( sTonique, sScaleMask ){
