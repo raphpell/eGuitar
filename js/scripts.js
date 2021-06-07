@@ -614,8 +614,8 @@ ChordsBox =(function(){
 			if( oChords ){
 				if( ! oCache[ sTuning ]) oCache[ sTuning ] = {}
 				if( sWaitChord != ( oChords.key + oChords.suffix ))
-					throw Error ('Why ?'+ sWaitChord +"!="+ oChords.key + oChords.suffix )
-				oCache[ sTuning ][ oChords.key + oChords.suffix ] = oChords.positions
+					; //throw Error ('Why ?'+ sWaitChord +"!="+ oChords.key + oChords.suffix )
+				oCache[ sTuning ][ sWaitChord ] = oChords.positions
 				}
 			}
 		}
