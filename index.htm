@@ -54,10 +54,7 @@ eHead.firstChild.onclick = function(){
 var oConfig = Config()
 
 var oManche = new Manche( "eTarget1", oConfig )
-/* experimental
-var oCB = new ChordsBox( oManche )
-Append( eTarget1, oCB.eHTML )
-*/
+
 var oIB = new IntervalBox( oConfig )
 Append( eTarget2, oIB.eHTML )
 
@@ -74,7 +71,7 @@ Append( eTarget2, oHF.eHTML )
 
 <a href="#" class="top">&#9650;</a>
 
-<footer><a href="https://github.com/raphpell/eGuitar" target="_blank">Github</a> - <span id="eDateM">Dernière modification le</span> 06/06/2021.</footer>
+<footer><a href="https://github.com/raphpell/eGuitar" target="_blank">Github</a> - <span id="eDateM">Dernière modification le</span> 07/06/2021.</footer>
 
 <script>
 let f = function( e, sL10n ){
@@ -93,6 +90,10 @@ if( sId ) window[ sId ].checked = true
 var oHT = new Harmonie.Table ( oConfig )
 Append( eChords, oHT.eHTML )
 oHT.displayChords()
+
+/* experimental */
+var oCB = new ChordsBox( oManche )
+Append( eTarget1, oCB.eHTML )
 
 var oMasks1 = new Harmonie.Mask ( Scales, oConfig, eScales )
 var oMasks2 = new Harmonie.Mask ( Arpeggio, oConfig, eArpeggios )

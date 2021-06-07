@@ -79,8 +79,14 @@ let Config =( function (){
 						if( a[n] == sNote )
 							break;
 
-					if( n < 12 ) return Notations['♭']['EN'][n]
+					if( n < 12 ) return Notations['♭']['EN'][n].replace( '♭', 'b' )
 					throwError( sNote )
+					}
+				this.getDefaultSequence =function( sNote ){
+					sNote = translateNote( sNote )
+					let a = getNotation( sNote )
+					var nIndex = a.indexOf( sNote )
+					return a.slice( nIndex ).concat( a.slice( 0, nIndex))
 					}
 				}
 			})()
@@ -113,6 +119,7 @@ let Config =( function (){
 		[ "scale", ['100101010010', L10n('mPenta')]], // gamme par défaut mPenta
 		[ "sound", 0 ],
 		[ "strings", 6 ],
+		[ "chord", null ],
 		[ "tonic", 'A' ],
 		[ "tuning", 'E2,A2,D3,G3,B3,E4' ] // Accordage Guitare standard E
 		])
@@ -122,6 +129,7 @@ let Config =( function (){
 		casesMax: 24,
 		// Défaut : SpecialVars avec répercution localStorage
 		cases: null,
+		chord: null,
 		config: null,
 		fx: null,
 		inversion: null,
@@ -492,12 +500,13 @@ class Manche {
 	// futur methods
 	cssCorde ( nCorde, sMethod, sClassName ){
 		var a = this.aCordes[ nCorde-1 ]
-		a.forEach( e => {
+		if( a ) a.forEach( e => {
 			if( e ) e.classList[ sMethod ]( sClassName )
 			})
 		}
 	cssNote ( nCorde, nCase, sMethod, sClassName ){
-		var e = this.aCordes[ nCorde-1 ][ nCase ]
+		let a = this.aCordes[ nCorde-1 ]
+		var e = a && a[ nCase ]
 		if( e ) e.classList[ sMethod ]( sClassName )
 		}
 	lowlight (){
@@ -599,20 +608,16 @@ class IntervalBox {
 let oChords
 ChordsBox =(function(){
 	let sTuning
+	let sWaitChord
 	let oCache ={
 		refresh :function(){
 			if( oChords ){
 				if( ! oCache[ sTuning ]) oCache[ sTuning ] = {}
+				if( sWaitChord != ( oChords.key + oChords.suffix ))
+					throw Error ('Why ?'+ sWaitChord +"!="+ oChords.key + oChords.suffix )
 				oCache[ sTuning ][ oChords.key + oChords.suffix ] = oChords.positions
 				}
 			}
-		}
-	function getFileName ( sChord ){
-		let o ={
-			m: "minor",
-			M: "major"
-			}
-		return o[ sChord ] || sChord.replace( /\//, '_' )
 		}
 
 	class ChordsBox {
@@ -628,9 +633,9 @@ ChordsBox =(function(){
 			this.eHTML.onclick =function( evt ){
 				var e = Events.element( evt )
 				if( e.nodeName == 'LI' ){
-					oManche.lowlight()
+					oManche.highlight()
 					if( e.info ){
-						console.info( e.info )
+						oManche.lowlight()
 						let s = e.info.frets, sChar
 						for(let i=0, ni=s.length; i<ni; i++ ){
 							sChar = s.charAt(i)
@@ -643,41 +648,82 @@ ChordsBox =(function(){
 			o.tuning.addSubscriber( 'set cache info', s =>{
 				sTuning = s.replace( /\,/g,'-')
 				})
-			o.scale.addSubscriber( 'load chords', ()=>{
+			let f = ()=>{
 				oManche.highlight()
-				if( o.scale.value[2] == 'chord' )
-					that.loadChords( o.tonic.value, o.scale.value[1])
-				})
+				this.clearChords()
+				}
+				
+		//	o.mask.addSubscriber( 'ChordsBox:load0', f )
+			o.tonic.addSubscriber( 'ChordsBox:load1', f )
+			o.scale.addSubscriber( 'ChordsBox:load2', f )
+			o.chord.addSubscriber( 'ChordsBox:load3', ()=> that.loadChords())
+			this.loadChords ()
 			}
+			
 		defineChords (){
-			let a = oCache[ sTuning ][ this.sTonic + this.sChord ]
+			let a = oCache[ sTuning ][ this.oManche.Config.chord.value ]
 			this.eHTML.innerHTML = ''
 			if( a && a.length ){
 				let aElts = []
-				for(var i=0, ni=a.length; i <ni; i++ ){
+				for(var i=-1, ni=a.length; i <ni; i++ ){
 					aElts.push( Tag('LI' ,{ innerHTML:i+1, info:a[i] }))
 					}
 				Append( this.eHTML, aElts )
 			}else{
-				this.eHTML.innerHTML = '...'
+				this.clearChords()
 				}
 			}
-		loadChords ( sTonic, sChord ){
+		clearChords (){
+			this.eHTML.innerHTML = 'fingering coming as soon as possible...'
+			}
+		getFileName ( sTonic, sChord, sChordName, sMask ){
+			let o ={
+				m: "minor",
+				M: "major"
+				}
+			let f =()=>{
+				let a = this.oManche.Config.notation.getDefaultSequence( sTonic )
+				let nIndex = parseInt( sChord.replace( /[^\(]+\((\d).*/, '$1' ))
+				
+				let n = sMask.indexOf('1')
+				let indices = []
+				while( n != -1 ){
+					indices.push( n )
+					n = sMask.indexOf( '1', n + 1 )
+					}
+				let sRealTonic = a[ indices[ indices.length-nIndex ]]
+				let sRealChordName = sChord.replace( /( \(.*\))/gim, '' )
+				
+				return sRealTonic +'/'+sRealChordName+'_'+ sTonic
+				}
+			return ~sChordName.indexOf ('/')
+				? f()
+				: sTonic +'/'+ ( o[ sChord ] || sChord )
+			}
+		loadChords (){
 			oChords = null // global
 			let o = this.oManche.Config
+			, sTonic = o.tonic.value
+			, sChord = o.scale.value[1]
+			, sChordName = o.chord.value
+			, sMask = o.mask.value
 			, that = this
+			if( o.scale.value[2]!='chord' ) return;
 			this.sTonic = sTonic = o.notation.getDefaultNoteName( sTonic )
 			this.sChord = sChord
 			
 			oCache[ sTuning ] = oCache[ sTuning ] || {}
-			if( oCache[ sTuning ][ sTonic+sChord ] !== undefined ){
+			sWaitChord = sChordName
+			if( oCache[ sTuning ][ sChordName ] !== undefined ){
 				// utilisation du cache
-				that.defineChords()
+				this.defineChords()
 			}else{
-				oCache[ sTuning ][ sTonic+sChord ] = null
+				oCache[ sTuning ][ sChordName ] = null
+				console.info( "fichier:"+ this.getFileName( sTonic, sChord, sChordName, sMask ) +'.js' )
+				// console.info( "key:"+ sChordName )
 				// chargement du fichier
 				Scripts.add(
-					'js/Chords/'+ sTuning +'/'+ sTonic +'/'+ getFileName( sChord ) +'.js',
+					'js/Chords/'+ sTuning +'/'+ this.getFileName( sTonic, sChord, sChordName, sMask ) +'.js',
 					()=>{
 						oCache.refresh()
 						that.defineChords()
@@ -790,6 +836,7 @@ let Harmonie ={
 					o.mask.value = sMask
 					that.locked = false
 					if( eTitle ) eTitle.innerHTML = e.title
+					o.chord.value = e.title
 					}
 				var sScale = e.scale
 				if( sScale ){
@@ -815,41 +862,42 @@ let Harmonie ={
 				Tag('LABEL', { htmlFor:'eNewCB', innerHTML:'&#10133;', onclick:fOnClick })
 				])
 			}
-		displayChords ( sTonique, sMask, sName ){
+		displayChords ( sTonic, sMask, sName ){
 			if( this.locked ) return ;
-			var sTonique = sTonique || this.Config.tonic.value
-			var sScaleMask = sMask || this.Config.scale.value[0]
-			this.sScaleName = sName || this.Config.scale.value[1]
-			this.sType = this.Config.scale.value[1] || 'scale'
-			this.setChords( sTonique, sScaleMask )
+			let o = this.Config
+			sTonic = sTonic || o.tonic.value
+			sMask = sMask || o.scale.value[0]
+			this.sScaleName = sName || o.scale.value[1]
+			if( o.scale.value[2] == 'chord' )
+				o.chord.value = this.getChordName( sTonic, sMask, this.sScaleName, o.scale.value[2] )
+			this.setChords( sTonic, sMask )
 			}
-		getChordName ( sChordTonic, sChordMask, sChordName, sType ){
-			let aNotes = this.Config.notation.getSequence( sChordTonic )
-			// accord inversion
+		getChordName ( sChordTonic, sChordMask, sChordName ){
+			// renversement d'accord 
 			if( ~sChordName.indexOf( L10n('INVERSION'))){
-				let idx = sChordMask.indexOf('1')
+				let aNotes = this.Config.notation.getSequence( sChordTonic )
+				let n = sChordMask.indexOf('1')
 				let indices = []
-				while( idx != -1 ){
-					indices.push( idx )
-					idx = sChordMask.indexOf( '1', idx + 1 )
+				while( n != -1 ){
+					indices.push( n )
+					n = sChordMask.indexOf( '1', n + 1 )
 					}
 				let sRealTonic = null
 				// 1er inversion - tonic dernier 1
-				if( ~sChordName.indexOf( L10n('PREMIER')))
+				if( ~sChordName.indexOf( '(1' ))
 					sRealTonic = aNotes[ indices[ indices.length-1 ]]
 				// 2ème inversion - tonic avant dernier 1
-				if( ~sChordName.indexOf( L10n('DEUXIEME')))
+				if( ~sChordName.indexOf( '(2' ))
 					sRealTonic = aNotes[ indices[ indices.length-2 ]]
 				// 3ème...
-				if( ~sChordName.indexOf( L10n('TROISIEME')))
+				if( ~sChordName.indexOf( '(3' ))
 					sRealTonic = aNotes[ indices[ indices.length-3 ]]
 				// 4ème...
-				if( ~sChordName.indexOf( L10n('QUATRIEME')))
+				if( ~sChordName.indexOf( '(4' ))
 					sRealTonic = aNotes[ indices[ indices.length-4 ]]
 				return sRealTonic + sChordName.replace( /( \(.*\))/gim, '/'+ sChordTonic )
 				}
-			// sinon
-			return sChordTonic + ( sType=='scale' ? ' ' : '' ) + sChordName
+			return sChordTonic + sChordName
 			}
 		// Retourne un tableau des accords présent dans une gamme
 		getChordsSuggestion ( sTonique, sScaleMask ){
@@ -958,7 +1006,9 @@ let Harmonie ={
 			let e = Tag( 'CAPTION', { tonique:sScaleTonic, scale:sScaleMask }), s
 
 //			if( this.sScaleName != Harmonie.noname ){
-				s = this.getChordName( sScaleTonic, sScaleMask, this.sScaleName, this.Config.scale.value[2] )
+				s = ( this.Config.scale.value[2]=='scale' )
+					? sScaleTonic +' '+ this.sScaleName
+					: this.getChordName( sScaleTonic, sScaleMask, this.sScaleName )
 				if( s ){
 					e.innerHTML = '<h2>'+ s +'</h2>'
 					if( eTitle ) eTitle.innerHTML = s
