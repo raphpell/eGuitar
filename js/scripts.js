@@ -71,15 +71,16 @@ let Config =( function (){
 							return this.getSequence()[i]
 					throwError( sNote )
 					}
-				this.getDefaultNoteName =function( sNote ){
+				this.getDefaultNoteName =function( sNote, sLang, sType ){
+					sLang = sLang=='FR' ? sLang : 'EN'
+					sType = sType=="#" ? '♯': '♭'
 					sNote = translateNote( sNote )
 					let a = getNotation( sNote )
 					let n = 0
 					for(; n<12; n++ )
 						if( a[n] == sNote )
 							break;
-
-					if( n < 12 ) return Notations['♭']['EN'][n].replace( '♭', 'b' )
+					if( n < 12 ) return Notations[sType][sLang][n].replace( '♭', 'b' )
 					throwError( sNote )
 					}
 				this.getDefaultSequence =function( sNote ){
@@ -509,6 +510,12 @@ class Manche {
 		var e = a && a[ nCase ]
 		if( e ) e.classList[ sMethod ]( sClassName )
 		}
+	addFinger ( nCorde, nCase, nFinger ){
+		let a = this.aCordes[ nCorde-1 ]
+		var e = a && a[ nCase ]
+		if( e ) return e.firstChild.appendChild( Tag('finger',{ innerHTML:nFinger }))
+		return null
+		}
 	lowlight (){
 		for(var i=1, ni=this.aCordes.length; i<=ni; i++ )
 			this.cssCorde( i, 'add', 'contrast50' )
@@ -608,21 +615,12 @@ class IntervalBox {
 let oChords
 ChordsBox =(function(){
 	let sTuning
-	let sWaitChord
-	let oCache ={
-		refresh :function(){
-			if( oChords ){
-				if( ! oCache[ sTuning ]) oCache[ sTuning ] = {}
-				if( sWaitChord != ( oChords.key + oChords.suffix ))
-					; //throw Error ('Why ?'+ sWaitChord +"!="+ oChords.key + oChords.suffix )
-				oCache[ sTuning ][ sWaitChord ] = oChords.positions
-				}
-			}
-		}
+	let oCache ={}
 
 	class ChordsBox {
 		constructor ( oManche ){
 			this.oManche = oManche
+			this.aFingers = []
 			this.createHTML()
 			}
 		createHTML (){
@@ -634,12 +632,18 @@ ChordsBox =(function(){
 				var e = Events.element( evt )
 				if( e.nodeName == 'LI' ){
 					oManche.highlight()
+					that.clearFingers()
 					if( e.info ){
 						oManche.lowlight()
 						let s = e.info.frets, sChar
 						for(let i=0, ni=s.length; i<ni; i++ ){
 							sChar = s.charAt(i)
-							if( sChar!='x' ) oManche.cssNote( i+1, parseInt( sChar, 16 ), 'remove', 'contrast50' )
+							if( sChar!='x' ){
+								let nCorde = i+1
+								, nCase = parseInt( sChar, 16 )
+								oManche.cssNote( nCorde, nCase, 'remove', 'contrast50' )
+								that.aFingers.push( oManche.addFinger( nCorde, nCase, e.info.fingers.charAt(i)))
+								}
 							}
 						}
 					}
@@ -659,9 +663,8 @@ ChordsBox =(function(){
 			o.chord.addSubscriber( 'ChordsBox:load3', ()=> that.loadChords())
 			this.loadChords ()
 			}
-			
-		defineChords (){
-			let a = oCache[ sTuning ][ this.oManche.Config.chord.value ]
+		defineChords ( sFile ){
+			let a = oCache[ sTuning ][ sFile ]
 			this.eHTML.innerHTML = ''
 			if( a && a.length ){
 				let aElts = []
@@ -674,7 +677,12 @@ ChordsBox =(function(){
 				}
 			}
 		clearChords (){
-			this.eHTML.innerHTML = 'fingering coming as soon as possible...'
+			this.eHTML.innerHTML = 'Base chords -<a href="https://tombatossals.github.io/react-chords/" target="_blank">tombatossals</a>-'
+			this.clearFingers()
+			}
+		clearFingers (){
+			this.aFingers.forEach( e => { if( e && e.parentNode ) e.parentNode.removeChild( e )})
+			this.aFingers = []
 			}
 		getFileName ( sTonic, sChord, sChordName, sMask ){
 			let o ={
@@ -693,12 +701,13 @@ ChordsBox =(function(){
 					}
 				let sRealTonic = a[ indices[ indices.length-nIndex ]]
 				let sRealChordName = sChord.replace( /( \(.*\))/gim, '' )
-				
-				return sRealTonic +'/'+sRealChordName+'_'+ sTonic
+				if( sRealChordName == 'M' ) sRealChordName = ''
+				sTonic = this.oManche.Config.notation.getDefaultNoteName( sTonic, 'EN', '#' )
+				return sRealTonic +'/'+sRealChordName+'_'+ sTonic.replace( '♯', 'sharp' )
 				}
 			return ~sChordName.indexOf ('/')
 				? f()
-				: sTonic +'/'+ ( o[ sChord ] || sChord )
+				: sTonic +'/'+ ( o[ sChord ] || sChord ).replace( '♯', 'sharp' )
 			}
 		loadChords (){
 			oChords = null // global
@@ -709,26 +718,27 @@ ChordsBox =(function(){
 			, sMask = o.mask.value
 			, that = this
 			if( o.scale.value[2]!='chord' ) return;
-			this.sTonic = sTonic = o.notation.getDefaultNoteName( sTonic )
+			this.sTonic = sTonic = o.notation.getDefaultNoteName( sTonic ).replace( '♭', 'b' )
 			this.sChord = sChord
 			
 			oCache[ sTuning ] = oCache[ sTuning ] || {}
-			sWaitChord = sChordName
-			if( oCache[ sTuning ][ sChordName ] !== undefined ){
+			
+			let sFile = this.getFileName( sTonic, sChord, sChordName, sMask ) 
+			if( oCache[ sTuning ][ sFile ] !== undefined ){
 				// utilisation du cache
-				this.defineChords()
+				this.defineChords( sFile )
 			}else{
 				oCache[ sTuning ][ sChordName ] = null
-				console.info( "fichier:"+ this.getFileName( sTonic, sChord, sChordName, sMask ) +'.js' )
+				console.info( "fichier:" + sFile +'.js' )
 				// console.info( "key:"+ sChordName )
 				// chargement du fichier
 				Scripts.add(
-					'js/Chords/'+ sTuning +'/'+ this.getFileName( sTonic, sChord, sChordName, sMask ) +'.js',
+					'js/Chords/'+ sTuning +'/'+ sFile +'.js',
 					()=>{
-						oCache.refresh()
-						that.defineChords()
+						if( oChords ) oCache[ sTuning ][ sFile ] = oChords.positions
+						that.defineChords( sFile )
 						},
-					()=> that.defineChords()
+					()=> that.defineChords( sFile )
 					)
 				}
 			}

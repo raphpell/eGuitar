@@ -98,7 +98,7 @@ Scripts={
 		document.head.appendChild( Tag('SCRIPT',{
 			onerror: fOnError || Scripts.loadError,
 			onload: fOnload,
-			src: url
+			src: encodeURI( url )
 			}))
 		return this
 		},

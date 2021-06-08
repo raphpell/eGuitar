@@ -7,8 +7,8 @@ oChords ={
 			fingers: '001320'
 		},
 		{
-			frets: '53x43x',
-			fingers: '310420'
+			frets: '53xx4x',
+			fingers: '310020'
 		},
 		{
 			frets: 'xx78x8',

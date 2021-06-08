@@ -160,6 +160,7 @@
 	width: 75%;
 	overflow: hidden;
 	opacity: 0.1;
+	position: relative;
 	text-shadow: 0 0 2px #000;
 	transition: width 200ms, left 200ms, margin 200ms, border 200ms, line-height 200ms;
 	}
@@ -178,6 +179,15 @@
 	}
 .hideNotes .corde SPAN B {
 	display: none;
+	}
+finger {
+	position: absolute;
+	background: inherit;
+	width: 100%;
+	display: flex;
+	font-weight: bold;
+	justify-content: center;
+	align-items: center;
 	}
 
 /* Cordes */
@@ -302,7 +312,7 @@
 	top: -30px;
 	}
 
-/* Intervalles */
+/* ChordBox */
 UL.chordsbox {
 	display: flex;
 	flex-direction: row;
