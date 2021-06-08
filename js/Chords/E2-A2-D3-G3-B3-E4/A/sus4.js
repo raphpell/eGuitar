@@ -17,10 +17,8 @@ oChords ={
 			capo: true
 		},
 		{
-			frets: 'x779aa',
-			fingers: '011234',
-			barres: 7,
-			capo: true
+			frets: 'xx79aa',
+			fingers: '001234'
 		}
 	]
 }
