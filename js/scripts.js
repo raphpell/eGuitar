@@ -689,7 +689,7 @@ ChordsBox =(function(){
 				m: "minor",
 				M: "major"
 				}
-			let f =()=>{
+			let fSlash =()=>{
 				let a = this.oManche.Config.notation.getDefaultSequence( sTonic )
 				let nIndex = parseInt( sChord.replace( /[^\(]+\((\d).*/, '$1' ))
 				
@@ -705,9 +705,18 @@ ChordsBox =(function(){
 				sTonic = this.oManche.Config.notation.getDefaultNoteName( sTonic, 'EN', '#' )
 				return sRealTonic +'/'+sRealChordName+'_'+ sTonic.replace( '♯', 'sharp' )
 				}
-			return ~sChordName.indexOf ('/')
-				? f()
-				: sTonic +'/'+ ( o[ sChord ] || sChord ).replace( '♯', 'sharp' )
+			let f =()=>{
+				let sFile = ( o[ sChord ] || sChord )
+					.replace( /[♯#]/g, 'sharp' )
+					.replace( 'M', 'maj' )
+					.replace( /♭/g, 'b' )
+					.replace( /\//g, '' )
+					.replace( /\(([^)]+)\)/g, '$1' )
+				return sTonic +'/'+ sFile
+				}
+			return ( sChordName.match( /\/[^\d]/)
+				? fSlash()
+				: f() ) +'.js'
 			}
 		loadChords (){
 			oChords = null // global
@@ -717,7 +726,7 @@ ChordsBox =(function(){
 			, sChordName = o.chord.value
 			, sMask = o.mask.value
 			, that = this
-			if( o.scale.value[2]!='chord' ) return;
+			if( ! ~o.scale.value[2].indexOf( 'chord' )) return;
 			this.sTonic = sTonic = o.notation.getDefaultNoteName( sTonic ).replace( '♭', 'b' )
 			this.sChord = sChord
 			
@@ -729,11 +738,11 @@ ChordsBox =(function(){
 				this.defineChords( sFile )
 			}else{
 				oCache[ sTuning ][ sChordName ] = null
-				console.info( "fichier:" + sFile +'.js' )
+				console.info( "fichier:" + sFile )
 				// console.info( "key:"+ sChordName )
 				// chargement du fichier
 				Scripts.add(
-					'js/Chords/'+ sTuning +'/'+ sFile +'.js',
+					'js/Chords/'+ sTuning +'/'+ sFile,
 					()=>{
 						if( oChords ) oCache[ sTuning ][ sFile ] = oChords.positions
 						that.defineChords( sFile )
@@ -807,8 +816,9 @@ let Harmonie ={
 			Config.tonic.addSubscriber( 'HarmonieForm selectBox tonic value', sTonic => eTonique.value = sTonic )
 			Config.mask.addSubscriber( 'HarmonieForm selectBox chords et scales values + publish scale', sMask =>{
 				eChords.value = eScale.value = sMask
-				if( eScale.value ) Config.scale.value = [ sMask, eScale.selectedOptions[0].innerHTML, 'scale' ]
+				if( eChords.value && eScale.value ) Config.scale.value = [ sMask, eChords.selectedOptions[0].innerHTML, 'chord/scale', eScale.selectedOptions[0].innerHTML ]
 				else if( eChords.value ) Config.scale.value = [ sMask, eChords.selectedOptions[0].innerHTML, 'chord' ]
+				else if( eScale.value ) Config.scale.value = [ sMask, eScale.selectedOptions[0].innerHTML, 'scale' ]
 				else Config.scale.value = [ sMask, Harmonie.noname, 'noname' ]
 				})
 			Config.scale.addSubscriber( 'HarmonieForm values', a => eScale.value = a[0] )
@@ -878,7 +888,7 @@ let Harmonie ={
 			sTonic = sTonic || o.tonic.value
 			sMask = sMask || o.scale.value[0]
 			this.sScaleName = sName || o.scale.value[1]
-			if( o.scale.value[2] == 'chord' )
+			if( ~o.scale.value[2].indexOf( 'chord' ))
 				o.chord.value = this.getChordName( sTonic, sMask, this.sScaleName, o.scale.value[2] )
 			this.setChords( sTonic, sMask )
 			}
@@ -1016,8 +1026,8 @@ let Harmonie ={
 			let e = Tag( 'CAPTION', { tonique:sScaleTonic, scale:sScaleMask }), s
 
 //			if( this.sScaleName != Harmonie.noname ){
-				s = ( this.Config.scale.value[2]=='scale' )
-					? sScaleTonic +' '+ this.sScaleName
+				s = ( ~this.Config.scale.value[2].indexOf('scale') )
+					? sScaleTonic +' '+ this.Config.scale.value[3]
 					: this.getChordName( sScaleTonic, sScaleMask, this.sScaleName )
 				if( s ){
 					e.innerHTML = '<h2>'+ s +'</h2>'
