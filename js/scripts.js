@@ -560,7 +560,8 @@ class IntervalBox {
 	createHTML (){
 		let that = this
 		, DT = ['1','♭2','2','♭3','3','4','♭5','5','♭6','6','♭7','7','8']
-		, DD = ['0','&half;','1','1&half;','2','2&half;','3','3&half;','4','4&half;','5','5&half;','6']
+		, DD = ['8','♭9','9','♭10','10','11','♭12','12','♭13','13','♭14','14','15']
+	//	, DD = ['0','&half;','1','1&half;','2','2&half;','3','3&half;','4','4&half;','5','5&half;','6']
 		, eUL = this.eHTML = Tag('UL','interval')
 		for(let i=0; i<12; i++ )
 			Append( eUL, Tag('LI','ton'+i),[
@@ -677,7 +678,7 @@ ChordsBox =(function(){
 				}
 			}
 		clearChords (){
-			this.eHTML.innerHTML = 'Base chords -<a href="https://tombatossals.github.io/react-chords/" target="_blank">tombatossals</a>-'
+			this.eHTML.innerHTML = L10n('PASDSUGG')
 			this.clearFingers()
 			}
 		clearFingers (){
@@ -702,6 +703,8 @@ ChordsBox =(function(){
 				let sRealTonic = a[ indices[ indices.length-nIndex ]]
 				let sRealChordName = sChord.replace( /( \(.*\))/gim, '' )
 				if( sRealChordName == 'M' ) sRealChordName = ''
+				sRealChordName = sRealChordName
+					.replace( 'M', 'maj' )
 				sTonic = this.oManche.Config.notation.getDefaultNoteName( sTonic, 'EN', '#' )
 				return sRealTonic +'/'+sRealChordName+'_'+ sTonic.replace( '♯', 'sharp' )
 				}
