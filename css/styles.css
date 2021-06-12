@@ -162,7 +162,7 @@
 	opacity: 0.1;
 	position: relative;
 	text-shadow: 0 0 2px #000;
-	transition: width 200ms, left 200ms, margin 200ms, border 200ms, line-height 200ms;
+	transition: width .2s, left .2s, margin .2s, border .2s, line-height .2s, filter .2s;
 	}
 .case .corde SPAN:hover {
 	border-color: #FFF ;
@@ -328,19 +328,29 @@ UL.chordsbox {
 	min-height: 2em;
 	}
 .chordsbox LI {
+	filter: sepia(1) opacity(.75);
+	background: #3A1912;
+	color: #FFF;
 	cursor: pointer;
 	display: flex;
 	justify-content: center;
     align-items: center;
 	border: 2px solid #000;
 	border-radius: .5em !important;
-	box-shadow: inset 0 0 .25em rgba(0,0,0,.5);
-	width: 25%;
+	width: 50%;
 	margin: 2px;
+	position: relative;
+	z-index: 1;
+	transition: background .5s, box-shadow .25s;
 	}
-.chordsbox LI.disabled {
-	cursor: default;
-	opacity: .25;
+.chordsbox LI:hover {
+	text-shadow: 0 0 .5em #FFF;
+	}
+.chordsbox LI.selected {
+	background: #ecf0f1;
+	color: #000;
+	box-shadow: 0 0 2em rgba(255,255,255,.5), 0 0 .5em rgba(255,255,255,.5);
+	z-index: 2;
 	}
 
 /* Intervalles */
@@ -585,6 +595,7 @@ UL.interval {
 	width:40px;
 	border-radius: 10px;
 	text-align: center;
+	vertical-align: middle;
 	}
 .mask TD.none {
 	filter: sepia(1);

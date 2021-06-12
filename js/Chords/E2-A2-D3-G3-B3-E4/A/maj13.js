@@ -9,8 +9,7 @@ oChords ={
 		{
 			frets: '544454',
 			fingers: '211131',
-			barres: 4,
-			capo: true
+			barres: 4
 		},
 		{
 			frets: 'x06677',
@@ -20,8 +19,7 @@ oChords ={
 		{
 			frets: 'xcbb99',
 			fingers: '042311',
-			barres: 9,
-			capo: true
+			barres: 9
 		}
 	]
 }

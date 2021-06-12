@@ -16,22 +16,32 @@ oChords ={
 			barres: 5
 		},
 		{
+			frets: '5322xx',
+			fingers: '421100',
+			barres: 2
+		},
+		{
 			frets: 'xx7555',
 			fingers: '003111',
 			barres: 5
 		},
 		{
-			frets: '5322xx',
-			fingers: '421100',
-			barres: 2
+			frets: 'xx7558',
+			fingers: '003114',
+			barres: 5
+		},
+		{
+			frets: '577555',
+			fingers: '134111',
+			barres: 5
 		},
 		{
 			frets: 'x079a8',
 			fingers: '001342'
 		},
 		{
-			frets: 'xca9xx',
-			fingers: '0421xx'
+			frets: 'xca9ax',
+			fingers: '04213x'
 		}
 	]
 }

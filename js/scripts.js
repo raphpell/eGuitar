@@ -628,10 +628,14 @@ ChordsBox =(function(){
 			let that = this
 			, oManche = this.oManche
 			, o = oManche.Config
+			, eSelected
 			Append( this.eHTML = Tag('UL','chordsbox'))
 			this.eHTML.onclick =function( evt ){
 				var e = Events.element( evt )
 				if( e.nodeName == 'LI' ){
+					if( eSelected ) eSelected.className = ''
+					e.className = 'selected'
+					eSelected = e
 					oManche.highlight()
 					that.clearFingers()
 					if( e.info ){
@@ -858,7 +862,9 @@ let Harmonie ={
 					o.tonic.value = sTonique
 					o.mask.value = sMask
 					that.locked = false
-					if( eTitle ) eTitle.innerHTML = e.title
+					if( eTitle ){
+						eTitle.innerHTML = e.title
+						}
 					o.chord.value = e.title
 					}
 				var sScale = e.scale
@@ -866,7 +872,9 @@ let Harmonie ={
 					o.tonic.value = e.tonique
 					o.scale.value = [ sScale, that.sScaleName ]
 					o.mask.value = sScale
-					if( eTitle ) eTitle.innerHTML = e.tonique +' '+ that.sScaleName
+					if( eTitle ){
+						eTitle.innerHTML = e.tonique +' '+ that.sScaleName
+						}
 					}
 				}
 			let f = () => that.displayChords()
@@ -1030,7 +1038,7 @@ let Harmonie ={
 
 //			if( this.sScaleName != Harmonie.noname ){
 				s = ( ~this.Config.scale.value[2].indexOf('scale') )
-					? sScaleTonic +' '+ this.Config.scale.value[3]
+					? sScaleTonic +' '+ (this.Config.scale.value[3]||this.Config.scale.value[1])
 					: this.getChordName( sScaleTonic, sScaleMask, this.sScaleName )
 				if( s ){
 					e.innerHTML = '<h2>'+ s +'</h2>'
