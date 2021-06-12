@@ -744,7 +744,7 @@ ChordsBox =(function(){
 				// utilisation du cache
 				this.defineChords( sFile )
 			}else{
-				oCache[ sTuning ][ sChordName ] = null
+				oCache[ sTuning ][ sFile ] = null
 				console.info( "fichier:" + sFile )
 				// console.info( "key:"+ sChordName )
 				// chargement du fichier

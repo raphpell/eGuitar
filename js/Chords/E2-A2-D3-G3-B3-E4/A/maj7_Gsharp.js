@@ -1,6 +1,4 @@
 oChords ={
-	key: 'A',
-	suffix: '/G#',
 	positions: [
 		{
 			frets: '442255',

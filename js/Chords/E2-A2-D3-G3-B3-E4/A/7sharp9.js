@@ -3,8 +3,7 @@ oChords ={
 		{
 			frets: '575688',
 			fingers: '131244',
-			barres: [5, 8],
-			capo: true
+			barres: [5, 8]
 		},
 		{
 			frets: 'xx7688',

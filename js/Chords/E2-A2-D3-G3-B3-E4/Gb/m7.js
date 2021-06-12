@@ -7,28 +7,27 @@ oChords ={
 			fingers: '203330'
 		},
 		{
-			frets: 'exeeex',
-			fingers: '203330'
+			frets: '202220',
+			fingers: '102340'
 		},
 		{
 			frets: '242222',
 			fingers: '131111',
-			barres: 2,
-			capo: true
+			barres: 2
+		},
+		{
+			frets: '242255',
+			fingers: '131144',
+			barres: 2
+		},
+		{
+			frets: '242225',
+			fingers: '131114',
+			barres: 2
 		},
 		{
 			frets: 'xx4655',
 			fingers: '001423'
-		},
-		{
-			frets: '99b9a9',
-			fingers: '113121',
-			barres: 9,
-			capo: true
-		},
-		{
-			frets: 'xxbbac',
-			fingers: '002314'
 		}
 	]
 }

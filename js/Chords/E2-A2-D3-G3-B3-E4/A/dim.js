@@ -1,6 +1,4 @@
 oChords ={
-	key: 'A',
-	suffix: 'dim',
 	positions: [
 		{
 			frets: 'x0121x',
