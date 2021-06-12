@@ -101,6 +101,7 @@ TD {
 	}
 LABEL:hover {
 	text-shadow: 0 0 .5em #FFF;
+	background-color: #444;
 	}
 
 /* Fx comme son nom l'indique pa'effet css */
@@ -199,6 +200,9 @@ LABEL:hover {
 	border-bottom: 4px solid #FFF;
 	border-radius: 20px 20px 0 0;
 	transition: background 0.4s;
+	}
+.layout .nav:hover {
+	background-color: #444;
 	}
 .layout input[type=radio] {
 	display: none;

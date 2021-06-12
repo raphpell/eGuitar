@@ -292,23 +292,24 @@ finger {
 	transform: scaleX(1) scaleY(1);
 	}
 .gaucher .manche,
+.gaucher .fretteNum,
 .gaucher .case DIV SPAN {
 	transform: scaleX(-1);
-	right: 30px;
 	}
 .droitier_flipped .manche,
 .droitier_flipped .case DIV SPAN{
 	transform: scaleY(-1);
 	}
-.droitier_flipped .frette SPAN {
+.droitier_flipped .fretteNum {
+	transform: scaleY(-1);
 	top: -30px;
 	}
-.gaucher_flipped  .manche,
+.gaucher_flipped .manche,
 .gaucher_flipped .case DIV SPAN {
 	transform: scaleX(-1) scaleY(-1);
-	right: 30px;
 	}
-.gaucher_flipped .frette SPAN {
+.gaucher_flipped .fretteNum {
+	transform: scaleX(-1) scaleY(-1);
 	top: -30px;
 	}
 
@@ -344,6 +345,7 @@ UL.chordsbox {
 	transition: background .5s, box-shadow .25s;
 	}
 .chordsbox LI:hover {
+	background-color: #444;
 	text-shadow: 0 0 .5em #FFF;
 	}
 .chordsbox LI.selected {
