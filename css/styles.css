@@ -476,6 +476,7 @@ UL.interval {
 	line-height: 1.2em;
 	transition: filter,border-color 200ms ease;
 	display:flex;
+	transition: background .2s;
 	}
 .suggestion H2 LABEL {
 	font-size:10px;
@@ -495,10 +496,7 @@ UL.interval {
 	display:inline;
 	}
 .suggestion H2:hover {
-	filter: sepia(1);
-	color: #3A1912;
-	background: #FFF;
-	box-shadow: 0 0 2px #ddd, inset 0 0 .5em #FFF;
+	background: #585041;
 	}
 .suggestion TH {
 	cursor: pointer;
@@ -522,8 +520,7 @@ UL.interval {
 	vertical-align: middle;
 	}
 .suggestion TBODY TR:hover {
-	background: #FFF;
-	color: #000;
+	background: #585041;
 	}
 .suggestion TD {
 	border-radius: 10px;
@@ -585,11 +582,11 @@ UL.interval {
 	margin:2px;
 	}
 .mask TR.selected {
-	background: #585041;
-	}
-.mask TBODY TR:hover {
 	background: #FFF;
 	color: #000;
+	}
+.mask TBODY TR:hover {
+	background: #585041;
 	}
 .mask TD {
 	line-height:20px;
@@ -636,11 +633,11 @@ DL.tunings {
 	border-radius: 10px;
 	}
 .tunings DD.selected {
-	background: #585041;
-	}
-.tunings DD:hover {
 	background: #FFF;
 	color: #000;
+	}
+.tunings DD:hover {
+	background: #585041;
 	}
 .tunings DD SPAN.name {
 	filter: sepia(1);
