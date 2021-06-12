@@ -5,7 +5,7 @@ eGuitar permet de visualiser l'emplacement des notes sur le manche.
 Après sélection d'une tonique, il est ainsi possible de voir facilement:
 - une gamme
 - un arpège
-- et maintenant des accords avec les doigtés!!!
+- et maintenant des accords avec les doigtés !!!
 
 Vous pouvez aussi choisir vos propres notes en cliquant sur le "Manche" ou mon "IntervalBox".
 
@@ -21,6 +21,7 @@ Vous pouvez si vous le souhaitez:
 - (experimental) mettre du son et régler la fréquence du LA3.
 
 [Cette application est une page web alors consulter là !](http://raphpell.github.io/eGuitar/)
+Elle fonctionne aussi hors ligne ! En revanche elle ne fonctionne pas avec Internet Explorer...
 
 [![Preview](https://github.com/raphpell/eGuitar/raw/gh-pages/preview1.png "allez y !")](http://raphpell.github.io/eGuitar/)
 

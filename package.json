@@ -1,9 +1,0 @@
-{
-	"name":"eGuitar",
-	"version": "1.0.0",
-	"main":"index.htm",
-	"window":{
-		"min_width":400,
-		"min_height":400
-		}
-}
