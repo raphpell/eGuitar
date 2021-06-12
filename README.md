@@ -5,7 +5,7 @@ eGuitar permet de visualiser l'emplacement des notes sur le manche.
 Après sélection d'une tonique, il est ainsi possible de voir facilement:
 - une gamme
 - un arpège
-- et maintenant des accords !!!
+- et maintenant des accords avec les doigtés!!!
 
 Vous pouvez aussi choisir vos propres notes en cliquant sur le "Manche" ou mon "IntervalBox".
 
