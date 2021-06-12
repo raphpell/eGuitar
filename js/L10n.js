@@ -42,7 +42,7 @@ Object.assign( L10n, {
 	})
 
 L10n.FR ={
-	PASDSUGG:	'Allez jouer de la guitare !',
+	PASDSUGG:	'Joue de la guitare !',
 	DATEM:		'Dernière modification le ',
 	INVERSION:'renv.',
 	PREMIER:'1er',
