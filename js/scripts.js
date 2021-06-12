@@ -873,7 +873,7 @@ let Harmonie ={
 					o.scale.value = [ sScale, that.sScaleName ]
 					o.mask.value = sScale
 					if( eTitle ){
-						eTitle.innerHTML = e.tonique +' '+ that.sScaleName
+						eTitle.innerHTML = e.tonique + (that.bIsChord?'':' ') + that.sScaleName
 						}
 					}
 				}
@@ -896,11 +896,13 @@ let Harmonie ={
 		displayChords ( sTonic, sMask, sName ){
 			if( this.locked ) return ;
 			let o = this.Config
+			this.bIsChord = ! sTonic && ~o.scale.value[2].indexOf( 'chord' )
 			sTonic = sTonic || o.tonic.value
 			sMask = sMask || o.scale.value[0]
 			this.sScaleName = sName || o.scale.value[1]
-			if( ~o.scale.value[2].indexOf( 'chord' ))
+			if( this.bIsChord ){
 				o.chord.value = this.getChordName( sTonic, sMask, this.sScaleName, o.scale.value[2] )
+				}
 			this.setChords( sTonic, sMask )
 			}
 		getChordName ( sChordTonic, sChordMask, sChordName ){
