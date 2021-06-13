@@ -708,8 +708,11 @@ ChordsBox =(function(){
 				let sRealChordName = sChord.replace( /( \(.*\))/gim, '' )
 				if( sRealChordName == 'M' ) sRealChordName = ''
 				sRealChordName = sRealChordName
+					.replace( /[♯#]/g, 'sharp' )
 					.replace( 'M', 'maj' )
+					.replace( /♭/g, 'b' )
 				sTonic = this.oManche.Config.notation.getDefaultNoteName( sTonic, 'EN', '#' )
+				sRealTonic = this.oManche.Config.notation.getDefaultNoteName( sRealTonic, 'EN', 'b' )
 				return sRealTonic +'/'+sRealChordName+'_'+ sTonic.replace( '♯', 'sharp' )
 				}
 			let f =()=>{
@@ -719,6 +722,7 @@ ChordsBox =(function(){
 					.replace( /♭/g, 'b' )
 					.replace( /\//g, '' )
 					.replace( /\(([^)]+)\)/g, '$1' )
+				sTonic = this.oManche.Config.notation.getDefaultNoteName( sTonic, 'EN', 'b' )
 				return sTonic +'/'+ sFile
 				}
 			return ( sChordName.match( /\/[^\d]/)

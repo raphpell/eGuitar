@@ -1,22 +1,26 @@
-oChords ={
-	key: 'C',
-	suffix: 'maj7',
+oChords={
 	positions: [
 		{
-			frets: '332000',
-			fingers: '231000'
+			frets: 'x32000',
+			fingers: '031000'
 		},
 		{
-			frets: '335453',
-			fingers: '113241',
-			barres: 3,
-			capo: true
+			frets: 'x35450',
+			fingers: '132200'
 		},
 		{
-			frets: 'xx5557',
-			fingers: '001114',
-			barres: 5,
-			capo: true
+			frets: 'x35453',
+			fingers: '013241',
+			barres: 3
+		},
+		{
+			frets: '8a99xx',
+			fingers: '132200'
+		},
+		{
+			frets: '8x998x',
+			fingers: '502310',
+			barres: 5
 		},
 		{
 			frets: 'xxaccc',

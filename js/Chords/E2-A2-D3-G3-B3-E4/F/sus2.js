@@ -1,30 +1,19 @@
 oChords ={
-	key: 'F',
-	suffix: 'sus2',
 	positions: [
 		{
 			frets: '133x13',
 			fingers: '123014',
-			barres: 1,
-			capo: true
+			barres: 1
 		},
 		{
-			frets: '333563',
-			fingers: '111341',
-			barres: 3,
-			capo: true
-		},
-		{
-			frets: '88aa88',
-			fingers: '113411',
-			barres: 8,
-			capo: true
+			frets: 'x8aa88',
+			fingers: '013411',
+			barres: 8
 		},
 		{
 			frets: 'daacdx',
 			fingers: '311240',
-			barres: 10,
-			capo: true
+			barres: 10
 		}
 	]
 }

@@ -1,22 +1,13 @@
-oChords ={
-	key: 'C',
-	suffix: 'm7b5',
+oChords={
 	positions: [
 		{
 			frets: 'x3434x',
 			fingers: '013240'
 		},
 		{
-			frets: 'xx4546',
-			fingers: '001214',
-			barres: 4,
-			capo: true
-		},
-		{
 			frets: '89a8b8',
 			fingers: '123141',
-			barres: 8,
-			capo: true
+			barres: 8
 		},
 		{
 			frets: 'xxabbb',
