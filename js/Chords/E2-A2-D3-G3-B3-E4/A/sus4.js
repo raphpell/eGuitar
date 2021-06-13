@@ -13,6 +13,11 @@ oChords={
 			fingers: '000010'
 		},
 		{
+			frets: '557755',
+			fingers: '113411',
+			barres: 5
+		},
+		{
 			frets: '577755',
 			fingers: '133411',
 			barres: [5, 7]
