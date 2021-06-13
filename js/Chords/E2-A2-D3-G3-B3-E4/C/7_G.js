@@ -1,5 +1,5 @@
 oChords={
-	positions: [
+	positions:[
 		{
 			frets: '3323xx',
 			fingers: '231400'
