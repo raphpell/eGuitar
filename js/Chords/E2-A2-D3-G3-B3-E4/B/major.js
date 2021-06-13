@@ -1,30 +1,32 @@
 oChords ={
-	key: 'B',
-	suffix: 'M',
 	positions: [
 		{
-			frets: '224442',
-			fingers: '112341',
-			barres: 2,
-			capo: true
+			frets: 'x24442',
+			fingers: '012341',
+			barres: 2
 		},
 		{
-			frets: 'xx4447',
-			fingers: '001114',
-			barres: 4,
-			capo: true
+			frets: '7644xx',
+			fingers: '431100',
+			barres: 4
 		},
 		{
 			frets: '799877',
 			fingers: '134211',
-			barres: 7,
-			capo: true
+			barres: 7
 		},
 		{
-			frets: 'x99bcb',
-			fingers: '011243',
-			barres: 9,
-			capo: true
+			frets: '7xx87x',
+			fingers: '500320'
+		},
+		{
+			frets: 'xx9bcb',
+			fingers: '001243',
+			barres: 9
+		},
+		{
+			frets: 'xedbcxx',
+			fingers: '043120'
 		}
 	]
 }
