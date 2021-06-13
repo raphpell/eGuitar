@@ -1,4 +1,4 @@
-oChords ={
+oChords={
 	key: 'D',
 	suffix: '5',
 	positions: [
