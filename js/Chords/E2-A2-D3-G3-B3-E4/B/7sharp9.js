@@ -1,4 +1,4 @@
-oChords ={
+oChords={
 	positions: [
 		{
 			frets: 'x2123x',

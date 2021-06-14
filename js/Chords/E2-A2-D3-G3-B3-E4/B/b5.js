@@ -1,4 +1,4 @@
-oChords ={
+oChords={
 	key: 'B',
 	suffix: 'alt',
 	positions: [

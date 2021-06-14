@@ -1,4 +1,4 @@
-oChords ={
+oChords={
 	positions: [
 		{
 			frets: 'x20232',
@@ -15,15 +15,6 @@ oChords ={
 			barres: 2
 		},
 		{
-			frets: '224232',
-			fingers: '113121',
-			barres: 2
-		},
-		{
-			frets: 'xx4435',
-			fingers: '002314'
-		},
-		{
 			frets: '7x777x',
 			fingers: '203330'
 		},
@@ -36,11 +27,6 @@ oChords ={
 			frets: '7977a7',
 			fingers: '131141',
 			barres: 7
-		},
-		{
-			frets: 'x99baa',
-			fingers: '011423',
-			barres: 9
 		}
 	]
 }

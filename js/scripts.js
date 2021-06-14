@@ -694,9 +694,18 @@ ChordsBox =(function(){
 				m: "minor",
 				M: "major"
 				}
-			let fSlash =()=>{
+			let replaceChars =( sChord )=>{
+				return sChord
+					.replace( /[♯#]/g, 'sharp' )
+					.replace( 'M', 'maj' )
+					.replace( /♭/g, 'b' )
+					.replace( /\//g, '' )
+					.replace( /\(([^)]+)\)/g, '$1' )
+				}
+			, fSlash =()=>{
 				let a = this.oManche.Config.notation.getDefaultSequence( sTonic )
-				let nIndex = parseInt( sChord.replace( /[^\(]+\((\d).*/, '$1' ))
+				let nIndex = parseInt( sChord.replace( /.*\((\d).*$/, '$1' ))
+				console.info( sChord, nIndex )
 				
 				let n = sMask.indexOf('1')
 				let indices = []
@@ -707,21 +716,13 @@ ChordsBox =(function(){
 				let sRealTonic = a[ indices[ indices.length-nIndex ]]
 				let sRealChordName = sChord.replace( /( \(.*\))/gim, '' )
 				if( sRealChordName == 'M' ) sRealChordName = ''
-				sRealChordName = sRealChordName
-					.replace( /[♯#]/g, 'sharp' )
-					.replace( 'M', 'maj' )
-					.replace( /♭/g, 'b' )
+				sRealChordName = replaceChars( sRealChordName )
 				sTonic = this.oManche.Config.notation.getDefaultNoteName( sTonic, 'EN', '#' )
 				sRealTonic = this.oManche.Config.notation.getDefaultNoteName( sRealTonic, 'EN', 'b' )
 				return sRealTonic +'/'+sRealChordName+'_'+ sTonic.replace( '♯', 'sharp' )
 				}
-			let f =()=>{
-				let sFile = ( o[ sChord ] || sChord )
-					.replace( /[♯#]/g, 'sharp' )
-					.replace( 'M', 'maj' )
-					.replace( /♭/g, 'b' )
-					.replace( /\//g, '' )
-					.replace( /\(([^)]+)\)/g, '$1' )
+			, f =()=>{
+				let sFile = replaceChars( o[ sChord ] || sChord )
 				sTonic = this.oManche.Config.notation.getDefaultNoteName( sTonic, 'EN', 'b' )
 				return sTonic +'/'+ sFile
 				}
