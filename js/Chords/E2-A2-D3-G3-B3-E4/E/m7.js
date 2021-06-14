@@ -1,22 +1,16 @@
-oChords ={
-	key: 'E',
-	suffix: 'm7',
+oChords={
 	positions: [
 		{
 			frets: '0x000x',
 			fingers: '203330'
 		},
 		{
-			frets: 'cxcccx',
-			fingers: '203330'
-		},
-		{
-				frets: '022030',
-				fingers: '023040'
-		},
-		{
 			frets: '020000',
 			fingers: '020000'
+		},
+		{
+			frets: '022030',
+			fingers: '023040'
 		},
 		{
 			frets: '022433',
@@ -24,14 +18,13 @@ oChords ={
 			barres: 2
 		},
 		{
-			frets: '779787',
-			fingers: '113121',
-			barres: 7,
-			capo: true
+			frets: 'x79787',
+			fingers: '013121',
+			barres: 7
 		},
 		{
-			frets: 'xx998a',
-			fingers: '002314'
+			frets: 'cxcccx',
+			fingers: '501110'
 		}
 	]
 }

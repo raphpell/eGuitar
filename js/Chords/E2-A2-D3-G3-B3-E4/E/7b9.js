@@ -1,6 +1,4 @@
-oChords ={
-	key: 'E',
-	suffix: '7b9',
+oChords={
 	positions: [
 		{
 			frets: '020101',
@@ -14,8 +12,7 @@ oChords ={
 		{
 			frets: 'x76767',
 			fingers: '021314',
-			barres: 6,
-			capo: true
+			barres: 6
 		},
 		{
 			frets: 'cbcaxx',
