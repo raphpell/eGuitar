@@ -1,6 +1,4 @@
 oChords ={
-	key: 'G',
-	suffix: 'sus2sus4',
 	positions: [
 		{
 			frets: '33021x',

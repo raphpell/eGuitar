@@ -1,6 +1,4 @@
 oChords ={
-	key: 'G',
-	suffix: 'dim7',
 	positions: [
 		{
 			frets: '31x320',
@@ -13,8 +11,7 @@ oChords ={
 		{
 			frets: '345353',
 			fingers: '123141',
-			barres: 3,
-			capo: true
+			barres: 3
 		},
 		{
 			frets: 'xx5656',

@@ -9,8 +9,16 @@ oChords={
 			fingers: '020000'
 		},
 		{
+			frets: '020003',
+			fingers: '010002'
+		},
+		{
 			frets: '022030',
 			fingers: '023040'
+		},
+		{
+			frets: '020033',
+			fingers: '010023'
 		},
 		{
 			frets: '022433',

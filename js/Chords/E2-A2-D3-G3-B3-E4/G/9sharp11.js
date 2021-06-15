@@ -1,12 +1,9 @@
 oChords ={
-	key: 'G',
-	suffix: '9#11',
 	positions: [
 		{
 			frets: '323223',
 			fingers: '213114',
-			barres: 2,
-			capo: true
+			barres: 2
 		},
 		{
 			frets: 'xx5667',
@@ -15,14 +12,12 @@ oChords ={
 		{
 			frets: 'xa9aa9',
 			fingers: '021341',
-			barres: 9,
-			capo: true
+			barres: 9
 		},
 		{
 			frets: 'xabaca',
 			fingers: '012131',
-			barres: 10,
-			capo: true
+			barres: 10
 		}
 	]
 }
