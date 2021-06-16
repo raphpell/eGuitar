@@ -1,18 +1,14 @@
 oChords ={
-	key: 'Ab',
-	suffix: '9',
 	positions: [
 		{
 			frets: '43434x',
 			fingers: '213140',
-			barres: 3,
-			capo: true
+			barres: 3
 		},
 		{
 			frets: '464546',
 			fingers: '131214',
-			barres: 4,
-			capo: true
+			barres: 4
 		},
 		{
 			frets: 'xx6576',
