@@ -1,6 +1,11 @@
 oChords ={
 	positions: [
 		{
+			frets: '113311',
+			fingers: '113411',
+			barres: 1
+		},
+		{
 			frets: '133311',
 			fingers: '123411',
 			barres: 1
