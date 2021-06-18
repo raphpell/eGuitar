@@ -1,30 +1,24 @@
 oChords ={
-	key: 'Db',
-	suffix: 'sus2',
 	positions: [
 		{
-			frets: '446644',
-			fingers: '113411',
-			barres: 4,
-			capo: true
+			frets: 'x46644',
+			fingers: '013411',
+			barres: 4
 		},
 		{
-			frets: '96689x',
-			fingers: '010023',
-			barres: 6,
-			capo: true
+			frets: '9xx89x',
+			fingers: '500120',
+			barres: 6
 		},
 		{
 			frets: '9bbx9b',
 			fingers: '123014',
-			barres: 9,
-			capo: true
+			barres: 9
 		},
 		{
-			frets: 'bbbdeb',
-			fingers: '111341',
-			barres: 11,
-			capo: true
+			frets: 'xxbdeb',
+			fingers: '001341',
+			barres: 11
 		}
 	]
 }

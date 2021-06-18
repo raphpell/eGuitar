@@ -1,6 +1,4 @@
 oChords ={
-	key: 'Db',
-	suffix: 'alt',
 	positions: [
 		{
 			frets: 'x43021',

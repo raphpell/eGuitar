@@ -1,12 +1,9 @@
 oChords ={
-	key: 'Db',
-	suffix: 'mmaj9',
 	positions: [
 		{
 			frets: 'x41110',
 			fingers: '041110',
-			barres: 1,
-			capo: true
+			barres: 1
 		},
 		{
 			frets: 'x42540',
@@ -20,8 +17,7 @@ oChords ={
 		{
 			frets: '9ba99b',
 			fingers: '132114',
-			barres: 9,
-			capo: true
+			barres: 9
 		}
 	]
 }
