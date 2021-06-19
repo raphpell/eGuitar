@@ -42,7 +42,7 @@ Object.assign( L10n, {
 	})
 
 L10n.FR ={
-	PASDSUGG:	"Construisez l'accord !",
+	PASDSUGG:	"Construisez un accord",
 	DATEM:		'Dernière modification le ',
 	INVERSION:'renv.',
 	PREMIER:'1er',
@@ -112,7 +112,7 @@ L10n.FR ={
 	Chrom:		'Chromatique',
 	}
 L10n.EN ={
-	PASDSUGG:	'Build the chord !',
+	PASDSUGG:	'Build a chord',
 	DATEM:		'Last update ',
 	INVERSION:'inv.',
 	PREMIER:'1st',
