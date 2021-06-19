@@ -1,5 +1,6 @@
 let playTone
 let playChord
+
 ;(function(){
 	//Create Audio Context
 	let AudioContext = window.AudioContext || window.webkitAudioContext
@@ -83,6 +84,7 @@ let playChord
 		return o
 		}
 	, createEffect = function(){
+		/* 
 		let d = context.createWaveShaper()
 		d.curve = aCourbe
 		let g = context.createGain()
@@ -97,23 +99,38 @@ let playChord
 		d.connect(g)
 		g.connect( context.destination )
 		return d
+		*/
+		let g = context.createGain()
+		g.gain.value = .5
+		g.gain.exponentialRampToValueAtTime( 0.0001, context.currentTime + 2.000 )
+		g.gain.setValueAtTime( g.gain.value, context.currentTime + .2 )
+		g.gain.setValueAtTime( g.gain.value, context.currentTime + .4 )
+		g.gain.setValueAtTime( g.gain.value, context.currentTime + .6)
+		g.gain.setValueAtTime( g.gain.value, context.currentTime + .8)
+		g.gain.setValueAtTime( g.gain.value, context.currentTime + 1)
+		g.connect( context.destination )
+		return g
 		}
 
 	// Emet le son d'une note
 	playTone =( sNoteOctave, nFreqLa ) => {
-			if( ! context ) context = new AudioContext()
-			let o = createEffect()
-			createSignal( sNoteOctave, nFreqLa, o ).start(0)
-			}
-
-	playChord =( sNotes, nFreqLa, n ) => {
-		n = n !== undefined ? n : .025
 		if( ! context ) context = new AudioContext()
-		let a = sNotes.split(','), o = createEffect()
-		for(var i=0, ni=a.length; i<ni; i++ )
-			createSignal( a[i], nFreqLa, o ).start(i*n)
+		let o = createEffect()
+		createSignal( sNoteOctave, nFreqLa, o ).start(0)
 		}
+
+	// Joue un accord
 //	playChord('E2,B2,E3,G#3,B3,E4', 440)
+//	playChord(['E2','B2','E3'], 440)
+	playChord =( mNotes, nFreqLa, n ) => {
+		n = n !== undefined ? n : .025
+		if( context ) delete context
+		context = new AudioContext()
+		let a = mNotes.constructor == Array ? mNotes : mNotes.split(','), o = createEffect()
+		for(var i=0, ni=a.length; i<ni; i++ ){
+			if( a[i] ) createSignal( a[i], nFreqLa, o ).start(i*n)
+			}
+		}
 	})()
 	
 /*

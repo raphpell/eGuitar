@@ -508,7 +508,11 @@ class Manche {
 	cssNote ( nCorde, nCase, sMethod, sClassName ){
 		let a = this.aCordes[ nCorde-1 ]
 		var e = a && a[ nCase ]
-		if( e ) e.classList[ sMethod ]( sClassName )
+		if( e ){
+			e.classList[ sMethod ]( sClassName )
+			e = e.firstChild
+			return e.note + e.octave
+			}
 		}
 	addFinger ( nCorde, nCase, nFinger ){
 		let a = this.aCordes[ nCorde-1 ]
@@ -638,6 +642,7 @@ ChordsBox =(function(){
 					eSelected = e
 					oManche.highlight()
 					that.clearFingers()
+					let aNotes = []
 					if( e.info ){
 						oManche.lowlight()
 						let s = e.info.frets, sChar
@@ -646,10 +651,11 @@ ChordsBox =(function(){
 							if( sChar!='x' ){
 								let nCorde = i+1
 								, nCase = parseInt( sChar, 16 )
-								oManche.cssNote( nCorde, nCase, 'remove', 'contrast50' )
+								aNotes.push( oManche.cssNote( nCorde, nCase, 'remove', 'contrast50' ))
 								that.aFingers.push( oManche.addFinger( nCorde, nCase, e.info.fingers.charAt(i)))
 								}
 							}
+						if( o.sound.value ) playChord( aNotes, o.la3.value, .150 )
 						}
 					}
 				}
