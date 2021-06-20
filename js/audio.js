@@ -7,7 +7,8 @@ let playChord
 	let context = new AudioContext()
 
 	// Utilitaire Mathématique
-	;(function(){
+	if( ! Math.round10 )
+	(function(){
 		function decimalAdjust ( type, value, exp ){
 			value = +value
 			exp = +exp
