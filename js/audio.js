@@ -109,7 +109,7 @@ let playChord
 		// Connect our strings to the sink
 		const dst = context.destination
 		for( let i = 0, ni=a.length ; i < ni ; i++ )
-			setTimeout( () => { pluck( tone( a[i], nFreqLa ) ).connect(dst); }, stagger * i )
+			if( a[i] ) setTimeout( () => { pluck( tone( a[i], nFreqLa ) ).connect(dst); }, stagger * i )
 		}
 
 	function mute() {
