@@ -29,12 +29,32 @@ let playChord
 	*/
 	// Signal dampening amount
 	let dampening = 0.99
+	// By applying postGain inside the waveshaper curve,
+	// we can combine the GainNode and the WaveShaperNode
+	// into one WaveShaperNode
+	let postGain = 0.25
 
-	// Returns a AudioNode object that will produce a plucking sound
-	function pluck( frequency ){
+	// Creates a waveshaper curve with distortion amount > 0
+	function makeDistortionCurve(amount) {
+		// The curve is discrete, so it needs a resolution
+		var samples = 100
+		var curve = new Float32Array(samples)
+		var deg = Math.PI / 180
+		// We add the mapping for our signal in the range of [-1, 1]
+		for (var i = 0; i < samples; i++){
+			var x = i * 2 / samples - 1
+			// I'd be lying if I can tell you how this equation is dervied.
+			// Its probably just good ol' trial and error.
+			curve[i] = (3 + amount) * x * postGain * 60 * deg / (Math.PI + amount * Math.abs(x))
+			}
+		return curve
+		}
+
+	// 
+	function playFrequence( frequency ){
 		// We create a script processor that will enable
 		// low-level signal sample access
-		const pluck = context.createScriptProcessor(4096, 0, 1)
+		const SP = context.createScriptProcessor( 4096, 0, 1 )
 
 		// N is the period of our signal in samples
 		const N = Math.round( context.sampleRate / frequency )
@@ -48,7 +68,7 @@ let playChord
 
 		// This callback produces the sound signal
 		let n = 0
-		pluck.onaudioprocess = function(e){
+		SP.onaudioprocess = function(e){
 			// We get a reference to the outputBuffer
 			const output = e.outputBuffer.getChannelData(0)
 
@@ -77,22 +97,35 @@ let playChord
 		// noise, making the signal sound like a harpsichord. We
 		// apply a bandpass centred on our target frequency to remove
 		// these unwanted noise.
-		const bandpass = context.createBiquadFilter()
-		bandpass.type = "bandpass"
-		bandpass.frequency.value = frequency
-		bandpass.Q.value = 1
+		
+		const BF = context.createBiquadFilter()
+		BF.type = "bandpass"
+		BF.frequency.value = frequency
+		BF.Q.value = 1
+		
+		SP.connect( BF )
+		
+/* 
+		const BF = context.createBiquadFilter()
+		BF.type = "lowpass"
+		BF.frequency.value = context.sampleRate / 8
+	//	BF.frequency.value = frequency
+	//	BF.Q.value = 1
 
-		// We connect the ScriptProcessorNode to the BiquadFilterNode
-		pluck.connect(bandpass)
+		var WS = context.createWaveShaper()
+		WS.curve = makeDistortionCurve(100)
+		WS.oversample = '4x'
+		
+		SP.connect( WS )
+		WS.connect( BF )
+ */
 
 		// Our signal would have died down by 2s, so we automatically
 		// disconnect eventually to prevent leaking memory.
-		setTimeout(() => { pluck.disconnect(); }, 2000 )
-		setTimeout(() => { bandpass.disconnect(); }, 2000 )
+		setTimeout( ()=>{ SP.disconnect()}, 2000 )
+		setTimeout( ()=>{ BF.disconnect()}, 2000 )
 
-		// The bandpass is last AudioNode in the chain, so we return
-		// it as the "pluck"
-		return bandpass
+		return BF.connect( context.destination )
 		}
 
 
@@ -107,9 +140,8 @@ let playChord
 		dampening = 0.99
 
 		// Connect our strings to the sink
-		const dst = context.destination
 		for( let i = 0, ni=a.length ; i < ni ; i++ )
-			if( a[i] ) setTimeout( () => { pluck( tone( a[i], nFreqLa ) ).connect(dst); }, stagger * i )
+			if( a[i] ) setTimeout( ()=>{ playFrequence( tone( a[i], nFreqLa ))}, stagger * i )
 		}
 
 	function mute() {
@@ -143,7 +175,6 @@ let playChord
 			'Fa':'F',
 			'Sol':'G'
 			}
-
 		return ( sNoteOctave, nFreqLa ) => {
 			let sId = sNoteOctave + nFreqLa
 			if( cache[sId ]) return cache[ sId ]
@@ -163,7 +194,7 @@ let playChord
 
 	// Emet le son d'une note
 	playTone =( sNoteOctave, nFreqLa ) => {
-		context.resume().then( pluck( tone( sNoteOctave, nFreqLa )).connect( context.destination ))
+		context.resume().then( playFrequence( tone( sNoteOctave, nFreqLa )))
 		return mute
 		}
 		
