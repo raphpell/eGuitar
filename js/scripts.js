@@ -655,7 +655,7 @@ ChordsBox =(function(){
 								that.aFingers.push( oManche.addFinger( nCorde, nCase, e.info.fingers.charAt(i)))
 								}
 							}
-						if( o.sound.value ) playChord( aNotes, o.la3.value, .150 )
+						if( o.sound.value ) playChord( aNotes, o.la3.value, 50 )
 						}
 					}
 				}

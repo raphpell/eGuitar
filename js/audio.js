@@ -4,9 +4,9 @@ let playChord
 ;(function(){
 	//Create Audio Context
 	let AudioContext = window.AudioContext || window.webkitAudioContext
-	let context
+	let context = new AudioContext()
 
-	// Utilitaire
+	// Utilitaire Mathématique
 	;(function(){
 		function decimalAdjust ( type, value, exp ){
 			value = +value
@@ -21,7 +21,103 @@ let playChord
 		if( ! Math.ceil10 ) Math.ceil10 =function( value, exp ){ return decimalAdjust('ceil', value, exp)}
 		})()
 
-	let tone =(function(){ // Retourne la fréquence d'une note
+	/*
+	Main ideas from :
+		https://codepen.io/johnslipper/details/eYgZMRL
+		https://fazli.sapuan.org/blog/electric-guitar-synth-in-html5/
+	*/
+	// Signal dampening amount
+	let dampening = 0.99
+
+	// Returns a AudioNode object that will produce a plucking sound
+	function pluck( frequency ){
+		// We create a script processor that will enable
+		// low-level signal sample access
+		const pluck = context.createScriptProcessor(4096, 0, 1)
+
+		// N is the period of our signal in samples
+		const N = Math.round( context.sampleRate / frequency )
+
+		// y is the signal presently
+		const y = new Float32Array(N)
+		for( let i = 0; i < N; i++ ){
+			// We fill this with gaussian noise between [-1, 1]
+			y[i] = Math.random() * 2 - 1
+			}
+
+		// This callback produces the sound signal
+		let n = 0
+		pluck.onaudioprocess = function(e){
+			// We get a reference to the outputBuffer
+			const output = e.outputBuffer.getChannelData(0)
+
+			// We fill the outputBuffer with our generated signal
+			for( let i = 0; i < e.outputBuffer.length; i++ ){
+				// This averages the current sample with the next one
+				// Effectively, this is a lowpass filter with a
+				// frequency exactly half of sampling rate
+				y[n] = (y[n] + y[(n + 1) % N]) / 2
+
+				// Put the actual sample into the buffer
+				output[i] = y[n]
+
+				// Hasten the signal decay by applying dampening.
+				y[n] *= dampening
+
+				// Counting constiables to help us read our current
+				// signal y
+				n++
+				if (n >= N) n = 0
+				}
+			}
+
+		// The resulting signal is not as clean as it should be.
+		// In lower frequencies, aliasing is producing sharp sounding
+		// noise, making the signal sound like a harpsichord. We
+		// apply a bandpass centred on our target frequency to remove
+		// these unwanted noise.
+		const bandpass = context.createBiquadFilter()
+		bandpass.type = "bandpass"
+		bandpass.frequency.value = frequency
+		bandpass.Q.value = 1
+
+		// We connect the ScriptProcessorNode to the BiquadFilterNode
+		pluck.connect(bandpass)
+
+		// Our signal would have died down by 2s, so we automatically
+		// disconnect eventually to prevent leaking memory.
+		setTimeout(() => { pluck.disconnect(); }, 2000 )
+		setTimeout(() => { bandpass.disconnect(); }, 2000 )
+
+		// The bandpass is last AudioNode in the chain, so we return
+		// it as the "pluck"
+		return bandpass
+		}
+
+
+	// Fret is an array of finger positions
+	// e.g. [-1, 3, 5, 5, -1, -1];
+	// 0 is an open string
+	// >=1 are the finger positions above the neck
+	function strum( mNotes, nFreqLa, stagger = 25 ){
+		let a = mNotes.constructor == Array ? mNotes : mNotes.split(',')
+		
+		// Reset dampening to the natural state
+		dampening = 0.99
+
+		// Connect our strings to the sink
+		const dst = context.destination
+		for( let i = 0, ni=a.length ; i < ni ; i++ )
+			setTimeout( () => { pluck( tone( a[i], nFreqLa ) ).connect(dst); }, stagger * i )
+		}
+
+	function mute() {
+		dampening = 0.89
+		}
+
+	// Retourne la fréquence d'une note : A4, Mi5, F#2, etc...
+	// en fonction de la fréquence du La3
+	let tone =(function(){ 
 		let cache = {}
 		let oIndex = {
 			'C':0,
@@ -63,93 +159,18 @@ let playChord
 			return cache[sId] = Math.round10( nFreqLa * Math.pow( Math.pow( 2, 1/12 ), n ), -2 )
 			}
 		})()
-	, aCourbe =(function( amount ){ // Retourne courbe de distorsion
-		var k = typeof amount === 'number' ? amount : 50,
-		n_samples = 44100,
-		curve = new Float32Array(n_samples),
-		deg = Math.PI / 180,
-		i = 0,
-		x;
-		for( ; i < n_samples; ++i ){
-			x = i * 2 / n_samples - 1;
-			curve[i] = ( 3 + k ) * x * 20 * deg / ( Math.PI + k * Math.abs(x) );
-			}
-		return curve;
-		})()
-	, createSignal = function( sNoteOctave, nFreqLa, oTarget ){
-		let o = context.createOscillator()
-		o.type = "sine"
-		o.frequency.value = tone( sNoteOctave, nFreqLa )
-		o.connect( oTarget )
-		return o
-		}
-	, createEffect = function(){
-		/* 
-		let d = context.createWaveShaper()
-		d.curve = aCourbe
-		let g = context.createGain()
-		g.gain.value = .5
-		g.gain.exponentialRampToValueAtTime( 0.0001, context.currentTime + 2.000 )
-		g.gain.setValueAtTime( g.gain.value, context.currentTime + .2 )
-		g.gain.setValueAtTime( g.gain.value, context.currentTime + .4 )
-		g.gain.setValueAtTime( g.gain.value, context.currentTime + .6)
-		g.gain.setValueAtTime( g.gain.value, context.currentTime + .8)
-		g.gain.setValueAtTime( g.gain.value, context.currentTime + 1)
-
-		d.connect(g)
-		g.connect( context.destination )
-		return d
-		*/
-		let g = context.createGain()
-		g.gain.value = .5
-		g.gain.exponentialRampToValueAtTime( 0.0001, context.currentTime + 2.000 )
-		g.gain.setValueAtTime( g.gain.value, context.currentTime + .2 )
-		g.gain.setValueAtTime( g.gain.value, context.currentTime + .4 )
-		g.gain.setValueAtTime( g.gain.value, context.currentTime + .6)
-		g.gain.setValueAtTime( g.gain.value, context.currentTime + .8)
-		g.gain.setValueAtTime( g.gain.value, context.currentTime + 1)
-		g.connect( context.destination )
-		return g
-		}
 
 	// Emet le son d'une note
 	playTone =( sNoteOctave, nFreqLa ) => {
-		if( ! context ) context = new AudioContext()
-		let o = createEffect()
-		createSignal( sNoteOctave, nFreqLa, o ).start(0)
+		context.resume().then( pluck( tone( sNoteOctave, nFreqLa )).connect( context.destination ))
+		return mute
 		}
-
+		
 	// Joue un accord
-//	playChord('E2,B2,E3,G#3,B3,E4', 440)
-//	playChord(['E2','B2','E3'], 440)
-	playChord =( mNotes, nFreqLa, n ) => {
-		n = n !== undefined ? n : .025
-		if( context ) delete context
-		context = new AudioContext()
-		let a = mNotes.constructor == Array ? mNotes : mNotes.split(','), o = createEffect()
-		for(var i=0, ni=a.length; i<ni; i++ ){
-			if( a[i] ) createSignal( a[i], nFreqLa, o ).start(i*n)
-			}
+	//	playChord( 'E2,B2,E3,G#3,B3,E4', 440, 50 )
+	//	playChord( ['E2','B2','E3'], 440, 150 )
+	playChord = ( mNotes, nFreqLa, nTime )=>{
+		context.resume().then( strum( mNotes, nFreqLa, nTime ))
+		return mute
 		}
 	})()
-	
-/*
-	this.low = audioCtx.createBiquadFilter();
-	this.low.type = "lowshelf";
-	this.low.frequency.value = 320.0;
-	this.low.gain.value = 0.0;
-	this.low.connect( this.xfadeGain );
-
-	this.mid = audioCtx.createBiquadFilter();
-	this.mid.type = "peaking";
-	this.mid.frequency.value = 1000.0;
-	this.mid.Q.value = 0.5;
-	this.mid.gain.value = 0.0;
-	this.mid.connect( this.low );
-
-	this.high = audioCtx.createBiquadFilter();
-	this.high.type = "highshelf";
-	this.high.frequency.value = 3200.0;
-	this.high.gain.value = 0.0;
-	this.high.connect( this.mid );
-*/
