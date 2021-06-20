@@ -667,7 +667,7 @@ ChordsBox =(function(){
 				oManche.highlight()
 				this.clearChords()
 				}
-				
+
 		//	o.mask.addSubscriber( 'ChordsBox:load0', f )
 			o.tonic.addSubscriber( 'ChordsBox:load1', f )
 			o.scale.addSubscriber( 'ChordsBox:load2', f )
