@@ -22,6 +22,50 @@ let playChord
 		if( ! Math.ceil10 ) Math.ceil10 =function( value, exp ){ return decimalAdjust('ceil', value, exp)}
 		})()
 
+	// Retourne la fréquence d'une note : A4, Mi5, F#2, etc...
+	// en fonction de la fréquence du La3
+	let tone =(function(){ 
+		let cache = {}
+		let oIndex = {
+			'C':0,
+			'C#':1,'C♯':1,'Db':1,'D♭':1,
+			'D':2,
+			'D#':3,'D♯':3,'Eb':3,'E♭':3,
+			'E':4,
+			'F':5,
+			'F#':6,'F♯':6,'Gb':6,'G♭':6,
+			'G':7,
+			'G#':8,'G♯':8,'Ab':8,'A♭':8,
+			'A':9,
+			'A#':10,'A♯':10,'Bb':10,'B♭':10,
+			'B':11
+			}
+		let oIndex2= {
+			'La':'A',
+			'Si':'B',
+			'Do':'C',
+			'Ré':'D',
+			'Mi':'E',
+			'Fa':'F',
+			'Sol':'G'
+			}
+		return ( sNoteOctave, nFreqLa ) => {
+			let sId = sNoteOctave + nFreqLa
+			if( cache[sId ]) return cache[ sId ]
+			let nOctave =  sNoteOctave.charAt( sNoteOctave.length-1 )
+			let sNote =  sNoteOctave.slice( 0, -1 )
+			if( oIndex[ sNote ] === undefined ){
+				var a = sNote.replace(/([^#♯b♭]*)([#♯b♭]*)/, function ( matched, m1, m2 ){ return [m1, m2]}).split(',')
+				sNote2 = oIndex2[ a[0]] + a[1]
+				if( oIndex[ sNote2 ] === undefined ) throw Error(`La note "${sNote2}" existe ?`)
+				sNote = sNote2
+				}
+			let nIndex = oIndex[ sNote ] - 9
+			let n = nIndex + 12 * ( nOctave - 3 )
+			return cache[sId] = Math.round10( nFreqLa * Math.pow( Math.pow( 2, 1/12 ), n ), -2 )
+			}
+		})()
+
 	/*
 	Main ideas from :
 		https://codepen.io/johnslipper/details/eYgZMRL
@@ -29,6 +73,7 @@ let playChord
 	*/
 	// Signal dampening amount
 	let dampening = 0.99
+
 	// By applying postGain inside the waveshaper curve,
 	// we can combine the GainNode and the WaveShaperNode
 	// into one WaveShaperNode
@@ -128,7 +173,6 @@ let playChord
 		return BF.connect( context.destination )
 		}
 
-
 	// Fret is an array of finger positions
 	// e.g. [-1, 3, 5, 5, -1, -1];
 	// 0 is an open string
@@ -148,56 +192,12 @@ let playChord
 		dampening = 0.89
 		}
 
-	// Retourne la fréquence d'une note : A4, Mi5, F#2, etc...
-	// en fonction de la fréquence du La3
-	let tone =(function(){ 
-		let cache = {}
-		let oIndex = {
-			'C':0,
-			'C#':1,'C♯':1,'Db':1,'D♭':1,
-			'D':2,
-			'D#':3,'D♯':3,'Eb':3,'E♭':3,
-			'E':4,
-			'F':5,
-			'F#':6,'F♯':6,'Gb':6,'G♭':6,
-			'G':7,
-			'G#':8,'G♯':8,'Ab':8,'A♭':8,
-			'A':9,
-			'A#':10,'A♯':10,'Bb':10,'B♭':10,
-			'B':11
-			}
-		let oIndex2= {
-			'La':'A',
-			'Si':'B',
-			'Do':'C',
-			'Ré':'D',
-			'Mi':'E',
-			'Fa':'F',
-			'Sol':'G'
-			}
-		return ( sNoteOctave, nFreqLa ) => {
-			let sId = sNoteOctave + nFreqLa
-			if( cache[sId ]) return cache[ sId ]
-			let nOctave =  sNoteOctave.charAt( sNoteOctave.length-1 )
-			let sNote =  sNoteOctave.slice( 0, -1 )
-			if( oIndex[ sNote ] === undefined ){
-				var a = sNote.replace(/([^#♯b♭]*)([#♯b♭]*)/, function ( matched, m1, m2 ){ return [m1, m2]}).split(',')
-				sNote2 = oIndex2[ a[0]] + a[1]
-				if( oIndex[ sNote2 ] === undefined ) throw Error(`La note "${sNote2}" existe ?`)
-				sNote = sNote2
-				}
-			let nIndex = oIndex[ sNote ] - 9
-			let n = nIndex + 12 * ( nOctave - 3 )
-			return cache[sId] = Math.round10( nFreqLa * Math.pow( Math.pow( 2, 1/12 ), n ), -2 )
-			}
-		})()
-
 	// Emet le son d'une note
 	playTone =( sNoteOctave, nFreqLa ) => {
 		context.resume().then( playFrequence( tone( sNoteOctave, nFreqLa )))
 		return mute
 		}
-		
+
 	// Joue un accord
 	//	playChord( 'E2,B2,E3,G#3,B3,E4', 440, 50 )
 	//	playChord( ['E2','B2','E3'], 440, 150 )
