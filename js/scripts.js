@@ -678,7 +678,7 @@ ChordsBox =(function(){
 				this.clearChords()
 				}
 
-		//	o.mask.addSubscriber( 'ChordsBox:load0', f )
+			o.tuning.addSubscriber( 'ChordsBox:load0', ()=> that.loadChords())
 			o.tonic.addSubscriber( 'ChordsBox:load1', f )
 			o.scale.addSubscriber( 'ChordsBox:load2', f )
 			o.chord.addSubscriber( 'ChordsBox:load3', ()=> that.loadChords())
