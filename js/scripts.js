@@ -627,7 +627,7 @@ class IntervalBox {
 		}
 	}
 
-let oChords
+let oChords // Chord loading from a Script Node
 ChordsBox =(function(){
 	let sTuning
 	let oCache ={}
@@ -834,7 +834,7 @@ let Harmonie ={
 			, eChords = this.eChords = selectbox(
 				'eChords',
 				L10n('ARPEGE'),
-				Arpeggio,
+				Arpeggios,
 				Config.mask.value,
 				() => Config.mask.value = eChords.value
 				)
@@ -904,14 +904,28 @@ let Harmonie ={
 			o.notation.addSubscriber( 'HarmonieTable.displayChords', f )
 			}
 		createHTMLForm(){
-			let e1, e2
+			let e1, e2, e3 = Tag('SELECT'), that= this
 			let fOnClick = function(){
-				if( e1.checked ) alert( 'Not implemented yet... '+e2.value )
+				if( e1.checked && e2.value ){
+					alert( 'Not implemented yet... '+ e2.value + '-'+ e3.value )
+					// sauvegarde les données
+					let sKey = 'user_'+ e3.value +'s'
+					let a = Memoire.get( sKey ) || []
+					a.unshift([ that.Config.mask.value , e2.value ])
+					Memoire.set( sKey, a )
+					// Ajout des données
+					document.location.reload()
+					}
 				}
+			Append( e3, [
+				Tag('OPTION', { value:'scale', innerHTML:L10n('GAMME') }),
+				Tag('OPTION', { value:'arpeggio', innerHTML:L10n('ARPEGE') })
+				])
 			return Append( new DocumentFragment, [
 				e1 = Tag('INPUT', { type:'checkbox', id: 'eNewCB' }),
 				e2 = Tag('INPUT', { type:'text', placeholder:"Nom d'intervalle" }),
-				Tag('LABEL', { htmlFor:'eNewCB', innerHTML:'&#10133;', onclick:fOnClick })
+				e3,
+				Tag('LABEL', { htmlFor:'eNewCB', innerHTML:L10n('ADD'), onclick:fOnClick })
 				])
 			}
 		displayChords ( sTonic, sMask, sName ){
@@ -978,7 +992,7 @@ let Harmonie ={
 		searchChords ( sMask ){
 			sMask = sMask || this.Config.scale.value[0]
 			let aResult = [], bInversion = this.Config.inversion.value
-			Arpeggio.forEach( a => {
+			Arpeggios.forEach( a => {
 				if( bInversion || !~a[1].indexOf( L10n('INVERSION')) )
 					if( Harmonie.isMaskIn( a[0] ,sMask )) aResult.push( a )
 				})
@@ -992,7 +1006,7 @@ let Harmonie ={
 			let nIndexName = 12
 			let nIndexNotes = 13
 			let nIndexAmount = 14
-			Arpeggio.forEach( a => {
+			Arpeggios.forEach( a => {
 				var sChordName =  a[1]
 				sOtherName = a[2]
 				sOtherName = (sOtherName?' <small>'+sOtherName.replace(/\|/gi,', ')+'</small>':'')
@@ -1018,8 +1032,8 @@ let Harmonie ={
 				})
 
 			var aTR = []
-			for(var i=0, ni=Arpeggio.length; i<ni; i++ ){
-				var sChordName = Arpeggio[i][1]
+			for(var i=0, ni=Arpeggios.length; i<ni; i++ ){
+				var sChordName = Arpeggios[i][1]
 				if( o[ sChordName ][nIndexAmount] > 0 ){
 					let a = o[ sChordName ]
 					for(var j=0, nj=a.length; j<nj; j++ ){
@@ -1059,7 +1073,7 @@ let Harmonie ={
 
 			let e = Tag( 'CAPTION', { tonique:sScaleTonic, scale:sScaleMask }), s
 
-//			if( this.sScaleName != Harmonie.noname ){
+		//	if( this.sScaleName != Harmonie.noname ){
 				s = ( ~this.Config.scale.value[2].indexOf('scale') )
 					? sScaleTonic +' '+ (this.Config.scale.value[3]||this.Config.scale.value[1])
 					: this.getChordName( sScaleTonic, sScaleMask, this.sScaleName )
@@ -1067,13 +1081,13 @@ let Harmonie ={
 					e.innerHTML = '<h2>'+ s +'</h2>'
 					if( eTitle ) eTitle.innerHTML = s
 					}
-/*				}
- 			else{
-				s = sScaleTonic +' '+ Harmonie.noname
-				e.innerHTML = '<h2>'+s+'</h2>'
-				if( eTitle ) eTitle.innerHTML = s
-				Append( e.firstChild, this.createHTMLForm())
-				} */
+				// }
+ 			// else{
+				// s = sScaleTonic +' '+ Harmonie.noname
+				// e.innerHTML = '<h2>'+ s +'</h2>'
+				// if( eTitle ) eTitle.innerHTML = s
+				// Append( e.firstChild, this.createHTMLForm())
+				// }
 			this.eHTML.insertBefore( e, this.eHTML.firstChild )
 			}
 		},

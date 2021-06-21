@@ -481,19 +481,30 @@ UL.interval {
 .suggestion H2 LABEL {
 	font-size:10px;
 	border: 1px solid #ecf0f1;
+	border-radius: 1em;
 	background: #000;
 	color: #ecf0f1;
 	vertical-align: center;
-	padding: 0 2px;
+	padding: 0 1em;
 	}
-.suggestion H2 input[type=checkbox] {
-	visibility:hidden;
+.suggestion H2 LABEL:hover {
+	background: #ecf0f1;
+	border-color: #000;
+	color: #000;
 	}
-.suggestion H2 input[type=checkbox] + input {
+.suggestion H2 INPUT[type=checkbox] {
+	visibility: hidden;
+	}
+.suggestion H2 INPUT[type=checkbox] + INPUT {
+	display: none;
+	width: 50%;
+	}
+.suggestion H2 INPUT[type=checkbox] + INPUT + SELECT {
 	display:none;
 	}
-.suggestion H2 input[type=checkbox]:checked + input {
-	display:inline;
+.suggestion H2 INPUT[type=checkbox]:checked + INPUT,
+.suggestion H2 INPUT[type=checkbox]:checked + INPUT + SELECT {
+	display: inline;
 	}
 .suggestion H2:hover {
 	background: #585041;
@@ -555,7 +566,7 @@ UL.interval {
 	white-space: nowrap;
 	overflow: hidden;
 	}
-.suggestion sup {
+.suggestion SUP {
 	position: relative;
 	top: 3px;
 	}

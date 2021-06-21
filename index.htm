@@ -30,8 +30,7 @@
 		<li><a href="https://github.com/raphpell/eGuitar/">eGuitar sur Github</a></li>
 	</ul>
 			ToDo List v2.2 ?
-			- Vrai sons de guitare....
-			- Suggestion de doigter d'accords...
+			( - Vrai sons de guitare... )
 			- Accordeur...
 			- Ajout d'intervalle et d'accordage
 -->
@@ -46,6 +45,8 @@
 <script type="text/javascript" src="js/tSorter.js"></script>
 <script type="text/javascript" src="js/audio.js"></script>
 <script>
+try{ Arpeggios } catch(e){ alert('Please, refresh this page,... I update the code and a variable is missing !')}
+
 L10n.createMenu( eLang )
 eHead.firstChild.onclick = function(){
 	if( confirm( L10n('DELETE_PREF'))) Memoire.clear()
@@ -71,7 +72,7 @@ Append( eTarget2, oHF.eHTML )
 
 <a href="#" class="top">&#9650;</a>
 
-<footer><a href="https://github.com/raphpell/eGuitar" target="_blank">Github</a> - <span id="eDateM">Dernière modification le</span> 20/06/2021.</footer>
+<footer><a href="https://github.com/raphpell/eGuitar" target="_blank">Github</a> - <span id="eDateM">Dernière modification le</span> 21/06/2021.</footer>
 
 <script>
 let f = function( e, sL10n ){
@@ -96,7 +97,7 @@ var oCB = new ChordsBox( oManche )
 Append( eTarget1, oCB.eHTML )
 
 var oMasks1 = new Harmonie.Mask ( Scales, oConfig, eScales )
-var oMasks2 = new Harmonie.Mask ( Arpeggio, oConfig, eArpeggios )
+var oMasks2 = new Harmonie.Mask ( Arpeggios, oConfig, eArpeggios )
 var oTunings = new TuningsList ( oConfig, eTunings )
 
 eDateM.innerHTML = L10n('DATEM')

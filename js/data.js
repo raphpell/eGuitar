@@ -1,4 +1,4 @@
-const Tunings =[
+let Tunings =[
 	/* Guitare */
 	// 6 cordes
 	['E2,A2,D3,G3,B3,E4','Standard ('+L10n('Guitare')+')' ],
@@ -100,7 +100,7 @@ const Tunings =[
 	['A2,D3,G3,C3,E4,A4','Guitalélé (Ukulélé)']
 
 	]
-const Arpeggio =[
+let Arpeggios =[
 	['100100010000','m','min'],
 	['100010010000','M','Maj'],
 	['100010001000','aug','5+'],
@@ -195,7 +195,7 @@ const Arpeggio =[
 //	['110101100010','m11♭5♭9'],
 	['101100010110','m13']
 	]
-const Scales =[
+let Scales =[
 	['100000000000',''],
 	['100101010010', L10n('mPenta')],
 	['101010010100', L10n('MPenta')],
@@ -281,16 +281,27 @@ const Scales =[
 	['111111111111', L10n('Chrom')]
 	]
 
-;(function(){
+// Import des intervalles utilisateur
+;(()=>{
+	let a
+	a = Memoire.get('user_arpeggios') 
+	if( a && a.length ) Arpeggios = Arpeggios.concat( a )
+	a = Memoire.get('user_scales')
+	if( a && a.length ) Scales = Scales.concat( a )
+	})();
+
+
+// Calcul des Inversions
+;(()=>{
 	let o = {}
 	
-	Arpeggio.forEach( a => {
+	Arpeggios.forEach( a => {
 		o[ a[0]] = a
 		})
 
 	let n = 0
 	let aIdee = [ L10n('PREMIER'), L10n('DEUXIEME'), L10n('TROISIEME'), L10n('QUATRIEME')]
-	Arpeggio.forEach( ([ sMask, sName ]) => {
+	Arpeggios.forEach( ([ sMask, sName ]) => {
 		let a = sMask.match(/(10*)/g) || []
 		, tmp
 		
@@ -302,7 +313,7 @@ const Scales =[
 				tmp = sName +' ('+ aIdee[i] +' '+ L10n('INVERSION') +')'
 				if( ! o[ sMask ]){
 					n++
-					o[ sMask ] = Arpeggio.push( [sMask, tmp ])
+					o[ sMask ] = Arpeggios.push( [sMask, tmp ])
 					}
 				else{ 
 					o[ sMask ][2] = 

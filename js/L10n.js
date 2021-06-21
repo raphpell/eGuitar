@@ -44,13 +44,14 @@ Object.assign( L10n, {
 L10n.FR ={
 	PASDSUGG:	"...",
 	DATEM:		'Dernière modification le ',
-	INVERSION:'renv.',
-	PREMIER:'1er',
-	DEUXIEME:'2ème',
-	TROISIEME:'3ème',
-	QUATRIEME:'4ème',
+	INVERSION:	'renv.',
+	PREMIER:	'1er',
+	DEUXIEME:	'2ème',
+	TROISIEME:	'3ème',
+	QUATRIEME:	'4ème',
 	
 	// App
+	ADD:		'Ajouter',
 	DELETE_PREF: "Effacer vos préférences",
 	CORDES:		'Cordes',
 	CASES:		'Cases',
@@ -121,6 +122,7 @@ L10n.EN ={
 	QUATRIEME:'4th',
 	
 	// App
+	ADD:		'Add',
 	DELETE_PREF: "Delete your preferences",
 	CORDES:		'Strings',
 	CASES:		'Cases',
