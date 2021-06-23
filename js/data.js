@@ -284,10 +284,16 @@ let Scales =[
 // Import des intervalles utilisateur
 ;(()=>{
 	let a
-	a = Memoire.get('user_arpeggios') 
-	if( a && a.length ) Arpeggios = Arpeggios.concat( a )
+	a = Memoire.get('user_arpeggios')
+	if( a && a.length ){
+		a.forEach( m=> m.user_defined = true )
+		Arpeggios = a.concat( Arpeggios )
+		}
 	a = Memoire.get('user_scales')
-	if( a && a.length ) Scales = Scales.concat( a )
+	if( a && a.length ){
+		a.forEach( m=> m.user_defined = true )
+		Scales = a.concat( Scales )
+		}
 	})();
 
 

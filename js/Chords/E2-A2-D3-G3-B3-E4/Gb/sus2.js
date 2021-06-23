@@ -5,13 +5,13 @@ oChords ={
 			fingers: '200134'
 		},
 		{
-			frets: '444674',
-			fingers: '111341',
+			frets: 'xx4674',
+			fingers: '001341',
 			barres: 4
 		},
 		{
-			frets: '99bb99',
-			fingers: '113411',
+			frets: 'x9bb99',
+			fingers: '013411',
 			barres: 9
 		},
 		{

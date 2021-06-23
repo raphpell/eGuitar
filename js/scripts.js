@@ -801,20 +801,53 @@ let Harmonie ={
 			, that = this
 			, eDIV
 			this.eHTML = Append( eDIV = Tag( 'DIV', 'harmonieForm' ))
-			let selectbox =function( sId, sLabel, a, sSelected, fOnChange ){
+			let checkBtnAbility =( eSelect )=>{
+				let eBtn = eSelect.nextSibling
+				if( eBtn ){
+					let a = eSelect.selectedOptions
+					eBtn.disabled = ! a.length || ! a[0].user_defined
+					}
+				}
+			let selectbox =function( sId, sLabel, a, sSelected, fOnChange, sUserDefined ){
 				sId = sId + that.ID
 				let e = Tag( 'SELECT', { value:sSelected, id:sId })
 				a.forEach( m => {
-					Append( e, Tag( 'OPTION', m.constructor == String
+					let b = m.constructor == String
+					if( b || ! ~m[1].indexOf( L10n('INVERSION')))
+					Append( e, Tag( 'OPTION', b
 						? { innerHTML:m, value:m }
-						: { innerHTML:m[1], value:m[0] }
+						: { innerHTML:m[1], value:m[0], user_defined:m.user_defined?1:0 }
 						))
 					})
-				e.onkeyup = e.onchange = fOnChange
+				e.onkeyup = e.onchange = ()=>{
+					fOnChange()
+					checkBtnAbility( e )
+					}
 				Append( eDIV, [
 					Tag( 'LABEL', { innerHTML:sLabel, htmlFor: sId }),
 					e
 					])
+				if( sUserDefined ){
+					let eBtn = Tag( 'BUTTON', { innerHTML:'&#8861;', disabled:1 })
+					eBtn.onclick = ()=>{
+						if( confirm( L10n('CONFIRM_DELETION'))){
+							let a, b 
+							a = Memoire.get( sUserDefined )
+							if( a && a.length ){
+								for(let i =0, ni=a.length ; i<ni; i++ )
+									if( a[i][0] == eBtn.previousSibling.value ){
+										b = ( a.splice( i, 1 )).length
+										break;
+										}
+								if( b ){
+									console.info( Memoire.set( sUserDefined, a.concat([]) ))
+									document.location.reload()
+									}
+								}
+							}
+						}
+					Append( eDIV, eBtn )
+					}
 				return e
 				}
 			, eTonique = this.eTonique = selectbox(
@@ -829,14 +862,16 @@ let Harmonie ={
 				L10n('GAMME'),
 				Scales,
 				Config.mask.value,
-				() => Config.mask.value = eScale.value
+				() => Config.mask.value = eScale.value,
+				'user_scales'
 				)
 			, eChords = this.eChords = selectbox(
 				'eChords',
 				L10n('ARPEGE'),
 				Arpeggios,
 				Config.mask.value,
-				() => Config.mask.value = eChords.value
+				() => Config.mask.value = eChords.value,
+				'user_arpeggios'
 				)
 
 			eScale.className = 'scale'
@@ -844,12 +879,17 @@ let Harmonie ={
 			Config.tonic.addSubscriber( 'HarmonieForm selectBox tonic value', sTonic => eTonique.value = sTonic )
 			Config.mask.addSubscriber( 'HarmonieForm selectBox chords et scales values + publish scale', sMask =>{
 				eChords.value = eScale.value = sMask
+				checkBtnAbility( eChords )
+				checkBtnAbility( eScale )
 				if( eChords.value && eScale.value ) Config.scale.value = [ sMask, eChords.selectedOptions[0].innerHTML, 'chord/scale', eScale.selectedOptions[0].innerHTML ]
 				else if( eChords.value ) Config.scale.value = [ sMask, eChords.selectedOptions[0].innerHTML, 'chord' ]
 				else if( eScale.value ) Config.scale.value = [ sMask, eScale.selectedOptions[0].innerHTML, 'scale' ]
 				else Config.scale.value = [ sMask, Harmonie.noname, 'noname' ]
 				})
-			Config.scale.addSubscriber( 'HarmonieForm values', a => eScale.value = a[0] )
+			Config.scale.addSubscriber( 'HarmonieForm scale value', a =>{
+				eScale.value = a[0]
+				checkBtnAbility( eScale )
+				})
 			Config.notation.addSubscriber( 'HarmonieForm selectBox tonic choix', function(){
 				var a = Config.notation.getSequence()
 				var e = eTonique.firstChild
@@ -907,10 +947,9 @@ let Harmonie ={
 			let e1, e2, e3 = Tag('SELECT'), that= this
 			let fOnClick = function(){
 				if( e1.checked && e2.value ){
-					alert( 'Not implemented yet... '+ e2.value + '-'+ e3.value )
 					// sauvegarde les données
 					let sKey = 'user_'+ e3.value +'s'
-					let a = Memoire.get( sKey ) || []
+					let a = Memoire.get( sKey ).concat([]) || []
 					a.unshift([ that.Config.mask.value , e2.value ])
 					Memoire.set( sKey, a )
 					// Ajout des données
@@ -1073,7 +1112,7 @@ let Harmonie ={
 
 			let e = Tag( 'CAPTION', { tonique:sScaleTonic, scale:sScaleMask }), s
 
-		//	if( this.sScaleName != Harmonie.noname ){
+			if( this.sScaleName != Harmonie.noname ){
 				s = ( ~this.Config.scale.value[2].indexOf('scale') )
 					? sScaleTonic +' '+ (this.Config.scale.value[3]||this.Config.scale.value[1])
 					: this.getChordName( sScaleTonic, sScaleMask, this.sScaleName )
@@ -1081,13 +1120,13 @@ let Harmonie ={
 					e.innerHTML = '<h2>'+ s +'</h2>'
 					if( eTitle ) eTitle.innerHTML = s
 					}
-				// }
- 			// else{
-				// s = sScaleTonic +' '+ Harmonie.noname
-				// e.innerHTML = '<h2>'+ s +'</h2>'
-				// if( eTitle ) eTitle.innerHTML = s
-				// Append( e.firstChild, this.createHTMLForm())
-				// }
+				}
+ 			else{
+				s = sScaleTonic +' '+ Harmonie.noname
+				e.innerHTML = '<h2>'+ s +'</h2>'
+				if( eTitle ) eTitle.innerHTML = s
+				Append( e.firstChild, this.createHTMLForm())
+				}
 			this.eHTML.insertBefore( e, this.eHTML.firstChild )
 			}
 		},

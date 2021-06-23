@@ -431,7 +431,7 @@ UL.interval {
 	padding-right: 10px;
 	width: auto;
 	display: grid;
-	grid-template-columns: .5fr 2fr;
+	grid-template-columns: .5fr 2fr .25fr;
 	}
 .harmonieForm LABEL {
 	filter: sepia(1);
@@ -451,6 +451,15 @@ UL.interval {
 	}
 .harmonieForm SELECT {
 	grid-column: 2;
+	margin: .25em 0;
+	}
+.harmonieForm BUTTON {
+	grid-column: 3;
+	display: flex;
+	align-items: center;
+	background: #666;
+	border-radius: 0 10px 10px 0;
+	filter: sepia(1);
 	margin: .25em 0;
 	}
 
