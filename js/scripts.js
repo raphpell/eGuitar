@@ -949,7 +949,7 @@ let Harmonie ={
 				if( e1.checked && e2.value ){
 					// sauvegarde les données
 					let sKey = 'user_'+ e3.value +'s'
-					let a = Memoire.get( sKey ).concat([]) || []
+					let a = ( Memoire.get( sKey ) || [] ).concat([])
 					a.unshift([ that.Config.mask.value , e2.value ])
 					Memoire.set( sKey, a )
 					// Ajout des données
