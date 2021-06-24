@@ -761,6 +761,7 @@ ChordsBox =(function(){
 			oCache[ sTuning ] = oCache[ sTuning ] || {}
 			
 			let sFile = this.getFileName( sTonic, sChord, sChordName, sMask ) 
+			console.info( sFile )
 			if( oCache[ sTuning ][ sFile ] !== undefined ){
 				// utilisation du cache
 				this.defineChords( sFile )
@@ -813,7 +814,6 @@ let Harmonie ={
 				let e = Tag( 'SELECT', { value:sSelected, id:sId })
 				a.forEach( m => {
 					let b = m.constructor == String
-					if( b || ! ~m[1].indexOf( L10n('INVERSION')))
 					Append( e, Tag( 'OPTION', b
 						? { innerHTML:m, value:m }
 						: { innerHTML:m[1], value:m[0], user_defined:m.user_defined?1:0 }
@@ -828,7 +828,7 @@ let Harmonie ={
 					e
 					])
 				if( sUserDefined ){
-					let eBtn = Tag( 'BUTTON', { innerHTML:'&#8861;', disabled:1 })
+					let eBtn = Tag( 'BUTTON', { innerHTML:'-', disabled:1 })
 					eBtn.onclick = ()=>{
 						if( confirm( L10n('CONFIRM_DELETION'))){
 							let a, b 
@@ -957,8 +957,8 @@ let Harmonie ={
 					}
 				}
 			Append( e3, [
-				Tag('OPTION', { value:'scale', innerHTML:L10n('GAMME') }),
-				Tag('OPTION', { value:'arpeggio', innerHTML:L10n('ARPEGE') })
+				Tag('OPTION', { value:'arpeggio', innerHTML:L10n('ARPEGE') }),
+				Tag('OPTION', { value:'scale', innerHTML:L10n('GAMME') })
 				])
 			return Append( new DocumentFragment, [
 				e1 = Tag('INPUT', { type:'checkbox', id: 'eNewCB' }),
