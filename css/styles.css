@@ -642,6 +642,7 @@ UL.interval {
 
 /* Tunings list */
 DL.tunings {
+	cursor: pointer;
 	font-size: 0.8em;
 	}
 .tunings DT {
@@ -652,6 +653,8 @@ DL.tunings {
 	}
 .tunings DD {
 	border-radius: 10px;
+	display: flex;
+    align-items: center;
 	}
 .tunings DD.selected {
 	background: #FFF;
