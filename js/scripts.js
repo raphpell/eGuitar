@@ -962,7 +962,7 @@ let Harmonie ={
 				])
 			return Append( new DocumentFragment, [
 				e1 = Tag('INPUT', { type:'checkbox', id: 'eNewCB' }),
-				e2 = Tag('INPUT', { type:'text', placeholder:"Nom d'intervalle" }),
+				e2 = Tag('INPUT', { type:'text', placeholder:L10n('INTERVAL_NAME') }),
 				e3,
 				Tag('LABEL', { htmlFor:'eNewCB', innerHTML:L10n('ADD'), onclick:fOnClick })
 				])

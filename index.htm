@@ -75,15 +75,15 @@ Append( eTarget2, oHF.eHTML )
 <footer><a href="https://github.com/raphpell/eGuitar" target="_blank">Github</a> - <span id="eDateM">Dernière modification le</span> 23/06/2021.</footer>
 
 <script>
-let f = function( e, sL10n ){
-	e.nextSibling.innerHTML = L10n(sL10n)
+let f = function( e, sL10n, s  ){
+	e.nextSibling.innerHTML = L10n(sL10n) + (s||'')
 	e.previousSibling.onclick = function(){ Memoire.set( 'tab', this.id )}
 	return f
 	}
 f
 ( eChords, 'ACCORDS' )
-( eScales, 'GAMMES' )
-( eArpeggios, 'ARPEGES' )
+( eScales, 'GAMMES', ' (+)' )
+( eArpeggios, 'ARPEGES', ' (+)' )
 ( eTunings, 'ACCORDAGES' )
 let sId = Memoire.get( 'tab')
 if( sId ) window[ sId ].checked = true

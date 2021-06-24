@@ -52,6 +52,7 @@ L10n.FR ={
 	
 	// App
 	ADD:		'Ajouter',
+	INTERVAL_NAME:		"Nom d'intervalle",
 	CONFIRM_DELETION: 'Voulez-vous vraiment supprimer votre intervalle ?',
 	DELETE_PREF: "Effacer vos préférences",
 	CORDES:		'Cordes',
@@ -124,7 +125,8 @@ L10n.EN ={
 	
 	// App
 	ADD:		'Add',
-	CONFIRM_DELETION: 'Are you sure you want to delete your interval ?',
+	INTERVAL_NAME:		'Interval name',
+	CONFIRM_DELETION:	'Are you sure you want to delete your interval ?',
 	DELETE_PREF: "Delete your preferences",
 	CORDES:		'Strings',
 	CASES:		'Cases',
