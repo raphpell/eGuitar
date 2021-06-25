@@ -321,7 +321,7 @@ UL.chordsbox {
 	align-items: center;
 	font-weight: bold;
 	list-style-type: none;
-	margin: .5em 0 0;
+	margin: 0;
 	padding: 2px;
 	border: 1px solid rgba(0,0,0,.5);
 	border-radius: 10px;
@@ -353,6 +353,22 @@ UL.chordsbox {
 	color: #000;
 	box-shadow: 0 0 2em rgba(255,255,255,.5), 0 0 .5em rgba(255,255,255,.5);
 	z-index: 2;
+	}
+
+/* ChordBox */
+.history {
+	filter: sepia(1) opacity(.75);
+	display: flex;
+	justify-content: space-evenly;
+	height: inherit;
+	}
+.history BUTTON {
+	font-size: 1.5em;
+	width: 50%;
+	}
+.history BUTTON:hover {
+	box-shadow: 0 0 2px #000, inset 0 0 2px #000;
+	filter: sepia(.5) opacity(1);
 	}
 
 /* Intervalles */
@@ -456,12 +472,12 @@ UL.interval {
 .harmonieForm BUTTON {
 	grid-column: 3;
 	display: flex;
+	font-weight: bold;
 	align-items: center;
 	justify-content: space-around;
-	background: #666;
-	border-radius: 0 10px 10px 0;
-	filter: sepia(1);
 	margin: .25em 0;
+	border-radius: 0 10px 10px 0;
+	height: inherit;
 	}
 
 /* Tableau d'accords */

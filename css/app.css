@@ -103,7 +103,24 @@ LABEL:hover {
 	text-shadow: 0 0 .5em #FFF;
 	background-color: #444;
 	}
-
+BUTTON {
+	background: #666;
+	border: 1px solid #000;
+	border-radius: 10px;
+	color: #FFF;
+	filter: sepia(1) opacity(.75);
+	transition: filter 200ms ease;
+	}
+BUTTON:hover {
+	box-shadow: 0 0 2px #000, inset 0 0 2px #000;
+	filter: sepia(.5) opacity(1);
+	}
+BUTTON:disabled {
+	color: #000;
+	box-shadow: none !important;
+	filter: sepia(1) opacity(.25) !important;
+	}
+	
 /* Fx comme son nom l'indique pa'effet css */
 .nofx { scroll-behavior: auto; }
 .nofx * { transition: none !important; }
@@ -173,6 +190,19 @@ LABEL:hover {
 	align-items: stretch;
 	justify-content: space-evenly;
 	width: 100%;
+	}
+#eTarget3 {
+	margin-top: .5em;
+	display: flex;
+	align-items: stretch;
+	justify-content: space-around;
+	width: 100%;
+	}
+#eTarget3 .chordsbox {
+	width: 80%;
+	}
+#eTarget3 .history {
+	width: 10%;
 	}
 
 /* TabMenu */

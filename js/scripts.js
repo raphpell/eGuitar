@@ -117,7 +117,7 @@ let Config =( function (){
 		[ "notes", 0 ],
 		[ "numbers", 0 ],
 		[ "octaves", 0 ],
-		[ "scale", ['100101010010', L10n('mPenta')]], // gamme par défaut mPenta
+		[ "scale", ['100101010010', L10n('mPenta'), 'scale']], // gamme par défaut mPenta
 		[ "sound", 0 ],
 		[ "strings", 6 ],
 		[ "chord", null ],
@@ -761,14 +761,12 @@ ChordsBox =(function(){
 			oCache[ sTuning ] = oCache[ sTuning ] || {}
 			
 			let sFile = this.getFileName( sTonic, sChord, sChordName, sMask ) 
-			console.info( sFile )
+		//	console.info( sFile )
 			if( oCache[ sTuning ][ sFile ] !== undefined ){
 				// utilisation du cache
 				this.defineChords( sFile )
 			}else{
 				oCache[ sTuning ][ sFile ] = null
-				console.info( "fichier:" + sFile )
-				// console.info( "key:"+ sChordName )
 				// chargement du fichier
 				Scripts.add(
 					'js/Chords/'+ sTuning +'/'+ sFile,
@@ -876,7 +874,9 @@ let Harmonie ={
 
 			eScale.className = 'scale'
 
-			Config.tonic.addSubscriber( 'HarmonieForm selectBox tonic value', sTonic => eTonique.value = sTonic )
+			Config.tonic.addSubscriber( 'HarmonieForm selectBox tonic value', sTonic =>{
+				eTonique.value = sTonic
+				})
 			Config.mask.addSubscriber( 'HarmonieForm selectBox chords et scales values + publish scale', sMask =>{
 				eChords.value = eScale.value = sMask
 				checkBtnAbility( eChords )
@@ -1256,5 +1256,75 @@ class TuningsList {
 					}
 				}
 			})
+		}
+	}
+
+class ScaleHistory {
+	constructor( oConfig, eParent ){
+		this.a = [] // history
+		this.i = -1 // index
+		this.Config = oConfig
+		this.createHTML( eParent )
+		oConfig.scale.addSubscriber( 'Update ScaleHistory', ()=> this.add() )
+		}
+	createHTML ( eParent ){
+		let that = this
+		this.ePrevious = Tag( 'BUTTON', {
+			innerHTML:'&laquo;',
+			disabled:1,
+			onclick: ()=>that.prev()
+			})
+		this.eNext = Tag( 'BUTTON', {
+			innerHTML:'&raquo;',
+			disabled:1,
+			onclick: ()=>that.next()
+			})
+		Append( eParent, Tag('DIV', { className:'history'}), [ this.ePrevious, this.eNext ])
+		}
+	checkButtonAbility (){
+		let b 
+		b = (this.i == 0)
+		this.ePrevious.disabled = b
+		this.ePrevious.title = b ? '' : this.a[this.i-1][2]
+		b = (this.i == this.a.length-1)
+		this.eNext.disabled = b
+		this.eNext.title = b ? '' : this.a[this.i+1][2]
+		}
+	add (){
+		if( this.locked ) return false
+		let o = this.Config
+		if( this.a.length
+			&& this.a[ this.i ][0] == o.mask.value
+			&& this.a[ this.i ][1] == o.tonic.value )
+				return ;
+		if( this.i == this.a.length-1 ){
+			this.i = this.a.length
+			}
+		if( this.i < this.a.length-1 ){
+			this.a.length = this.i + 1
+			this.i = this.a.length
+			}
+		this.a.push([ o.mask.value, o.tonic.value, o.tonic.value+' '+o.scale.value[1] ])
+		this.checkButtonAbility()
+		}
+	prev (){
+		if( this.i > 0 ){
+			this.locked = true
+			let a = this.a[ --this.i ]
+			this.Config.mask.value = a[0]
+			this.Config.tonic.value = a[1]
+			this.checkButtonAbility()
+			this.locked = false
+			}
+		}
+	next (){
+		if( this.i < this.a.length - 1 ){
+			this.locked = true
+			let a = this.a[ ++this.i ]
+			this.Config.mask.value = a[0]
+			this.Config.tonic.value = a[1]
+			this.checkButtonAbility()
+			this.locked = false
+			}
 		}
 	}

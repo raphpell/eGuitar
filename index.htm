@@ -37,6 +37,7 @@
 -->
 
 <div id="eTarget1"></div>
+<div id="eTarget3"></div>
 <div id="eTarget2"></div>
 
 <script type="text/javascript" src="js/utils.js"></script>
@@ -56,6 +57,11 @@ eHead.firstChild.onclick = function(){
 var oConfig = Config()
 
 var oManche = new Manche( "eTarget1", oConfig )
+
+var oCB = new ChordsBox( oManche )
+Append( eTarget3, oCB.eHTML )
+
+var oHistory = new ScaleHistory( oConfig, eTarget3 )
 
 var oIB = new IntervalBox( oConfig )
 Append( eTarget2, oIB.eHTML )
@@ -92,10 +98,6 @@ if( sId ) window[ sId ].checked = true
 var oHT = new Harmonie.Table ( oConfig )
 Append( eChords, oHT.eHTML )
 oHT.displayChords()
-
-/* experimental */
-var oCB = new ChordsBox( oManche )
-Append( eTarget1, oCB.eHTML )
 
 var oMasks1 = new Harmonie.Mask ( Scales, oConfig, eScales )
 var oMasks2 = new Harmonie.Mask ( Arpeggios, oConfig, eArpeggios )
