@@ -532,6 +532,9 @@ UL.interval {
 .suggestion H2 INPUT[type=checkbox]:checked + INPUT + SELECT {
 	display: inline;
 	}
+.suggestion H2 INPUT[type=checkbox]:checked + INPUT + SELECT + LABEL {
+	border-radius: 0 1em 1em 0;
+	}
 .suggestion H2:hover {
 	background: #585041;
 	}
