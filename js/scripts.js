@@ -71,6 +71,12 @@ let Config =( function (){
 							return this.getSequence()[i]
 					throwError( sNote )
 					}
+				this.getDefaultSequence =function( sNote ){
+					sNote = translateNote( sNote )
+					let a = getNotation( sNote )
+					var nIndex = a.indexOf( sNote )
+					return a.slice( nIndex ).concat( a.slice( 0, nIndex))
+					}
 				this.getDefaultNoteName =function( sNote, sLang, sType ){
 					sLang = sLang=='FR' ? sLang : 'EN'
 					sType = sType=="#" ? '♯': '♭'
@@ -82,12 +88,6 @@ let Config =( function (){
 							break;
 					if( n < 12 ) return Notations[sType][sLang][n].replace( '♭', 'b' )
 					throwError( sNote )
-					}
-				this.getDefaultSequence =function( sNote ){
-					sNote = translateNote( sNote )
-					let a = getNotation( sNote )
-					var nIndex = a.indexOf( sNote )
-					return a.slice( nIndex ).concat( a.slice( 0, nIndex))
 					}
 				}
 			})()
