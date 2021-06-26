@@ -30,7 +30,7 @@ BODY {
 	UL.interval {
 		width: 100% !important;
 		}
-	#eTarget2 {
+	#eTarget3 {
 		flex-direction: column !important;
 		}
 	.harmonieForm {
@@ -75,6 +75,7 @@ BODY {
 	.top,
 	.mancheForm,
 	.chordsbox,
+	.history,
 	.harmonieForm,
 	.lang,
 	.layout > label {
@@ -186,23 +187,23 @@ BUTTON:disabled {
 	width: 100%;
 	}
 #eTarget2 {
-	display: flex;
-	align-items: stretch;
-	justify-content: space-evenly;
-	width: 100%;
-	}
-#eTarget3 {
 	margin-top: .5em;
 	display: flex;
 	align-items: stretch;
 	justify-content: space-around;
 	width: 100%;
 	}
-#eTarget3 .chordsbox {
+#eTarget2 .chordsbox {
 	width: 80%;
 	}
-#eTarget3 .history {
+#eTarget2 .history {
 	width: 10%;
+	}
+#eTarget3 {
+	display: flex;
+	align-items: stretch;
+	justify-content: space-evenly;
+	width: 100%;
 	}
 
 /* TabMenu */

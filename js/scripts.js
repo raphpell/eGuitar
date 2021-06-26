@@ -117,7 +117,7 @@ let Config =( function (){
 		[ "notes", 0 ],
 		[ "numbers", 0 ],
 		[ "octaves", 0 ],
-		[ "scale", ['100101010010', L10n('mPenta'), 'scale']], // gamme par défaut mPenta
+		[ "scale", ['100101010010',L10n('mPenta'),'scale'] ], // gamme par défaut mPenta
 		[ "sound", 0 ],
 		[ "strings", 6 ],
 		[ "chord", null ],
@@ -149,29 +149,34 @@ let Config =( function (){
 		tuning: null
 		}
 
-	let f = function ( oConfig ){
-		oConfig = oConfig || {}
-		let o = {}, oPublisher = Publishers()
-		for( const s in DefaultSettings ){
-			o[s] = oConfig[s] !== undefined
-				? ( GlobalVars[ s ]
-					? new SpecialVar ( s, oConfig[ s ], oPublisher )
-					: oConfig[ s ] 
-					)
-				: GlobalVars[ s ] || DefaultSettings[s]
-			}
-		return o
+	let Config ={
+		ID: 0,
+		create :function( oConfig ){
+			oConfig = oConfig || {}
+			let o = {}, oPublisher = Publishers()
+			for( const s in DefaultSettings ){
+				o[s] = oConfig[s] !== undefined
+					? ( GlobalVars[ s ]
+						? new SpecialVar ( s, oConfig[ s ], oPublisher )
+						: oConfig[ s ] 
+						)
+					: GlobalVars[ s ] || DefaultSettings[s]
+				}
+			return o
+			},
+		set :function( oObject, oConfig ){
+			return oObject.Config = oConfig ? Config.create( oConfig ) : Config.defaultValue
+			},
 		}
-	f.ID = 0
-	return f
+	Config.defaultValue = Config.create()
+	return Config
 	})()
 
 class Manche {
-	constructor ( sNodeID, oConfig ){
+	constructor ( eParent, oConfig ){
 		this.ID = ++Config.ID
 		let that = this
-		, o = this.Config = oConfig || Config()
-		, eParent = document.getElementById( sNodeID )
+		, o = Config.set( this, oConfig )
 		this.eHTML = this.createHTML( o.strings.value, o.cases.value )
 		Append( eParent, this.eHTML )
 		this.createMenuHTML()
@@ -561,10 +566,10 @@ class Manche {
 	}
 
 class IntervalBox {
-	constructor ( oConfig ){
+	constructor ( eParent, oConfig ){
 		let that = this
-		let o = this.Config = oConfig
-		this.createHTML()
+		let o = Config.set( this, oConfig )
+		Append( eParent, this.createHTML())
 		this.setNotes()
 		this.setValue( o.mask.value )
 		o.tonic.addSubscriber( 'IntervalBox.setNotes', ()=> that.setNotes())
@@ -591,6 +596,7 @@ class IntervalBox {
 			while( e.nodeName != 'LI' ) e = e.parentNode
 			return that.toggleNote( e.firstChild.innerHTML )
 			}
+		return this.eHTML
 		}
 	setNotes ( aNotes ){
 		if( ! aNotes ){
@@ -631,12 +637,11 @@ let oChords // Chord loading from a Script Node
 ChordsBox =(function(){
 	let sTuning
 	let oCache ={}
-
 	class ChordsBox {
-		constructor ( oManche ){
+		constructor ( eParent, oManche ){
 			this.oManche = oManche
 			this.aFingers = []
-			this.createHTML()
+			Append( eParent, this.createHTML())
 			}
 		createHTML (){
 			let that = this
@@ -683,6 +688,7 @@ ChordsBox =(function(){
 			o.scale.addSubscriber( 'ChordsBox:load2', f )
 			o.chord.addSubscriber( 'ChordsBox:load3', ()=> that.loadChords())
 			this.loadChords ()
+			return this.eHTML
 			}
 		defineChords ( sFile ){
 			let a = oCache[ sTuning ][ sFile ]
@@ -721,8 +727,6 @@ ChordsBox =(function(){
 			, fSlash =()=>{
 				let a = this.oManche.Config.notation.getDefaultSequence( sTonic )
 				let nIndex = parseInt( sChord.replace( /.*\((\d).*$/, '$1' ))
-				console.info( sChord, nIndex )
-				
 				let n = sMask.indexOf('1')
 				let indices = []
 				while( n != -1 ){
@@ -780,7 +784,7 @@ ChordsBox =(function(){
 			}
 		}
 	return ChordsBox
-})();
+	})();
 
 let Harmonie ={
 	noname:'...',
@@ -788,15 +792,15 @@ let Harmonie ={
 		return ( parseInt(sMask2,2) & parseInt(sMask1,2) ).toString(2) == sMask1
 		},
 	Form:class{
-		constructor( oConfig ){
+		constructor( eParent, oConfig ){
 			this.ID = ++Config.ID
-			this.Config = oConfig
-			this.createHTML()
-			this.Config.mask.refresh()
-			this.Config.tonic.refresh()
+			let o = Config.set( this, oConfig )
+			Append( eParent, this.createHTML())
+			o.mask.refresh()
+			o.tonic.refresh()
 			}
 		createHTML(){
-			let Config = this.Config
+			let o = this.Config
 			, that = this
 			, eDIV
 			this.eHTML = Append( eDIV = Tag( 'DIV', 'harmonieForm' ))
@@ -851,63 +855,65 @@ let Harmonie ={
 			, eTonique = this.eTonique = selectbox(
 				'eTonique',
 				L10n('TONIQUE'),
-				Config.notation.getSequence(),
-				Config.notation.getNoteName( Config.tonic.value || 'A' ),
-				() => Config.tonic.value = eTonique.value
+				o.notation.getSequence(),
+				o.notation.getNoteName( o.tonic.value || 'A' ),
+				() => o.tonic.value = eTonique.value
 				)
 			, eScale = this.eScale = selectbox(
 				'eScales',
 				L10n('GAMME'),
 				Scales,
-				Config.mask.value,
-				() => Config.mask.value = eScale.value,
+				o.mask.value,
+				() => o.mask.value = eScale.value,
 				'user_scales'
 				)
 			, eChords = this.eChords = selectbox(
 				'eChords',
 				L10n('ARPEGE'),
 				Arpeggios,
-				Config.mask.value,
-				() => Config.mask.value = eChords.value,
+				o.mask.value,
+				() => o.mask.value = eChords.value,
 				'user_arpeggios'
 				)
 
 			eScale.className = 'scale'
 
-			Config.tonic.addSubscriber( 'HarmonieForm selectBox tonic value', sTonic =>{
+			o.tonic.addSubscriber( 'HarmonieForm selectBox tonic value', sTonic =>{
 				eTonique.value = sTonic
 				})
-			Config.mask.addSubscriber( 'HarmonieForm selectBox chords et scales values + publish scale', sMask =>{
+			o.mask.addSubscriber( 'HarmonieForm selectBox chords et scales values + publish scale', sMask =>{
 				eChords.value = eScale.value = sMask
 				checkBtnAbility( eChords )
 				checkBtnAbility( eScale )
-				if( eChords.value && eScale.value ) Config.scale.value = [ sMask, eChords.selectedOptions[0].innerHTML, 'chord/scale', eScale.selectedOptions[0].innerHTML ]
-				else if( eChords.value ) Config.scale.value = [ sMask, eChords.selectedOptions[0].innerHTML, 'chord' ]
-				else if( eScale.value ) Config.scale.value = [ sMask, eScale.selectedOptions[0].innerHTML, 'scale' ]
-				else Config.scale.value = [ sMask, Harmonie.noname, 'noname' ]
+				if( eChords.value && eScale.value ) o.scale.value = [ sMask, eChords.selectedOptions[0].innerHTML, 'chord/scale', eScale.selectedOptions[0].innerHTML ]
+				else if( eChords.value ) o.scale.value = [ sMask, eChords.selectedOptions[0].innerHTML, 'chord' ]
+				else if( eScale.value ) o.scale.value = [ sMask, eScale.selectedOptions[0].innerHTML, 'scale' ]
+				else o.scale.value = [ sMask, Harmonie.noname, 'noname' ]
 				})
-			Config.scale.addSubscriber( 'HarmonieForm scale value', a =>{
+			o.scale.addSubscriber( 'HarmonieForm scale value', a =>{
 				eScale.value = a[0]
 				checkBtnAbility( eScale )
 				})
-			Config.notation.addSubscriber( 'HarmonieForm selectBox tonic choix', function(){
-				var a = Config.notation.getSequence()
+			o.notation.addSubscriber( 'HarmonieForm selectBox tonic choix', function(){
+				var a = o.notation.getSequence()
 				var e = eTonique.firstChild
 				var i = 0
 				while( e ){
 					e.innerHTML = e.value = a[i++]
 					e = e.nextSibling
 					}
-				Config.tonic.value = eTonique.value
+				o.tonic.value = eTonique.value
 				})
+			return this.eHTML
 			}
 		},
 	Table:class{
-		constructor( oConfig ){
+		constructor( eParent, oConfig ){
 			this.ID = ++Config.ID
-			this.Config = oConfig
+			Config.set( this, oConfig )
 			this.locked = false
-			this.createHTML()
+			Append( eParent, this.createHTML())
+			this.displayChords()
 			}
 		createHTML(){
 			let o = this.Config
@@ -934,7 +940,7 @@ let Harmonie ={
 					o.scale.value = [ sScale, that.sScaleName ]
 					o.mask.value = sScale
 					if( eTitle ){
-						eTitle.innerHTML = e.tonique + (that.bIsChord?'':' ') + that.sScaleName
+						eTitle.innerHTML = e.tonique +' '+ that.sScaleName
 						}
 					}
 				}
@@ -942,6 +948,7 @@ let Harmonie ={
 			o.mask.addSubscriber( 'HarmonieTable.displayChords', f )
 			o.tonic.addSubscriber( 'HarmonieTable.displayChords', f )
 			o.notation.addSubscriber( 'HarmonieTable.displayChords', f )
+			return this.eHTML
 			}
 		createHTMLForm(){
 			let e1, e2, e3 = Tag('SELECT'), that= this
@@ -968,7 +975,7 @@ let Harmonie ={
 				])
 			}
 		displayChords ( sTonic, sMask, sName ){
-			if( this.locked ) return ;
+			if( this.locked ) return
 			let o = this.Config
 			this.bIsChord = ! sTonic && ~o.scale.value[2].indexOf( 'chord' )
 			sTonic = sTonic || o.tonic.value
@@ -1002,9 +1009,9 @@ let Harmonie ={
 				// 4ème...
 				if( ~sChordName.indexOf( '(4' ))
 					sRealTonic = aNotes[ indices[ indices.length-4 ]]
-				return sRealTonic + sChordName.replace( /( \(.*\))/gim, '/'+ sChordTonic )
+				return sRealTonic +' '+ sChordName.replace( /( \(.*\))/gim, '/'+ sChordTonic )
 				}
-			return sChordTonic + sChordName
+			return sChordTonic +' '+ sChordName
 			}
 		// Retourne un tableau des accords présent dans une gamme
 		getChordsSuggestion ( sTonique, sScaleMask ){
@@ -1131,10 +1138,10 @@ let Harmonie ={
 			}
 		},
 	Mask:class{
-		constructor( aList, oConfig, eParent ){
+		constructor( eParent, aList, oConfig ){
 			let that = this
 			this.eSelected = null
-			this.Config = oConfig
+			let o = Config.set( this, oConfig )
 			let a = ['1','♭2','2','♭3','3','4','♭5','5','♭6','6','♭7','7']
 			let TDs = function( sMask ){
 				let eFragment, nChar, nNotes = 0
@@ -1156,7 +1163,7 @@ let Harmonie ={
 			this.eHTML = eTABLE = Tag('TABLE','mask')
 			eTABLE.innerHTML = sTHEAD
 			eBODY = Tag('TBODY')
-			let s = oConfig.mask.value
+			let s = o.mask.value
 			aList.forEach( ([sMask,sName,sOtherName])=>{
 				if( ! sName ) return;
 				eTR = Tag('TR')
@@ -1177,17 +1184,17 @@ let Harmonie ={
 				var e = Events.element( evt )
 				if( e.className == 'mask' ) return false
 				while( e && ! e.mask ) e = e.parentNode
-				if( e ) oConfig.mask.value = e.mask
+				if( e ) o.mask.value = e.mask
 				}
 			Append( eTABLE, eBODY )
 			this.TableSorter = new TSorter
 			this.TableSorter.init( this.eHTML )
 			if( eParent ) Append( eParent, this.eHTML )
 				
-			oConfig.mask.addSubscriber( 'Harmonie.Mask selection+filter', s =>{
+			o.mask.addSubscriber( 'Harmonie.Mask selection+filter', s =>{
 				if( that.eSelected ) that.eSelected.className = ''
 				let aTR = that.eHTML.getElementsByTagName('TR')
-				, bInversion = this.Config.inversion.value
+				, bInversion = o.inversion.value
 				for(let e, i=0, ni=aTR.length; i<ni; i++ ){
 					e = aTR[i]
 					// selection
@@ -1206,8 +1213,9 @@ let Harmonie ={
 	}
 
 class TuningsList {
-	constructor( oConfig, eParent ){
+	constructor( eParent, oConfig ){
 		let that = this
+		let o = Config.set( this, oConfig )
 		this.aSelected = []
 		for(let a=Tunings, i=0, ni=a.length; i<ni; i++ ){
 			let sTuning = a[i][0]
@@ -1226,7 +1234,7 @@ class TuningsList {
 				tuning: a[0],
 				innerHTML: '<span class="name">' + a[1] +'</span><b>'+ a[0].replace( /\,/gi, '</b><b>' ) + '</b>'
 				})
-			bSelected = oConfig.tuning.value == a[0]
+			bSelected = o.tuning.value == a[0]
 			if( bSelected ){
 				that.aSelected.push( eDD )
 				eDD.className = 'selected'
@@ -1239,11 +1247,11 @@ class TuningsList {
 			if( e.className == 'tunings' ) return false
 			while( e && ! e.tuning ) e = e.parentNode
 			if( e ){
-				oConfig.strings.value = e.strings
-				oConfig.tuning.value = e.tuning
+				o.strings.value = e.strings
+				o.tuning.value = e.tuning
 				}
 			}
-		oConfig.tuning.addSubscriber( 'TuningsList selection', s =>{
+		o.tuning.addSubscriber( 'TuningsList selection', s =>{
 			let a = that.aSelected
 			if( a.length ) a.forEach( e => { e.className = '' })
 			that.aSelected = []
@@ -1260,12 +1268,12 @@ class TuningsList {
 	}
 
 class ScaleHistory {
-	constructor( oConfig, eParent ){
+	constructor( eParent, oConfig ){
 		this.a = [] // history
 		this.i = -1 // index
-		this.Config = oConfig
+		Config.set( this, oConfig )
 		this.createHTML( eParent )
-		oConfig.scale.addSubscriber( 'Update ScaleHistory', ()=> this.add() )
+		this.Config.scale.addSubscriber( 'Update ScaleHistory', ()=> this.add() )
 		}
 	createHTML ( eParent ){
 		let that = this
@@ -1304,7 +1312,11 @@ class ScaleHistory {
 			this.a.length = this.i + 1
 			this.i = this.a.length
 			}
-		this.a.push([ o.mask.value, o.tonic.value, o.tonic.value+' '+o.scale.value[1] ])
+		this.a.push([
+			o.mask.value,
+			o.tonic.value,
+			o.tonic.value+' '+o.scale.value[1]
+			])
 		this.checkButtonAbility()
 		}
 	prev (){

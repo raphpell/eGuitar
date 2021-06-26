@@ -24,7 +24,6 @@
 <div id="eLang"></div>
 <h2 id="eTitle">...</h2>
 
-
 <!--
 	<ul>
 		<li><a href="https://github.com/raphpell/eGuitar/">eGuitar sur Github</a></li>
@@ -37,8 +36,8 @@
 -->
 
 <div id="eTarget1"></div>
-<div id="eTarget3"></div>
 <div id="eTarget2"></div>
+<div id="eTarget3"></div>
 
 <script type="text/javascript" src="js/utils.js"></script>
 <script type="text/javascript" src="js/L10n.js"></script>
@@ -47,27 +46,16 @@
 <script type="text/javascript" src="js/tSorter.js"></script>
 <script type="text/javascript" src="js/audio.js"></script>
 <script>
-try{ Arpeggios } catch(e){ alert('Please, refresh this page,... I update the code and a variable is missing !')}
-
 L10n.createMenu( eLang )
 eHead.firstChild.onclick = function(){
 	if( confirm( L10n('DELETE_PREF'))) Memoire.clear()
 	}
 
-var oConfig = Config()
-
-var oManche = new Manche( "eTarget1", oConfig )
-
-var oCB = new ChordsBox( oManche )
-Append( eTarget3, oCB.eHTML )
-
-var oHistory = new ScaleHistory( oConfig, eTarget3 )
-
-var oIB = new IntervalBox( oConfig )
-Append( eTarget2, oIB.eHTML )
-
-var oHF = new Harmonie.Form ( oConfig )
-Append( eTarget2, oHF.eHTML )
+var oManche = new Manche ( eTarget1 )
+var oCB = new ChordsBox ( eTarget2, oManche )
+var oHistory = new ScaleHistory ( eTarget2 )
+var oIB = new IntervalBox ( eTarget3 )
+var oHF = new Harmonie.Form ( eTarget3 )
 </script>
 
 <div class="layout">
@@ -79,7 +67,7 @@ Append( eTarget2, oHF.eHTML )
 
 <a href="#" class="top">&#9650;</a>
 
-<footer><a href="https://github.com/raphpell/eGuitar" target="_blank">Github</a> - <span id="eDateM">Dernière modification le</span> 25/06/2021.</footer>
+<footer><a href="https://github.com/raphpell/eGuitar" target="_blank">Github</a> - <span id="eDateM">Dernière modification le</span> 26/06/2021.</footer>
 
 <script>
 let f = function( e, sL10n, s  ){
@@ -95,13 +83,10 @@ f
 let sId = Memoire.get( 'tab')
 if( sId ) window[ sId ].checked = true
 
-var oHT = new Harmonie.Table ( oConfig )
-Append( eChords, oHT.eHTML )
-oHT.displayChords()
-
-var oMasks1 = new Harmonie.Mask ( Scales, oConfig, eScales )
-var oMasks2 = new Harmonie.Mask ( Arpeggios, oConfig, eArpeggios )
-var oTunings = new TuningsList ( oConfig, eTunings )
+var oHT = new Harmonie.Table ( eChords )
+var oMasks1 = new Harmonie.Mask ( eScales, Scales )
+var oMasks2 = new Harmonie.Mask ( eArpeggios, Arpeggios )
+var oTunings = new TuningsList ( eTunings )
 
 eDateM.innerHTML = L10n('DATEM')
 </script>
