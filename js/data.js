@@ -3,7 +3,7 @@ let Tunings =[
 	// 6 cordes
 	['E2,A2,D3,G3,B3,E4','Standard ('+L10n('Guitare')+')' ],
 	['D2,A2,D3,G3,B3,E4','Drop D'],
-	['E2,A2,E3,A3,C♯4,E4','Open Tuning A'],
+/*	['E2,A2,E3,A3,C♯4,E4','Open Tuning A'],
 	['D♯2,G♯2,C♯3,F♯3,A♯3,D♯4','Half Step Down'],
 	['D2,G2,C3,F3,A3,D4','Full Step Down'],
 	['C♯2,F♯2,B2,E3,G♯3,C♯4','C♯ Tuning (2 and 2/3 Steps Down)'],
@@ -57,7 +57,7 @@ let Tunings =[
 	['E4,B3,G3,D3,A2,E2','Lefty'],
 	['C2,G2,D3,A3,E4,B4','Mandoguitar'],
 	['A0,D2,G2,C3,E3,A3','A to A (Baritone)'],
-	['B0,A2,D3,G3,B3,E4','Rusty Cage'],
+	['B0,A2,D3,G3,B3,E4','Rusty Cage'],*/
 	// 7 cordes
 	['B1,E2,A2,D3,G3,B3,E4','Standard ('+L10n('Guitare')+')'],
 	['A1,E2,A2,D3,G3,B3,E4','Van Eps ('+L10n('Guitare')+')'],
