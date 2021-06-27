@@ -14,6 +14,10 @@ Memoire =(function( sBase ){
 			},
 		get:function( sName ){
 			return o[ sName ]
+			},
+		remove:function( sName ){
+			delete o[ sName ]
+			localStorage.setItem( sBase, JSON.stringify( o ))
 			}
 		}
 	})( 'eGuitar' )

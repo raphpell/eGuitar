@@ -35,8 +35,9 @@ let Config =( function (){
 						EN:['A',	'B♭',	'B',	'C',	'D♭',	'D',	'E♭',	'E',	'F',	'G♭',	'G',	'A♭']}
 				}
 			function translateNote ( sNote ){
-				if( ~sNote.indexOf('b')) sNote = sNote.replace( /b/, '♭' )
+				if( ~sNote.indexOf('b') && sNote.length!=1 ) sNote = sNote.slice(0,-1) + '♭'
 				if( ~sNote.indexOf('#')) sNote = sNote.replace( /#/, '♯' )
+				sNote = sNote.slice( 0, 1 ).toUpperCase() + sNote.slice( 1 ).toLowerCase()
 				return sNote
 				}
 			function getNotation ( sNote ){
@@ -88,6 +89,14 @@ let Config =( function (){
 							break;
 					if( n < 12 ) return Notations[sType][sLang][n].replace( '♭', 'b' )
 					throwError( sNote )
+					}
+				this.isNote =function( sNote ){
+					sNote = translateNote( sNote )
+					let a = getNotation( sNote )
+					for(let i=0; i<12; i++ )
+						if( a[i] == sNote )
+							return true
+					return false
 					}
 				}
 			})()
@@ -910,7 +919,7 @@ let Harmonie ={
 										break;
 										}
 								if( b ){
-									console.info( Memoire.set( sUserDefined, a.concat([]) ))
+									Memoire.set( sUserDefined, a.concat([]) )
 									document.location.reload()
 									}
 								}
@@ -1031,11 +1040,13 @@ let Harmonie ={
 				Tag('OPTION', { value:'arpeggio', innerHTML:L10n('ARPEGE') }),
 				Tag('OPTION', { value:'scale', innerHTML:L10n('GAMME') })
 				])
-			return Append( new DocumentFragment, [
-				e1 = Tag('INPUT', { type:'checkbox', id: 'eNewCB' }),
-				e2 = Tag('INPUT', { type:'text', placeholder:L10n('INTERVAL_NAME') }),
-				e3,
-				Tag('LABEL', { htmlFor:'eNewCB', innerHTML:L10n('ADD'), onclick:fOnClick })
+			return Append( Tag('DIV', { className:'inlineform' }), [
+				e1 = Tag('INPUT', { type:'checkbox', id: 'eNewCB'+this.ID }),
+				Append( Tag('SPAN'),[
+					e2 = Tag('INPUT', { type:'text', placeholder:L10n('INTERVAL_NAME') }),
+					e3
+					]),
+				Tag('LABEL', { htmlFor:'eNewCB'+this.ID, innerHTML:L10n('ADD'), onclick:fOnClick })
 				])
 			}
 		displayChords ( sTonic, sMask, sName ){
@@ -1223,9 +1234,14 @@ let Harmonie ={
 
 class TuningsList {
 	constructor( eParent, oConfig ){
-		let that = this
-		let o = Config.set( this, oConfig )
+		this.ID = ++Config.ID
+		Config.set( this, oConfig )
 		this.aSelected = []
+		if( eParent ) Append( eParent, [ this.createHTMLForm(), this.createHTML() ])
+		}
+	createHTML (){
+		let that = this
+		, o = this.Config
 		for(let a=Tunings, i=0, ni=a.length; i<ni; i++ ){
 			let sTuning = a[i][0]
 			a[i].notes = sTuning.split(",").length
@@ -1241,20 +1257,51 @@ class TuningsList {
 			eDD = Tag('DD', {
 				strings: nNotes,
 				tuning: a[0],
-				innerHTML: '<span class="name">' + a[1] +'</span><b>'+ a[0].replace( /\,/gi, '</b><b>' ) + '</b>'
+				name: a[1],
+				innerHTML: '<span class="name">'
+								+ a[1] 
+								+ ( a.user_defined ? '<BUTTON>-</BUTTON>' : '' )
+							+'</span>'
+							+'<span class="notes"><b>'+ a[0].replace( /\,/gi, '</b><b>' ) + '</b></span>'
 				})
 			bSelected = o.tuning.value == a[0]
 			if( bSelected ){
-				that.aSelected.push( eDD )
+				this.aSelected.push( eDD )
 				eDD.className = 'selected'
 				}
 			Append( eDL, eDD )
 			})
-		if( eParent ) Append( eParent, this.eHTML )
+
 		eDL.onclick =function( evt ){
 			var e = Events.element( evt )
 			if( e.className == 'tunings' ) return false
+			// Supression accordage
+			if( e.nodeName == 'BUTTON' ){
+				if( confirm( L10n('ACCORDAGE_SUPPR'))){
+					let a, m
+					a = Memoire.get('user_tunings')
+					if( a && a.length ){
+						e = e.parentNode.parentNode
+						for(let i =0, ni=a.length ; i<ni; i++ )
+							if( a[i][0] == e.tuning && a[i][1] == e.name ){
+								m = a[i]
+								a.splice( i, 1 )
+								break;
+								}
+						if( m ){
+							Memoire.set( 'user_tunings', a.concat([]) )
+							if( o.tuning.value == m[0] ){
+								Memoire.remove('tuning')
+								Memoire.remove('strings')
+								}
+							document.location.reload()
+							}
+						}
+					}
+				return false
+				}
 			while( e && ! e.tuning ) e = e.parentNode
+			// Selection accordage
 			if( e ){
 				o.strings.value = e.strings
 				o.tuning.value = e.tuning
@@ -1273,6 +1320,55 @@ class TuningsList {
 					}
 				}
 			})
+		return this.eHTML
+		}
+	createHTMLForm (){
+		let e1, e2, e3
+		, that = this
+		, fOnClick = function(){
+			if( ! e1.checked || ! e2.value || ! e3.value ) return ;
+			let sTuning = that.isValidTuning( e3.value )
+			if( ! sTuning ) alert( L10n('ACCORDAGE_FAUX'));
+			if( e2.value && sTuning ){
+				// sauvegarde les données
+				let sKey = 'user_tunings'
+				let a = ( Memoire.get( sKey ) || [] ).concat([])
+				a.unshift([ sTuning , e2.value ])
+				Memoire.set( sKey, a )
+				// Ajout des données
+				document.location.reload()
+				}
+			}
+		this.eForm = Append( Tag('DIV', { className:'inlineform' }),[
+			e1 = Tag('INPUT', { type:'checkbox', id: 'eNewT'+this.ID }),
+			Append( Tag('SPAN'),[
+				e2 = Tag('INPUT', { type:'text', placeholder:L10n('ACCORDAGE_NOM') }),
+				e3 = Tag('INPUT', { type:'text', placeholder:L10n('ACCORDAGE') }),
+				]),
+			Tag('LABEL', { htmlFor:'eNewT'+this.ID, innerHTML:L10n('ADD'), onclick:fOnClick })
+			])
+		return this.eForm
+		}
+	isValidTuning ( s ){
+		if( ! s ) return false
+		let o = this.Config.notation
+		let separator = s.replace( /[^\d]+\d(.).*/, '$1' )
+	//	console.info( 'separator:'+ separator )
+		if( ! separator ) return false
+		let a = s.split( separator )
+		let i, ni, octave, note
+	//	console.info( 'notes:' + a.length )
+		for( i=0, ni=a.length; i<ni; i++ ){
+			octave = a[i].replace( /[^\d]+(\d)/, '$1' )
+	//		console.info( 'octave:'+ octave )
+			if( ! octave ) return false
+			note = a[i].slice(0,-1)
+	//		console.info( 'note:'+ note +','+ o.isNote( note ) )
+			if( ! o.isNote( note ) ) return false
+			a[i] = o.getDefaultNoteName( note, 'EN', "#" ) + octave
+			}
+	//	console.info( a )
+		return a.join(',')
 		}
 	}
 

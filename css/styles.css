@@ -480,6 +480,41 @@ UL.interval {
 	height: inherit;
 	}
 
+/* Formulaire */
+.inlineform {
+	font: normal 16px Arial;
+	display: inline-flex;
+	align-items: stretch;
+	}
+.inlineform LABEL {
+	align-items: center;
+	border: 1px solid #ecf0f1;
+	border-radius: 1em;
+	background: #000;
+	color: #ecf0f1;
+	display: flex;
+	font-size: 13px;
+	padding: 0 1em;
+	}
+.inlineform LABEL:hover {
+	background: #ecf0f1;
+	border-color: #000;
+	color: #000;
+	}
+.inlineform INPUT[type=checkbox] {
+	visibility: hidden;
+	}
+.inlineform INPUT[type=checkbox] + SPAN {
+	display: none;
+	}
+.inlineform INPUT[type=checkbox]:checked + SPAN {
+	display: inline-flex;
+	align-items: stretch;
+	}
+.inlineform INPUT[type=checkbox]:checked + SPAN + LABEL {
+	border-radius: 0 1em 1em 0;
+	}
+
 /* Tableau d'accords */
 .suggestion {
 	font-size:.8em;
@@ -504,37 +539,7 @@ UL.interval {
 	display:flex;
 	transition: background .2s;
 	}
-.suggestion H2 LABEL {
-	font-size:10px;
-	border: 1px solid #ecf0f1;
-	border-radius: 1em;
-	background: #000;
-	color: #ecf0f1;
-	vertical-align: center;
-	padding: 0 1em;
-	}
-.suggestion H2 LABEL:hover {
-	background: #ecf0f1;
-	border-color: #000;
-	color: #000;
-	}
-.suggestion H2 INPUT[type=checkbox] {
-	visibility: hidden;
-	}
-.suggestion H2 INPUT[type=checkbox] + INPUT {
-	display: none;
-	width: 50%;
-	}
-.suggestion H2 INPUT[type=checkbox] + INPUT + SELECT {
-	display:none;
-	}
-.suggestion H2 INPUT[type=checkbox]:checked + INPUT,
-.suggestion H2 INPUT[type=checkbox]:checked + INPUT + SELECT {
-	display: inline;
-	}
-.suggestion H2 INPUT[type=checkbox]:checked + INPUT + SELECT + LABEL {
-	border-radius: 0 1em 1em 0;
-	}
+
 .suggestion H2:hover {
 	background: #585041;
 	}
@@ -662,18 +667,21 @@ UL.interval {
 /* Tunings list */
 DL.tunings {
 	cursor: pointer;
+	filter: sepia(1);
 	font-size: 0.8em;
 	}
 .tunings DT {
-	filter: sepia(1);
 	font-weight: bold;
-	padding-left: 33%;
+	text-indent: 45%;
+	left: -10px;
+	position: relative;
 	margin: .5em 0;
 	}
 .tunings DD {
+	align-items: center;
 	border-radius: 10px;
 	display: flex;
-    align-items: center;
+	margin: 0;
 	}
 .tunings DD.selected {
 	background: #FFF;
@@ -683,12 +691,16 @@ DL.tunings {
 	background: #585041;
 	}
 .tunings DD SPAN.name {
-	filter: sepia(1);
 	display: inline-block;
 	padding-right: 20px;
 	text-align: right;
 	box-sizing: border-box;
-	width: 33%;
+	width: 45%;
+	}
+.tunings DD SPAN.notes {
+	display: inline-block;
+	text-align: left;
+	width: 54%;
 	}
 .tunings DD B {
 	font-weight: normal;
@@ -698,4 +710,7 @@ DL.tunings {
 	display: inline-block;
 	padding: 0 4px;
 	margin: 2px;
+	}
+.tunings BUTTON {
+	margin-left: 5px;
 	}

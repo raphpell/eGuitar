@@ -47,7 +47,10 @@
 <script type="text/javascript" src="js/audio.js"></script>
 <script>
 eHead.firstChild.onclick = function(){
-	if( confirm( L10n('DELETE_PREF'))) Memoire.clear()
+	if( confirm( L10n('DELETE_PREF'))){
+		Memoire.clear()
+		document.location.reload()
+		}
 	}
 L10n.createMenu( eLang )
 Config.defaultValue.title.addSubscriber( 'eTitle innerHTML', a => eTitle.innerHTML=a )
@@ -68,7 +71,7 @@ var oHF = new Harmonie.Form ( eTarget3 )
 
 <a href="#" class="top">&#9650;</a>
 
-<footer><a href="https://github.com/raphpell/eGuitar" target="_blank">Github</a> - <span id="eDateM">Dernière modification le</span> 27/06/2021.</footer>
+<footer><a href="https://github.com/raphpell/eGuitar" target="_blank">Github</a> - <span id="eDateM">Dernière modification le</span> 28/06/2021.</footer>
 
 <script>
 let f = function( e, sL10n, s  ){
