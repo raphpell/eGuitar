@@ -27,7 +27,7 @@ function Publishers (){
 		if ( ! oTopics[ sTopic ]) return false
 		let aSubscribers = oTopics[ sTopic ]
 		, n = aSubscribers ? aSubscribers.length : 0
-		let b = Publishers.bConsole
+		let b = Publishers.fDebug( sTopic )
 		if( b ) console.groupCollapsed( `%cpublish "${sTopic}" : %O` , 'color:yellow;', mArg )
 		while( n-- ){
 			if( b ) console.info( `${aSubscribers[n].title}` )
@@ -39,7 +39,8 @@ function Publishers (){
 	o.subscribe =function( sTopic, fFunc, sTitle ){
 		if( ! oTopics[ sTopic ]) oTopics[ sTopic ] = []
 		let sToken = ( ++nID ).toString()
-		if( Publishers.bConsole ) console.log( `%cPublisher "${sTopic}" new subscriber\n\t "${sTitle||''}" %O` , 'color:lightskyblue', fFunc, sToken )
+		let b = Publishers.fDebug( sTopic )
+		if( b ) console.log( `%cPublisher "${sTopic}" new subscriber\n\t "${sTitle||''}" %O` , 'color:lightskyblue', fFunc, sToken )
 		oTopics[ sTopic ].unshift({ token: sToken, func: fFunc, title:sTitle||'' })
 		return sToken
 		}
@@ -58,7 +59,8 @@ function Publishers (){
 		}
 	return o
 	}
-Publishers.bConsole = 0
+Publishers.fDebug = ( sTopic )=>{ return false }
+// Publishers.fDebug = ( sTopic )=>{ return sTopic=='tonic' }
 
 // HTML 
 Tag =function( sName, m, sId ){ // m: object (augmentation) or css class

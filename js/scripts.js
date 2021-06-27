@@ -121,6 +121,7 @@ let Config =( function (){
 		[ "sound", 0 ],
 		[ "strings", 6 ],
 		[ "chord", null ],
+		[ "title", '...' ],
 		[ "tonic", 'A' ],
 		[ "tuning", 'E2,A2,D3,G3,B3,E4' ] // Accordage Guitare standard E
 		])
@@ -145,6 +146,7 @@ let Config =( function (){
 		scale: null,
 		sound: null,
 		strings: null,
+		title: null,
 		tonic: null,
 		tuning: null
 		}
@@ -152,6 +154,7 @@ let Config =( function (){
 	let Config ={
 		ID: 0,
 		create :function( oConfig ){
+			if( oConfig && oConfig.built ) return oConfig
 			oConfig = oConfig || {}
 			let o = {}, oPublisher = Publishers()
 			for( const s in DefaultSettings ){
@@ -162,6 +165,7 @@ let Config =( function (){
 						)
 					: GlobalVars[ s ] || DefaultSettings[s]
 				}
+			o.built = 1
 			return o
 			},
 		set :function( oObject, oConfig ){
@@ -633,7 +637,7 @@ class IntervalBox {
 		}
 	}
 
-let oChords // Chord loading from a Script Node
+let oChords // object load from a Script Node
 ChordsBox =(function(){
 	let sTuning
 	let oCache ={}
@@ -755,9 +759,10 @@ ChordsBox =(function(){
 			let o = this.oManche.Config
 			, sTonic = o.tonic.value
 			, sChord = o.scale.value[1]
-			, sChordName = o.chord.value
+			, sChordName = o.chord.value // utilisé seulement ici...
 			, sMask = o.mask.value
 			, that = this
+
 			if( ! ~o.scale.value[2].indexOf( 'chord' )) return;
 			this.sTonic = sTonic = o.notation.getDefaultNoteName( sTonic ).replace( '♭', 'b' )
 			this.sChord = sChord
@@ -785,6 +790,69 @@ ChordsBox =(function(){
 		}
 	return ChordsBox
 	})();
+	
+class Chords {
+	constructor ( oConfig ){
+		Config.set( this, oConfig )
+		}
+	getName ( sChordTonic, sChordMask, sChordName ){
+		// renversement d'accord 
+		if( ~sChordName.indexOf( L10n('INVERSION'))){
+			let aNotes = this.Config.notation.getSequence( sChordTonic )
+			let n = sChordMask.indexOf('1')
+			let indices = []
+			while( n != -1 ){
+				indices.push( n )
+				n = sChordMask.indexOf( '1', n + 1 )
+				}
+			let sRealTonic = null
+			// 1er inversion - tonic dernier 1
+			if( ~sChordName.indexOf( '(1' ))
+				sRealTonic = aNotes[ indices[ indices.length-1 ]]
+			// 2ème inversion - tonic avant dernier 1
+			if( ~sChordName.indexOf( '(2' ))
+				sRealTonic = aNotes[ indices[ indices.length-2 ]]
+			// 3ème...
+			if( ~sChordName.indexOf( '(3' ))
+				sRealTonic = aNotes[ indices[ indices.length-3 ]]
+			// 4ème...
+			if( ~sChordName.indexOf( '(4' ))
+				sRealTonic = aNotes[ indices[ indices.length-4 ]]
+			return sRealTonic +' '+ sChordName.replace( /( \(.*\))/gim, '/'+ sChordTonic )
+			}
+		return sChordTonic +' '+ sChordName
+		}
+	// Retourne un tableau des accords présent dans une gamme
+	getSuggestion ( sTonique, sScaleMask ){
+		var aNotesTmp = this.Config.notation.getSequence( sTonique )
+		var aResult = []
+		
+		// Cherche la position des degrés et la tonique, créé un masque et cherche les accords possibles
+		var nPos = sScaleMask.indexOf( '1' )
+		var sDegreMask = ''
+		while( nPos !== -1 ){
+			sDegreMask = sScaleMask.substr( nPos ) + sScaleMask.substr( 0, nPos )
+			aResult.push([ 
+				aNotesTmp[ nPos ], 
+				this.searchChords( sDegreMask ),
+				nPos,
+				sDegreMask
+				])
+			nPos = sScaleMask.indexOf( '1', nPos+1 )
+			}
+		return aResult
+		}
+	// Recherche des accords inclus dans un mask
+	searchChords ( sMask ){
+		sMask = sMask || this.Config.scale.value[0]
+		let aResult = [], bInversion = this.Config.inversion.value
+		Arpeggios.forEach( a => {
+			if( bInversion || !~a[1].indexOf( L10n('INVERSION')) )
+				if( Harmonie.isMaskIn( a[0] ,sMask )) aResult.push( a )
+			})
+		return aResult
+		}
+	}
 
 let Harmonie ={
 	noname:'...',
@@ -911,6 +979,7 @@ let Harmonie ={
 		constructor( eParent, oConfig ){
 			this.ID = ++Config.ID
 			Config.set( this, oConfig )
+			this.Chords = new Chords ( this.Config )
 			this.locked = false
 			Append( eParent, this.createHTML())
 			this.displayChords()
@@ -929,19 +998,14 @@ let Harmonie ={
 					o.tonic.value = sTonique
 					o.mask.value = sMask
 					that.locked = false
-					if( eTitle ){
-						eTitle.innerHTML = e.title
-						}
-					o.chord.value = e.title
+					o.title.value = o.chord.value = e.title
 					}
 				var sScale = e.scale
 				if( sScale ){
 					o.tonic.value = e.tonique
 					o.scale.value = [ sScale, that.sScaleName ]
 					o.mask.value = sScale
-					if( eTitle ){
-						eTitle.innerHTML = e.tonique +' '+ that.sScaleName
-						}
+					o.title.value = e.tonique +' '+ that.sScaleName
 					}
 				}
 			let f = () => that.displayChords()
@@ -982,71 +1046,14 @@ let Harmonie ={
 			sMask = sMask || o.scale.value[0]
 			this.sScaleName = sName || o.scale.value[1]
 			if( this.bIsChord ){
-				o.chord.value = this.getChordName( sTonic, sMask, this.sScaleName, o.scale.value[2] )
+				o.chord.value = this.Chords.getName( sTonic, sMask, this.sScaleName, o.scale.value[2] )
 				}
 			this.setChords( sTonic, sMask )
-			}
-		getChordName ( sChordTonic, sChordMask, sChordName ){
-			// renversement d'accord 
-			if( ~sChordName.indexOf( L10n('INVERSION'))){
-				let aNotes = this.Config.notation.getSequence( sChordTonic )
-				let n = sChordMask.indexOf('1')
-				let indices = []
-				while( n != -1 ){
-					indices.push( n )
-					n = sChordMask.indexOf( '1', n + 1 )
-					}
-				let sRealTonic = null
-				// 1er inversion - tonic dernier 1
-				if( ~sChordName.indexOf( '(1' ))
-					sRealTonic = aNotes[ indices[ indices.length-1 ]]
-				// 2ème inversion - tonic avant dernier 1
-				if( ~sChordName.indexOf( '(2' ))
-					sRealTonic = aNotes[ indices[ indices.length-2 ]]
-				// 3ème...
-				if( ~sChordName.indexOf( '(3' ))
-					sRealTonic = aNotes[ indices[ indices.length-3 ]]
-				// 4ème...
-				if( ~sChordName.indexOf( '(4' ))
-					sRealTonic = aNotes[ indices[ indices.length-4 ]]
-				return sRealTonic +' '+ sChordName.replace( /( \(.*\))/gim, '/'+ sChordTonic )
-				}
-			return sChordTonic +' '+ sChordName
-			}
-		// Retourne un tableau des accords présent dans une gamme
-		getChordsSuggestion ( sTonique, sScaleMask ){
-			var aNotesTmp = this.Config.notation.getSequence( sTonique )
-			var aResult = []
-			
-			// Cherche la position des degrés et la tonique, créé un masque et cherche les accords possibles
-			var nPos = sScaleMask.indexOf( '1' )
-			var sDegreMask = ''
-			while( nPos !== -1 ){
-				sDegreMask = sScaleMask.substr( nPos ) + sScaleMask.substr( 0, nPos )
-				aResult.push([ 
-					aNotesTmp[ nPos ], 
-					this.searchChords( sDegreMask ),
-					nPos,
-					sDegreMask
-					])
-				nPos = sScaleMask.indexOf( '1', nPos+1 )
-				}
-
-			return aResult
-			}
-		// Recherche des accords inclus dans un mask
-		searchChords ( sMask ){
-			sMask = sMask || this.Config.scale.value[0]
-			let aResult = [], bInversion = this.Config.inversion.value
-			Arpeggios.forEach( a => {
-				if( bInversion || !~a[1].indexOf( L10n('INVERSION')) )
-					if( Harmonie.isMaskIn( a[0] ,sMask )) aResult.push( a )
-				})
-			return aResult
+			this.setChordName( sTonic, sMask )
 			}
 		// Ajoute les accords d'une gamme
 		setChords ( sScaleTonic, sScaleMask ){
-			let aResult = this.getChordsSuggestion( sScaleTonic, sScaleMask )
+			let aResult = this.Chords.getSuggestion( sScaleTonic, sScaleMask )
 			var o = {}, sOtherName
 
 			let nIndexName = 12
@@ -1072,7 +1079,7 @@ let Harmonie ={
 			aResult.forEach( ([sChordTonic,aChords,nTon,sMask1]) => {
 				aChords.forEach( ([sMask2,sName]) => {
 					o[ sName ][ nTon ] =
-						' class="hover ton'+ nTon +'" tonique="'+ sChordTonic +'" arpege="'+ sMask2 +'" title="'+ this.getChordName( sChordTonic, sMask2, sName ) +'">&#10005;'
+						' class="hover ton'+ nTon +'" tonique="'+ sChordTonic +'" arpege="'+ sMask2 +'" title="'+ this.Chords.getName( sChordTonic, sMask2, sName ) +'">&#10005;'
 					o[ sName ][nIndexAmount]++
 					})
 				})
@@ -1116,22 +1123,24 @@ let Harmonie ={
 			this.TableSorter = new TSorter
 			this.TableSorter.init( this.eHTML )
 			if( aSort ) this.TableSorter.sort( aSort[0], aSort[1] )
-
-			let e = Tag( 'CAPTION', { tonique:sScaleTonic, scale:sScaleMask }), s
-
+			}
+		setChordName ( sScaleTonic, sScaleMask ){
+			let e = Tag( 'CAPTION', { tonique:sScaleTonic, scale:sScaleMask })
+			, s
+			, o = this.Config
 			if( this.sScaleName != Harmonie.noname ){
-				s = ( ~this.Config.scale.value[2].indexOf('scale') )
-					? sScaleTonic +' '+ (this.Config.scale.value[3]||this.Config.scale.value[1])
-					: this.getChordName( sScaleTonic, sScaleMask, this.sScaleName )
+				s = ( ~o.scale.value[2].indexOf('scale') )
+					? sScaleTonic +' '+ (o.scale.value[3]||o.scale.value[1])
+					: this.Chords.getName( sScaleTonic, sScaleMask, this.sScaleName )
 				if( s ){
 					e.innerHTML = '<h2>'+ s +'</h2>'
-					if( eTitle ) eTitle.innerHTML = s
+					o.title.value = s
 					}
 				}
  			else{
 				s = sScaleTonic +' '+ Harmonie.noname
 				e.innerHTML = '<h2>'+ s +'</h2>'
-				if( eTitle ) eTitle.innerHTML = s
+				o.title.value = s
 				Append( e.firstChild, this.createHTMLForm())
 				}
 			this.eHTML.insertBefore( e, this.eHTML.firstChild )
@@ -1273,7 +1282,7 @@ class ScaleHistory {
 		this.i = -1 // index
 		Config.set( this, oConfig )
 		this.createHTML( eParent )
-		this.Config.scale.addSubscriber( 'Update ScaleHistory', ()=> this.add() )
+		this.Config.title.addSubscriber( 'Update ScaleHistory', s => this.add(s) )
 		}
 	createHTML ( eParent ){
 		let that = this
@@ -1298,16 +1307,11 @@ class ScaleHistory {
 		this.eNext.disabled = b
 		this.eNext.title = b ? '' : this.a[this.i+1][2]
 		}
-	add (){
+	add ( sTitle ){
 		if( this.locked ) return false
 		let o = this.Config
-		if( this.a.length
-			&& this.a[ this.i ][0] == o.mask.value
-			&& this.a[ this.i ][1] == o.tonic.value )
-				return ;
-		if( this.i == this.a.length-1 ){
-			this.i = this.a.length
-			}
+		if( this.a.length && this.a[ this.i ][2] == sTitle ) return ;
+		if( this.i == this.a.length-1 ) this.i = this.a.length
 		if( this.i < this.a.length-1 ){
 			this.a.length = this.i + 1
 			this.i = this.a.length
@@ -1315,28 +1319,23 @@ class ScaleHistory {
 		this.a.push([
 			o.mask.value,
 			o.tonic.value,
-			o.tonic.value+' '+o.scale.value[1]
+			sTitle
 			])
 		this.checkButtonAbility()
 		}
 	prev (){
-		if( this.i > 0 ){
-			this.locked = true
-			let a = this.a[ --this.i ]
-			this.Config.mask.value = a[0]
-			this.Config.tonic.value = a[1]
-			this.checkButtonAbility()
-			this.locked = false
-			}
+		if( this.i > 0 )
+			this.set( this.a[ --this.i ])
 		}
 	next (){
-		if( this.i < this.a.length - 1 ){
-			this.locked = true
-			let a = this.a[ ++this.i ]
-			this.Config.mask.value = a[0]
-			this.Config.tonic.value = a[1]
-			this.checkButtonAbility()
-			this.locked = false
-			}
+		if( this.i < this.a.length - 1 )
+			this.set( this.a[ ++this.i ])
+		}
+	set ( a ){
+		this.locked = true
+		this.Config.mask.value = a[0]
+		this.Config.tonic.value = a[1]
+		this.checkButtonAbility()
+		this.locked = false
 		}
 	}

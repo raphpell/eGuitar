@@ -46,10 +46,11 @@
 <script type="text/javascript" src="js/tSorter.js"></script>
 <script type="text/javascript" src="js/audio.js"></script>
 <script>
-L10n.createMenu( eLang )
 eHead.firstChild.onclick = function(){
 	if( confirm( L10n('DELETE_PREF'))) Memoire.clear()
 	}
+L10n.createMenu( eLang )
+Config.defaultValue.title.addSubscriber( 'eTitle innerHTML', a => eTitle.innerHTML=a )
 
 var oManche = new Manche ( eTarget1 )
 var oCB = new ChordsBox ( eTarget2, oManche )
