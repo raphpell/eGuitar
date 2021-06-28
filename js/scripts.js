@@ -1428,9 +1428,10 @@ class ScaleHistory {
 			this.set( this.a[ ++this.i ])
 		}
 	set ( a ){
+		let o = this.Config
 		this.locked = true
-		this.Config.mask.value = a[0]
-		this.Config.tonic.value = this.Config.notation.getNoteName( a[1])
+		o.mask.value = a[0]
+		o.tonic.value = o.notation.getNoteName( a[1])
 		this.checkButtonAbility()
 		this.locked = false
 		}
