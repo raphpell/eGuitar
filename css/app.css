@@ -218,13 +218,13 @@ BUTTON:disabled {
 .layout {
 	display: grid;
 	grid-template-rows: 40px 1fr;
-	grid-template-columns: 1fr 1fr 1fr 1fr;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 	overflow: hidden;
 	margin: 1em 0;
 	}
 .layout .page {
 	grid-row: 2;
-	grid-column: 1 / span 4;
+	grid-column: 1 / span 5;
 	display: none;
 	opacity: 0;
 	}

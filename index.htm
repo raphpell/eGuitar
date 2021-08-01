@@ -63,9 +63,10 @@ var oHF = new Harmonie.Form ( eTarget3 )
 
 <div class="layout">
 	<input name="nav" type="radio" id="tab1" checked><div class="page" id="eChords"></div><label class="nav" for="tab1"></label>
-	<input name="nav" type="radio" id="tab2"><div class="page" id="eScales"></div><label class="nav" for="tab2"></label>
-	<input name="nav" type="radio" id="tab3"><div class="page" id="eArpeggios"></div><label class="nav" for="tab3"></label>
-	<input name="nav" type="radio" id="tab4"><div class="page" id="eTunings"></div><label class="nav" for="tab4"></label>
+	<input name="nav" type="radio" id="tab3"><div class="page" id="eScalesM"></div><label class="nav" for="tab3"></label>
+	<input name="nav" type="radio" id="tab2"><div class="page" id="eArpeggios"></div><label class="nav" for="tab2"></label>
+	<input name="nav" type="radio" id="tab4"><div class="page" id="eScales"></div><label class="nav" for="tab4"></label>
+	<input name="nav" type="radio" id="tab5"><div class="page" id="eTunings"></div><label class="nav" for="tab5"></label>
 </div>
 
 <a href="#" class="top">&#9650;</a>
@@ -80,16 +81,18 @@ let f = function( e, sL10n, s  ){
 	}
 f
 ( eChords, 'ACCORDS', ' (-)' )
-( eScales, 'GAMMES', ' (+)' )
+( eScalesM, 'GAMMES', ' (-)' )
 ( eArpeggios, 'ARPEGES', ' (+)' )
+( eScales, 'GAMMES', ' (+)' )
 ( eTunings, 'ACCORDAGES' )
 let sId = Memoire.get( 'tab')
 if( sId ) window[ sId ].checked = true
 
-var oHT = new Harmonie.Table ( eChords )
-var oMasks1 = new Harmonie.Mask ( eScales, Scales )
-var oMasks2 = new Harmonie.Mask ( eArpeggios, Arpeggios )
-var oTunings = new TuningsList ( eTunings )
+;new Harmonie.Table ( eChords, Arpeggios )
+;new Harmonie.Mask ( eArpeggios, Arpeggios )
+;new Harmonie.Table ( eScalesM, Scales )
+;new Harmonie.Mask ( eScales, Scales )
+;new TuningsList ( eTunings )
 
 eDateM.innerHTML = L10n('DATEM')
 </script>

@@ -779,7 +779,6 @@ ChordsBox =(function(){
 			oCache[ sTuning ] = oCache[ sTuning ] || {}
 			
 			let sFile = this.getFileName( sTonic, sChord, sChordName, sMask ) 
-		//	console.info( sFile )
 			if( oCache[ sTuning ][ sFile ] !== undefined ){
 				// utilisation du cache
 				this.defineChords( sFile )
@@ -801,7 +800,8 @@ ChordsBox =(function(){
 	})();
 	
 class Chords {
-	constructor ( oConfig ){
+	constructor ( aList, oConfig ){
+		this.aList = aList
 		Config.set( this, oConfig )
 		}
 	getName ( sChordTonic, sChordMask, sChordName ){
@@ -855,7 +855,7 @@ class Chords {
 	searchChords ( sMask ){
 		sMask = sMask || this.Config.scale.value[0]
 		let aResult = [], bInversion = this.Config.inversion.value
-		Arpeggios.forEach( a => {
+		this.aList.forEach( a => {
 			if( bInversion || !~a[1].indexOf( L10n('INVERSION')) )
 				if( Harmonie.isMaskIn( a[0] ,sMask )) aResult.push( a )
 			})
@@ -985,10 +985,11 @@ let Harmonie ={
 			}
 		},
 	Table:class{
-		constructor( eParent, oConfig ){
+		constructor( eParent, aList, oConfig ){
 			this.ID = ++Config.ID
+			this.aList = aList
 			Config.set( this, oConfig )
-			this.Chords = new Chords ( this.Config )
+			this.Chords = new Chords ( aList, this.Config )
 			this.locked = false
 			Append( eParent, this.createHTML())
 			this.displayChords()
@@ -1056,9 +1057,8 @@ let Harmonie ={
 			sTonic = sTonic || o.tonic.value
 			sMask = sMask || o.scale.value[0]
 			this.sScaleName = sName || o.scale.value[1]
-			if( this.bIsChord ){
+			if( this.bIsChord )
 				o.chord.value = this.Chords.getName( sTonic, sMask, this.sScaleName, o.scale.value[2] )
-				}
 			this.setChords( sTonic, sMask )
 			this.setChordName( sTonic, sMask )
 			}
@@ -1070,35 +1070,42 @@ let Harmonie ={
 			let nIndexName = 12
 			let nIndexNotes = 13
 			let nIndexAmount = 14
-			Arpeggios.forEach( a => {
+			this.aList.forEach( a => {
 				var sChordName =  a[1]
-				sOtherName = a[2]
-				sOtherName = (sOtherName?' <small>'+sOtherName.replace(/\|/gi,', ')+'</small>':'')
-				o[ sChordName ] = []
-				o[ sChordName ][nIndexName] = sChordName + sOtherName
-				o[ sChordName ][nIndexAmount] = 0
-				// Compte le nombre de "1"
-				var sMask = a[0]
-				var count = 0
-				var pos = sMask.indexOf('1');
-				while (pos !== -1) {
-					count++;
-					pos = sMask.indexOf('1', pos + 1 );
+				if( sChordName ){
+					sOtherName = a[2]
+					sOtherName = (sOtherName?' <small>'+sOtherName.replace(/\|/gi,', ')+'</small>':'')
+					o[ sChordName ] = []
+					o[ sChordName ][nIndexName] = sChordName + sOtherName
+					o[ sChordName ][nIndexAmount] = 0
+					// Compte le nombre de "1"
+					var sMask = a[0]
+					var count = 0
+					var pos = sMask.indexOf('1');
+					while (pos !== -1) {
+						count++;
+						pos = sMask.indexOf('1', pos + 1 );
+						}
+					o[ sChordName ][nIndexNotes] = count
 					}
-				o[ sChordName ][nIndexNotes] = count
 				})
 			aResult.forEach( ([sChordTonic,aChords,nTon,sMask1]) => {
 				aChords.forEach( ([sMask2,sName]) => {
-					o[ sName ][ nTon ] =
-						' class="hover ton'+ nTon +'" tonique="'+ sChordTonic +'" arpege="'+ sMask2 +'" title="'+ this.Chords.getName( sChordTonic, sMask2, sName ) +'">&#10005;'
-					o[ sName ][nIndexAmount]++
+					if( sName ){
+						o[ sName ][ nTon ] =
+							' class="hover ton'+ nTon 
+							+'" tonique="'+ sChordTonic 
+							+'" arpege="'+ sMask2 
+							+'" title="'+ this.Chords.getName( sChordTonic, sMask2, sName ) +'">&#10005;'
+						o[ sName ][nIndexAmount]++
+						}
 					})
 				})
 
 			var aTR = []
-			for(var i=0, ni=Arpeggios.length; i<ni; i++ ){
-				var sChordName = Arpeggios[i][1]
-				if( o[ sChordName ][nIndexAmount] > 0 ){
+			for(var i=0, ni=this.aList.length; i<ni; i++ ){
+				var sChordName = this.aList[i][1]
+				if( sChordName && o[ sChordName ][nIndexAmount] > 0 ){
 					let a = o[ sChordName ]
 					for(var j=0, nj=a.length; j<nj; j++ ){
 						if( j == nIndexName ) a[j] = '<td class="name">'+ a[j] +'</td>'
@@ -1112,7 +1119,6 @@ let Harmonie ={
 					aTR[i] = '<tr>'+ a.join('' ) +'</tr>'
 					}
 				}
-		//	let sCOLGROUP = '<colgroup><col span="12"><col><col class="name"><col></colgroup>'
 
 			let sTHEAD = '<thead><tr>'
 			, aNotesTmp = this.Config.notation.getSequence( sScaleTonic )
@@ -1158,7 +1164,7 @@ let Harmonie ={
 			}
 		},
 	Mask:class{
-		constructor( eParent, aList, oConfig ){
+		constructor( eParent, aList, bInclusion, oConfig ){
 			let that = this
 			this.eSelected = null
 			let o = Config.set( this, oConfig )
@@ -1179,23 +1185,20 @@ let Harmonie ={
 				return Append( eFragment, Tag('TD',{ innerHTML: nNotes }))
 				}
 			let sTHEAD = '<thead><tr><th>'+ a.join( '</th><th>' ) +'</th><th abbr="number">' + L10n('NOTES') +'</th><th>' + L10n('INTERVALLES') + '</th></thead>'
-			let eTABLE, eBODY, eTR, eTD, bSelected
+			let eTABLE, eBODY, eTR, eTD
 			this.eHTML = eTABLE = Tag('TABLE','mask')
 			eTABLE.innerHTML = sTHEAD
 			eBODY = Tag('TBODY')
 			let s = o.mask.value
+			this.filter = bInclusion
+				? (e,sMask)=> e.style.display = Harmonie.isMaskIn( e.mask, sMask ) ? '' : 'none'
+				: (e,sMask)=> e.style.display = Harmonie.isMaskIn( sMask, e.mask ) ? '' : 'none'
 			aList.forEach( ([sMask,sName,sOtherName])=>{
 				if( ! sName ) return;
 				eTR = Tag('TR')
 				eTR.mask = sMask
-				if( ! bSelected ){
-					bSelected = s == sMask
-					if( bSelected ){
-						that.eSelected = eTR
-						eTR.className = 'selected'
-						}
-					}
-				eTR.style.display = Harmonie.isMaskIn( s, sMask ) ? '' : 'none'
+				that.checkSelection( eTR, s )
+				that.filter( eTR, s )
 				eTD = Tag('TD','name')
 				eTD.innerHTML = sName + (sOtherName?' <small>'+sOtherName.replace(/\|/gi,'</small><small>')+'</small>':'')
 				Append( eBODY, eTR, [ TDs( sMask ), eTD ])
@@ -1210,24 +1213,24 @@ let Harmonie ={
 			this.TableSorter = new TSorter
 			this.TableSorter.init( this.eHTML )
 			if( eParent ) Append( eParent, this.eHTML )
-				
 			o.mask.addSubscriber( 'Harmonie.Mask selection+filter', s =>{
 				if( that.eSelected ) that.eSelected.className = ''
 				let aTR = that.eHTML.getElementsByTagName('TR')
 				, bInversion = o.inversion.value
 				for(let e, i=0, ni=aTR.length; i<ni; i++ ){
 					e = aTR[i]
-					// selection
-					if( e.mask == s ){
-						e.className = 'selected'
-						that.eSelected = e
-						}
-					// filtre
-					if( e.mask ) e.style.display = Harmonie.isMaskIn( s, e.mask ) ? '' : 'none'
+					that.checkSelection( e, s )
+					if( e.mask ) that.filter( e, s )
 					if( ! bInversion && ~e.lastChild.innerHTML.indexOf( L10n('INVERSION')) )
 						e.style.display = 'none'
 					}
 				})
+			}
+		checkSelection ( e, sMask ){
+			if( e.mask == sMask ){
+				e.className = 'selected'
+				this.eSelected = e
+				}
 			}
 		}
 	}
@@ -1353,21 +1356,16 @@ class TuningsList {
 		if( ! s ) return false
 		let o = this.Config.notation
 		let separator = s.replace( /[^\d]+\d(.).*/, '$1' )
-	//	console.info( 'separator:'+ separator )
 		if( ! separator ) return false
 		let a = s.split( separator )
 		let i, ni, octave, note
-	//	console.info( 'notes:' + a.length )
 		for( i=0, ni=a.length; i<ni; i++ ){
 			octave = a[i].replace( /[^\d]+(\d)/, '$1' )
-	//		console.info( 'octave:'+ octave )
 			if( ! octave ) return false
 			note = a[i].slice(0,-1)
-	//		console.info( 'note:'+ note +','+ o.isNote( note ) )
 			if( ! o.isNote( note ) ) return false
 			a[i] = o.getDefaultNoteName( note, 'EN', "#" ) + octave
 			}
-	//	console.info( a )
 		return a.join(',')
 		}
 	}
