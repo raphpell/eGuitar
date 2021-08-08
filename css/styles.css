@@ -545,8 +545,19 @@ UL.interval {
 	}
 .suggestion TH {
 	cursor: pointer;
-	height:20px;
-	width:30px;
+	height: 20px;
+	width: 30px;
+	}
+.suggestion .ton {
+	border-radius: 5px;
+	border: 1px solid #000;
+	font-size: 1.2em;
+	line-height: 0.8em;
+	padding: 5px 0;
+	box-shadow: inset 0 0 0.25em rgb(0 0 0 / 50%)
+	}
+.suggestion .ton SPAN {
+	font: normal 0.5em Verdana;
 	}
 .suggestion .name {
 	cursor: hand; cursor: pointer;

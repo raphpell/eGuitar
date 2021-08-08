@@ -1124,7 +1124,7 @@ let Harmonie ={
 			, aNotesTmp = this.Config.notation.getSequence( sScaleTonic )
 			for(let i=0, j=0, ni=aNotesTmp.length; i<ni; i++ ){
 				sTHEAD += sScaleMask.charAt(i) == '1'
-					? '<th abbr="arpege" class="ton'+ i +'">&#85'+(44+j++)+';<br>'+aNotesTmp[i]+'</th>' // Chiffres romains
+					? '<th abbr="arpege" class="ton ton'+ i +'">&#85'+(44+j++)+';<br><span>'+aNotesTmp[i]+'</span></th>' // Chiffres romains
 					: '<th abbr="">-</th>'
 				}
 			let oTH= {}
