@@ -595,6 +595,7 @@ class IntervalBox {
 		, DD = ['8','♭9','9','♭10','10','11','♭12','12','♭13','13','♭14','14','15']
 	//	, DD = ['0','&half;','1','1&half;','2','2&half;','3','3&half;','4','4&half;','5','5&half;','6']
 		, eUL = this.eHTML = Tag('UL','interval')
+		Append( eUL, this.ePrevious = Tag('SPAN' ,{ innerHTML:"&laquo;" }))
 		for(let i=0; i<12; i++ )
 			Append( eUL, Tag('LI','ton'+i),[
 				Tag('DIV'),
@@ -603,9 +604,12 @@ class IntervalBox {
 					Tag('DD' ,{ innerHTML:DD[i] })
 					])
 				])
+		Append( eUL, this.eNext = Tag('SPAN' ,{ innerHTML:"&raquo;" }))
 		eUL.onclick =function( evt ){
 			let e = Events.element( evt )
 			if( e.nodeName == 'UL' ) return null
+			if( e == that.ePrevious ) return that.previousDegrees()
+			if( e == that.eNext ) return that.nextDegrees()
 			while( e.nodeName != 'LI' ) e = e.parentNode
 			return that.toggleNote( e.firstChild.innerHTML )
 			}

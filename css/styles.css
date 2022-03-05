@@ -391,6 +391,18 @@ UL.interval {
 	padding: 0;
 	text-align: center;
 	}
+.interval SPAN {
+	display: flex;
+	align-items: center;
+	filter: sepia(1) opacity(.75);
+	font-size: 2em;
+	width: 40px;
+	height: 100%;
+	}
+.interval SPAN:hover {
+	box-shadow: 0 0 2px #000, inset 0 0 2px #000;
+	filter: sepia(.5) opacity(1);
+	}
 .interval LI {
 	display: flex;
 	flex-direction: column;
