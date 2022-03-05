@@ -798,7 +798,7 @@ ChordsBox =(function(){
 		}
 	return ChordsBox
 	})();
-	
+
 class Chords {
 	constructor ( aList, oConfig ){
 		this.aList = aList
