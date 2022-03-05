@@ -611,10 +611,34 @@ class IntervalBox {
 			}
 		return this.eHTML
 		}
+	nextDegrees (){
+		let o = this.Config
+		// changement d'intervalle
+		let a= o.mask.value.split('1')
+		a.shift()
+		let s1 = a.shift()
+		a.push( s1 )
+		o.mask.value = '1'+a.join("1")
+		// changement de tonic
+		let aNotes = o.notation.getSequence( o.tonic.value )
+		o.tonic.value = aNotes[s1.length+1]
+		}
+	previousDegrees (){
+		let o = this.Config
+		// changement d'intervalle
+		let a= o.mask.value.split('1')
+		a.shift()
+		let s1 = a.pop()
+		a.unshift( s1 )
+		o.mask.value = '1'+a.join("1")
+		// changement de tonic
+		let aNotes = o.notation.getSequence( o.tonic.value )
+		o.tonic.value = aNotes[ aNotes.length -s1.length - 1]
+		}
 	setNotes ( aNotes ){
 		if( ! aNotes ){
 			let o = this.Config
-			aNotes = o.notation.getSequence( o.tonic.value)
+			aNotes = o.notation.getSequence( o.tonic.value )
 			}
 		let aDIVs = this.eHTML.getElementsByTagName('DIV')
 		for(let i=0; i<12; i++ )
@@ -622,9 +646,8 @@ class IntervalBox {
 		}
 	setValue ( sMask ){
 		let aLIs = this.eHTML.getElementsByTagName('LI')
-		for(let i=0; i<12; i++ ){
+		for(let i=0; i<12; i++ )
 			aLIs[i].classList[ sMask.charAt(i) == "1" ? 'add' : 'remove' ]( 'selected' )
-			}
 		}
 	toggleNote ( sNote ){
 		let aLIs = this.eHTML.getElementsByTagName('LI')
