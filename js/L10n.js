@@ -42,7 +42,7 @@ Object.assign( L10n, {
 	})
 
 L10n.FR ={
-	PASDSUGG:	"...",
+	PASDSUGG:	"Choisissez un accord...",
 	DATEM:		'Dernière modification le ',
 	INVERSION:	'renv.',
 	PREMIER:	'1er',
@@ -52,6 +52,7 @@ L10n.FR ={
 	
 	// App
 	ADD:		'Ajouter',
+	NAME:		"Nom",
 	INTERVAL_NAME:		"Nom d'intervalle",
 	CONFIRM_DELETION: 'Voulez-vous vraiment supprimer votre intervalle ?',
 	DELETE_PREF: "Effacer vos préférences ?",
@@ -79,6 +80,7 @@ L10n.FR ={
 	AUDIO:		'Audio',
 	QUANTITE:	'Quantité',
 	INTERVALLES:'Intervalles',
+	HISTORY:	'Historique',
 	
 	// Tunings
 	Guitare:	'Guitare',
@@ -118,7 +120,7 @@ L10n.FR ={
 	Chrom:		'Chromatique',
 	}
 L10n.EN ={
-	PASDSUGG:	'...',
+	PASDSUGG:	'Choose a chord...',
 	DATEM:		'Last update ',
 	INVERSION:'inv.',
 	PREMIER:'1st',
@@ -128,6 +130,7 @@ L10n.EN ={
 	
 	// App
 	ADD:		'Add',
+	NAME:		"Name",
 	INTERVAL_NAME:		'Interval name',
 	CONFIRM_DELETION:	'Are you sure you want to delete your interval ?',
 	DELETE_PREF: "Delete your preferences ?",
@@ -155,6 +158,7 @@ L10n.EN ={
 	AUDIO:		'Audio',
 	QUANTITE:	'Amount',
 	INTERVALLES:'Intervals',
+	HISTORY:	'History',
 	
 	// Tunings
 	Guitare:	'Guitar',

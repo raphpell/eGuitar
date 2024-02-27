@@ -240,8 +240,17 @@ BUTTON:disabled {
 	border-radius: 20px 20px 0 0;
 	transition: background 0.4s;
 	}
+.layout .nav SPAN {
+	border: 1px solid #FFF;
+	}
 .layout .nav:hover {
 	background-color: #444;
+	}
+.layout .nav SPAN {
+	border: 1px solid #FFF;
+	border-radius: 1em;
+	padding: 0 2px 2px;
+	margin: 0 0 0 10px;
 	}
 .layout input[type=radio] {
 	display: none;
@@ -257,6 +266,9 @@ BUTTON:disabled {
 .layout input[type=radio]:checked + .page + label.nav {
 	background: #ecf0f1;
 	color: #000;
+	}
+.layout input[type=radio]:checked + .page + label.nav > SPAN {
+	border: 1px solid #000;
 	}
 
 /* Top Button */

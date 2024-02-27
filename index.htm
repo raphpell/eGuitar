@@ -63,27 +63,27 @@ var oHF = new Harmonie.Form ( eTarget3 )
 
 <div class="layout">
 	<input name="nav" type="radio" id="tab1" checked><div class="page" id="eChords"></div><label class="nav" for="tab1"></label>
-	<input name="nav" type="radio" id="tab3"><div class="page" id="eScalesM"></div><label class="nav" for="tab3"></label>
 	<input name="nav" type="radio" id="tab2"><div class="page" id="eArpeggios"></div><label class="nav" for="tab2"></label>
+	<input name="nav" type="radio" id="tab3"><div class="page" id="eScalesM"></div><label class="nav" for="tab3"></label>
 	<input name="nav" type="radio" id="tab4"><div class="page" id="eScales"></div><label class="nav" for="tab4"></label>
 	<input name="nav" type="radio" id="tab5"><div class="page" id="eTunings"></div><label class="nav" for="tab5"></label>
 </div>
 
 <a href="#" class="top">&#9650;</a>
 
-<footer><a href="https://github.com/raphpell/eGuitar" target="_blank">Github</a> - <span id="eDateM">Dernière modification le</span> 08/08/2021.</footer>
+<footer><a href="https://github.com/raphpell/eGuitar" target="_blank">Github</a> - <span id="eDateM">Dernière modification le</span> 27/02/2024.</footer>
 
 <script>
 let f = function( e, sL10n, s  ){
-	e.nextSibling.innerHTML = L10n(sL10n) + (s||'')
+	e.nextSibling.innerHTML = L10n(sL10n) + (s?"<span>"+s+"</span>":'')
 	e.previousSibling.onclick = function(){ Memoire.set( 'tab', this.id )}
 	return f
 	}
 f
-( eChords, 'ACCORDS', '' )
-( eScalesM, 'GAMMES', '' )
-( eArpeggios, 'ARPEGES', ' (+)' )
-( eScales, 'GAMMES', ' (+)' )
+( eChords, 'ACCORDS', '&le;' )
+( eScalesM, 'GAMMES', '&le;' )
+( eArpeggios, 'ARPEGES', '&ge;' )
+( eScales, 'GAMMES', '&ge;' )
 ( eTunings, 'ACCORDAGES' )
 let sId = Memoire.get( 'tab')
 if( sId ) window[ sId ].checked = true

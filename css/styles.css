@@ -327,9 +327,9 @@ UL.chordsbox {
 	border-radius: 10px;
 	box-shadow: 0 0 .5em rgba(0,0,0,.5);
 	min-height: 2em;
+	filter: sepia(1) opacity(.75);
 	}
 .chordsbox LI {
-	filter: sepia(1) opacity(.75);
 	background: #3A1912;
 	color: #FFF;
 	cursor: pointer;

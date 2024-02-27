@@ -1155,7 +1155,7 @@ let Harmonie ={
 					: '<th abbr="">-</th>'
 				}
 			let oTH= {}
-			oTH[nIndexName] = '<th class="name">'+ L10n('ACCORDS') +'</th>'
+			oTH[nIndexName] = '<th class="name">'+ L10n('INTERVALLES') +'</th>'
 			oTH[nIndexAmount] = '<th abbr="number"><label>'+ L10n('QUANTITE') +'</label></th>'
 			oTH[nIndexNotes] = '<th abbr="number"><label>'+ L10n('NOTES') +'</label></th>'
 			sTHEAD += oTH[12]+oTH[13]+oTH[14]+'</tr></thead>'
